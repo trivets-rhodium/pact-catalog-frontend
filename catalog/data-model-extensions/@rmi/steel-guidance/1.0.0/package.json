@@ -2,13 +2,22 @@
   "name": "@rmi/steel-guidance",
   "version": "1.0.0",
   "description": "RMI Steel Guidance",
-  "main": "schema.json",
+  "files": [
+    "schema.json"
+  ],
+  "contributors": [
+    {
+      "name": "Acme Steel Manufacturer",
+      "email": "info@steel-inc.com",
+      "url": "https://www.steel-inc.com/"
+    }
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Rocky Mountain Institute <info@rmi.org>",
   "license": "MIT",
-  "catalog-info": {
+  "catalog_info": {
     "status": "published",
     "authors": [
       "rmi",
