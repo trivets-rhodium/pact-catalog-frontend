@@ -1,0 +1,17 @@
+{
+  "name": "@wwf/water-footprint",
+  "version": "0.6.1",
+  "description": "WWF water footprint data model extension",
+  "main": "schema.json",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "WWF <info@wwf.int>",
+  "license": "MIT",
+  "catalog-info": {
+    "status": "draft",
+    "authors": [
+      "wwf"
+    ]
+  }
+}

@@ -1,0 +1,13 @@
+{
+    "id": "some-steel-manufacturer",
+    "kind": "company",
+    "name": "Acme Steel Manufacturer Inc.",
+    "website": "https://www.steel-inc.com",
+    "logo": "https://www.steel-inc.com/logo.png",
+    "extensions_endorsed": [
+        {
+            "id": "@rmi/steel-guidance",
+            "version": "1.0.0"
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+    "id": "solutionprovider",
+    "kind": "solutionprovider",
+    "name": "Some Solution Provider Inc.",
+    "website": "https://www.some-solutionprovider.com",
+    "logo": "https://www.some-solutionprovider.com/wp-content/uploads/2019/01/logo.png",
+    "extensions_support": [
+        {
+            "id": "@rmi/steel-guidance",
+            "version": "1.0.0"
+        },
+        {
+            "id": "@wwf/water-footprint",
+            "version": "0.6.1"
+        }
+    ]
+}
