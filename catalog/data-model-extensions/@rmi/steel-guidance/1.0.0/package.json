@@ -1,0 +1,18 @@
+{
+  "name": "@rmi/steel-guidance",
+  "version": "1.0.0",
+  "description": "RMI Steel Guidance",
+  "main": "schema.json",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rocky Mountain Institute <info@rmi.org>",
+  "license": "MIT",
+  "catalog-info": {
+    "status": "published",
+    "authors": [
+      "rmi",
+      "acme-steel-manufacturer"
+    ]
+  }
+}
