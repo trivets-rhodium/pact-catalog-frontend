@@ -16,7 +16,7 @@ export default function Home(props: PageProps) {
       <Head>
         <title>PACT Online Catalog</title>
       </Head>
-      <header className=''>
+      <header className='py-96'>
 
       </header>
       <section>
