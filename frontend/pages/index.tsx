@@ -9,8 +9,8 @@ type PageProps = {
   allExtensionsData: CatalogDataModelExtension[];
 };
 
-export default function Home({ allExtensionsData }: PageProps) {
-  console.log(allExtensionsData);
+export default function Home(props: PageProps) {
+  console.log(props);
   return (
     <>
       <Head>
@@ -18,7 +18,7 @@ export default function Home({ allExtensionsData }: PageProps) {
       </Head>
       <section>
         <ul>
-          {allExtensionsData.map(
+          {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
               <li key={name}>
                 <p>{description}</p>
