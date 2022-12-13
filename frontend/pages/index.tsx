@@ -1,7 +1,8 @@
 import Head from 'next/head';
 import Image from 'next/image';
+import Link from 'next/link';
 import styles from '../styles/Home.module.css';
-import { getAllExtensionsData } from '../lib/data-model-extensions';
+import { getAllExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import { CatalogDataModelExtension } from '../lib/catalog-types';
 
@@ -16,19 +17,23 @@ export default function Home(props: PageProps) {
       <Head>
         <title>PACT Online Catalog</title>
       </Head>
-      <header className='py-96'>
-        <h1>WBCSD | PACT Online Catalog</h1>
+      <header className='pact-color py-8 px-14'>
+        <h1 className='text-white font-bold font-avenir text-2xl'>WBCSD | PACT Online Catalog</h1>
       </header>
-      <section>
-        <ul>
+      <section className='bg-white px-14 py-8'>
+        <h1 className='text-xl font-bold'>PACKAGES</h1>
+        <ul className='flex'>
           {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
-              <li key={name}>
-                <p>{description}</p>
-                <p>Publisher: {author}</p>
-                {/* <p>Version: {version}</p> */}
-                {/* <p>Description: {description}</p> */}
-                <p>Status: {catalog_info.status}</p>
+              <li key={name} className={styles.card}>
+                <Link href={`/extensions/${name.replace('/', '-')}`}>{description}</Link>
+                {/* <p className='font-bold'>{description}</p> */}
+                <div className='text-gray-500'>
+                  <p>Publisher: {author}</p>
+                  {/* <p>Version: {version}</p> */}
+                  {/* <p>Description: {description}</p> */}
+                  <p>Status: {catalog_info.status}</p>
+                </div>
               </li>
             )
           )}
@@ -39,7 +44,7 @@ export default function Home(props: PageProps) {
 }
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const allExtensionsData = await getAllExtensionsData();
+  const allExtensionsData = await getAllExtensions();
   return {
     props: {
       allExtensionsData

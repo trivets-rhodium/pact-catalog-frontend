@@ -31,3 +31,5 @@ export type CatalogDataModelExtension = {
     authors: UserId[]
   }
 }
+
+export type Documentation = string;
