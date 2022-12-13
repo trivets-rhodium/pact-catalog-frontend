@@ -26,7 +26,7 @@ export default function Home(props: PageProps) {
           {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
               <li key={name} className={styles.card}>
-                <Link href={`/extensions/${name.replace('/', '-')}`}>{description}</Link>
+                <Link href={`/extensions/${name}`}>{description}</Link>
                 {/* <p className='font-bold'>{description}</p> */}
                 <div className='text-gray-500'>
                   <p>Publisher: {author}</p>

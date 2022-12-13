@@ -32,16 +32,18 @@ export async function getAllDMEIds() {
   const extensions = await getAllExtensions();
 
   return extensions.map((extension) => {
+    const [author, name] = extension.name.split('/');
     return {
       params: {
-        id: extension.name.replace('/', '-'),
+        author: author,
+        id: name,
       },
     };
   })
 }
 
 export async function getExtension(dataModelId: DMEId): Promise<[CatalogDataModelExtension, Documentation]> {
-  const packagePath = await globby(dataModelId, {
+  const packagePath = await globby(path.join(extensionsDirectory, dataModelId), {
     expandDirectories: {
       files: ['package.json'],
     },
@@ -50,13 +52,20 @@ export async function getExtension(dataModelId: DMEId): Promise<[CatalogDataMode
   const packageContent = fs.readFileSync(packagePath[0], 'utf8');
   const extension = JSON.parse(packageContent);
 
-  const readmePath = await globby(dataModelId, {
+  const readmePath = await globby(path.join(extensionsDirectory, dataModelId), {
     expandDirectories: {
       files: ['README.md'],
     },
   });
 
-  const markDown = fs.readFileSync(readmePath[0], 'utf-8');
+  let markDown
+  try {
+    markDown = fs.readFileSync(readmePath[0], 'utf-8');
+  } catch (error) {
+    markDown = 'No README file is available'
+    console.log(error)
+  }
+
   const processedMarkDown = await remark().use(html).process(markDown);
   const readmeHtml = processedMarkDown.toString();
 
