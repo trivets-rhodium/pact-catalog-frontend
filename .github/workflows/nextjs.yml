@@ -83,6 +83,8 @@ jobs:
         working-directory: ./frontend
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
+        with:
+          path: ./frontend/out
 
   # Deployment job
   deploy:
