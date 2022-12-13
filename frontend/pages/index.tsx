@@ -16,6 +16,9 @@ export default function Home(props: PageProps) {
       <Head>
         <title>PACT Online Catalog</title>
       </Head>
+      <header className=''>
+
+      </header>
       <section>
         <ul>
           {props.allExtensionsData.map(
