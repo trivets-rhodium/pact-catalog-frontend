@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { IDataModelExtension, IUser } from "./catalog-types";
+import { CatalogDataModelExtension, CatalogUser } from "./catalog-types";
 
 
-export const UserParser: z.ZodType<IUser> = z.lazy(() =>
+export const UserParser: z.ZodType<CatalogUser> = z.lazy(() =>
   z.object({
     id: z.string(),
     kind: z.enum(["ngo", "company", "solutionprovider"]),
@@ -17,7 +17,7 @@ export const UserParser: z.ZodType<IUser> = z.lazy(() =>
   })
 );
 
-export const DataModelExtensionParser: z.ZodType<IDataModelExtension> = z.lazy(() =>
+export const DataModelExtensionParser: z.ZodType<CatalogDataModelExtension> = z.lazy(() =>
   z.object({
     name: z.string().min(1),
     version: z.string().regex(/[0-9]+\.[0-9]+\.[0-9]+/),

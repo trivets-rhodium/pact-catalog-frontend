@@ -3,15 +3,13 @@ import Image from 'next/image';
 import styles from '../styles/Home.module.css';
 import { getAllExtensionsData } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
-import { IDataModelExtension } from '../lib/catalog-types';
+import { CatalogDataModelExtension } from '../lib/catalog-types';
 
 type PageProps = {
-  allExtensionsData: IDataModelExtension[];
+  allExtensionsData: CatalogDataModelExtension[];
 };
 
-export default function Home(req: PageProps) {
-  let allExtensionsData = req.allExtensionsData;
-
+export default function Home({ allExtensionsData }: PageProps) {
   console.log(allExtensionsData);
   return (
     <>
@@ -41,7 +39,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   const allExtensionsData = await getAllExtensionsData();
   return {
     props: {
-      allExtensionsData,
+      allExtensionsData
     },
   };
 };

@@ -1,4 +1,4 @@
-import { IDataModelExtension } from '../lib/catalog-types';
+import { CatalogDataModelExtension } from '../lib/catalog-types';
 import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
@@ -9,7 +9,7 @@ const extensionsDirectory = path.posix.join(
   '../catalog/data-model-extensions'
 );
 
-export async function getAllExtensionsData(): Promise<IDataModelExtension[]> {
+export async function getAllExtensionsData(): Promise<CatalogDataModelExtension[]> {
   const paths = await globby(extensionsDirectory, {
     expandDirectories: {
       files: ['package.json'],

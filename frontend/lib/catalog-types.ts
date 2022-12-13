@@ -3,7 +3,7 @@
 export type UserId = string;
 export type DMEId = string;
 
-export interface IUser {
+export type CatalogUser = {
   id: UserId;
   kind: 'ngo' | 'company' | 'solutionprovider',
   website?: string;
@@ -14,7 +14,7 @@ export interface IUser {
   }[];
 }
 
-export interface IDataModelExtension {
+export type CatalogDataModelExtension = {
   name: DMEId;
   version: string;
   description: string;
