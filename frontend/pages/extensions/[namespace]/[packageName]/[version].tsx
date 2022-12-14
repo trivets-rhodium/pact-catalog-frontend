@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { CatalogDataModelExtension, Documentation } from '../../../lib/catalog-types';
-import { getAllDMEIds, getExtension, getAllExtensions } from '../../../lib/data-model-extensions';
+import { CatalogDataModelExtension, Documentation, DataModelExtensionId } from '../../../../lib/catalog-types';
+import { getAllDataModelExtensionIds, getExtension, getAllExtensions } from '../../../../lib/data-model-extensions';
 import { GetStaticProps, GetStaticPaths } from 'next'
 import Link from 'next/link';
+import Layout from "../../../../components/layout";
 
 type PageProps = {
   extension: CatalogDataModelExtension;
@@ -10,8 +11,13 @@ type PageProps = {
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const extensionId = `${params?.author}/${params?.id}`
-  const [extension, readmeHtml] = await getExtension(extensionId);
+  const id: DataModelExtensionId = {
+    namespace: params?.namespace as string,
+    packageName: params?.packageName as string,
+    version: params?.version as string
+  }
+
+  const [extension, readmeHtml] = await getExtension(id);
   return {
     props: {
       extension,
@@ -19,28 +25,28 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
     },
   };
 }
+
 export const getStaticPaths: GetStaticPaths = async () => {
-  const paths = await getAllDMEIds();
+  const paths = await getAllDataModelExtensionIds();
 
   return {
     paths,
     fallback: false,
   };
-
 };
 
 export default function Extension(props: PageProps) {
-  console.log(props)
+  const {extension, readmeHtml} = props;
+
   return (
-    <>
+    <Layout extension = {props.extension} >
       <Head>
-        <title>{props.extension.description}</title>
+        <title>{extension.description}</title>
       </Head>
       <section className='bg-white px-14 py-8'>
-        <h1 className='text-xl font-bold'>{props.extension.description}</h1>
         <div dangerouslySetInnerHTML={{ __html: props.readmeHtml }} />
         <Link href="/">← Back to home</Link>
       </section>
-    </>
+    </Layout>
   );
 }
