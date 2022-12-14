@@ -32,4 +32,20 @@ export type CatalogDataModelExtension = {
   }
 }
 
+export function toExtensionId(dataModelExtension: CatalogDataModelExtension): DataModelExtensionId {
+  const [namespace, packageName] = dataModelExtension.name.split('/');
+  return {
+    namespace,
+    packageName,
+    version: dataModelExtension.version
+  }
+}
+
 export type Documentation = string;
+
+// a data model extension id uniquely identifies a data model extension within the catalog
+export type DataModelExtensionId = {
+  namespace: string;
+  packageName: string;
+  version: string;
+}
