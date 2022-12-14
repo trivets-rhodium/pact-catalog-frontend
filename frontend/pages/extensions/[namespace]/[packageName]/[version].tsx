@@ -4,10 +4,13 @@ import { getAllDataModelExtensionIds, getExtension, getAllExtensions } from '../
 import { GetStaticProps, GetStaticPaths } from 'next'
 import Link from 'next/link';
 import Layout from "../../../../components/layout";
+import Tabs from "../../../../components/tabs"
 
 type PageProps = {
-  extension: CatalogDataModelExtension;
-  readmeHtml: Documentation;
+  extension: CatalogDataModelExtension,
+  readmeHtml: Documentation,
+  tabNames: string[],
+
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
@@ -36,17 +39,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export default function Extension(props: PageProps) {
-  const {extension, readmeHtml} = props;
+  const { extension, readmeHtml } = props;
 
+  const tabNames = ['Read Me', 'Explore', 'Usage', 'Version']
   return (
-    <Layout extension = {props.extension} >
+    <Layout extension={props.extension} >
       <Head>
         <title>{extension.description}</title>
       </Head>
-      <section className='bg-white px-14 py-8'>
+        <Tabs tabNames={tabNames}/>
         <div dangerouslySetInnerHTML={{ __html: props.readmeHtml }} />
-        <Link href="/">← Back to home</Link>
-      </section>
     </Layout>
   );
 }
