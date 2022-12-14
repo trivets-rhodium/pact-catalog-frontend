@@ -49,3 +49,10 @@ export type DataModelExtensionId = {
   packageName: string;
   version: string;
 }
+
+export type DetailTab = {
+  name: string,
+  content: string | {},
+};
+
+export type ExtensionDetails = DetailTab[];

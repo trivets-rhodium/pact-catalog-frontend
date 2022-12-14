@@ -26,11 +26,6 @@ export default function Layout(props: LayoutProps) {
         </h1>
       </header>
       <main>{children}</main>
-      {
-        extension !== undefined && (
-          <Link href="/" className='text-white'>← Back to home</Link>
-        )
-      }
     </>
   )
 }

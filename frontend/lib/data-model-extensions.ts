@@ -1,4 +1,4 @@
-import { CatalogDataModelExtension, DataModelExtensionId, DMEId, Documentation } from '../lib/catalog-types';
+import { CatalogDataModelExtension, DataModelExtensionId, DetailTab, ExtensionDetails } from '../lib/catalog-types';
 import fs from 'fs';
 import { remark } from 'remark';
 import html from 'remark-html';
@@ -44,13 +44,19 @@ export async function getAllDataModelExtensionIds() {
   });
 }
 
-export async function getExtension(id: DataModelExtensionId): Promise<[CatalogDataModelExtension, Documentation]> {
+export async function getExtension(id: DataModelExtensionId): Promise<CatalogDataModelExtension> {
   const basePath = path.join(extensionsDirectory, id.namespace, id.packageName, id.version);
 
   const packagePath = path.join(basePath, 'package.json');
 
   const packageContent = fs.readFileSync(packagePath, 'utf8');
   const extension = JSON.parse(packageContent);
+
+  return extension;
+}
+
+export async function getReadmeTab(id: DataModelExtensionId): Promise<DetailTab> {
+  const basePath = path.join(extensionsDirectory, id.namespace, id.packageName, id.version);
 
   const readmePath = path.join(basePath, 'documentation/README.md');
 
@@ -64,6 +70,73 @@ export async function getExtension(id: DataModelExtensionId): Promise<[CatalogDa
 
   const processedMarkDown = await remark().use(html).process(markDown);
   const readmeHtml = processedMarkDown.toString();
+  const readme = { name: 'Read Me', content: readmeHtml };
 
-  return [extension, readmeHtml];
+  return readme
+}
+
+export async function getExploreTab(id: DataModelExtensionId): Promise<DetailTab> {
+  const extension = await getExtension(id);
+
+  const download = 'TO DO: Please download this package via this link.'
+  const repository = path.join('https://github.com/sine-fdn/pact-catalog/catalog/', `${id.namespace}/${id.packageName}/${id.version}`);
+  const lastPublished = 'TO DO: Last Published';
+  const contact = extension.author;
+
+  const explore = {
+    name: 'Explore',
+    content: {
+      download,
+      repository,
+      lastPublished,
+      contact
+    }
+  }
+
+  return explore
+}
+
+export async function getUsageTab(id:DataModelExtensionId): Promise<DetailTab> {
+  const extension = await getExtension(id);
+
+  const downloadsWeekly = 'TO DO: Downloads (Weekly)';
+  const dependencies = 'TO DO: Dependencies';
+  const conformingSolutions = 'TO DO: Conforming Solutions';
+
+  const usage = {
+    name: 'Usage',
+    content: {
+      downloadsWeekly,
+      dependencies,
+      conformingSolutions
+    }
+  };
+
+  return usage
+}
+
+export async function getVersionTab(id:DataModelExtensionId): Promise<DetailTab> {
+  const extension = await getExtension(id);
+
+  const currentTags = extension.version;
+  const versionHistory = 'TO DO: Version History';
+
+  const version = {
+    name: 'Version',
+    content: {
+      currentTags,
+      versionHistory
+    }
+  };
+
+  return version
+}
+
+export async function getExtensionDetails(id: DataModelExtensionId): Promise<ExtensionDetails> {
+  const readme = await getReadmeTab(id);
+  const explore = await getExploreTab(id);
+  const usage = await getUsageTab(id);
+  const version = await getVersionTab(id);
+
+  return [readme, explore, usage, version]
 }
