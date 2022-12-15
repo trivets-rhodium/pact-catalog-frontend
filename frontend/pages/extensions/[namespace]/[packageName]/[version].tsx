@@ -44,9 +44,6 @@ export default function Extension(props: PageProps) {
 
   return (
     <Layout extension={props.extension} >
-      <Head>
-        <title>{extension.description}</title>
-      </Head>
       <Tabs tabs={extensionDetails} />
 
     </Layout>
