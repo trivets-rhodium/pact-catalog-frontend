@@ -18,17 +18,20 @@ export default function Home(props: PageProps) {
       <Head>
         <title>PACT Online Catalog</title>
       </Head>
-      <section className='bg-white px-14 py-8'>
-        <h1 className='text-xl font-bold'>PACKAGES</h1>
-        <ul className='grid grid-cols-3'>
+      <section className="bg-white px-14 py-8">
+        <h1 className="text-xl font-bold">PACKAGES</h1>
+        <ul className="grid grid-cols-3">
           {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
-                <Link href={`/extensions/${name}/${version}?tab=Read+Me`}>
-                  <li key={name} className={styles.card}>
-                    {description}
-
-                  </li>
-                </Link>
+              <Link href={`/extensions/${name}/${version}?activeTab=readme`}>
+                <li key={name} className={styles.card}>
+                  {description}
+                  <ul className='text-sm text-gray-300'>
+                    <li>Publisher: {author}</li>
+                    <li>Status: {catalog_info.status}</li>
+                  </ul>
+                </li>
+              </Link>
             )
           )}
         </ul>

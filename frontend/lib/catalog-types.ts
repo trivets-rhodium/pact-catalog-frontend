@@ -26,14 +26,17 @@ export type CatalogDataModelExtension = {
   version: VersionId;
   description: string;
   files: string[];
-  contributors: {
-    name: string;
-    email: string;
-    url: string;
-  }[] | null;
+  contributors:
+    | {
+        name: string;
+        email: string;
+        url: string;
+      }[]
+    | null;
   author: string;
   license: string;
   catalog_info: {
+    summary: string | null;
     status: 'published' | 'draft' | 'deprecated';
     authors: UserId[];
   };
@@ -56,8 +59,6 @@ export function toExtensionId(
   };
 }
 
-export type Documentation = string;
-
 // a data model extension id uniquely identifies a data model extension within the catalog
 export type DataModelExtensionId = {
   namespace: string;
@@ -65,9 +66,4 @@ export type DataModelExtensionId = {
   version: VersionId;
 };
 
-export type DetailTab = {
-  name: string;
-  content: JSX.Element,
-};
-
-export type ExtensionDetails = DetailTab[];
+export type Endorsers = CatalogUser[];

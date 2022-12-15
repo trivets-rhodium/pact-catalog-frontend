@@ -18,6 +18,7 @@
   "author": "Rocky Mountain Institute <info@rmi.org>",
   "license": "MIT",
   "catalog_info": {
+    "summary": "This is the Steel Guidance Data Model Extension. It discloses process-related emission factors in a steel manufacturing process.",
     "status": "published",
     "authors": [
       "rmi",

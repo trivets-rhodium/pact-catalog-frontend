@@ -1,10 +1,12 @@
-import { CatalogDataModelExtension, DataModelExtensionId, DetailTab, ExtensionDetails } from '../lib/catalog-types';
+import {
+  CatalogDataModelExtension,
+  DataModelExtensionId,
+} from '../lib/catalog-types';
 import fs from 'fs';
-import { remark } from 'remark';
-import html from 'remark-html';
 import path from 'path';
 import { globby } from 'globby';
 import { PackageJsonParser } from './catalog-types.schema';
+import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 
 const extensionsDirectory = path.posix.join(
   process.cwd(),
@@ -18,11 +20,11 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
     },
   });
 
-  console.log("getAllExtensions: ", paths);
+  console.log('getAllExtensions: ', paths);
 
   const allExtensionsData = paths.map((packageJsonPath) => {
     let basePath = path.resolve(packageJsonPath, '..');
-    return getExtensionFromBasepath(basePath)
+    return getExtensionFromBasepath(basePath);
   });
 
   return Promise.all(allExtensionsData);
@@ -38,18 +40,27 @@ export async function getAllDataModelExtensionIds() {
       params: {
         namespace,
         packageName,
-        version
+        version,
       },
     };
   });
 }
 
-export async function getExtension(id: DataModelExtensionId): Promise<CatalogDataModelExtension> {
-  const basePath = path.join(extensionsDirectory, id.namespace, id.packageName, id.version);
+export async function getExtension(
+  id: DataModelExtensionId
+): Promise<CatalogDataModelExtension> {
+  const basePath = path.join(
+    extensionsDirectory,
+    id.namespace,
+    id.packageName,
+    id.version
+  );
   return getExtensionFromBasepath(basePath);
-};
+}
 
-async function getExtensionFromBasepath(basePath: string): Promise<CatalogDataModelExtension> {
+async function getExtensionFromBasepath(
+  basePath: string
+): Promise<CatalogDataModelExtension> {
   const packagePath = path.join(basePath, 'package.json');
 
   const packageContent = fs.readFileSync(packagePath, 'utf8');
@@ -58,13 +69,17 @@ async function getExtensionFromBasepath(basePath: string): Promise<CatalogDataMo
 
   return {
     ...packageJson,
-    readmeMd: await readReadmeMd(basePath) || null,
+    catalog_info: {
+      ...packageJson.catalog_info,
+      summary: packageJson.catalog_info.summary || null,
+    },
+    readmeMd: (await readReadmeMd(basePath)) || null,
     dependencies: [
       {
         namespace: 'wbcsd',
         packageName: 'productfootprint',
-        version: '2.0.0'
-      }
+        version: '2.0.0',
+      },
     ],
     conformingSolutions: [],
     versions: [packageJson.version],
@@ -80,94 +95,8 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
   try {
     return fs.readFileSync(readmePath, 'utf-8');
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 
   return undefined;
-}
-
-export async function getReadmeTab(id: DataModelExtensionId): Promise<DetailTab> {
-  const basePath = path.join(extensionsDirectory, id.namespace, id.packageName, id.version);
-
-  const readmePath = path.join(basePath, 'documentation/README.md');
-
-  let markDown
-  try {
-    markDown = fs.readFileSync(readmePath, 'utf-8');
-  } catch (error) {
-    markDown = 'No README file is available'
-    console.log(error)
-  }
-
-  const processedMarkDown = await remark().use(html).process(markDown);
-  const readmeHtml = processedMarkDown.toString();
-  const readme = { name: 'Read Me', content: readmeHtml };
-
-  return readme
-}
-
-export async function getExploreTab(id: DataModelExtensionId): Promise<DetailTab> {
-  const extension = await getExtension(id);
-
-  const download = 'TO DO: Please download this package via this link.'
-  const repository = path.join('https://github.com/sine-fdn/pact-catalog/catalog/', `${id.namespace}/${id.packageName}/${id.version}`);
-  const lastPublished = 'TO DO: Last Published';
-  const contact = extension.author;
-
-  const explore = {
-    name: 'Explore',
-    content: {
-      download,
-      repository,
-      lastPublished,
-      contact
-    }
-  }
-
-  return explore
-}
-
-export async function getUsageTab(id: DataModelExtensionId): Promise<DetailTab> {
-  const extension = await getExtension(id);
-
-  const downloadsWeekly = 'TO DO: Downloads (Weekly)';
-  const dependencies = 'TO DO: Dependencies';
-  const conformingSolutions = 'TO DO: Conforming Solutions';
-
-  const usage = {
-    name: 'Usage',
-    content: {
-      downloadsWeekly,
-      dependencies,
-      conformingSolutions
-    }
-  };
-
-  return usage
-}
-
-export async function getVersionTab(id: DataModelExtensionId): Promise<DetailTab> {
-  const extension = await getExtension(id);
-
-  const currentTags = extension.version;
-  const versionHistory = 'TO DO: Version History';
-
-  const version = {
-    name: 'Version',
-    content: {
-      currentTags,
-      versionHistory
-    }
-  };
-
-  return version
-}
-
-export async function getExtensionDetails(id: DataModelExtensionId): Promise<ExtensionDetails> {
-  const readme = await getReadmeTab(id);
-  const explore = await getExploreTab(id);
-  const usage = await getUsageTab(id);
-  const version = await getVersionTab(id);
-
-  return [readme, explore, usage, version]
 }

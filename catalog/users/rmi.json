@@ -4,4 +4,10 @@
     "name": "Rocky Mountain Institute",
     "website": "https://www.rmi.org",
     "logo": "https://www.solutionprovider.com/wp-content/uploads/2019/01/logo.png",
+    "extensions_endorsed": [
+        {
+            "id": "@wwf/water-footprint",
+            "version": "0.6.1"
+        }
+    ]
 }
