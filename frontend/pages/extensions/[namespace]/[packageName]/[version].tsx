@@ -1,36 +1,35 @@
-import Head from "next/head";
-import { CatalogDataModelExtension, Documentation, DataModelExtensionId, ExtensionDetails } from '../../../../lib/catalog-types';
-import { getAllDataModelExtensionIds, getExtension, getAllExtensions, getExtensionDetails } from '../../../../lib/data-model-extensions';
-import { GetStaticProps, GetStaticPaths } from 'next'
-import Link from 'next/link';
-import Layout from "../../../../components/layout";
-import Tabs from "../../../../components/tabs"
+import Head from 'next/head';
+import {
+  CatalogDataModelExtension,
+  DataModelExtensionId,
+  DetailTab,
+} from '../../../../lib/catalog-types';
+import {
+  getAllDataModelExtensionIds,
+  getExtension,
+} from '../../../../lib/data-model-extensions';
+import { GetStaticProps, GetStaticPaths } from 'next';
+import Layout from '../../../../components/layout';
+import Tabs from '../../../../components/tabs';
 
 type PageProps = {
-  extension: CatalogDataModelExtension,
-  extensionDetails: ExtensionDetails,
-
+  extension: CatalogDataModelExtension;
 };
 
-export const getStaticProps: GetStaticProps = async ({ params }) => {
-  const id: DataModelExtensionId = {
-    namespace: params?.namespace as string,
-    packageName: params?.packageName as string,
-    version: params?.version as string
+export const getStaticProps: GetStaticProps<PageProps, DataModelExtensionId> = async ({ params }) => {
+  if (!params) {
+    throw Promise.reject(new Error('No params'));
   }
 
-  const extension = await getExtension(id);
-  const extensionDetails = await getExtensionDetails(id);
-
+  const extension = await getExtension(params);
   return {
     props: {
       extension,
-      extensionDetails,
     },
   };
-}
+};
 
-export const getStaticPaths: GetStaticPaths = async () => {
+export const getStaticPaths: GetStaticPaths<DataModelExtensionId> = async () => {
   const paths = await getAllDataModelExtensionIds();
 
   return {
@@ -39,16 +38,33 @@ export const getStaticPaths: GetStaticPaths = async () => {
   };
 };
 
+// as an idea, we could have a type for the tab render function
+type TabRenderFunction = (e: CatalogDataModelExtension) => JSX.Element;
+type Tab = {
+  tab_id: string,
+  title: string,
+  render: TabRenderFunction,
+}
+
+const versionTab: TabRenderFunction = (e) => {
+  return (
+    <div>
+      <h1 className="text-xl font-bold">{e.description}</h1>
+      <p>{e.version}</p>
+    </div>
+  );
+}
+
+
 export default function Extension(props: PageProps) {
   const { extension, extensionDetails } = props;
 
   return (
-    <Layout extension={props.extension} >
+    <Layout extension={props.extension}>
       <Head>
         <title>{extension.description}</title>
       </Head>
       <Tabs tabs={extensionDetails} />
-
     </Layout>
   );
 }
