@@ -4,9 +4,9 @@ import { remark } from 'remark';
 import html from 'remark-html';
 import path from 'path';
 import { globby } from 'globby';
-import { DataModelExtensionParser } from './catalog-types.schema';
+import { PackageJsonParser } from './catalog-types.schema';
 
-const extensionsDirectory = path.join(
+const extensionsDirectory = path.posix.join(
   process.cwd(),
   '../catalog/data-model-extensions'
 );
@@ -18,14 +18,14 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
     },
   });
 
-  const allExtensionsData = paths.map((path) => {
-    const packageContent = fs.readFileSync(path, 'utf8');
+  console.log("getAllExtensions: ", paths);
 
-    const extension = JSON.parse(packageContent);
-    return DataModelExtensionParser.parse(extension);
+  const allExtensionsData = paths.map((packageJsonPath) => {
+    let basePath = path.resolve(packageJsonPath, '..');
+    return getExtensionFromBasepath(basePath)
   });
 
-  return allExtensionsData;
+  return Promise.all(allExtensionsData);
 }
 
 export async function getAllDataModelExtensionIds() {
@@ -46,13 +46,44 @@ export async function getAllDataModelExtensionIds() {
 
 export async function getExtension(id: DataModelExtensionId): Promise<CatalogDataModelExtension> {
   const basePath = path.join(extensionsDirectory, id.namespace, id.packageName, id.version);
+  return getExtensionFromBasepath(basePath);
+};
 
+async function getExtensionFromBasepath(basePath: string): Promise<CatalogDataModelExtension> {
   const packagePath = path.join(basePath, 'package.json');
 
   const packageContent = fs.readFileSync(packagePath, 'utf8');
   const extension = JSON.parse(packageContent);
+  const packageJson = PackageJsonParser.parse(extension);
 
-  return extension;
+  return {
+    ...packageJson,
+    readmeMd: await readReadmeMd(basePath) || null,
+    dependencies: [
+      {
+        namespace: 'wbcsd',
+        packageName: 'productfootprint',
+        version: '2.0.0'
+      }
+    ],
+    conformingSolutions: [],
+    versions: [packageJson.version],
+    downloadLink: null,
+    gitRepositoryUrl: null,
+    contributors: packageJson.contributors || null,
+  };
+}
+
+async function readReadmeMd(basePath: string): Promise<string | undefined> {
+  const readmePath = path.join(basePath, 'documentation/README.md');
+
+  try {
+    return fs.readFileSync(readmePath, 'utf-8');
+  } catch (error) {
+    console.log(error)
+  }
+
+  return undefined;
 }
 
 export async function getReadmeTab(id: DataModelExtensionId): Promise<DetailTab> {
@@ -96,7 +127,7 @@ export async function getExploreTab(id: DataModelExtensionId): Promise<DetailTab
   return explore
 }
 
-export async function getUsageTab(id:DataModelExtensionId): Promise<DetailTab> {
+export async function getUsageTab(id: DataModelExtensionId): Promise<DetailTab> {
   const extension = await getExtension(id);
 
   const downloadsWeekly = 'TO DO: Downloads (Weekly)';
@@ -115,7 +146,7 @@ export async function getUsageTab(id:DataModelExtensionId): Promise<DetailTab> {
   return usage
 }
 
-export async function getVersionTab(id:DataModelExtensionId): Promise<DetailTab> {
+export async function getVersionTab(id: DataModelExtensionId): Promise<DetailTab> {
   const extension = await getExtension(id);
 
   const currentTags = extension.version;

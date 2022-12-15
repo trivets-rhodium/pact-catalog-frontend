@@ -41,7 +41,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   const allExtensionsData = await getAllExtensions();
   return {
     props: {
-      allExtensionsData
+      allExtensionsData,
     },
   };
 };
