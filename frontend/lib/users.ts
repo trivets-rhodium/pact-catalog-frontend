@@ -47,9 +47,16 @@ export async function getEndorsers(
   const users = await getAllUsers();
   console.log('users:', users);
 
-  const endorsers = users.filter((user) => {
-    // TO DO: replace index 0 with proper logic
-    return user.extensions_endorsed[0].id === extension.name
+  let endorsers: CatalogUser[] = [];
+
+  // Needs improvement:
+  users.forEach((user) => {
+    user.extensions_endorsed.forEach((e) => {
+      console.log('user:', user, 'e', e);
+      if (e.id === extension.name) {
+        endorsers.push(user);
+      }
+    });
   });
 
   return Promise.all(endorsers);

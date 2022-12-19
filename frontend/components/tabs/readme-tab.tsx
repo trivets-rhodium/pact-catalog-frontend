@@ -41,7 +41,21 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
             <ul>
               {endorsers !== undefined &&
                 endorsers.map((endorser) => {
-                  return <li>{endorser.id}</li>;
+                  return (
+                    <li>
+                      {endorser.website !== null ? (
+                        <a
+                          target="_blank"
+                          href={endorser.website}
+                          rel="noopener noreferrer"
+                        >
+                          {endorser.name}
+                        </a>
+                      ) : (
+                        endorser.name
+                      )}
+                    </li>
+                  );
                 })}
             </ul>
           </section>

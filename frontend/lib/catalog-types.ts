@@ -7,6 +7,7 @@ export type VersionId = string;
 export type CatalogUser = {
   id: UserId;
   kind: 'ngo' | 'company' | 'solutionprovider';
+  name: string;
   website?: string;
   logo?: string;
   extensions_endorsed: {

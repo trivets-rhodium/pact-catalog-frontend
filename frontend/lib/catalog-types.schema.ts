@@ -25,6 +25,7 @@ export const UserParser: z.ZodType<CatalogUser> = z.lazy(() =>
   z.object({
     id: z.string(),
     kind: z.enum(['ngo', 'company', 'solutionprovider']),
+    name: z.string(),
     website: z.string().optional(),
     logo: z.string().optional(),
     extensions_endorsed: z.array(
