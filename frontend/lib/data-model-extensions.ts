@@ -76,7 +76,7 @@ async function getExtensionFromBasepath(
     readmeMd: (await readReadmeMd(basePath)) || null,
     dependencies: [
       {
-        namespace: 'wbcsd',
+        namespace: '@wbcsd',
         packageName: 'productfootprint',
         version: '2.0.0',
       },

@@ -19,7 +19,7 @@ export default function Home(props: PageProps) {
         <title>PACT Online Catalog</title>
       </Head>
       <section className="bg-white px-14 py-8">
-        <h1 className="text-xl font-bold">PACKAGES</h1>
+        <h2 className="text-xl font-bold">PACKAGES</h2>
         <ul className="grid grid-cols-3">
           {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (

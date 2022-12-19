@@ -7,7 +7,8 @@ import style from '../styles/Tabs.module.css';
 // as an idea, we could have a type for the tab render function
 export type TabRenderFunction = (
   extension: CatalogDataModelExtension,
-  endorsers?: Endorsers
+  endorsers?: Endorsers,
+  router?: NextRouter,
 ) => JSX.Element;
 
 export type Tab = {
@@ -34,20 +35,20 @@ function TabHead(props: TabsProps) {
   return (
     <div className="flex">
       {tabs.map((tab) => (
-        <div
-          className={`${
-            activeTab === tab.tabId ? style['active-tab'] : style.tab
-          } pt-2 pb-1 px-6 mr-1 rounded-t-sm`}
+        <Link
+          href={{
+            pathname: asPath.replace(/\?.*/, ''),
+            query: { activeTab: tab.tabId },
+          }}
         >
-          <Link
-            href={{
-              pathname: asPath.replace(/\?.*/, ''),
-              query: { activeTab: tab.tabId },
-            }}
+          <div
+            className={`${
+              activeTab === tab.tabId ? style['active-tab'] : style.tab
+            } pt-2 pb-1 px-6 mr-1 rounded-t-sm`}
           >
             {tab.title}
-          </Link>
-        </div>
+          </div>
+        </Link>
       ))}
     </div>
   );
@@ -67,7 +68,7 @@ function TabContent(props: TabsProps) {
   );
 }
 
-export function Tabs(props: TabsProps) {
+export function TabsLayout(props: TabsProps) {
   const { tabs, router, extension, endorsers } = props;
 
   console.log('tabs:', tabs);
@@ -75,14 +76,14 @@ export function Tabs(props: TabsProps) {
   return (
     <>
       <TabHead tabs={tabs} router={router} extension={extension} />
-      <div className="bg-white h-100 p-10 rounded-b-sm rounded-tr-sm">
+      <div className="bg-white h-100 px-24 py-20 rounded-b-sm rounded-tr-sm">
         <TabContent
           tabs={tabs}
           router={router}
           extension={extension}
           endorsers={endorsers}
         ></TabContent>
-        <div className="text-right mt-12">
+        <div className="text-right mt-16">
           <Link href="/" className={style['tab-home-button']}>
             All Extensions
           </Link>
@@ -92,4 +93,4 @@ export function Tabs(props: TabsProps) {
   );
 }
 
-export default withRouter(Tabs);
+export default withRouter(TabsLayout);

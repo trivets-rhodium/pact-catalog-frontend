@@ -20,14 +20,14 @@ export default function Layout(props: LayoutProps) {
             : `PACT Catalog - ${extension.description}`}
         </title>
       </Head>
-      <header className="pact-color py-8 px-14">
-        <h1 className="text-white font-bold font-avenir text-2xl">
+      <header className="pact-color py-8 px-32">
+        <h1 className="text-white">
           {extension == undefined
             ? 'WBCSD | PACT Online Catalog'
             : `${extension.description}`}
         </h1>
       </header>
-      <main>{children}</main>
+      <main className='px-32 pb-32'>{children}</main>
     </>
   );
 }

@@ -9,13 +9,13 @@ import {
 } from '../../../../lib/data-model-extensions';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../../../components/layout';
-import Tabs from '../../../../components/tabs';
+import TabsLayout from '../../../../components/tabs-layout';
 // tabs is a Tab[] that is used in the Extension function. It is not a prop, as it only includes
 // what is common to all detail pages.
-import readme from '../../../../partials/readme-tab';
-import explore from '../../../../partials/explore-tab';
-import usage from '../../../../partials/usage-tab';
-import version from '../../../../partials/version-tab';
+import readme from '../../../../components/tabs/readme-tab';
+import explore from '../../../../components/tabs/explore-tab';
+import usage from '../../../../components/tabs/usage-tab';
+import version from '../../../../components/tabs/version-tab';
 import { getEndorsers } from '../../../../lib/users';
 
 type PageProps = {
@@ -60,9 +60,7 @@ export default function Extension(props: PageProps) {
 
   return (
     <Layout extension={extension}>
-      <div className="mx-14">
-        <Tabs tabs={tabs} extension={extension} endorsers={endorsers}></Tabs>
-      </div>
+        <TabsLayout tabs={tabs} extension={extension} endorsers={endorsers}></TabsLayout>
     </Layout>
   );
 }
