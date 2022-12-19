@@ -1,10 +1,8 @@
-// Includes everything related to tab rendering that is not specific to the extension. The Tab[] is
+// Includes everything related to the readme tab rendering that is not specific to the extension. The Tab is
 // imported in pages/extensions/[namespace]/[packageName]/[version].tsx
 
 import Link from 'next/link';
-import { Tab, TabRenderFunction } from '../../../../../components/tabs';
-import { CatalogDataModelExtension } from '../../../../../lib/catalog-types';
-import { getUser } from '../../../../../lib/users';
+import { Tab, TabRenderFunction } from '../components/tabs';
 
 const readmeTab: TabRenderFunction = (e, endorsers) => {
   return (
@@ -79,14 +77,6 @@ const readme: Tab = {
   render: readmeTab,
 };
 
-const exploreTab: TabRenderFunction = (e) => {
-  return (
-    <div>
-      <h1>This is the Explore Tab</h1>
-    </div>
-  );
-};
-
 const usageTab: TabRenderFunction = (e) => {
   return (
     <div>
@@ -95,33 +85,4 @@ const usageTab: TabRenderFunction = (e) => {
   );
 };
 
-const versionTab: TabRenderFunction = (e) => {
-  return (
-    <div>
-      <h1 className="text-xl font-bold">{e.description}</h1>
-      <p>{e.version}</p>
-    </div>
-  );
-};
-
-const explore: Tab = {
-  tabId: 'explore',
-  title: 'Explore',
-  render: exploreTab,
-};
-
-const usage: Tab = {
-  tabId: 'usage',
-  title: 'Usage',
-  render: usageTab,
-};
-
-const version: Tab = {
-  tabId: 'version',
-  title: 'Version',
-  render: versionTab,
-};
-
-const tabs = [readme, explore, usage, version];
-
-export default tabs;
+export default readme;

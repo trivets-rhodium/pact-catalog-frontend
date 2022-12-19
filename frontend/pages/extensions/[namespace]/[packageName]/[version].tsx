@@ -12,7 +12,10 @@ import Layout from '../../../../components/layout';
 import Tabs from '../../../../components/tabs';
 // tabs is a Tab[] that is used in the Extension function. It is not a prop, as it only includes
 // what is common to all detail pages.
-import tabs from './partials/tabs';
+import readme from '../../../../partials/readme-tab';
+import explore from '../../../../partials/explore-tab';
+import usage from '../../../../partials/usage-tab';
+import version from '../../../../partials/version-tab';
 import { getEndorsers } from '../../../../lib/users';
 
 type PageProps = {
@@ -48,6 +51,8 @@ export const getStaticPaths: GetStaticPaths<
     fallback: false,
   };
 };
+
+const tabs = [readme, explore, usage, version];
 
 export default function Extension(props: PageProps) {
   const { extension, endorsers } = props;
