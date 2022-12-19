@@ -2,6 +2,7 @@ import Head from 'next/head';
 import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import { CatalogDataModelExtension } from '../lib/catalog-types';
+import Navbar from './navbar';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -20,14 +21,8 @@ export default function Layout(props: LayoutProps) {
             : `PACT Catalog - ${extension.description}`}
         </title>
       </Head>
-      <header className="pact-color py-8 px-32">
-        <h1 className="text-white">
-          {extension == undefined
-            ? 'WBCSD | PACT Online Catalog'
-            : `${extension.description}`}
-        </h1>
-      </header>
-      <main className='px-32 pb-32'>{children}</main>
+      <Navbar />
+      <main className="py-20 px-32">{children}</main>
     </>
   );
 }

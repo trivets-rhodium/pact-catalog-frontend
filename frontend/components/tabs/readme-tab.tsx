@@ -11,7 +11,9 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
       <div className="grid grid-cols-3 gap-20">
         <div className="col-span-2">
           <section className="mb-12">
-            <h2>{e.name} {e.version}</h2>
+            <h2>
+              {e.name} {e.version}
+            </h2>
             <p>
               {e.catalog_info.summary === null
                 ? e.description
@@ -45,12 +47,9 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
           </section>
         </div>
         <div>
-          <div className="sticky top-20 mt-4 mb-10">
+          <div className="sticky top-32 mt-4 mb-10 z-0">
             <div className="mb-8">
-              <Link
-                href={`${e.downloadLink}`}
-                className={style['tab-download-button']}
-              >
+              <Link href={`${e.downloadLink}`} className="primary-button">
                 Download Package
               </Link>
             </div>

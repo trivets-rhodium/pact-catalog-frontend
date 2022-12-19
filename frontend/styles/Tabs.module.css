@@ -5,38 +5,11 @@
 
 .tab {
   color: #0a0552;
-  background-color: white;
+  background-color: #f3f3f3;
   transition: background-color 0.3s, border 0.3s, color 0.3s;
 }
 
 .tab:hover {
   background-color: #08a17f;
   color: white;
-}
-
-.tab-home-button {
-  border: 2px solid #08a17f;
-  padding: 10px 10px 8px;
-  color: #0a0552;
-  border-radius: 5px;
-  transition: background-color 0.3s, border 0.3s, color 0.3s;
-}
-
-.tab-home-button:hover {
-  background-color: #08a17f;
-  color: white;
-}
-
-.tab-download-button {
-  border: 2px solid #08a17f;
-  background-color: #08a17f;
-  padding: 10px 10px 8px;
-  color: white;
-  border-radius: 5px;
-  transition: background-color 0.3s, border 0.3s, color 0.3s;
-}
-
-.tab-download-button:hover {
-  background-color: white;
-  color: #0a0552;
 }

@@ -8,7 +8,7 @@ import style from '../styles/Tabs.module.css';
 export type TabRenderFunction = (
   extension: CatalogDataModelExtension,
   endorsers?: Endorsers,
-  router?: NextRouter,
+  router?: NextRouter
 ) => JSX.Element;
 
 export type Tab = {
@@ -44,7 +44,7 @@ function TabHead(props: TabsProps) {
           <div
             className={`${
               activeTab === tab.tabId ? style['active-tab'] : style.tab
-            } pt-2 pb-1 px-6 mr-1 rounded-t-sm`}
+            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
           >
             {tab.title}
           </div>
@@ -75,8 +75,11 @@ export function TabsLayout(props: TabsProps) {
 
   return (
     <>
+      <header>
+        <h1 className='title'>{extension.description}</h1>
+      </header>
       <TabHead tabs={tabs} router={router} extension={extension} />
-      <div className="bg-white h-100 px-24 py-20 rounded-b-sm rounded-tr-sm">
+      <div className="background h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
         <TabContent
           tabs={tabs}
           router={router}
@@ -84,7 +87,7 @@ export function TabsLayout(props: TabsProps) {
           endorsers={endorsers}
         ></TabContent>
         <div className="text-right mt-16">
-          <Link href="/" className={style['tab-home-button']}>
+          <Link href="/" className="secondary-button">
             All Extensions
           </Link>
         </div>
