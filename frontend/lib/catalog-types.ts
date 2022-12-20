@@ -27,6 +27,11 @@ export type CatalogDataModelExtension = {
   version: VersionId;
   description: string;
   files: string[];
+  author: {
+    name: string;
+    email: string;
+    url: string;
+  };
   contributors:
     | {
         name: string;
@@ -34,7 +39,7 @@ export type CatalogDataModelExtension = {
         url: string;
       }[]
     | null;
-  author: string;
+
   license: string;
   catalog_info: {
     summary: string | null;

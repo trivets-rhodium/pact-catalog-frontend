@@ -23,13 +23,18 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
           <h2>Contributors</h2>
           <ul>
             <li>
-              <Link href={'#'}>{e.author}</Link> (author)
+              <a href={e.author.url} target="_blank">
+                {e.author.name}
+              </a>{' '}
+              (author)
             </li>
             {e.contributors !== null &&
               e.contributors.map((contributor) => {
                 return (
                   <li key={contributor.name}>
-                    <Link href={contributor.url}>{contributor.name}</Link>{' '}
+                    <a href={contributor.url} target="_blank">
+                      {contributor.name}
+                    </a>{' '}
                   </li>
                 );
               })}
@@ -67,19 +72,23 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
             </Link>
           </div>
           <h3>Repository</h3>
-          <Link href={`${e.gitRepositoryUrl}`} className="underline">
+          <a
+            href={`${e.gitRepositoryUrl}`}
+            className="underline"
+            target="_blank"
+          >
             Github
-          </Link>
+          </a>
           <h3 className="mt-4">Last Published</h3>
           <p>TO DO</p>
           <h3 className="mt-4">Contacts</h3>
-          <Link href={'#'} className="underline">
+          <a href={`mailto: ${e.author.email}`} className="underline">
             E-mail
-          </Link>
+          </a>
           ,{' '}
-          <Link href={'#'} className="underline">
+          <a href={e.author.url} className="underline" target="_blank">
             Website
-          </Link>
+          </a>
         </div>
       </div>
     </div>

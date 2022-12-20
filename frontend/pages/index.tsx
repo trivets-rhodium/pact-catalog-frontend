@@ -43,7 +43,7 @@ export default function Home(props: PageProps) {
                 >
                   <p className="text-xl font-bold">{description}</p>
                   <ul>
-                    <li>Publisher: {author}</li>
+                    <li>Publisher: {author.name}</li>
                     <li>Status: {catalog_info.status}</li>
                   </ul>
                 </li>

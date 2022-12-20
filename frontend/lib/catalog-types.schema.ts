@@ -7,12 +7,16 @@ export type PackageJsonSchema = {
   version: string;
   description: string;
   files: string[];
+  author: {
+    name: string;
+    email: string;
+    url: string;
+  };
   contributors?: {
     name: string;
     email: string;
     url: string;
   }[];
-  author: string;
   license: string;
   catalog_info: {
     summary?: string;
@@ -43,6 +47,11 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
     version: z.string().regex(/[0-9]+\.[0-9]+\.[0-9]+/),
     description: z.string().min(1),
     files: z.array(z.string().min(1)),
+    author: z.object({
+      name: z.string().min(1),
+      email: z.string().email(),
+      url: z.string().url(),
+    }),
     contributors: z
       .array(
         z.object({
@@ -52,7 +61,6 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
         })
       )
       .optional(),
-    author: z.string().min(1),
     license: z.string().min(1),
     catalog_info: z.object({
       summary: z.string().min(1).optional(),
