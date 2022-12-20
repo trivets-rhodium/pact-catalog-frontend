@@ -1,0 +1,13 @@
+{
+  "id": "solution",
+  "name": "Some solution",
+  "provider": {
+    "id": "solutionprovider",
+    "name": "Some Solution Provider Inc.",
+    "website": "https://www.some-solutionprovider.com"
+  },
+  "extensions_employed": [
+    { "name": "@rmi/steel-guidance", "version": "1.0.0" },
+    { "name": "@wbcsd/product-footprint", "version": "2.0.0" }
+  ]
+}
