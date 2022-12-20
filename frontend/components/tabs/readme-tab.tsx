@@ -4,8 +4,7 @@ import style from '../../styles/Tabs.module.css';
 import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: TabRenderFunction = (tabArgs) => {
-  const { extension, endorsers } = tabArgs;
+const readmeTab: TabRenderFunction = (extension) => {
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
@@ -43,8 +42,8 @@ const readmeTab: TabRenderFunction = (tabArgs) => {
         <section className="mb-12">
           <h2>Endorsers</h2>
           <ul>
-            {endorsers !== undefined &&
-              endorsers.map((endorser) => {
+            {extension.endorsers !== undefined &&
+              extension.endorsers.map((endorser) => {
                 return (
                   <li key={endorser.id}>
                     {endorser.website !== null ? (

@@ -20,8 +20,6 @@ import { getConformingSolutions } from '../../../../lib/solutions';
 
 type PageProps = {
   extension: CatalogDataModelExtension;
-  endorsers: Endorsers;
-  solutions: ConformingSolution[];
 };
 
 export const getStaticProps: GetStaticProps<
@@ -33,13 +31,10 @@ export const getStaticProps: GetStaticProps<
   }
 
   const extension = await getExtension(params);
-  const endorsers = await getEndorsers(extension);
   const solutions = await getConformingSolutions(extension);
   return {
     props: {
       extension,
-      endorsers,
-      solutions,
     },
   };
 };
@@ -58,16 +53,13 @@ export const getStaticPaths: GetStaticPaths<
 const tabs = [readme, explore, usage, version];
 
 export default function Extension(props: PageProps) {
-  const { extension, endorsers, solutions } = props;
-  console.log('endorsers:', endorsers);
+  const { extension } = props;
 
   return (
     <Layout extension={extension}>
       <TabsLayout
         tabs={tabs}
         extension={extension}
-        endorsers={endorsers}
-        solutions={solutions}
       ></TabsLayout>
     </Layout>
   );

@@ -8,14 +8,10 @@ import { withRouter, NextRouter, Router } from 'next/router';
 import React, { JSXElementConstructor } from 'react';
 import style from '../styles/Tabs.module.css';
 
-type TabRenderArgs = {
-  extension: CatalogDataModelExtension;
-  endorsers?: Endorsers;
-  solutions?: ConformingSolution[];
-};
+
 
 // as an idea, we could have a type for the tab render function
-export type TabRenderFunction = (tabArgs: TabRenderArgs) => JSX.Element;
+export type TabRenderFunction = (extension: CatalogDataModelExtension) => JSX.Element;
 
 export type Tab = {
   tabId: string;
@@ -63,14 +59,13 @@ function TabHead(props: TabsProps) {
 }
 
 function TabContent(props: TabsProps) {
-  const { tabs, router, extension, endorsers, solutions } = props;
-  const tabArgs = { extension, endorsers, solutions };
+  const { tabs, router, extension } = props;
   return (
     <>
       {tabs.map((tab) => {
         return (
           router.query.activeTab === tab.tabId && (
-            <div key={tab.tabId}>{tab.render(tabArgs)}</div>
+            <div key={tab.tabId}>{tab.render(extension)}</div>
           )
         );
       })}
@@ -94,7 +89,6 @@ export function TabsLayout(props: TabsProps) {
           tabs={tabs}
           router={router}
           extension={extension}
-          endorsers={endorsers}
           solutions={solutions}
         ></TabContent>
         <div className="text-right mt-16">

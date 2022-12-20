@@ -7,7 +7,7 @@
     "name": "Some Solution Provider Inc."
   },
   "extensions_employed": [
-    { "name": "@rmi/steel-guidance", "version": "1.0.0" },
+    { "name": "@rmi/steel-guidance", "version": "1.1.0" },
     { "name": "@wbcsd/product-footprint", "version": "2.0.0" }
   ]
 }

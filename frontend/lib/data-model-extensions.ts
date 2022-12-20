@@ -8,7 +8,8 @@ import path from 'path';
 import { globby } from 'globby';
 import { PackageJsonParser } from './catalog-types.schema';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
-import { getSolution } from './solutions';
+import { getConformingSolutions, getSolution } from './solutions';
+import { getEndorsers } from './users';
 
 const extensionsDirectory = path.posix.join(
   process.cwd(),
@@ -83,7 +84,8 @@ async function getExtensionFromBasepath(
         version: '2.0.0',
       },
     ],
-    // conformingSolutions: [await getSolution('some-solution')],
+    endorsers: await getEndorsers(extension),
+    conformingSolutions: await getConformingSolutions(extension),
     versions: await getVersions(basePath),
     downloadLink: null,
     gitRepositoryUrl: null,
@@ -104,7 +106,7 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
 }
 
 async function getVersions(basePath: string): Promise<VersionId[]> {
-  const packagePath = path.join(basePath, '../')
+  const packagePath = path.join(basePath, '../');
 
   return fs.readdirSync(packagePath).sort().reverse();
 }

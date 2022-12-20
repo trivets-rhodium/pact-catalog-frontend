@@ -1,8 +1,7 @@
 import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 
-const usageTab: TabRenderFunction = (tabArgs) => {
-  const { extension, solutions } = tabArgs;
+const usageTab: TabRenderFunction = (extension) => {
   return (
     <div>
       <section className="mb-12">
@@ -30,8 +29,8 @@ const usageTab: TabRenderFunction = (tabArgs) => {
       <section className="mb-12">
         <h2>Conforming Solutions</h2>
         <ul>
-          {solutions !== undefined &&
-            solutions.map((solution) => {
+          {extension.conformingSolutions !== undefined &&
+            extension.conformingSolutions.map((solution) => {
               return (
                 <li key={solution.id}>
                   {`${solution.name} by ${solution.provider.name}`}

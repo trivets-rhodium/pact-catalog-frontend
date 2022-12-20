@@ -37,11 +37,11 @@ export default function Home(props: PageProps) {
                 href={`/extensions/${name}/${version}?activeTab=readme`}
                 key={`${name}/${version}`}
               >
-                <li
-                  key={name}
-                  className={`${style.card} flex flex-col justify-between`}
-                >
-                  <p className="text-xl font-bold">{description}</p>
+                <li className={`${style.card} flex flex-col justify-between`}>
+                  <div>
+                    <p className="text-xl font-bold">{description}</p>
+                    <p>{version}</p>
+                  </div>
                   <ul>
                     <li>Publisher: {author.name}</li>
                     <li>Status: {catalog_info.status}</li>

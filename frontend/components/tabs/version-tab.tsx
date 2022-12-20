@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import { NextRouter } from 'next/router';
 
-const versionTab: TabRenderFunction = (tabArgs) => {
-  const { extension } = tabArgs;
+const versionTab: TabRenderFunction = (extension) => {
 
   return (
     <div>

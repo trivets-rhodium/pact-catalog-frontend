@@ -2,9 +2,7 @@ import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
 
-const exploreTab: TabRenderFunction = (tabArgs) => {
-  const { extension } = tabArgs;
-
+const exploreTab: TabRenderFunction = (extension) => {
   return (
     <div>
       <section className="mb-12">

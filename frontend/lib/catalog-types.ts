@@ -61,7 +61,8 @@ export type CatalogDataModelExtension = {
   downloadLink: string | null;
   gitRepositoryUrl: string | null;
   dependencies: DataModelExtensionId[];
-  // conformingSolutions: ConformingSolution[];
+  endorsers: Endorsers;
+  conformingSolutions: ConformingSolution[];
   versions: VersionId[];
 };
 
