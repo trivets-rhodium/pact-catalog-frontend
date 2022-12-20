@@ -2,21 +2,24 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import style from '../styles/Home.module.css';
-import { getAllExtensions, getLatestExtensions } from '../lib/data-model-extensions';
+import {
+  getAllExtensions,
+  getLatestExtensionsSorted,
+} from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import { CatalogDataModelExtension } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import Navbar from '../components/navbar';
 
 type PageProps = {
-  allExtensionsData: CatalogDataModelExtension[];
+  latestExtensionsData: CatalogDataModelExtension[];
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const allExtensionsData = await getLatestExtensions();
+  const latestExtensionsData = await getLatestExtensionsSorted();
   return {
     props: {
-      allExtensionsData,
+      latestExtensionsData,
     },
   };
 };
@@ -31,7 +34,7 @@ export default function Home(props: PageProps) {
       <section className="background py-8 rounded-sm">
         <h2 className="title px-4">PACKAGES</h2>
         <ul className="grid grid-cols-3">
-          {props.allExtensionsData.map(
+          {props.latestExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
               <Link
                 href={`/extensions/${name}/${version}`}

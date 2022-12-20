@@ -34,7 +34,7 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
   return Promise.all(allExtensionsData);
 }
 
-export async function getLatestExtensions(): Promise<
+export async function getLatestExtensionsSorted(): Promise<
   CatalogDataModelExtension[]
 > {
   const allExtensions = getAllExtensions();
@@ -49,11 +49,19 @@ export async function getLatestExtensions(): Promise<
 
   console.log('latestVersions', latestVersions);
 
-  return (await allExtensions).filter((extension) => {
+  const latestExtensions = (await allExtensions).filter((extension) => {
     for (const e of latestVersions) {
       if (e.name === extension.name && e.versionId === extension.version) {
         return extension;
       }
+    }
+  });
+
+  return latestExtensions.sort((a, b) => {
+    if (a.version > b.version) {
+      return -1;
+    } else {
+      return 1;
     }
   });
 }
