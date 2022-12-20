@@ -1,6 +1,7 @@
 import {
   CatalogDataModelExtension,
   DataModelExtensionId,
+  VersionId,
 } from '../lib/catalog-types';
 import fs from 'fs';
 import path from 'path';
@@ -83,7 +84,7 @@ async function getExtensionFromBasepath(
       },
     ],
     // conformingSolutions: [await getSolution('some-solution')],
-    versions: [packageJson.version],
+    versions: await getVersions(basePath),
     downloadLink: null,
     gitRepositoryUrl: null,
     contributors: packageJson.contributors || null,
@@ -100,4 +101,10 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
   }
 
   return undefined;
+}
+
+async function getVersions(basePath: string): Promise<VersionId[]> {
+  const packagePath = path.join(basePath, '../')
+
+  return fs.readdirSync(packagePath).sort().reverse();
 }

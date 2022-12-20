@@ -21,9 +21,13 @@ const versionTab: TabRenderFunction = (tabArgs) => {
             {extension.versions.map((version) => {
               return (
                 <tr>
-                  <td>{version}</td>
+                  <td>
+                    <Link href={`/extensions/${extension.name}/${version}`}>
+                      {version}
+                    </Link>
+                  </td>
                   <td>TO DO</td>
-                  <td>latest</td>
+                  <td>TO DO</td>
                 </tr>
               );
             })}
@@ -45,7 +49,9 @@ const versionTab: TabRenderFunction = (tabArgs) => {
             {extension.versions.map((version) => {
               return (
                 <tr>
-                  <td>{version}</td>
+                  <Link href={`/extensions/${extension.name}/${version}`}>
+                      {version}
+                    </Link>
                   <td>TO DO</td>
                   <td>TO DO</td>
                 </tr>
