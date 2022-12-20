@@ -35,6 +35,8 @@ function TabHead(props: TabsProps) {
     asPath,
   } = router;
 
+  router.query.activeTab = 'readme';
+
   return (
     <div className="flex">
       {tabs.map((tab) => (

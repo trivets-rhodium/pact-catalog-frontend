@@ -34,7 +34,7 @@ export default function Home(props: PageProps) {
           {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
               <Link
-                href={`/extensions/${name}/${version}?activeTab=readme`}
+                href={`/extensions/${name}/${version}`}
                 key={`${name}/${version}`}
               >
                 <li className={`${style.card} flex flex-col justify-between`}>
