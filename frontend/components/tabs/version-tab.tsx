@@ -50,8 +50,8 @@ const versionTab: TabRenderFunction = (tabArgs) => {
               return (
                 <tr>
                   <Link href={`/extensions/${extension.name}/${version}`}>
-                      {version}
-                    </Link>
+                    {version}
+                  </Link>
                   <td>TO DO</td>
                   <td>TO DO</td>
                 </tr>
