@@ -77,7 +77,7 @@ async function getExtensionFromBasepath(
     dependencies: [
       {
         namespace: '@wbcsd',
-        packageName: 'productfootprint',
+        packageName: 'product-footprint',
         version: '2.0.0',
       },
     ],
