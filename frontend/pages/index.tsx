@@ -12,6 +12,15 @@ type PageProps = {
   allExtensionsData: CatalogDataModelExtension[];
 };
 
+export const getStaticProps: GetStaticProps<PageProps> = async () => {
+  const allExtensionsData = await getAllExtensions();
+  return {
+    props: {
+      allExtensionsData,
+    },
+  };
+};
+
 export default function Home(props: PageProps) {
   console.log(props);
   return (
@@ -24,8 +33,14 @@ export default function Home(props: PageProps) {
         <ul className="grid grid-cols-3">
           {props.allExtensionsData.map(
             ({ author, name, version, description, catalog_info }) => (
-              <Link href={`/extensions/${name}/${version}?activeTab=readme`}>
-                <li key={name} className={`${style.card} flex flex-col justify-between`}>
+              <Link
+                href={`/extensions/${name}/${version}?activeTab=readme`}
+                key={`${name}/${version}`}
+              >
+                <li
+                  key={name}
+                  className={`${style.card} flex flex-col justify-between`}
+                >
                   <p className="text-xl font-bold">{description}</p>
                   <ul>
                     <li>Publisher: {author}</li>
@@ -40,12 +55,3 @@ export default function Home(props: PageProps) {
     </Layout>
   );
 }
-
-export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const allExtensionsData = await getAllExtensions();
-  return {
-    props: {
-      allExtensionsData,
-    },
-  };
-};

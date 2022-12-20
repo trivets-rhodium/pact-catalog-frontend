@@ -7,8 +7,7 @@ import style from '../styles/Tabs.module.css';
 // as an idea, we could have a type for the tab render function
 export type TabRenderFunction = (
   extension: CatalogDataModelExtension,
-  endorsers?: Endorsers,
-  router?: NextRouter
+  endorsers?: Endorsers
 ) => JSX.Element;
 
 export type Tab = {
@@ -40,6 +39,7 @@ function TabHead(props: TabsProps) {
             pathname: asPath.replace(/\?.*/, ''),
             query: { activeTab: tab.tabId },
           }}
+          key={tab.tabId}
         >
           <div
             className={`${
@@ -60,8 +60,9 @@ function TabContent(props: TabsProps) {
     <>
       {tabs.map((tab) => {
         return (
-          router.query.activeTab === tab.tabId &&
-          tab.render(extension, endorsers)
+          router.query.activeTab === tab.tabId && (
+            <div key={tab.tabId}>{tab.render(extension, endorsers)}</div>
+          )
         );
       })}
     </>
@@ -76,7 +77,7 @@ export function TabsLayout(props: TabsProps) {
   return (
     <>
       <header>
-        <h1 className='title'>{extension.description}</h1>
+        <h1 className="title">{extension.description}</h1>
       </header>
       <TabHead tabs={tabs} router={router} extension={extension} />
       <div className="background h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">

@@ -38,7 +38,7 @@ export async function getAllUsers() {
     return userJson;
   });
 
-  return Promise.all(allUsersData);
+  return allUsersData;
 }
 
 export async function getEndorsers(
@@ -59,5 +59,5 @@ export async function getEndorsers(
     });
   });
 
-  return Promise.all(endorsers);
+  return endorsers;
 }

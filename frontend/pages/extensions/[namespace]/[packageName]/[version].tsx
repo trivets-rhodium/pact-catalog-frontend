@@ -10,8 +10,6 @@ import {
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../../../components/layout';
 import TabsLayout from '../../../../components/tabs-layout';
-// tabs is a Tab[] that is used in the Extension function. It is not a prop, as it only includes
-// what is common to all detail pages.
 import readme from '../../../../components/tabs/readme-tab';
 import explore from '../../../../components/tabs/explore-tab';
 import usage from '../../../../components/tabs/usage-tab';
@@ -60,7 +58,11 @@ export default function Extension(props: PageProps) {
 
   return (
     <Layout extension={extension}>
-        <TabsLayout tabs={tabs} extension={extension} endorsers={endorsers}></TabsLayout>
+      <TabsLayout
+        tabs={tabs}
+        extension={extension}
+        endorsers={endorsers}
+      ></TabsLayout>
     </Layout>
   );
 }

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import { NextRouter } from 'next/router';
 
-const versionTab: TabRenderFunction = (e, _, router) => {
+const versionTab: TabRenderFunction = (e) => {
   return (
     <div>
       <section className="mb-12">
