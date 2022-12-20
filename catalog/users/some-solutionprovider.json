@@ -13,5 +13,11 @@
             "id": "@wwf/water-footprint",
             "version": "0.6.1"
         }
+    ],
+    "extensions_endorsed": [
+        {
+            "id": "@rmi/steel-guidance",
+            "version": "1.0.0"
+        }
     ]
 }

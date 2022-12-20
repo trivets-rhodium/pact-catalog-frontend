@@ -1,0 +1,15 @@
+.active-tab {
+  background-color: #08a17f;
+  color: white;
+}
+
+.tab {
+  color: #0a0552;
+  background-color: #f3f3f3;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+}
+
+.tab:hover {
+  background-color: #08a17f;
+  color: white;
+}
