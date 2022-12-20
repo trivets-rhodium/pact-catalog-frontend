@@ -8,10 +8,10 @@ import { withRouter, NextRouter, Router } from 'next/router';
 import React, { JSXElementConstructor } from 'react';
 import style from '../styles/Tabs.module.css';
 
-
-
 // as an idea, we could have a type for the tab render function
-export type TabRenderFunction = (extension: CatalogDataModelExtension) => JSX.Element;
+export type TabRenderFunction = (
+  extension: CatalogDataModelExtension
+) => JSX.Element;
 
 export type Tab = {
   tabId: string;
@@ -35,7 +35,9 @@ function TabHead(props: TabsProps) {
     asPath,
   } = router;
 
-  router.query.activeTab = 'readme';
+  if (router.query.activeTab === undefined) {
+    router.query.activeTab = 'readme';
+  }
 
   return (
     <div className="flex">
