@@ -1,6 +1,3 @@
-// Includes everything related to the readme tab rendering that is not specific to the extension. The Tab is
-// imported in pages/extensions/[namespace]/[packageName]/[version].tsx
-
 import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';

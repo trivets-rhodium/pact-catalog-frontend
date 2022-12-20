@@ -7,7 +7,7 @@ import style from '../styles/Tabs.module.css';
 // as an idea, we could have a type for the tab render function
 export type TabRenderFunction = (
   extension: CatalogDataModelExtension,
-  endorsers?: Endorsers
+  endorsers?: Endorsers,
 ) => JSX.Element;
 
 export type Tab = {

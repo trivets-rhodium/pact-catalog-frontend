@@ -1,10 +1,10 @@
 {
-  "id": "solution",
+  "id": "some-solution",
   "name": "Some solution",
+  "website": "https://www.some-solutionprovider.com/solution",
   "provider": {
     "id": "solutionprovider",
-    "name": "Some Solution Provider Inc.",
-    "website": "https://www.some-solutionprovider.com"
+    "name": "Some Solution Provider Inc."
   },
   "extensions_employed": [
     { "name": "@rmi/steel-guidance", "version": "1.0.0" },

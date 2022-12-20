@@ -3,6 +3,7 @@
 export type UserId = string;
 export type DMEId = string;
 export type VersionId = string;
+export type SolutionId = string;
 
 export type CatalogUser = {
   id: UserId;
@@ -20,6 +21,14 @@ export type ConformingSolution = {
   id: string;
   name: string;
   website: string;
+  provider: {
+    id: string;
+    name: string;
+  };
+  extensions_employed: {
+    name: DMEId;
+    version: VersionId;
+  }[];
 };
 
 export type CatalogDataModelExtension = {

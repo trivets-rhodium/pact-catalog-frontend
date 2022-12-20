@@ -1,4 +1,4 @@
-import { DMEId } from './catalog-types';
+import { ConformingSolution, DMEId } from './catalog-types';
 import { z } from 'zod';
 import { CatalogUser, UserId } from './catalog-types';
 
@@ -67,5 +67,23 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
       status: z.enum(['published', 'draft', 'deprecated']),
       authors: z.array(z.string().min(1)),
     }),
+  })
+);
+
+export const SolutionParser: z.ZodType<ConformingSolution> = z.lazy(() =>
+  z.object({
+    id: z.string(),
+    name: z.string(),
+    website: z.string(),
+    provider: z.object({
+      id: z.string(),
+      name: z.string(),
+    }),
+    extensions_employed: z.array(
+      z.object({
+        name: z.string().min(1),
+        version: z.string().min(1),
+      })
+    ),
   })
 );
