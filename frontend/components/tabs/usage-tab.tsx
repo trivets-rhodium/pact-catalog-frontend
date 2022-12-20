@@ -13,10 +13,15 @@ const usageTab: TabRenderFunction = (e) => {
         <ul>
           {e.dependencies.map((dependency) => {
             return (
-              <li>
-                {dependency.namespace} {dependency.packageName}{' '}
-                {dependency.version}
-              </li>
+              <Link
+                href={`/extensions/${dependency.namespace}/${dependency.packageName}/${dependency.version}`}
+                key={`${dependency.namespace}/${dependency.packageName}/${dependency.version}`}
+              >
+                <li>
+                  {dependency.namespace} {dependency.packageName}{' '}
+                  {dependency.version}
+                </li>
+              </Link>
             );
           })}
         </ul>
@@ -26,11 +31,7 @@ const usageTab: TabRenderFunction = (e) => {
         <ul>
           TO DO
           {e.conformingSolutions.map((solution) => {
-            return (
-              <li>
-                {solution.toString()}
-              </li>
-            );
+            return <li key={solution.id}>{solution.toString()}</li>;
           })}
         </ul>
       </section>
