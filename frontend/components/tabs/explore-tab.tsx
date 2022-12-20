@@ -9,13 +9,14 @@ const exploreTab: TabRenderFunction = (e) => {
         <h2>Documentation</h2>
         {e.readmeMd !== null ? (
           <p>
-            Please review the documentation via this{' '}
-            <Link
+            Please review the documentation via this (TO DO){' '}
+            <a
               href={`https://github.com/sine-fdn/pact-catalog/catalog/data-model-extensions/${e.name}/${e.version}/documentation/README.md`}
               className="underline"
+              target="_blank"
             >
               link
-            </Link>
+            </a>
           </p>
         ) : (
           <p>No documentation available</p>

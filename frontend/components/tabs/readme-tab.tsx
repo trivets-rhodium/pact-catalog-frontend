@@ -66,10 +66,8 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
       </div>
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
-          <div className="mb-8">
-            <Link href={`${e.downloadLink}`} className="primary-button">
-              Download Package
-            </Link>
+          <div className="mb-8 primary-button">
+            <Link href={`${e.downloadLink}`}>Download Package (TO DO)</Link>
           </div>
           <h3>Repository</h3>
           <a
@@ -77,7 +75,7 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
             className="underline"
             target="_blank"
           >
-            Github
+            Github (TO DO)
           </a>
           <h3 className="mt-4">Last Published</h3>
           <p>TO DO</p>
