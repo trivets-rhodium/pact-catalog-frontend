@@ -1,5 +1,6 @@
 import {
   CatalogDataModelExtension,
+  ConformingSolution,
   DataModelExtensionId,
   Endorsers,
 } from '../../../../lib/catalog-types';
@@ -15,10 +16,12 @@ import explore from '../../../../components/tabs/explore-tab';
 import usage from '../../../../components/tabs/usage-tab';
 import version from '../../../../components/tabs/version-tab';
 import { getEndorsers } from '../../../../lib/users';
+import { getConformingSolutions } from '../../../../lib/solutions';
 
 type PageProps = {
   extension: CatalogDataModelExtension;
   endorsers: Endorsers;
+  solutions: ConformingSolution[];
 };
 
 export const getStaticProps: GetStaticProps<
@@ -31,10 +34,12 @@ export const getStaticProps: GetStaticProps<
 
   const extension = await getExtension(params);
   const endorsers = await getEndorsers(extension);
+  const solutions = await getConformingSolutions(extension);
   return {
     props: {
       extension,
       endorsers,
+      solutions,
     },
   };
 };
@@ -53,7 +58,7 @@ export const getStaticPaths: GetStaticPaths<
 const tabs = [readme, explore, usage, version];
 
 export default function Extension(props: PageProps) {
-  const { extension, endorsers } = props;
+  const { extension, endorsers, solutions } = props;
   console.log('endorsers:', endorsers);
 
   return (
@@ -62,6 +67,7 @@ export default function Extension(props: PageProps) {
         tabs={tabs}
         extension={extension}
         endorsers={endorsers}
+        solutions={solutions}
       ></TabsLayout>
     </Layout>
   );

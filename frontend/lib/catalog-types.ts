@@ -17,6 +17,8 @@ export type CatalogUser = {
   }[];
 };
 
+export type Endorsers = CatalogUser[];
+
 export type ConformingSolution = {
   id: string;
   name: string;
@@ -59,7 +61,7 @@ export type CatalogDataModelExtension = {
   downloadLink: string | null;
   gitRepositoryUrl: string | null;
   dependencies: DataModelExtensionId[];
-  conformingSolutions: ConformingSolution[];
+  // conformingSolutions: ConformingSolution[];
   versions: VersionId[];
 };
 
@@ -80,5 +82,3 @@ export type DataModelExtensionId = {
   packageName: string;
   version: VersionId;
 };
-
-export type Endorsers = CatalogUser[];

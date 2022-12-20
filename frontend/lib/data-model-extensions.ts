@@ -7,6 +7,7 @@ import path from 'path';
 import { globby } from 'globby';
 import { PackageJsonParser } from './catalog-types.schema';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+import { getSolution } from './solutions';
 
 const extensionsDirectory = path.posix.join(
   process.cwd(),
@@ -81,7 +82,7 @@ async function getExtensionFromBasepath(
         version: '2.0.0',
       },
     ],
-    conformingSolutions: [],
+    // conformingSolutions: [await getSolution('some-solution')],
     versions: [packageJson.version],
     downloadLink: null,
     gitRepositoryUrl: null,

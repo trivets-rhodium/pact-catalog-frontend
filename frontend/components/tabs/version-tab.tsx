@@ -2,7 +2,9 @@ import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import { NextRouter } from 'next/router';
 
-const versionTab: TabRenderFunction = (e) => {
+const versionTab: TabRenderFunction = (tabArgs) => {
+  const { extension } = tabArgs;
+
   return (
     <div>
       <section className="mb-12">
@@ -16,7 +18,7 @@ const versionTab: TabRenderFunction = (e) => {
             </tr>
           </thead>
           <tbody>
-            {e.versions.map((version) => {
+            {extension.versions.map((version) => {
               return (
                 <tr>
                   <td>{version}</td>
@@ -40,7 +42,7 @@ const versionTab: TabRenderFunction = (e) => {
             </tr>
           </thead>
           <tbody>
-            {e.versions.map((version) => {
+            {extension.versions.map((version) => {
               return (
                 <tr>
                   <td>{version}</td>

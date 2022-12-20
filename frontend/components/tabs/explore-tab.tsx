@@ -2,16 +2,18 @@ import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
 
-const exploreTab: TabRenderFunction = (e) => {
+const exploreTab: TabRenderFunction = (tabArgs) => {
+  const { extension } = tabArgs;
+
   return (
     <div>
       <section className="mb-12">
         <h2>Documentation</h2>
-        {e.readmeMd !== null ? (
+        {extension.readmeMd !== null ? (
           <p>
             Please review the documentation via this (TO DO){' '}
             <a
-              href={`https://github.com/sine-fdn/pact-catalog/catalog/data-model-extensions/${e.name}/${e.version}/documentation/README.md`}
+              href={`https://github.com/sine-fdn/pact-catalog/catalog/data-model-extensions/${extension.name}/${extension.version}/documentation/README.md`}
               className="underline"
               target="_blank"
             >

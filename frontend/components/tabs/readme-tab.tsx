@@ -1,32 +1,35 @@
 import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
+import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
+import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: TabRenderFunction = (e, endorsers) => {
+const readmeTab: TabRenderFunction = (tabArgs) => {
+  const { extension, endorsers } = tabArgs;
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
         <section className="mb-12">
           <h2>
-            {e.name} {e.version}
+            {extension.name} {extension.version}
           </h2>
           <p>
-            {e.catalog_info.summary === null
-              ? e.description
-              : e.catalog_info.summary}
+            {extension.catalog_info.summary === null
+              ? extension.description
+              : extension.catalog_info.summary}
           </p>
         </section>
         <section className="mb-12">
           <h2>Contributors</h2>
           <ul>
             <li>
-              <a href={e.author.url} target="_blank">
-                {e.author.name}
+              <a href={extension.author.url} target="_blank">
+                {extension.author.name}
               </a>{' '}
               (author)
             </li>
-            {e.contributors !== null &&
-              e.contributors.map((contributor) => {
+            {extension.contributors !== null &&
+              extension.contributors.map((contributor) => {
                 return (
                   <li key={contributor.name}>
                     <a href={contributor.url} target="_blank">
@@ -64,11 +67,13 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
           <div className="mb-8 primary-button">
-            <Link href={`${e.downloadLink}`}>Download Package (TO DO)</Link>
+            <Link href={`${extension.downloadLink}`}>
+              Download Package (TO DO)
+            </Link>
           </div>
           <h3>Repository</h3>
           <a
-            href={`${e.gitRepositoryUrl}`}
+            href={`${extension.gitRepositoryUrl}`}
             className="underline"
             target="_blank"
           >
@@ -77,11 +82,11 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
           <h3 className="mt-4">Last Published</h3>
           <p>TO DO</p>
           <h3 className="mt-4">Contacts</h3>
-          <a href={`mailto: ${e.author.email}`} className="underline">
+          <a href={`mailto: ${extension.author.email}`} className="underline">
             E-mail
           </a>
           ,{' '}
-          <a href={e.author.url} className="underline" target="_blank">
+          <a href={extension.author.url} className="underline" target="_blank">
             Website
           </a>
         </div>
