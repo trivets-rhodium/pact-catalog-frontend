@@ -1,6 +1,7 @@
 import {
   CatalogDataModelExtension,
   DataModelExtensionId,
+  DMEId,
   VersionId,
 } from '../lib/catalog-types';
 import fs from 'fs';
@@ -31,6 +32,30 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
   });
 
   return Promise.all(allExtensionsData);
+}
+
+export async function getLatestExtensions(): Promise<
+  CatalogDataModelExtension[]
+> {
+  const allExtensions = getAllExtensions();
+
+  let latestVersions: { name: DMEId; versionId: VersionId }[] = [];
+
+  for (const extension of await allExtensions) {
+    const name = extension.name;
+    const versionId = extension.versions.sort().pop();
+    versionId !== undefined && latestVersions.push({ name, versionId });
+  }
+
+  console.log('latestVersions', latestVersions);
+
+  return (await allExtensions).filter((extension) => {
+    for (const e of latestVersions) {
+      if (e.name === extension.name && e.versionId === extension.version) {
+        return extension;
+      }
+    }
+  });
 }
 
 export async function getAllDataModelExtensionIds() {

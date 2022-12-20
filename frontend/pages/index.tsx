@@ -2,7 +2,7 @@ import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
 import style from '../styles/Home.module.css';
-import { getAllExtensions } from '../lib/data-model-extensions';
+import { getAllExtensions, getLatestExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import { CatalogDataModelExtension } from '../lib/catalog-types';
 import Layout from '../components/layout';
@@ -13,7 +13,7 @@ type PageProps = {
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const allExtensionsData = await getAllExtensions();
+  const allExtensionsData = await getLatestExtensions();
   return {
     props: {
       allExtensionsData,
