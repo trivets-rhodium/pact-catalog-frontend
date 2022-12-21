@@ -7,7 +7,7 @@
     "extensions_support": [
         {
             "id": "@rmi/steel-guidance",
-            "version": "1.0.0"
+            "version": "1.1.0"
         },
         {
             "id": "@wwf/water-footprint",
@@ -17,7 +17,7 @@
     "extensions_endorsed": [
         {
             "id": "@rmi/steel-guidance",
-            "version": "1.0.0"
+            "version": "1.1.0"
         }
     ]
 }
