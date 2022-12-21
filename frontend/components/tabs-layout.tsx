@@ -23,8 +23,6 @@ type TabsProps = {
   tabs: Tab[];
   router: NextRouter;
   extension: CatalogDataModelExtension;
-  endorsers?: Endorsers;
-  solutions?: ConformingSolution[];
 };
 
 function TabHead(props: TabsProps) {
@@ -78,7 +76,7 @@ function TabContent(props: TabsProps) {
 }
 
 export function TabsLayout(props: TabsProps) {
-  const { tabs, router, extension, endorsers, solutions } = props;
+  const { tabs, router, extension } = props;
 
   console.log('tabs:', tabs);
 
@@ -93,7 +91,6 @@ export function TabsLayout(props: TabsProps) {
           tabs={tabs}
           router={router}
           extension={extension}
-          solutions={solutions}
         ></TabContent>
         <div className="text-right mt-16">
           <Link href="/" className="secondary-button">
