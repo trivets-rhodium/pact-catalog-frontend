@@ -9,20 +9,24 @@ import React, { JSXElementConstructor } from 'react';
 import style from '../styles/Tabs.module.css';
 
 // as an idea, we could have a type for the tab render function
-export type TabRenderFunction = (
-  extension: CatalogDataModelExtension
+export type RenderExtensionTab = (
+  content: CatalogDataModelExtension
 ) => JSX.Element;
+
+export type RenderSolutionTab = (content: ConformingSolution) => JSX.Element;
 
 export type Tab = {
   tabId: string;
   title: string;
-  render: TabRenderFunction;
+  renderExtensionTab?: RenderExtensionTab;
+  renderSolutionTab?: RenderSolutionTab;
 };
 
 type TabsProps = {
   tabs: Tab[];
   router: NextRouter;
-  extension: CatalogDataModelExtension;
+  extension?: CatalogDataModelExtension;
+  solution?: ConformingSolution;
 };
 
 function TabHead(props: TabsProps) {
@@ -34,7 +38,7 @@ function TabHead(props: TabsProps) {
   } = router;
 
   const defaultTab = () => {
-    if (router.query.activeTab === undefined) {
+    if (!router.query.activeTab) {
       router.query.activeTab = 'readme';
       return true;
     }
@@ -66,13 +70,21 @@ function TabHead(props: TabsProps) {
 }
 
 function TabContent(props: TabsProps) {
-  const { tabs, router, extension } = props;
+  const { tabs, router, extension, solution } = props;
+
   return (
     <>
       {tabs.map((tab) => {
         return (
           router.query.activeTab === tab.tabId && (
-            <div key={tab.tabId}>{tab.render(extension)}</div>
+            <div key={tab.tabId}>
+              {(extension &&
+                tab.renderExtensionTab &&
+                tab.renderExtensionTab(extension)) ||
+                (solution &&
+                  tab.renderSolutionTab &&
+                  tab.renderSolutionTab(solution))}
+            </div>
           )
         );
       })}
@@ -81,25 +93,31 @@ function TabContent(props: TabsProps) {
 }
 
 export function TabsLayout(props: TabsProps) {
-  const { tabs, router, extension } = props;
-
-  console.log('tabs:', tabs);
+  const { tabs, router, extension, solution } = props;
 
   return (
     <>
       <header>
-        <h1 className="title">{extension.description}</h1>
+        <h1 className="title">
+          {(extension && extension.description) || (solution && solution.name)}
+        </h1>
       </header>
-      <TabHead tabs={tabs} router={router} extension={extension} />
+      <TabHead
+        tabs={tabs}
+        router={router}
+        extension={extension}
+        solution={solution}
+      />
       <div className="background h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
         <TabContent
           tabs={tabs}
           router={router}
           extension={extension}
+          solution={solution}
         ></TabContent>
         <div className="text-right mt-16">
           <Link href="/" className="secondary-button">
-            All Extensions
+            Back to home
           </Link>
         </div>
       </div>

@@ -4,6 +4,8 @@ export type UserId = string;
 export type DMEId = string;
 export type VersionId = string;
 export type SolutionId = string;
+export type Endorsers = CatalogUser[];
+export type SolutionUsers = CatalogUser[];
 
 export type CatalogUser = {
   id: UserId;
@@ -15,12 +17,11 @@ export type CatalogUser = {
     id: DMEId;
     version: VersionId;
   }[];
+  // solutions_used: SolutionId[] | null;
 };
 
-export type Endorsers = CatalogUser[];
-
 export type ConformingSolution = {
-  id: string;
+  id: SolutionId;
   name: string;
   website: string;
   provider: UserId;
@@ -29,6 +30,8 @@ export type ConformingSolution = {
     version: VersionId;
   }[];
   providerName: string;
+  summary: string | null;
+  // users: SolutionUsers | null;
 };
 
 export type CatalogDataModelExtension = {
@@ -63,17 +66,6 @@ export type CatalogDataModelExtension = {
   conformingSolutions: ConformingSolution[];
   versions: VersionId[];
 };
-
-export function toExtensionId(
-  dataModelExtension: CatalogDataModelExtension
-): DataModelExtensionId {
-  const [namespace, packageName] = dataModelExtension.name.split('/');
-  return {
-    namespace,
-    packageName,
-    version: dataModelExtension.version,
-  };
-}
 
 // a data model extension id uniquely identifies a data model extension within the catalog
 export type DataModelExtensionId = {

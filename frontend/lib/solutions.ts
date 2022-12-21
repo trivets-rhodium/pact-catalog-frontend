@@ -15,6 +15,18 @@ const solutionsDirectory = path.posix.join(
   '../catalog/solutions'
 );
 
+export async function getAllSolutionsIds() {
+  const solutions = await getAllSolutions();
+  return solutions.map((solution) => {
+    const { id } = solution;
+    return {
+      params: {
+        id,
+      },
+    };
+  });
+}
+
 export async function getSolution(id: SolutionId): Promise<ConformingSolution> {
   const solutionPath = path.join(solutionsDirectory, `${id}.json`);
 
@@ -27,6 +39,8 @@ export async function getSolution(id: SolutionId): Promise<ConformingSolution> {
   return {
     ...solutionJson,
     providerName,
+    summary: solutionJson.summary || null,
+    // users: await getSolutionUsers(solution),
   };
 }
 
@@ -39,7 +53,7 @@ export async function getAllSolutions(): Promise<ConformingSolution[]> {
     const solution = JSON.parse(solutionContent);
     const solutionJson = SolutionParser.parse(solution);
 
-    return getSolution(solutionJson.id)
+    return getSolution(solutionJson.id);
   });
 
   return Promise.all(allSolutionsData);

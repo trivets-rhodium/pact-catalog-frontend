@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Tab, TabRenderFunction } from '../tabs-layout';
+import { Tab, RenderExtensionTab } from '../tabs-layout';
 import { NextRouter } from 'next/router';
 
-const versionTab: TabRenderFunction = (extension) => {
+const versionTab: RenderExtensionTab = (extension) => {
 
   return (
     <div>
@@ -38,7 +38,7 @@ const versionTab: TabRenderFunction = (extension) => {
 const version: Tab = {
   tabId: 'versions',
   title: 'Versions',
-  render: versionTab,
+  renderExtensionTab: versionTab,
 };
 
 export default version;

@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { Tab, TabRenderFunction } from '../tabs-layout';
+import { RenderExtensionTab, Tab } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
 
-const exploreTab: TabRenderFunction = (extension) => {
+const exploreTab: RenderExtensionTab = (extension) => {
   return (
     <div>
       <section className="mb-12">
@@ -33,7 +33,7 @@ const exploreTab: TabRenderFunction = (extension) => {
 const explore: Tab = {
   tabId: 'explore',
   title: 'Explore',
-  render: exploreTab,
+  renderExtensionTab: exploreTab,
 };
 
 export default explore;

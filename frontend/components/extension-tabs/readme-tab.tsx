@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { Tab, TabRenderFunction } from '../tabs-layout';
+import { Tab, RenderExtensionTab } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
 import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: TabRenderFunction = (extension) => {
+const readmeTab: RenderExtensionTab = (extension) => {
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
@@ -65,11 +65,9 @@ const readmeTab: TabRenderFunction = (extension) => {
       </div>
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
-          <div className="mb-8 primary-button">
-            <Link href={`${extension.downloadLink}`}>
-              Download Package (TO DO)
-            </Link>
-          </div>
+          <Link href={`${extension.downloadLink}`}>
+            <div className="mb-8 primary-button">Download Package (TO DO)</div>
+          </Link>
           <h3>Repository</h3>
           <a
             href={`${extension.gitRepositoryUrl}`}
@@ -97,7 +95,7 @@ const readmeTab: TabRenderFunction = (extension) => {
 const readme: Tab = {
   tabId: 'readme',
   title: 'Readme',
-  render: readmeTab,
+  renderExtensionTab: readmeTab,
 };
 
 export default readme;

@@ -9,11 +9,22 @@ import {
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../../../components/layout';
 import TabsLayout from '../../../../components/tabs-layout';
-import readme from '../../../../components/tabs/readme-tab';
-import explore from '../../../../components/tabs/explore-tab';
-import usage from '../../../../components/tabs/usage-tab';
-import version from '../../../../components/tabs/versions-tab';
+import readme from '../../../../components/extension-tabs/readme-tab';
+import explore from '../../../../components/extension-tabs/explore-tab';
+import usage from '../../../../components/extension-tabs/usage-tab';
+import version from '../../../../components/extension-tabs/versions-tab';
 import { getConformingSolutions } from '../../../../lib/solutions';
+
+export const getStaticPaths: GetStaticPaths<
+  DataModelExtensionId
+> = async () => {
+  const paths = await getAllDataModelExtensionIds();
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
 type PageProps = {
   extension: CatalogDataModelExtension;
@@ -28,22 +39,10 @@ export const getStaticProps: GetStaticProps<
   }
 
   const extension = await getExtension(params);
-  const solutions = await getConformingSolutions(extension);
   return {
     props: {
       extension,
     },
-  };
-};
-
-export const getStaticPaths: GetStaticPaths<
-  DataModelExtensionId
-> = async () => {
-  const paths = await getAllDataModelExtensionIds();
-
-  return {
-    paths,
-    fallback: false,
   };
 };
 

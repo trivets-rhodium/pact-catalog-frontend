@@ -51,10 +51,12 @@ export async function getEndorsers(
 
   for (const user of users) {
     for (const e of user.extensions_endorsed) {
+
       if (e.id === extension.name) {
         endorsers.push(user);
       }
     }
+
   }
 
   return endorsers;

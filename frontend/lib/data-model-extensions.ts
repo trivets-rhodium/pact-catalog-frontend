@@ -24,8 +24,6 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
     },
   });
 
-  console.log('getAllExtensions: ', paths);
-
   const allExtensionsData = paths.map((packageJsonPath) => {
     let basePath = path.resolve(packageJsonPath, '..');
     return getExtensionFromBasepath(basePath);
@@ -66,6 +64,17 @@ export async function getLatestExtensionsSorted(): Promise<
   });
 }
 
+export function toExtensionId(
+  dataModelExtension: CatalogDataModelExtension
+): DataModelExtensionId {
+  const [namespace, packageName] = dataModelExtension.name.split('/');
+  return {
+    namespace,
+    packageName,
+    version: dataModelExtension.version,
+  };
+}
+
 export async function getAllDataModelExtensionIds() {
   const extensions = await getAllExtensions();
 
@@ -98,7 +107,6 @@ async function getExtensionFromBasepath(
   basePath: string
 ): Promise<CatalogDataModelExtension> {
   const packagePath = path.join(basePath, 'package.json');
-
   const packageContent = fs.readFileSync(packagePath, 'utf8');
   const extension = JSON.parse(packageContent);
   const packageJson = PackageJsonParser.parse(extension);

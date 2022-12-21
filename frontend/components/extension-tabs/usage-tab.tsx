@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import { Tab, TabRenderFunction } from '../tabs-layout';
+import { Tab, RenderExtensionTab } from '../tabs-layout';
 
-const usageTab: TabRenderFunction = (extension) => {
+const usageTab: RenderExtensionTab = (extension) => {
   return (
     <div>
       <section className="mb-12">
@@ -46,7 +46,7 @@ const usageTab: TabRenderFunction = (extension) => {
 const usage: Tab = {
   tabId: 'usage',
   title: 'Usage',
-  render: usageTab,
+  renderExtensionTab: usageTab,
 };
 
 export default usage;
