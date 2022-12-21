@@ -8,6 +8,7 @@ import {
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
 import { getAllExtensions } from './data-model-extensions';
+import { getUser } from './users';
 
 const solutionsDirectory = path.posix.join(
   process.cwd(),
@@ -21,22 +22,27 @@ export async function getSolution(id: SolutionId): Promise<ConformingSolution> {
   const solution = JSON.parse(solutionContent);
   const solutionJson = SolutionParser.parse(solution);
 
-  return solutionJson;
+  const providerName = (await getUser(solutionJson.provider)).name;
+
+  return {
+    ...solutionJson,
+    providerName,
+  };
 }
 
 export async function getAllSolutions(): Promise<ConformingSolution[]> {
   const paths = fs.readdirSync(solutionsDirectory);
 
-  const allSolutionsData = paths.map((solutionFilePath) => {
+  const allSolutionsData = paths.map(async (solutionFilePath) => {
     const solutionPath = path.join(solutionsDirectory, solutionFilePath);
     const solutionContent = fs.readFileSync(solutionPath, 'utf8');
     const solution = JSON.parse(solutionContent);
     const solutionJson = SolutionParser.parse(solution);
 
-    return solutionJson;
+    return getSolution(solutionJson.id)
   });
 
-  return allSolutionsData;
+  return Promise.all(allSolutionsData);
 }
 
 export async function getConformingSolutions(

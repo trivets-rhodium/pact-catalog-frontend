@@ -23,11 +23,12 @@ export type ConformingSolution = {
   id: string;
   name: string;
   website: string;
-  provider: string;
+  provider: UserId;
   extensions: {
     id: DMEId;
     version: VersionId;
   }[];
+  providerName: string;
 };
 
 export type CatalogDataModelExtension = {

@@ -33,7 +33,7 @@ const usageTab: TabRenderFunction = (extension) => {
             extension.conformingSolutions.map((solution) => {
               return (
                 <li key={solution.id}>
-                  {`${solution.name} by ${solution.provider.name}`}
+                  {`${solution.name} by ${solution.providerName}`}
                 </li>
               );
             })}

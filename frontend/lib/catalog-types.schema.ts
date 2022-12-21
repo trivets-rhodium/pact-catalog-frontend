@@ -1,4 +1,4 @@
-import { ConformingSolution, DMEId } from './catalog-types';
+import { ConformingSolution, DMEId, VersionId } from './catalog-types';
 import { z } from 'zod';
 import { CatalogUser, UserId } from './catalog-types';
 
@@ -24,6 +24,17 @@ export type PackageJsonSchema = {
     authors: UserId[];
   };
 };
+
+export type ConformingSolutionJsonSchema = {
+  id: string;
+  name: string;
+  website: string;
+  provider: UserId;
+  extensions: {
+    id: DMEId;
+    version: VersionId;
+  }[];
+}
 
 export const UserParser: z.ZodType<CatalogUser> = z.lazy(() =>
   z.object({
@@ -70,7 +81,7 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
   })
 );
 
-export const SolutionParser: z.ZodType<ConformingSolution> = z.lazy(() =>
+export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(() =>
   z.object({
     id: z.string(),
     name: z.string(),
