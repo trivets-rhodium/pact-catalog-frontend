@@ -33,9 +33,12 @@ function TabHead(props: TabsProps) {
     asPath,
   } = router;
 
-  if (router.query.activeTab === undefined) {
-    router.query.activeTab = 'readme';
-  }
+  const defaultTab = () => {
+    if (router.query.activeTab === undefined) {
+      router.query.activeTab = 'readme';
+      return true;
+    }
+  };
 
   return (
     <div className="flex">
@@ -49,7 +52,9 @@ function TabHead(props: TabsProps) {
         >
           <div
             className={`${
-              activeTab === tab.tabId ? style['active-tab'] : style.tab
+              activeTab === tab.tabId || defaultTab()
+                ? style['active-tab']
+                : style.tab
             } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
           >
             {tab.title}
