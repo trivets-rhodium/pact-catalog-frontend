@@ -1,8 +1,6 @@
 import {
   CatalogDataModelExtension,
-  ConformingSolution,
   DataModelExtensionId,
-  Endorsers,
 } from '../../../../lib/catalog-types';
 import {
   getAllDataModelExtensionIds,
@@ -14,8 +12,7 @@ import TabsLayout from '../../../../components/tabs-layout';
 import readme from '../../../../components/tabs/readme-tab';
 import explore from '../../../../components/tabs/explore-tab';
 import usage from '../../../../components/tabs/usage-tab';
-import version from '../../../../components/tabs/version-tab';
-import { getEndorsers } from '../../../../lib/users';
+import version from '../../../../components/tabs/versions-tab';
 import { getConformingSolutions } from '../../../../lib/solutions';
 
 type PageProps = {
@@ -57,10 +54,7 @@ export default function Extension(props: PageProps) {
 
   return (
     <Layout extension={extension}>
-      <TabsLayout
-        tabs={tabs}
-        extension={extension}
-      ></TabsLayout>
+      <TabsLayout tabs={tabs} extension={extension}></TabsLayout>
     </Layout>
   );
 }
