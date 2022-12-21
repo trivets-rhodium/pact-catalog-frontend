@@ -75,13 +75,10 @@ export const SolutionParser: z.ZodType<ConformingSolution> = z.lazy(() =>
     id: z.string(),
     name: z.string(),
     website: z.string(),
-    provider: z.object({
-      id: z.string(),
-      name: z.string(),
-    }),
-    extensions_employed: z.array(
+    provider: z.string(),
+    extensions: z.array(
       z.object({
-        name: z.string().min(1),
+        id: z.string().min(1),
         version: z.string().min(1),
       })
     ),

@@ -2,12 +2,9 @@
   "id": "some-solution",
   "name": "Some solution",
   "website": "https://www.some-solutionprovider.com/solution",
-  "provider": {
-    "id": "solutionprovider",
-    "name": "Some Solution Provider Inc."
-  },
-  "extensions_employed": [
-    { "name": "@rmi/steel-guidance", "version": "1.1.0" },
-    { "name": "@wbcsd/product-footprint", "version": "2.0.0" }
+  "provider": "solutionprovider",
+  "extensions": [
+    { "id": "@rmi/steel-guidance", "version": "1.1.0" },
+    { "id": "@wbcsd/product-footprint", "version": "2.0.0" }
   ]
 }

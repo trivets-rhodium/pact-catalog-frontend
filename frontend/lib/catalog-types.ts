@@ -23,12 +23,9 @@ export type ConformingSolution = {
   id: string;
   name: string;
   website: string;
-  provider: {
-    id: string;
-    name: string;
-  };
-  extensions_employed: {
-    name: DMEId;
+  provider: string;
+  extensions: {
+    id: DMEId;
     version: VersionId;
   }[];
 };
