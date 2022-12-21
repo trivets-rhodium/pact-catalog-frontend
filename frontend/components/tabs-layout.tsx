@@ -1,13 +1,16 @@
 import Link from 'next/link';
-import { CatalogDataModelExtension, Endorsers } from '../lib/catalog-types';
+import {
+  CatalogDataModelExtension,
+  ConformingSolution,
+  Endorsers,
+} from '../lib/catalog-types';
 import { withRouter, NextRouter, Router } from 'next/router';
 import React, { JSXElementConstructor } from 'react';
 import style from '../styles/Tabs.module.css';
 
 // as an idea, we could have a type for the tab render function
 export type TabRenderFunction = (
-  extension: CatalogDataModelExtension,
-  endorsers?: Endorsers
+  extension: CatalogDataModelExtension
 ) => JSX.Element;
 
 export type Tab = {
@@ -21,6 +24,7 @@ type TabsProps = {
   router: NextRouter;
   extension: CatalogDataModelExtension;
   endorsers?: Endorsers;
+  solutions?: ConformingSolution[];
 };
 
 function TabHead(props: TabsProps) {
@@ -30,6 +34,10 @@ function TabHead(props: TabsProps) {
     query: { activeTab },
     asPath,
   } = router;
+
+  if (router.query.activeTab === undefined) {
+    router.query.activeTab = 'readme';
+  }
 
   return (
     <div className="flex">
@@ -55,13 +63,13 @@ function TabHead(props: TabsProps) {
 }
 
 function TabContent(props: TabsProps) {
-  const { tabs, router, extension, endorsers } = props;
+  const { tabs, router, extension } = props;
   return (
     <>
       {tabs.map((tab) => {
         return (
           router.query.activeTab === tab.tabId && (
-            <div key={tab.tabId}>{tab.render(extension, endorsers)}</div>
+            <div key={tab.tabId}>{tab.render(extension)}</div>
           )
         );
       })}
@@ -70,7 +78,7 @@ function TabContent(props: TabsProps) {
 }
 
 export function TabsLayout(props: TabsProps) {
-  const { tabs, router, extension, endorsers } = props;
+  const { tabs, router, extension, endorsers, solutions } = props;
 
   console.log('tabs:', tabs);
 
@@ -85,7 +93,7 @@ export function TabsLayout(props: TabsProps) {
           tabs={tabs}
           router={router}
           extension={extension}
-          endorsers={endorsers}
+          solutions={solutions}
         ></TabContent>
         <div className="text-right mt-16">
           <Link href="/" className="secondary-button">

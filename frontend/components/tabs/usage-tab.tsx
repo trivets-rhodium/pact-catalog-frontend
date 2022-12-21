@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 
-const usageTab: TabRenderFunction = (e) => {
+const usageTab: TabRenderFunction = (extension) => {
   return (
     <div>
       <section className="mb-12">
@@ -11,12 +11,17 @@ const usageTab: TabRenderFunction = (e) => {
       <section className="mb-12">
         <h2>Dependencies</h2>
         <ul>
-          {e.dependencies.map((dependency) => {
+          {extension.dependencies.map((dependency) => {
             return (
-              <li>
-                {dependency.namespace} {dependency.packageName}{' '}
-                {dependency.version}
-              </li>
+              <Link
+                href={`/extensions/${dependency.namespace}/${dependency.packageName}/${dependency.version}`}
+                key={`${dependency.namespace}/${dependency.packageName}/${dependency.version}`}
+              >
+                <li>
+                  {dependency.namespace} {dependency.packageName}{' '}
+                  {dependency.version}
+                </li>
+              </Link>
             );
           })}
         </ul>
@@ -24,14 +29,14 @@ const usageTab: TabRenderFunction = (e) => {
       <section className="mb-12">
         <h2>Conforming Solutions</h2>
         <ul>
-          TO DO
-          {e.conformingSolutions.map((solution) => {
-            return (
-              <li>
-                {solution.toString()}
-              </li>
-            );
-          })}
+          {extension.conformingSolutions !== undefined &&
+            extension.conformingSolutions.map((solution) => {
+              return (
+                <li key={solution.id}>
+                  {`${solution.name} by ${solution.providerName}`}
+                </li>
+              );
+            })}
         </ul>
       </section>
     </div>

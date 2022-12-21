@@ -1,12 +1,16 @@
 import {
   CatalogDataModelExtension,
   DataModelExtensionId,
+  DMEId,
+  VersionId,
 } from '../lib/catalog-types';
 import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
 import { PackageJsonParser } from './catalog-types.schema';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
+import { getConformingSolutions, getSolution } from './solutions';
+import { getEndorsers } from './users';
 
 const extensionsDirectory = path.posix.join(
   process.cwd(),
@@ -28,6 +32,38 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
   });
 
   return Promise.all(allExtensionsData);
+}
+
+export async function getLatestExtensionsSorted(): Promise<
+  CatalogDataModelExtension[]
+> {
+  const allExtensions = getAllExtensions();
+
+  let latestVersions: { name: DMEId; versionId: VersionId }[] = [];
+
+  for (const extension of await allExtensions) {
+    const name = extension.name;
+    const versionId = extension.versions.sort().pop();
+    versionId !== undefined && latestVersions.push({ name, versionId });
+  }
+
+  console.log('latestVersions', latestVersions);
+
+  const latestExtensions = (await allExtensions).filter((extension) => {
+    for (const e of latestVersions) {
+      if (e.name === extension.name && e.versionId === extension.version) {
+        return extension;
+      }
+    }
+  });
+
+  return latestExtensions.sort((a, b) => {
+    if (a.version > b.version) {
+      return -1;
+    } else {
+      return 1;
+    }
+  });
 }
 
 export async function getAllDataModelExtensionIds() {
@@ -77,12 +113,13 @@ async function getExtensionFromBasepath(
     dependencies: [
       {
         namespace: '@wbcsd',
-        packageName: 'productfootprint',
+        packageName: 'product-footprint',
         version: '2.0.0',
       },
     ],
-    conformingSolutions: [],
-    versions: [packageJson.version],
+    endorsers: await getEndorsers(extension),
+    conformingSolutions: await getConformingSolutions(extension),
+    versions: await getVersions(basePath),
     downloadLink: null,
     gitRepositoryUrl: null,
     contributors: packageJson.contributors || null,
@@ -99,4 +136,10 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
   }
 
   return undefined;
+}
+
+async function getVersions(basePath: string): Promise<VersionId[]> {
+  const packagePath = path.join(basePath, '../');
+
+  return fs.readdirSync(packagePath).sort().reverse();
 }

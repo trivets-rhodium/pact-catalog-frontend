@@ -1,35 +1,39 @@
-// Includes everything related to the readme tab rendering that is not specific to the extension. The Tab is
-// imported in pages/extensions/[namespace]/[packageName]/[version].tsx
-
 import Link from 'next/link';
 import { Tab, TabRenderFunction } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
+import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
+import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: TabRenderFunction = (e, endorsers) => {
+const readmeTab: TabRenderFunction = (extension) => {
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
         <section className="mb-12">
           <h2>
-            {e.name} {e.version}
+            {extension.name} {extension.version}
           </h2>
           <p>
-            {e.catalog_info.summary === null
-              ? e.description
-              : e.catalog_info.summary}
+            {extension.catalog_info.summary === null
+              ? extension.description
+              : extension.catalog_info.summary}
           </p>
         </section>
         <section className="mb-12">
           <h2>Contributors</h2>
           <ul>
             <li>
-              <Link href={'#'}>{e.author}</Link> (author)
+              <a href={extension.author.url} target="_blank">
+                {extension.author.name}
+              </a>{' '}
+              (author)
             </li>
-            {e.contributors !== null &&
-              e.contributors.map((contributor) => {
+            {extension.contributors !== null &&
+              extension.contributors.map((contributor) => {
                 return (
                   <li key={contributor.name}>
-                    <Link href={contributor.url}>{contributor.name}</Link>{' '}
+                    <a href={contributor.url} target="_blank">
+                      {contributor.name}
+                    </a>{' '}
                   </li>
                 );
               })}
@@ -38,8 +42,8 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
         <section className="mb-12">
           <h2>Endorsers</h2>
           <ul>
-            {endorsers !== undefined &&
-              endorsers.map((endorser) => {
+            {extension.endorsers !== undefined &&
+              extension.endorsers.map((endorser) => {
                 return (
                   <li key={endorser.id}>
                     {endorser.website !== null ? (
@@ -61,25 +65,29 @@ const readmeTab: TabRenderFunction = (e, endorsers) => {
       </div>
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
-          <div className="mb-8">
-            <Link href={`${e.downloadLink}`} className="primary-button">
-              Download Package
+          <div className="mb-8 primary-button">
+            <Link href={`${extension.downloadLink}`}>
+              Download Package (TO DO)
             </Link>
           </div>
           <h3>Repository</h3>
-          <Link href={`${e.gitRepositoryUrl}`} className="underline">
-            Github
-          </Link>
+          <a
+            href={`${extension.gitRepositoryUrl}`}
+            className="underline"
+            target="_blank"
+          >
+            Github (TO DO)
+          </a>
           <h3 className="mt-4">Last Published</h3>
           <p>TO DO</p>
           <h3 className="mt-4">Contacts</h3>
-          <Link href={'#'} className="underline">
+          <a href={`mailto: ${extension.author.email}`} className="underline">
             E-mail
-          </Link>
+          </a>
           ,{' '}
-          <Link href={'#'} className="underline">
+          <a href={extension.author.url} className="underline" target="_blank">
             Website
-          </Link>
+          </a>
         </div>
       </div>
     </div>

@@ -1,6 +1,6 @@
 {
   "name": "@rmi/steel-guidance",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "RMI Steel Guidance",
   "files": [
     "schema.json"

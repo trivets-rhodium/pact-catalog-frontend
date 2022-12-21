@@ -49,15 +49,13 @@ export async function getEndorsers(
 
   let endorsers: CatalogUser[] = [];
 
-  // Needs improvement:
-  users.forEach((user) => {
-    user.extensions_endorsed.forEach((e) => {
-      console.log('user:', user, 'e', e);
+  for (const user of users) {
+    for (const e of user.extensions_endorsed) {
       if (e.id === extension.name) {
         endorsers.push(user);
       }
-    });
-  });
+    }
+  }
 
   return endorsers;
 }

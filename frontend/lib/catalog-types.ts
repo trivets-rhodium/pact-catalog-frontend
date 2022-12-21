@@ -3,6 +3,7 @@
 export type UserId = string;
 export type DMEId = string;
 export type VersionId = string;
+export type SolutionId = string;
 
 export type CatalogUser = {
   id: UserId;
@@ -16,10 +17,18 @@ export type CatalogUser = {
   }[];
 };
 
+export type Endorsers = CatalogUser[];
+
 export type ConformingSolution = {
   id: string;
   name: string;
   website: string;
+  provider: UserId;
+  extensions: {
+    id: DMEId;
+    version: VersionId;
+  }[];
+  providerName: string;
 };
 
 export type CatalogDataModelExtension = {
@@ -27,6 +36,11 @@ export type CatalogDataModelExtension = {
   version: VersionId;
   description: string;
   files: string[];
+  author: {
+    name: string;
+    email: string;
+    url: string;
+  };
   contributors:
     | {
         name: string;
@@ -34,7 +48,7 @@ export type CatalogDataModelExtension = {
         url: string;
       }[]
     | null;
-  author: string;
+
   license: string;
   catalog_info: {
     summary: string | null;
@@ -45,6 +59,7 @@ export type CatalogDataModelExtension = {
   downloadLink: string | null;
   gitRepositoryUrl: string | null;
   dependencies: DataModelExtensionId[];
+  endorsers: Endorsers;
   conformingSolutions: ConformingSolution[];
   versions: VersionId[];
 };
@@ -66,5 +81,3 @@ export type DataModelExtensionId = {
   packageName: string;
   version: VersionId;
 };
-
-export type Endorsers = CatalogUser[];
