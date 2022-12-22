@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import { Tab, RenderExtensionTab } from '../tabs-layout';
+import { CatalogDataModelExtension } from '../../lib/catalog-types';
+import { Tab, TabRenderer } from '../tabs-layout';
 
-const usageTab: RenderExtensionTab = (extension) => {
+const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
   return (
     <div>
       <section className="mb-12">
@@ -33,7 +34,9 @@ const usageTab: RenderExtensionTab = (extension) => {
             extension.conformingSolutions.map((solution) => {
               return (
                 <li key={solution.id}>
-                  {`${solution.name} by ${solution.providerName}`}
+                  <Link href={`/solutions/${solution.id}`}>
+                    {`${solution.name} by ${solution.providerName}`}
+                  </Link>
                 </li>
               );
             })}
@@ -43,10 +46,10 @@ const usageTab: RenderExtensionTab = (extension) => {
   );
 };
 
-const usage: Tab = {
+const usage: Tab<CatalogDataModelExtension> = {
   tabId: 'usage',
   title: 'Usage',
-  renderExtensionTab: usageTab,
+  render: usageTab,
 };
 
 export default usage;

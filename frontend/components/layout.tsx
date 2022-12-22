@@ -9,24 +9,17 @@ import Navbar from './navbar';
 
 type LayoutProps = {
   children: React.ReactNode;
-  extension?: CatalogDataModelExtension;
-  solution?: ConformingSolution;
 };
 
-export default function Layout(props: LayoutProps) {
-  const { children, extension, solution } = props;
+export default function Layout(props: LayoutProps & {title: string}) {
+  const { children } = props;
 
-  let title =
-    extension || solution
-      ? `PACT | ${
-          (extension && extension.description) || (solution && solution.name)
-        }`
-      : 'PACT Online Catalog';
+  const headTitle = props.title ? `PACT | ${props.title}` : 'PACT Online Catalog'
 
   return (
     <>
       <Head>
-        <title>{title}</title>
+        <title>{headTitle}</title>
       </Head>
       <Navbar />
       <main className="py-20 px-32">{children}</main>

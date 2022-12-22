@@ -1,9 +1,9 @@
 import Link from 'next/link';
-import { Tab, RenderExtensionTab } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs-layout';
 import { NextRouter } from 'next/router';
+import { CatalogDataModelExtension } from '../../lib/catalog-types';
 
-const versionTab: RenderExtensionTab = (extension) => {
-
+const versionTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
   return (
     <div>
       <section className="mb-12">
@@ -35,10 +35,10 @@ const versionTab: RenderExtensionTab = (extension) => {
   );
 };
 
-const version: Tab = {
+const version: Tab<CatalogDataModelExtension> = {
   tabId: 'versions',
   title: 'Versions',
-  renderExtensionTab: versionTab,
+  render: versionTab,
 };
 
 export default version;

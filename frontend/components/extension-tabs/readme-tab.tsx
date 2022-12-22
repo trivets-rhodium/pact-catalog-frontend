@@ -1,10 +1,10 @@
 import Link from 'next/link';
-import { Tab, RenderExtensionTab } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
 import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: RenderExtensionTab = (extension) => {
+const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
@@ -92,10 +92,10 @@ const readmeTab: RenderExtensionTab = (extension) => {
   );
 };
 
-const readme: Tab = {
+const readme: Tab<CatalogDataModelExtension> = {
   tabId: 'readme',
   title: 'Readme',
-  renderExtensionTab: readmeTab,
+  render: readmeTab,
 };
 
 export default readme;

@@ -1,13 +1,14 @@
 import Link from 'next/link';
-import { RenderExtensionTab, Tab } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
+import { CatalogDataModelExtension } from '../../lib/catalog-types';
 
-const exploreTab: RenderExtensionTab = (extension) => {
+const exploreTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
   return (
     <div>
       <section className="mb-12">
         <h2>Documentation</h2>
-        {extension.readmeMd !== null ? (
+        {extension.readmeMd ? (
           <p>
             Please review the documentation via this (TO DO){' '}
             <a
@@ -30,10 +31,10 @@ const exploreTab: RenderExtensionTab = (extension) => {
   );
 };
 
-const explore: Tab = {
+const explore: Tab<CatalogDataModelExtension> = {
   tabId: 'explore',
   title: 'Explore',
-  renderExtensionTab: exploreTab,
+  render: exploreTab,
 };
 
 export default explore;

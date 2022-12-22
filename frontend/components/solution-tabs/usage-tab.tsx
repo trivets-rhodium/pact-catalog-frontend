@@ -1,14 +1,15 @@
 import Link from 'next/link';
-import { Tab, RenderExtensionTab, RenderSolutionTab } from '../tabs-layout';
+import { ConformingSolution } from '../../lib/catalog-types';
+import { Tab, TabRenderer } from '../tabs-layout';
 
-const usageTab: RenderSolutionTab = (solution) => {
+const usageTab: TabRenderer<ConformingSolution> = (solution) => {
   return <div>TO DO</div>;
 };
 
-const usage: Tab = {
+const usage: Tab<ConformingSolution> = {
   tabId: 'usage',
   title: 'Usage',
-  renderSolutionTab: usageTab,
+  render: usageTab,
 };
 
 export default usage;

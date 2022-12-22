@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Layout from '../../components/layout';
-import TabsLayout from '../../components/tabs-layout';
+import TabsLayout, { Tab } from '../../components/tabs-layout';
 import { ConformingSolution, SolutionId } from '../../lib/catalog-types';
 import { getAllSolutionsIds, getSolution } from '../../lib/solutions';
 import readme from '../../components/solution-tabs/readme-tab';
@@ -39,14 +39,20 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
   };
 };
 
-const tabs = [readme, conformance, usage];
+// These are not passed as props, not only because they don't change from solution to solution,
+// but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
+const tabs: Tab<ConformingSolution>[] = [readme, conformance, usage];
 
 export default function Solution(props: PageProps) {
   const { solution } = props;
 
   return (
-    <Layout solution={solution}>
-      <TabsLayout tabs={tabs} solution={solution}></TabsLayout>
+    <Layout title={solution.name}>
+      <TabsLayout
+        tabs={tabs}
+        content={solution}
+        title={solution.name}
+      ></TabsLayout>
     </Layout>
   );
 }

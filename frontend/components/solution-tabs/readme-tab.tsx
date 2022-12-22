@@ -1,10 +1,14 @@
 import Link from 'next/link';
-import { Tab, RenderExtensionTab, RenderSolutionTab } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs-layout';
 import style from '../../styles/Tabs.module.css';
-import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
+import {
+  CatalogDataModelExtension,
+  ConformingSolution,
+  Endorsers,
+} from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: RenderSolutionTab = (solution) => {
+const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
@@ -36,10 +40,10 @@ const readmeTab: RenderSolutionTab = (solution) => {
   );
 };
 
-const readme: Tab = {
+const readme: Tab<ConformingSolution> = {
   tabId: 'readme',
   title: 'Readme',
-  renderSolutionTab: readmeTab,
+  render: readmeTab,
 };
 
 export default readme;

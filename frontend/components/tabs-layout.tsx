@@ -9,12 +9,6 @@ import React, { JSXElementConstructor } from 'react';
 import style from '../styles/Tabs.module.css';
 
 // as an idea, we could have a type for the tab render function
-export type RenderExtensionTab = (
-  content: CatalogDataModelExtension
-) => JSX.Element;
-
-export type RenderSolutionTab = (content: ConformingSolution) => JSX.Element;
-
 export type TabRenderer<T> = (content: T) => JSX.Element;
 
 export type Tab<T> = {
@@ -24,7 +18,7 @@ export type Tab<T> = {
 };
 
 type TabsProps<T> = {
-  tabs: Tab<T>[];
+  tabs: Tab<any>[];
   router: NextRouter;
   content: T;
 };
@@ -55,10 +49,11 @@ function TabHead<T>(props: TabsProps<T>) {
           key={tab.tabId}
         >
           <div
-            className={`${activeTab === tab.tabId || defaultTab()
-              ? style['active-tab']
-              : style.tab
-              } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
+            className={`${
+              activeTab === tab.tabId || defaultTab()
+                ? style['active-tab']
+                : style.tab
+            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
           >
             {tab.title}
           </div>
@@ -76,9 +71,7 @@ function TabContent<T>(props: TabsProps<T>) {
       {tabs.map((tab) => {
         return (
           router.query.activeTab === tab.tabId && (
-            <div key={tab.tabId}>
-              {tab.render(content)}
-            </div>
+            <div key={tab.tabId}>{tab.render(content)}</div>
           )
         );
       })}
@@ -87,8 +80,6 @@ function TabContent<T>(props: TabsProps<T>) {
 }
 
 export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
-  const { tabs, router, content } = props;
-
   return (
     <>
       <header>
