@@ -10,7 +10,7 @@ import { globby } from 'globby';
 import { PackageJsonParser } from './catalog-types.schema';
 import { Params } from 'next/dist/shared/lib/router/utils/route-matcher';
 import { getConformingSolutions, getSolution } from './solutions';
-import { getEndorsers } from './users';
+import { getEndorsers, getUser } from './users';
 
 const extensionsDirectory = path.posix.join(
   process.cwd(),
@@ -132,6 +132,15 @@ async function getExtensionFromBasePath(
     gitRepositoryUrl: null,
     contributors: packageJson.contributors || null,
   };
+}
+
+export async function getAuthorName(id: DMEId) {
+  // All DMEId's follow the format '@<UserId>/<extension>'
+  const authorId = id.split('/')[0].replace('@', '');
+
+  const user = getUser(authorId);
+
+  return (await user).name;
 }
 
 async function readReadmeMd(basePath: string): Promise<string | undefined> {

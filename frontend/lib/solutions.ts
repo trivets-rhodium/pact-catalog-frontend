@@ -7,7 +7,12 @@ import {
   SolutionId,
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
-import { getAllExtensions } from './data-model-extensions';
+import {
+  getAllExtensions,
+  getAuthorName,
+  getExtension,
+  toExtensionId,
+} from './data-model-extensions';
 import { getSolutionUsers, getUser } from './users';
 import { getSolutionTestResults } from './conformance-tests';
 
@@ -73,9 +78,31 @@ async function getSolutionFromBasePath(
 
   return {
     ...parsedSolution,
+    extensions: await enrichExtensions(parsedSolution.extensions),
     providerName: (await getUser(parsedSolution.provider)).name,
     summary: parsedSolution.summary || null,
-    users: await getSolutionUsers(solutionId) || null,
+    users: (await getSolutionUsers(solutionId)) || null,
     conformance_tests: (await getSolutionTestResults(solutionId)) || null,
   };
+}
+
+async function enrichExtensions(
+  extensions: { id: string; version: string }[]
+): Promise<
+  {
+    id: string;
+    version: string;
+    author: string;
+  }[]
+> {
+  const enrichedExtensions = extensions.map(async (extension) => {
+    const author = await getAuthorName(extension.id);
+
+    return {
+      ...extension,
+      author,
+    };
+  });
+
+  return Promise.all(enrichedExtensions);
 }

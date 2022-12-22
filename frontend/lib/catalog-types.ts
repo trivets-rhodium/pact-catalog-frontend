@@ -33,6 +33,7 @@ export type ConformingSolution = {
   extensions: {
     id: DMEId;
     version: VersionId;
+    author: string;
   }[];
   providerName: string;
   summary: string | null;

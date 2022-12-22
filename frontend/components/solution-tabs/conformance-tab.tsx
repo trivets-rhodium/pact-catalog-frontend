@@ -33,7 +33,7 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
                         return (
                           <Link href={`/extensions${e.extension}/${e.version}`}>
                             <p>
-                              {e.extension} {e.version}
+                              {e.extension}
                             </p>
                           </Link>
                         );

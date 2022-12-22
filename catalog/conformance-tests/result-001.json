@@ -1,6 +1,6 @@
 {
-  "system_under_test": "some-solution",
-  "system_tester": "steel-industry-solution",
+  "system_under_test": "steel-industry-solution",
+  "system_tester": "some-solution",
   "test_result": "passed",
   "test_date": "2022-01-11T08:12:23Z",
   "tests": [

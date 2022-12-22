@@ -30,7 +30,7 @@ const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
       <section className="mb-12">
         <h2>Conforming Solutions</h2>
         <ul>
-          {extension.conformingSolutions !== undefined &&
+          {extension.conformingSolutions &&
             extension.conformingSolutions.map((solution) => {
               return (
                 <li key={solution.id}>
