@@ -31,7 +31,7 @@ export type ConformingSolution = {
   }[];
   providerName: string;
   summary: string | null;
-  // users: SolutionUsers | null;
+  users: SolutionUsers | null;
 };
 
 export type CatalogDataModelExtension = {

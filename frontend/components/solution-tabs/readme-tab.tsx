@@ -20,13 +20,13 @@ const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
           <p>{solution.providerName}</p>
         </section>
         <section className="mb-12">
-          <div></div>
           <h2>Users</h2>
-          {/* {solution.users &&
-            solution.users.map((user) => {
-              return <p>{user.name}</p>;
-            })} */}
-          <p>TO DO</p>
+          <ul>
+            {solution.users &&
+              solution.users.map((user) => {
+                return <li>{user.name}</li>;
+              })}
+          </ul>
         </section>
       </div>
       <div>

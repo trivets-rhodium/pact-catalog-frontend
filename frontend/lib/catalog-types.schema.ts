@@ -40,6 +40,7 @@ export type ConformingSolutionJsonSchema = {
     version: VersionId;
   }[];
   summary?: string;
+  solution_users?: UserId[];
 };
 
 export type CatalogUserJsonSchema = {

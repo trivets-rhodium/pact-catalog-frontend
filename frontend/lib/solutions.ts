@@ -1,4 +1,4 @@
-import path from 'path';
+import path, { parse } from 'path';
 import fs from 'fs';
 import {
   CatalogDataModelExtension,
@@ -8,7 +8,7 @@ import {
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
 import { getAllExtensions } from './data-model-extensions';
-import { getUser } from './users';
+import { getSolutionUsers, getUser } from './users';
 
 const solutionsDirectory = path.posix.join(
   process.cwd(),
@@ -28,32 +28,16 @@ export async function getAllSolutionsIds() {
 }
 
 export async function getSolution(id: SolutionId): Promise<ConformingSolution> {
-  const solutionPath = path.join(solutionsDirectory, `${id}.json`);
-
-  const solutionContent = fs.readFileSync(solutionPath, 'utf8');
-  const solution = JSON.parse(solutionContent);
-  const solutionJson = SolutionParser.parse(solution);
-
-  const providerName = (await getUser(solutionJson.provider)).name;
-
-  return {
-    ...solutionJson,
-    providerName,
-    summary: solutionJson.summary || null,
-    // users: await getSolutionUsers(solution),
-  };
+  const basePath = path.join(solutionsDirectory, `${id}.json`);
+  return getSolutionFromBasePath(basePath);
 }
 
 export async function getAllSolutions(): Promise<ConformingSolution[]> {
   const paths = fs.readdirSync(solutionsDirectory);
 
-  const allSolutionsData = paths.map(async (solutionFilePath) => {
-    const solutionPath = path.join(solutionsDirectory, solutionFilePath);
-    const solutionContent = fs.readFileSync(solutionPath, 'utf8');
-    const solution = JSON.parse(solutionContent);
-    const solutionJson = SolutionParser.parse(solution);
-
-    return getSolution(solutionJson.id);
+  const allSolutionsData = paths.map((solutionFilePath) => {
+    const basePath = path.resolve(solutionsDirectory, solutionFilePath);
+    return getSolutionFromBasePath(basePath);
   });
 
   return Promise.all(allSolutionsData);
@@ -75,4 +59,21 @@ export async function getConformingSolutions(
     }
   }
   return conformingSolutions;
+}
+
+async function getSolutionFromBasePath(
+  basePath: string
+): Promise<ConformingSolution> {
+  const solutionContent = fs.readFileSync(basePath, 'utf-8');
+  const solutionObject = JSON.parse(solutionContent);
+  const parsedSolution = SolutionParser.parse(solutionObject);
+
+  const solutionId = path.basename(basePath, '.json')
+
+  return {
+    ...parsedSolution,
+    providerName: (await getUser(parsedSolution.provider)).name,
+    summary: parsedSolution.summary || null,
+    users: await getSolutionUsers(solutionId),
+  };
 }
