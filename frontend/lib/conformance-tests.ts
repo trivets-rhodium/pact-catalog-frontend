@@ -6,6 +6,7 @@ import {
   SolutionTestResults,
 } from './catalog-types';
 import { TestResultParser } from './catalog-types.schema';
+import { getSolution } from './solutions';
 
 const conformanceTestsDirectory = path.posix.join(
   process.cwd(),
@@ -35,7 +36,12 @@ export async function getSolutionTestResults(
 
   for (const test of testResults) {
     if (test.system_under_test === id) {
-      solutionTestResults.push(test);
+      const tester = await getSolution(test.system_tester);
+
+      solutionTestResults.push({
+        test,
+        tester,
+      });
     }
   }
 

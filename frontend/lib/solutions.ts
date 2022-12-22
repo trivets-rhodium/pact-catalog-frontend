@@ -75,7 +75,7 @@ async function getSolutionFromBasePath(
     ...parsedSolution,
     providerName: (await getUser(parsedSolution.provider)).name,
     summary: parsedSolution.summary || null,
-    users: await getSolutionUsers(solutionId),
+    users: await getSolutionUsers(solutionId) || null,
     conformance_tests: (await getSolutionTestResults(solutionId)) || null,
   };
 }

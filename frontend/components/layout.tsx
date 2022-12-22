@@ -9,12 +9,13 @@ import Navbar from './navbar';
 
 type LayoutProps = {
   children: React.ReactNode;
+  title?: string;
 };
 
-export default function Layout(props: LayoutProps & {title: string}) {
-  const { children } = props;
+export default function Layout(props: LayoutProps) {
+  const { children, title } = props;
 
-  const headTitle = props.title ? `PACT | ${props.title}` : 'PACT Online Catalog'
+  const headTitle = title ? `PACT | ${title}` : 'PACT Online Catalog';
 
   return (
     <>

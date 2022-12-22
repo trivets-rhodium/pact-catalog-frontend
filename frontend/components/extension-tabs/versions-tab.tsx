@@ -20,9 +20,11 @@ const versionTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
             {extension.versions.map((version) => {
               return (
                 <tr>
-                  <Link href={`/extensions/${extension.name}/${version}`}>
-                    {version}
-                  </Link>
+                  <td>
+                    <Link href={`/extensions/${extension.name}/${version}`}>
+                      {version}
+                    </Link>
+                  </td>
                   <td>TO DO</td>
                   <td>{extension.catalog_info.status}</td>
                 </tr>

@@ -6,7 +6,6 @@ export type VersionId = string;
 export type SolutionId = string;
 export type Endorsers = CatalogUser[];
 export type SolutionUsers = CatalogUser[];
-export type SolutionTestResults = ConformanceTestResult[];
 
 export type CatalogUser = {
   id: UserId;
@@ -20,6 +19,11 @@ export type CatalogUser = {
   }[];
   solutions_used: SolutionId[] | null;
 };
+
+export type SolutionTestResults = {
+  test: ConformanceTestResult;
+  tester: ConformingSolution;
+}[];
 
 export type ConformingSolution = {
   id: SolutionId;
@@ -80,7 +84,7 @@ export type ConformanceTestResult = {
   system_under_test: SolutionId;
   system_tester: SolutionId;
   test_result: 'passed' | 'ongoing' | 'failed';
-  // TO DO: Turn test date into Date
+  // TO DO: Turn test date into Date ?
   test_date: string;
   tests: {
     extension: DMEId;
