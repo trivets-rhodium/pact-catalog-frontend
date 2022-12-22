@@ -3,20 +3,22 @@ import { ConformingSolution } from '../../lib/catalog-types';
 import { Tab, TabRenderer } from '../tabs-layout';
 
 const usageTab: TabRenderer<ConformingSolution> = (solution) => {
+  const { extensions } = solution;
+
   return (
     <div>
       <section className="mb-12">
         <h2>Extensions Conformance</h2>
         <ul>
-          {solution.extensions.map((extension) => {
+          {extensions.map(({ id, version, author }) => {
             return (
-              <li className='my-4'>
-                <Link href={`/extensions/${extension.id}/${extension.version}`}>
+              <li className="my-4">
+                <Link href={`/extensions/${id}/${version}`}>
                   <h3>
-                    {extension.id} {extension.version}
+                    {id} {version}
                   </h3>
                 </Link>
-                <p>{extension.author}</p>
+                <p>{author}</p>
               </li>
             );
           })}

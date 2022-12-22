@@ -4,6 +4,7 @@ import style from '../../styles/Tabs.module.css';
 import { ConformingSolution } from '../../lib/catalog-types';
 
 const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
+  const { conformance_tests } = solution;
   return (
     <div>
       <section className="mb-12">
@@ -18,8 +19,8 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
             </tr>
           </thead>
           <tbody className="align-top text-sm">
-            {solution.conformance_tests &&
-              solution.conformance_tests.map(({ test, tester }) => {
+            {conformance_tests &&
+              conformance_tests.map(({ test, tester }) => {
                 return (
                   <tr>
                     <td>
@@ -29,12 +30,10 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
                     </td>
                     <td>{test.test_date}</td>
                     <td>
-                      {test.tests.map((e) => {
+                      {test.tests.map(({ extension, version }) => {
                         return (
-                          <Link href={`/extensions${e.extension}/${e.version}`}>
-                            <p>
-                              {e.extension}
-                            </p>
+                          <Link href={`/extensions${extension}/${version}`}>
+                            <p>{extension}</p>
                           </Link>
                         );
                       })}

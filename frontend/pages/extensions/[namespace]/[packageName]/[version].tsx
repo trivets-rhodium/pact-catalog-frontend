@@ -13,7 +13,6 @@ import readme from '../../../../components/extension-tabs/readme-tab';
 import explore from '../../../../components/extension-tabs/explore-tab';
 import usage from '../../../../components/extension-tabs/usage-tab';
 import version from '../../../../components/extension-tabs/versions-tab';
-import { getConformingSolutions } from '../../../../lib/solutions';
 
 export const getStaticPaths: GetStaticPaths<
   DataModelExtensionId

@@ -4,6 +4,7 @@ import { NextRouter } from 'next/router';
 import { CatalogDataModelExtension } from '../../lib/catalog-types';
 
 const versionTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
+  const { versions, name, catalog_info } = extension;
   return (
     <div>
       <section className="mb-12">
@@ -17,16 +18,16 @@ const versionTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
             </tr>
           </thead>
           <tbody>
-            {extension.versions.map((version) => {
+            {versions.map((version) => {
               return (
                 <tr>
                   <td>
-                    <Link href={`/extensions/${extension.name}/${version}`}>
+                    <Link href={`/extensions/${name}/${version}`}>
                       {version}
                     </Link>
                   </td>
                   <td>TO DO</td>
-                  <td>{extension.catalog_info.status}</td>
+                  <td>{catalog_info.status}</td>
                 </tr>
               );
             })}

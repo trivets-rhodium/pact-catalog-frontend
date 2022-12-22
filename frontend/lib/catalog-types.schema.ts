@@ -6,7 +6,7 @@ import {
   VersionId,
 } from './catalog-types';
 import { z } from 'zod';
-import { CatalogUser, UserId } from './catalog-types';
+import { UserId } from './catalog-types';
 
 export type PackageJsonSchema = {
   name: DMEId;

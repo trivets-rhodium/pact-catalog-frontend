@@ -7,40 +7,6 @@ export type SolutionId = string;
 export type Endorsers = CatalogUser[];
 export type SolutionUsers = CatalogUser[];
 
-export type CatalogUser = {
-  id: UserId;
-  kind: 'ngo' | 'company' | 'solutionprovider';
-  name: string;
-  website: string | null;
-  logo: string | null;
-  extensions_endorsed: {
-    id: DMEId;
-    version: VersionId;
-  }[];
-  solutions_used: SolutionId[] | null;
-};
-
-export type SolutionTestResults = {
-  test: ConformanceTestResult;
-  tester: ConformingSolution;
-}[];
-
-export type ConformingSolution = {
-  id: SolutionId;
-  name: string;
-  website: string;
-  provider: UserId;
-  extensions: {
-    id: DMEId;
-    version: VersionId;
-    author: string;
-  }[];
-  providerName: string;
-  summary: string | null;
-  users: SolutionUsers | null;
-  conformance_tests: SolutionTestResults | null;
-};
-
 export type CatalogDataModelExtension = {
   name: DMEId;
   version: VersionId;
@@ -80,6 +46,40 @@ export type DataModelExtensionId = {
   packageName: string;
   version: VersionId;
 };
+
+export type CatalogUser = {
+  id: UserId;
+  kind: 'ngo' | 'company' | 'solutionprovider';
+  name: string;
+  website: string | null;
+  logo: string | null;
+  extensions_endorsed: {
+    id: DMEId;
+    version: VersionId;
+  }[];
+  solutions_used: SolutionId[] | null;
+};
+
+export type ConformingSolution = {
+  id: SolutionId;
+  name: string;
+  website: string;
+  provider: UserId;
+  extensions: {
+    id: DMEId;
+    version: VersionId;
+    author: string;
+  }[];
+  providerName: string;
+  summary: string | null;
+  users: SolutionUsers | null;
+  conformance_tests: SolutionTestResults | null;
+};
+
+export type SolutionTestResults = {
+  test: ConformanceTestResult;
+  tester: ConformingSolution;
+}[];
 
 export type ConformanceTestResult = {
   system_under_test: SolutionId;

@@ -32,7 +32,7 @@ function TabHead<T>(props: TabsProps<T>) {
   } = router;
 
   const defaultTab = () => {
-    if (!router.query.activeTab) {
+    if (!activeTab) {
       router.query.activeTab = 'readme';
       return true;
     }
@@ -40,21 +40,22 @@ function TabHead<T>(props: TabsProps<T>) {
 
   return (
     <div className="flex">
-      {tabs.map((tab) => (
+      {tabs.map(({ tabId, title }) => (
         <Link
           href={{
             pathname: asPath.replace(/\?.*/, ''),
-            query: { activeTab: tab.tabId },
+            query: { activeTab: tabId },
           }}
-          key={tab.tabId}
+          key={tabId}
         >
           <div
-            className={`${activeTab === tab.tabId || defaultTab()
-              ? style['active-tab']
-              : style.tab
-              } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
+            className={`${
+              activeTab === tabId || defaultTab()
+                ? style['active-tab']
+                : style.tab
+            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
           >
-            {tab.title}
+            {title}
           </div>
         </Link>
       ))}
@@ -68,10 +69,10 @@ function TabContent<T>(props: TabsProps<T>) {
 
   return (
     <>
-      {tabs.map((tab) => {
+      {tabs.map(({tabId, render}) => {
         return (
-          router.query.activeTab === tab.tabId && (
-            <div key={tab.tabId}>{tab.render(content)}</div>
+          router.query.activeTab === tabId && (
+            <div key={tabId}>{render(content)}</div>
           )
         );
       })}
@@ -97,4 +98,3 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
     </>
   );
 }
-

@@ -3,6 +3,8 @@ import { CatalogDataModelExtension } from '../../lib/catalog-types';
 import { Tab, TabRenderer } from '../tabs-layout';
 
 const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
+  const { dependencies, conformingSolutions } = extension;
+
   return (
     <div>
       <section className="mb-12">
@@ -12,15 +14,14 @@ const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
       <section className="mb-12">
         <h2>Dependencies</h2>
         <ul>
-          {extension.dependencies.map((dependency) => {
+          {dependencies.map(({ namespace, packageName, version }) => {
             return (
               <Link
-                href={`/extensions/${dependency.namespace}/${dependency.packageName}/${dependency.version}`}
-                key={`${dependency.namespace}/${dependency.packageName}/${dependency.version}`}
+                href={`/extensions/${namespace}/${packageName}/${version}`}
+                key={`${namespace}/${packageName}/${version}`}
               >
                 <li>
-                  {dependency.namespace} {dependency.packageName}{' '}
-                  {dependency.version}
+                  {namespace} {packageName} {version}
                 </li>
               </Link>
             );
@@ -30,12 +31,12 @@ const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
       <section className="mb-12">
         <h2>Conforming Solutions</h2>
         <ul>
-          {extension.conformingSolutions &&
-            extension.conformingSolutions.map((solution) => {
+          {conformingSolutions &&
+            conformingSolutions.map(({ id, name, providerName }) => {
               return (
-                <li key={solution.id}>
-                  <Link href={`/solutions/${solution.id}`}>
-                    {`${solution.name} by ${solution.providerName}`}
+                <li key={id}>
+                  <Link href={`/solutions/${id}`}>
+                    {`${name} by ${providerName}`}
                   </Link>
                 </li>
               );
