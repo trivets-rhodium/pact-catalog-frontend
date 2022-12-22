@@ -4,7 +4,7 @@ import {
   ConformingSolution,
   Endorsers,
 } from '../lib/catalog-types';
-import { withRouter, NextRouter, Router } from 'next/router';
+import { withRouter, NextRouter, Router, useRouter } from 'next/router';
 import React, { JSXElementConstructor } from 'react';
 import style from '../styles/Tabs.module.css';
 
@@ -18,13 +18,13 @@ export type Tab<T> = {
 };
 
 type TabsProps<T> = {
-  tabs: Tab<any>[];
-  router: NextRouter;
+  tabs: Tab<T>[];
   content: T;
 };
 
 function TabHead<T>(props: TabsProps<T>) {
-  const { tabs, router } = props;
+  const { tabs } = props;
+  const router = useRouter();
 
   const {
     query: { activeTab },
@@ -49,11 +49,10 @@ function TabHead<T>(props: TabsProps<T>) {
           key={tab.tabId}
         >
           <div
-            className={`${
-              activeTab === tab.tabId || defaultTab()
-                ? style['active-tab']
-                : style.tab
-            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
+            className={`${activeTab === tab.tabId || defaultTab()
+              ? style['active-tab']
+              : style.tab
+              } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
           >
             {tab.title}
           </div>
@@ -64,7 +63,8 @@ function TabHead<T>(props: TabsProps<T>) {
 }
 
 function TabContent<T>(props: TabsProps<T>) {
-  const { tabs, router, content } = props;
+  const { tabs, content } = props;
+  const router = useRouter();
 
   return (
     <>
@@ -98,4 +98,3 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
   );
 }
 
-export default withRouter(TabsLayout);

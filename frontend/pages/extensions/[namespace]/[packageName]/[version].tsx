@@ -8,7 +8,7 @@ import {
 } from '../../../../lib/data-model-extensions';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../../../components/layout';
-import TabsLayout, { Tab } from '../../../../components/tabs-layout';
+import { Tab, TabsLayout } from '../../../../components/tabs-layout';
 import readme from '../../../../components/extension-tabs/readme-tab';
 import explore from '../../../../components/extension-tabs/explore-tab';
 import usage from '../../../../components/extension-tabs/usage-tab';
@@ -49,15 +49,15 @@ export const getStaticProps: GetStaticProps<
 
 // These are not passed as props, not only because they don't change from extension to extension,
 // but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
-const tabs: Tab<CatalogDataModelExtension>[] = [
-  readme,
-  explore,
-  usage,
-  version,
-];
 
 export default function Extension(props: PageProps) {
   const { extension } = props;
+  const tabs: Tab<CatalogDataModelExtension>[] = [
+    readme,
+    explore,
+    usage,
+    version,
+  ];
 
   return (
     <Layout title={extension.description}>
