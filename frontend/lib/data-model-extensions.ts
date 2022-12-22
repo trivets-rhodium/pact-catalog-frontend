@@ -26,7 +26,7 @@ export async function getAllExtensions(): Promise<CatalogDataModelExtension[]> {
 
   const allExtensionsData = paths.map((packageJsonPath) => {
     let basePath = path.resolve(packageJsonPath, '..');
-    return getExtensionFromBasepath(basePath);
+    return getExtensionFromBasePath(basePath);
   });
 
   return Promise.all(allExtensionsData);
@@ -42,7 +42,7 @@ export async function getLatestExtensionsSorted(): Promise<
   for (const extension of await allExtensions) {
     const name = extension.name;
     const versionId = extension.versions.sort().pop();
-    versionId !== undefined && latestVersions.push({ name, versionId });
+    versionId && latestVersions.push({ name, versionId });
   }
 
   console.log('latestVersions', latestVersions);
@@ -100,10 +100,10 @@ export async function getExtension(
     id.packageName,
     id.version
   );
-  return getExtensionFromBasepath(basePath);
+  return getExtensionFromBasePath(basePath);
 }
 
-async function getExtensionFromBasepath(
+async function getExtensionFromBasePath(
   basePath: string
 ): Promise<CatalogDataModelExtension> {
   const packagePath = path.join(basePath, 'package.json');

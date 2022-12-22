@@ -11,13 +11,13 @@ export type CatalogUser = {
   id: UserId;
   kind: 'ngo' | 'company' | 'solutionprovider';
   name: string;
-  website?: string;
-  logo?: string;
+  website: string | null;
+  logo: string | null;
   extensions_endorsed: {
     id: DMEId;
     version: VersionId;
   }[];
-  // solutions_used: SolutionId[] | null;
+  solutions_used: SolutionId[] | null;
 };
 
 export type ConformingSolution = {
