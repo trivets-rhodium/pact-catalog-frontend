@@ -15,7 +15,7 @@ import { array } from 'zod';
 const usersDirectory = path.posix.join(process.cwd(), '../catalog/users');
 
 async function getUserFromBasePath(basePath: string): Promise<CatalogUser> {
-  const userPath = path.join(basePath, '.json');
+  const userPath = path.resolve(basePath);
   const userContent = fs.readFileSync(userPath, 'utf-8');
   const userObject = JSON.parse(userContent);
   const parsedUser = UserParser.parse(userObject);
@@ -29,18 +29,8 @@ async function getUserFromBasePath(basePath: string): Promise<CatalogUser> {
 }
 
 export async function getUser(id: UserId): Promise<CatalogUser> {
-  const userPath = path.join(usersDirectory, `${id}.json`);
-
-  const userContent = fs.readFileSync(userPath, 'utf8');
-  const user = JSON.parse(userContent);
-  const userJson = UserParser.parse(user);
-
-  return {
-    ...userJson,
-    website: userJson.website || null,
-    logo: userJson.logo || null,
-    solutions_used: userJson.solutions_used || null,
-  };
+  const basePath = path.join(usersDirectory, `${id}.json`);
+  return getUserFromBasePath(basePath);
 }
 
 export async function getAllUsers(): Promise<CatalogUser[]> {
