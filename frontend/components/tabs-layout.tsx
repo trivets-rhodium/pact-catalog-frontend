@@ -15,21 +15,21 @@ export type RenderExtensionTab = (
 
 export type RenderSolutionTab = (content: ConformingSolution) => JSX.Element;
 
-export type Tab = {
+export type TabRenderer<T> = (content: T) => JSX.Element;
+
+export type Tab<T> = {
   tabId: string;
   title: string;
-  renderExtensionTab?: RenderExtensionTab;
-  renderSolutionTab?: RenderSolutionTab;
+  render: TabRenderer<T>;
 };
 
-type TabsProps = {
-  tabs: Tab[];
+type TabsProps<T> = {
+  tabs: Tab<T>[];
   router: NextRouter;
-  extension?: CatalogDataModelExtension;
-  solution?: ConformingSolution;
+  content: T;
 };
 
-function TabHead(props: TabsProps) {
+function TabHead<T>(props: TabsProps<T>) {
   const { tabs, router } = props;
 
   const {
@@ -55,11 +55,10 @@ function TabHead(props: TabsProps) {
           key={tab.tabId}
         >
           <div
-            className={`${
-              activeTab === tab.tabId || defaultTab()
-                ? style['active-tab']
-                : style.tab
-            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
+            className={`${activeTab === tab.tabId || defaultTab()
+              ? style['active-tab']
+              : style.tab
+              } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
           >
             {tab.title}
           </div>
@@ -69,8 +68,8 @@ function TabHead(props: TabsProps) {
   );
 }
 
-function TabContent(props: TabsProps) {
-  const { tabs, router, extension, solution } = props;
+function TabContent<T>(props: TabsProps<T>) {
+  const { tabs, router, content } = props;
 
   return (
     <>
@@ -78,12 +77,7 @@ function TabContent(props: TabsProps) {
         return (
           router.query.activeTab === tab.tabId && (
             <div key={tab.tabId}>
-              {(extension &&
-                tab.renderExtensionTab &&
-                tab.renderExtensionTab(extension)) ||
-                (solution &&
-                  tab.renderSolutionTab &&
-                  tab.renderSolutionTab(solution))}
+              {tab.render(content)}
             </div>
           )
         );
@@ -92,29 +86,17 @@ function TabContent(props: TabsProps) {
   );
 }
 
-export function TabsLayout(props: TabsProps) {
-  const { tabs, router, extension, solution } = props;
+export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
+  const { tabs, router, content } = props;
 
   return (
     <>
       <header>
-        <h1 className="title">
-          {(extension && extension.description) || (solution && solution.name)}
-        </h1>
+        <h1 className="title">{props.title}</h1>
       </header>
-      <TabHead
-        tabs={tabs}
-        router={router}
-        extension={extension}
-        solution={solution}
-      />
+      <TabHead {...props} />
       <div className="background h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
-        <TabContent
-          tabs={tabs}
-          router={router}
-          extension={extension}
-          solution={solution}
-        ></TabContent>
+        <TabContent {...props} />
         <div className="text-right mt-16">
           <Link href="/" className="secondary-button">
             Back to home
