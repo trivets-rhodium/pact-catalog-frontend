@@ -1,4 +1,5 @@
 import {
+  ConformanceTestResult,
   ConformingSolution,
   DMEId,
   SolutionId,
@@ -117,4 +118,19 @@ export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
       ),
       summary: z.string().optional(),
     })
+);
+
+export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
+  z.object({
+    system_under_test: z.string().min(1),
+    system_tester: z.string().min(1),
+    test_result: z.enum(['passed', 'ongoing', 'failed']),
+    test_date: z.string().min(1),
+    tests: z.array(
+      z.object({
+        extension: z.string().min(1),
+        version: z.string().min(1),
+      })
+    ),
+  })
 );

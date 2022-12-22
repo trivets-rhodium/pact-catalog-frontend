@@ -6,6 +6,7 @@ export type VersionId = string;
 export type SolutionId = string;
 export type Endorsers = CatalogUser[];
 export type SolutionUsers = CatalogUser[];
+export type SolutionTestResults = ConformanceTestResult[];
 
 export type CatalogUser = {
   id: UserId;
@@ -32,6 +33,7 @@ export type ConformingSolution = {
   providerName: string;
   summary: string | null;
   users: SolutionUsers | null;
+  conformance_tests: SolutionTestResults | null;
 };
 
 export type CatalogDataModelExtension = {
@@ -72,4 +74,16 @@ export type DataModelExtensionId = {
   namespace: string;
   packageName: string;
   version: VersionId;
+};
+
+export type ConformanceTestResult = {
+  system_under_test: SolutionId;
+  system_tester: SolutionId;
+  test_result: 'passed' | 'ongoing' | 'failed';
+  // TO DO: Turn test date into Date
+  test_date: string;
+  tests: {
+    extension: DMEId;
+    version: VersionId;
+  }[];
 };

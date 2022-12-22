@@ -9,6 +9,7 @@ import {
 import { SolutionParser } from './catalog-types.schema';
 import { getAllExtensions } from './data-model-extensions';
 import { getSolutionUsers, getUser } from './users';
+import { getSolutionTestResults } from './conformance-tests';
 
 const solutionsDirectory = path.posix.join(
   process.cwd(),
@@ -68,12 +69,13 @@ async function getSolutionFromBasePath(
   const solutionObject = JSON.parse(solutionContent);
   const parsedSolution = SolutionParser.parse(solutionObject);
 
-  const solutionId = path.basename(basePath, '.json')
+  const solutionId = path.basename(basePath, '.json');
 
   return {
     ...parsedSolution,
     providerName: (await getUser(parsedSolution.provider)).name,
     summary: parsedSolution.summary || null,
     users: await getSolutionUsers(solutionId),
+    conformance_tests: (await getSolutionTestResults(solutionId)) || null,
   };
 }
