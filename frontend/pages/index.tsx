@@ -42,6 +42,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
 
 export default function Home(props: PageProps) {
   const { latestExtensionsData, conformingSolutions } = props;
+
   return (
     <Layout>
       <IndexLayout title={'Data Model Catalog'}>
