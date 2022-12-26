@@ -39,12 +39,11 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
   };
 };
 
-// These are not passed as props, not only because they don't change from solution to solution,
-// but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
-const tabs: Tab<ConformingSolution>[] = [readme, conformance, usage];
-
 export default function Solution(props: PageProps) {
   const { solution } = props;
+  // These are not passed as props, not only because they don't change from solution to solution,
+  // but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
+  const tabs: Tab<ConformingSolution>[] = [readme, conformance, usage];
 
   return (
     <Layout title={solution.name}>

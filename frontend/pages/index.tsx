@@ -1,20 +1,14 @@
 import Head from 'next/head';
-import Image from 'next/image';
 import Link from 'next/link';
 import style from '../styles/Home.module.css';
-import {
-  getAllExtensions,
-  getLatestExtensionsSorted,
-} from '../lib/data-model-extensions';
+import { getLatestExtensionsSorted } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import {
   CatalogDataModelExtension,
   ConformingSolution,
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
-import Navbar from '../components/navbar';
-import { title } from 'process';
-import { getAllSolutions, getConformingSolutions } from '../lib/solutions';
+import { getAllSolutions } from '../lib/solutions';
 
 type IndexLayoutProps = {
   title: string;
@@ -84,10 +78,10 @@ export default function Home(props: PageProps) {
               </div>
               <div>
                 <ul>
-                  {extensions.slice(0,2).map((extension) => {
+                  {extensions.slice(0, 2).map(({ id, version }) => {
                     return (
                       <li>
-                        {extension.id} {extension.version}
+                        {id} {version}
                       </li>
                     );
                   })}

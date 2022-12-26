@@ -46,11 +46,10 @@ export const getStaticProps: GetStaticProps<
   };
 };
 
-// These are not passed as props, not only because they don't change from extension to extension,
-// but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
-
 export default function Extension(props: PageProps) {
   const { extension } = props;
+  // These are not passed as props, not only because they don't change from extension to extension,
+  // but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
   const tabs: Tab<CatalogDataModelExtension>[] = [
     readme,
     explore,

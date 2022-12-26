@@ -1,18 +1,12 @@
-import path, { parse } from 'path';
+import path from 'path';
 import fs from 'fs';
 import {
   CatalogDataModelExtension,
   ConformingSolution,
-  Endorsers,
   SolutionId,
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
-import {
-  getAllExtensions,
-  getAuthorName,
-  getExtension,
-  toExtensionId,
-} from './data-model-extensions';
+import { getAuthorName } from './data-model-extensions';
 import { getSolutionUsers, getUser } from './users';
 import { getSolutionTestResults } from './conformance-tests';
 

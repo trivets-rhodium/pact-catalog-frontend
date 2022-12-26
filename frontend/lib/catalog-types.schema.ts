@@ -1,6 +1,8 @@
+// This file contains everything that allows parsing the JSON files from the catalog as the adequate
+// types.
+
 import {
   ConformanceTestResult,
-  ConformingSolution,
   DMEId,
   SolutionId,
   VersionId,
@@ -119,18 +121,17 @@ export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
     })
 );
 
-export const TestResultParser: z.ZodType<ConformanceTestResult> =
-  z.lazy(() =>
-    z.object({
-      system_under_test: z.string().min(1),
-      system_tester: z.string().min(1),
-      test_result: z.enum(['passed', 'ongoing', 'failed']),
-      test_date: z.string().datetime(),
-      tests: z.array(
-        z.object({
-          extension: z.string().min(1),
-          version: z.string().min(1),
-        })
-      ),
-    })
-  );
+export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
+  z.object({
+    system_under_test: z.string().min(1),
+    system_tester: z.string().min(1),
+    test_result: z.enum(['passed', 'ongoing', 'failed']),
+    test_date: z.string().datetime(),
+    tests: z.array(
+      z.object({
+        extension: z.string().min(1),
+        version: z.string().min(1),
+      })
+    ),
+  })
+);
