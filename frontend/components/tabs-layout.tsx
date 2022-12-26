@@ -43,7 +43,7 @@ function TabHead<T>(props: TabsProps<T>) {
       {tabs.map(({ tabId, title }) => (
         <Link
           href={{
-            pathname: asPath.replace(/\?.*/, ''),
+            pathname: asPath.split('?')[0],
             query: { activeTab: tabId },
           }}
           key={tabId}
@@ -69,7 +69,7 @@ function TabContent<T>(props: TabsProps<T>) {
 
   return (
     <>
-      {tabs.map(({tabId, render}) => {
+      {tabs.map(({ tabId, render }) => {
         return (
           router.query.activeTab === tabId && (
             <div key={tabId}>{render(content)}</div>
