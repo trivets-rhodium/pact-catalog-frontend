@@ -9,7 +9,18 @@ export default function newSubmission() {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const target = event.target as typeof event.target & {
+    const {
+      publisherName,
+      publisherUserId,
+      publisherEmail,
+      publisherUrl,
+      packageName,
+      description,
+      version,
+      summary,
+      schemaJson,
+      readme,
+    } = event.target as typeof event.target & {
       publisherName: { value: string };
       publisherUserId: { value: string };
       publisherEmail: { value: string };
@@ -43,7 +54,7 @@ export default function newSubmission() {
     await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      ref: `refs/heads/@${target.publisherUserId.value}`,
+      ref: `refs/heads/@${publisherUserId.value}`,
       sha: `${sha}`,
     });
 
@@ -51,13 +62,92 @@ export default function newSubmission() {
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${target.publisherUserId.value}/${target.packageName.value}/${target.version.value}/index.js`,
+      path: `catalog/data-model-extensions/@${publisherUserId.value}/${packageName.value}/${version.value}/index.js`,
       message: 'Create empty index.js file',
-      branch: `@${target.publisherUserId.value}`,
+      branch: `@${publisherUserId.value}`,
       content: btoa(''),
     });
 
-    const licenseText = `
+    // Creates LICENSE file; TO DO: allow other licenses;
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: 'sine-fdn',
+      repo: 'pact-catalog',
+      path: `catalog/data-model-extensions/@${publisherUserId.value}/${packageName.value}/${version.value}/LICENSE`,
+      message: 'Create LICENSE file',
+      branch: `@${publisherUserId.value}`,
+      content: btoa(licenseText),
+    });
+
+    // Creates object to pass as the content of the package.json file;
+    const packageJsonContent: {} = {
+      name: `@${publisherUserId.value}/${packageName.value}`,
+      version: `${version.value}`,
+      description: `${description.value}`,
+      files: ['schema.json'],
+      author: {
+        name: `${publisherName.value}`,
+        email: `${publisherEmail.value}`,
+        url: `${publisherUrl.value}`,
+      },
+      license: 'MIT',
+      catalog_info: {
+        summary: `${summary.value}`,
+        status: 'draft',
+        authors: [`${publisherUserId.value}`],
+      },
+    };
+
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: 'sine-fdn',
+      repo: 'pact-catalog',
+      path: `catalog/data-model-extensions/@${publisherUserId.value}/${packageName.value}/${version.value}/package.json`,
+      message: 'Create package.json',
+      branch: `@${publisherUserId.value}`,
+      content: btoa(JSON.stringify(packageJsonContent)),
+    });
+
+    // Creates schema.json file with the submitted data;
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: 'sine-fdn',
+      repo: 'pact-catalog',
+      path: `catalog/data-model-extensions/@${publisherUserId.value}/${packageName.value}/${version.value}/schema.json`,
+      message: 'Create schema.json',
+      branch: `@${publisherUserId.value}`,
+      content: btoa(JSON.stringify(schemaJson.value)),
+    });
+
+    // Creates README.md file with the submitted data;
+    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
+      owner: 'sine-fdn',
+      repo: 'pact-catalog',
+      path: `catalog/data-model-extensions/@${publisherUserId.value}/${packageName.value}/${version.value}/documentation/README.md`,
+      message: 'Create README.md',
+      branch: `@${publisherUserId.value}`,
+      content: btoa(readme.value),
+    });
+
+    // Opens Pull Request with the relevant files;
+    await octokit.request('POST /repos/{owner}/{repo}/pulls', {
+      owner: 'sine-fdn',
+      repo: 'pact-catalog',
+      title: `@${publisherUserId.value}/${packageName.value}`,
+      body: `Creates Data Model Extension @${publisherUserId.value}/${packageName.value}, version ${version.value}`,
+      head: `@${publisherUserId.value}`,
+      base: 'main',
+    });
+
+    alert('Your extension was successfully submited, thank you!');
+    router.push('/');
+  };
+
+  return (
+    <Layout title="New Submission">
+      <SubmissionForm submitHandler={handleSubmit} />
+    </Layout>
+  );
+}
+
+const licenseText = `
     MIT License
 
     Copyright (c) 2022 <TBD>
@@ -80,82 +170,3 @@ export default function newSubmission() {
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
     `;
-
-    // Creates LICENSE file; TO DO: allow other licenses;
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${target.publisherUserId.value}/${target.packageName.value}/${target.version.value}/LICENSE`,
-      message: 'Create LICENSE file',
-      branch: `@${target.publisherUserId.value}`,
-      content: btoa(licenseText),
-    });
-
-    // Creates object to pass as the content of the package.json file;
-    const packageJsonContent: {} = {
-      name: `@${target.publisherUserId.value}/${target.packageName.value}`,
-      version: `${target.version.value}`,
-      description: `${target.description.value}`,
-      files: ['schema.json'],
-      author: {
-        name: `${target.publisherName.value}`,
-        email: `${target.publisherEmail.value}`,
-        url: `${target.publisherUrl.value}`,
-      },
-      license: 'MIT',
-      catalog_info: {
-        summary: `${target.summary.value}`,
-        status: 'draft',
-        authors: [`${target.publisherUserId.value}`],
-      },
-    };
-
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${target.publisherUserId.value}/${target.packageName.value}/${target.version.value}/package.json`,
-      message: 'Create package.json',
-      branch: `@${target.publisherUserId.value}`,
-      content: btoa(JSON.stringify(packageJsonContent)),
-    });
-
-    // Creates schema.json file with the submitted data;
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${target.publisherUserId.value}/${target.packageName.value}/${target.version.value}/schema.json`,
-      message: 'Create schema.json',
-      branch: `@${target.publisherUserId.value}`,
-      content: btoa(JSON.stringify(target.schemaJson.value)),
-    });
-
-    // Creates README.md file with the submitted data;
-    await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${target.publisherUserId.value}/${target.packageName.value}/${target.version.value}/documentation/README.md`,
-      message: 'Create README.md',
-      branch: `@${target.publisherUserId.value}`,
-      content: btoa(target.readme.value),
-    });
-
-    // Opens Pull Request with the relevant files;
-    await octokit.request('POST /repos/{owner}/{repo}/pulls', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      title: `@${target.publisherUserId.value}/${target.packageName.value}`,
-      body: `Creates Data Model Extension @${target.publisherUserId.value}/${target.packageName.value}, version ${target.version.value}`,
-      head: `@${target.publisherUserId.value}`,
-      base: 'main',
-    });
-
-    alert("Your extension was successfully submited, thank you!")
-    router.push('/');
-  };
-
-  return (
-    <Layout title="New Submission">
-      <SubmissionForm submitHandler={handleSubmit} />
-    </Layout>
-  );
-}
