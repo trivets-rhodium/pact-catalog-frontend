@@ -1,11 +1,6 @@
 import Link from 'next/link';
-import {
-  CatalogDataModelExtension,
-  ConformingSolution,
-  Endorsers,
-} from '../lib/catalog-types';
-import { withRouter, NextRouter, Router, useRouter } from 'next/router';
-import React, { JSXElementConstructor } from 'react';
+import { useRouter } from 'next/router';
+import React from 'react';
 import style from '../styles/Tabs.module.css';
 
 // as an idea, we could have a type for the tab render function
@@ -33,7 +28,9 @@ function TabHead<T>(props: TabsProps<T>) {
 
   const defaultTab = () => {
     if (!activeTab) {
-      router.query.activeTab = 'readme';
+      router.asPath === '/new'
+        ? (router.query.activeTab = 'metadata')
+        : (router.query.activeTab = 'readme');
       return true;
     }
   };

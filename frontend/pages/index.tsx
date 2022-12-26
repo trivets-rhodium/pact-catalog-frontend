@@ -44,9 +44,6 @@ export default function Home(props: PageProps) {
   const { latestExtensionsData, conformingSolutions } = props;
   return (
     <Layout>
-      <Head>
-        <title>PACT Online Catalog</title>
-      </Head>
       <IndexLayout title={'Data Model Catalog'}>
         {latestExtensionsData.map(
           ({ author, name, version, description, catalog_info }) => (
