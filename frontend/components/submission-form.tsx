@@ -5,6 +5,7 @@ type FormProps = {
 };
 
 export default function SubmissionForm(props: FormProps) {
+
   return (
     <form onSubmit={props.submitHandler}>
       <div className="flex flex-col">
@@ -51,7 +52,7 @@ export default function SubmissionForm(props: FormProps) {
           type="text"
           id="packageName"
           name="packageName"
-          pattern="[^\s]+"
+          pattern='[^\s]+'
           required
           className="mt-2 mb-6 rounded-sm p-2"
         />

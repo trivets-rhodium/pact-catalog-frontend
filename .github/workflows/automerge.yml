@@ -3,9 +3,6 @@ on:
   pull_request:
     types:
       - opened
-  # check_suite:
-  #   types:
-  #     - completed
   status: {}
 jobs:
   automerge:
