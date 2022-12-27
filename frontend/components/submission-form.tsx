@@ -31,18 +31,9 @@ export default function SubmissionForm() {
     readme: '',
   });
 
-  function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
-
-    setFormInput({
-      ...formInput,
-      [name]: value,
-    });
-  }
-
-  function handleTextAreaChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
     const target = event.target;
     const value = target.value;
     const name = target.name;
@@ -58,12 +49,23 @@ export default function SubmissionForm() {
       ...formInput,
       schemaJson: value,
     });
-
-    console.log('formInput', formInput);
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    const {
+      publisherName,
+      publisherUserId,
+      publisherEmail,
+      publisherUrl,
+      packageName,
+      description,
+      version,
+      summary,
+      schemaJson,
+      readme,
+    } = formInput;
 
     // Creates Octokit with access token passed as env variable;
     const octokit = new Octokit({
@@ -87,7 +89,7 @@ export default function SubmissionForm() {
     await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      ref: `refs/heads/@${formInput.publisherUserId}`,
+      ref: `refs/heads/@${publisherUserId}`,
       sha: `${sha}`,
     });
 
@@ -95,9 +97,9 @@ export default function SubmissionForm() {
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${formInput.publisherUserId}/${formInput.packageName}/${formInput.version}/index.js`,
+      path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/index.js`,
       message: 'Create empty index.js file',
-      branch: `@${formInput.publisherUserId}`,
+      branch: `@${publisherUserId}`,
       content: btoa(''),
     });
 
@@ -105,37 +107,37 @@ export default function SubmissionForm() {
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${formInput.publisherUserId}/${formInput.packageName}/${formInput.version}/LICENSE`,
+      path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/LICENSE`,
       message: 'Create LICENSE file',
-      branch: `@${formInput.publisherUserId}`,
+      branch: `@${publisherUserId}`,
       content: btoa(licenseText),
     });
 
     // Creates object to pass as the content of the package.json file;
     const packageJsonContent: {} = {
-      name: `@${formInput.publisherUserId}/${formInput.packageName}`,
-      version: `${formInput.version}`,
-      description: `${formInput.description}`,
+      name: `@${publisherUserId}/${packageName}`,
+      version: `${version}`,
+      description: `${description}`,
       files: ['schema.json'],
       author: {
-        name: `${formInput.publisherName}`,
-        email: `${formInput.publisherEmail}`,
-        url: `${formInput.publisherUrl}`,
+        name: `${publisherName}`,
+        email: `${publisherEmail}`,
+        url: `${publisherUrl}`,
       },
       license: 'MIT',
       catalog_info: {
-        summary: `${formInput.summary}`,
+        summary: `${summary}`,
         status: 'draft',
-        authors: [`${formInput.publisherUserId}`],
+        authors: [`${publisherUserId}`],
       },
     };
 
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${formInput.publisherUserId}/${formInput.packageName}/${formInput.version}/package.json`,
+      path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/package.json`,
       message: 'Create package.json',
-      branch: `@${formInput.publisherUserId}`,
+      branch: `@${publisherUserId}`,
       content: btoa(JSON.stringify(packageJsonContent)),
     });
 
@@ -143,20 +145,20 @@ export default function SubmissionForm() {
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${formInput.publisherUserId}/${formInput.packageName}/${formInput.version}/schema.json`,
+      path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/schema.json`,
       message: 'Create schema.json',
-      branch: `@${formInput.publisherUserId}`,
-      content: btoa(JSON.stringify(formInput.schemaJson)),
+      branch: `@${publisherUserId}`,
+      content: btoa(JSON.stringify(schemaJson)),
     });
 
     // Creates README.md file with the submitted data;
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${formInput.publisherUserId}/${formInput.packageName}/${formInput.version}/documentation/README.md`,
+      path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/documentation/README.md`,
       message: 'Create README.md',
-      branch: `@${formInput.publisherUserId}`,
-      content: btoa(formInput.readme),
+      branch: `@${publisherUserId}`,
+      content: btoa(readme),
     });
 
     // Opens Pull Request with the relevant files;
@@ -165,9 +167,9 @@ export default function SubmissionForm() {
       {
         owner: 'sine-fdn',
         repo: 'pact-catalog',
-        title: `@${formInput.publisherUserId}/${formInput.packageName}`,
-        body: `Creates Data Model Extension @${formInput.publisherUserId}/${formInput.packageName}, version ${formInput.version}`,
-        head: `@${formInput.publisherUserId}`,
+        title: `@${publisherUserId}/${packageName}`,
+        body: `Creates Data Model Extension @${publisherUserId}/${packageName}, version ${version}`,
+        head: `@${publisherUserId}`,
         // TO DO: Replace 'new-submission-form' with 'main' again
         base: 'new-submission-form',
       }
@@ -200,7 +202,7 @@ export default function SubmissionForm() {
           name="publisherName"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -210,7 +212,7 @@ export default function SubmissionForm() {
           name="publisherUserId"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <label htmlFor="publisherEmail">Publisher Email</label>
@@ -220,7 +222,7 @@ export default function SubmissionForm() {
           name="publisherEmail"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <label htmlFor="publisherUrl">Publisher Website</label>
@@ -230,7 +232,7 @@ export default function SubmissionForm() {
           name="publisherUrl"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         {/* TO DO: Possibility of adding contributors */}
@@ -243,7 +245,7 @@ export default function SubmissionForm() {
           pattern="[^\s]+"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <label htmlFor="description">Description</label>
@@ -253,7 +255,7 @@ export default function SubmissionForm() {
           name="description"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         {/* <label>Industry</label>
@@ -290,7 +292,7 @@ export default function SubmissionForm() {
           pattern="^(\d+\.){2}\d+$"
           className="mt-2 mb-6 rounded-sm p-2"
           required
-          onChange={handleInputChange}
+          onChange={handleChange}
         />
 
         <label htmlFor="summary">Summary (optional)</label>
@@ -300,7 +302,7 @@ export default function SubmissionForm() {
           required
           rows={5}
           className="mt-2 mb-6 rounded-sm p-2"
-          onChange={handleTextAreaChange}
+          onChange={handleChange}
         />
 
         <label htmlFor="schemaJson">schema.json Content</label>
@@ -313,8 +315,8 @@ export default function SubmissionForm() {
           onChange={handleTextAreaChange}
         /> */}
         <CodeMirror
-          className="mt-2 mb-6 p-2"
-          height="200px"
+          className="mt-2 mb-6"
+          minHeight="200px"
           extensions={[myTheme, json()]}
           onChange={handleCodeMirrorChange}
         />
@@ -326,7 +328,7 @@ export default function SubmissionForm() {
           required
           rows={10}
           className="mt-2 mb-6 rounded-sm p-2"
-          onChange={handleTextAreaChange}
+          onChange={handleChange}
         />
 
         <input type="submit" value="Submit" className="primary-button" />
