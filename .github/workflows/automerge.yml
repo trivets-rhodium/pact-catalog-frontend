@@ -1,12 +1,11 @@
 name: automerge
 on:
-  # pull_request:
-  #   types:
-  #     - opened
-  check_suite:
+  pull_request:
     types:
-      - completed
-    branches: new-submission-form
+      - opened
+  # check_suite:
+  #   types:
+  #     - completed
   status: {}
 jobs:
   automerge:
