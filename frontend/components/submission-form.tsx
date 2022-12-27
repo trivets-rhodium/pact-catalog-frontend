@@ -4,6 +4,16 @@ import { useRouter } from 'next/router';
 import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
+import { createTheme } from '@uiw/codemirror-themes';
+
+const myTheme = createTheme({
+  theme: 'light',
+  settings: {
+    background: '#ffffff',
+    foreground: '#75baff',
+  },
+  styles: [],
+});
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -42,15 +52,6 @@ export default function SubmissionForm() {
       [name]: value,
     });
   }
-
-  // const handleCodeMirrorChange = React.useCallback((value: string, _: any) => {
-  //   console.log('formInput before', formInput)
-  //   setFormInput({
-  //     ...formInput,
-  //     schemaJson: value,
-  //   });
-  //   console.log('formInput after', formInput);
-  // }, []);
 
   function handleCodeMirrorChange(value: string) {
     setFormInput({
@@ -314,7 +315,7 @@ export default function SubmissionForm() {
         <CodeMirror
           className="mt-2 mb-6 p-2"
           height="200px"
-          extensions={[json()]}
+          extensions={[myTheme, json()]}
           onChange={handleCodeMirrorChange}
         />
 
