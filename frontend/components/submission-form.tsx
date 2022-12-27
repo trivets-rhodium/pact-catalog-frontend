@@ -2,6 +2,8 @@ import React from 'react';
 import { FormEventHandler } from 'react';
 import { useRouter } from 'next/router';
 import { Octokit } from 'octokit';
+import CodeMirror from '@uiw/react-codemirror';
+import { json } from '@codemirror/lang-json';
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -39,6 +41,24 @@ export default function SubmissionForm() {
       ...formInput,
       [name]: value,
     });
+  }
+
+  // const handleCodeMirrorChange = React.useCallback((value: string, _: any) => {
+  //   console.log('formInput before', formInput)
+  //   setFormInput({
+  //     ...formInput,
+  //     schemaJson: value,
+  //   });
+  //   console.log('formInput after', formInput);
+  // }, []);
+
+  function handleCodeMirrorChange(value: string) {
+    setFormInput({
+      ...formInput,
+      schemaJson: value,
+    });
+
+    console.log('formInput', formInput);
   }
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -283,13 +303,19 @@ export default function SubmissionForm() {
         />
 
         <label htmlFor="schemaJson">schema.json Content</label>
-        <textarea
+        {/* <textarea
           id="schemaJson"
           name="schemaJson"
           required
           rows={10}
           className="mt-2 mb-6 rounded-sm p-2"
           onChange={handleTextAreaChange}
+        /> */}
+        <CodeMirror
+          className="mt-2 mb-6 p-2"
+          height="200px"
+          extensions={[json()]}
+          onChange={handleCodeMirrorChange}
         />
 
         <label htmlFor="readme">README.md Content</label>
