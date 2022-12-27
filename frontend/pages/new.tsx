@@ -44,7 +44,8 @@ export default function newSubmission() {
       {
         owner: 'sine-fdn',
         repo: 'pact-catalog',
-        ref: 'heads/main',
+        // TO DO: Replace 'new-submission-form' with 'main' again.
+        ref: 'heads/new-submission-form',
       }
     );
 
