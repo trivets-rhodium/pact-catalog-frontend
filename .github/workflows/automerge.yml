@@ -17,3 +17,4 @@ jobs:
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           LOG: "DEBUG"
+          MERGE_DELETE_BRANCH: "true"
