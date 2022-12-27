@@ -1,19 +1,9 @@
 import React from 'react';
-import { FormEventHandler } from 'react';
 import { useRouter } from 'next/router';
 import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
-import { createTheme } from '@uiw/codemirror-themes';
-
-const myTheme = createTheme({
-  theme: 'light',
-  settings: {
-    background: '#ffffff',
-    foreground: '#75baff',
-  },
-  styles: [],
-});
+import { markdown } from '@codemirror/lang-markdown';
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -44,10 +34,17 @@ export default function SubmissionForm() {
     });
   }
 
-  function handleCodeMirrorChange(value: string) {
+  function handleCodeMirrorChangeSchemaJson(value: string) {
     setFormInput({
       ...formInput,
       schemaJson: value,
+    });
+  }
+
+  function handleCodeMirrorChangeReadme(value: string) {
+    setFormInput({
+      ...formInput,
+      readme: value,
     });
   }
 
@@ -306,29 +303,19 @@ export default function SubmissionForm() {
         />
 
         <label htmlFor="schemaJson">schema.json Content</label>
-        {/* <textarea
-          id="schemaJson"
-          name="schemaJson"
-          required
-          rows={10}
-          className="mt-2 mb-6 rounded-sm p-2"
-          onChange={handleTextAreaChange}
-        /> */}
         <CodeMirror
           className="mt-2 mb-6"
           minHeight="200px"
-          extensions={[myTheme, json()]}
-          onChange={handleCodeMirrorChange}
+          extensions={[json()]}
+          onChange={handleCodeMirrorChangeSchemaJson}
         />
 
         <label htmlFor="readme">README.md Content</label>
-        <textarea
-          id="readme"
-          name="readme"
-          required
-          rows={10}
-          className="mt-2 mb-6 rounded-sm p-2"
-          onChange={handleChange}
+        <CodeMirror
+          className="mt-2 mb-6"
+          minHeight="200px"
+          extensions={[markdown()]}
+          onChange={handleCodeMirrorChangeReadme}
         />
 
         <input type="submit" value="Submit" className="primary-button" />

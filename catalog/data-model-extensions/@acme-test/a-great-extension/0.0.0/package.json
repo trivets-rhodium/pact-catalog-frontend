@@ -1,1 +1,0 @@
-{"name":"@acme-test/a-great-extension","version":"0.0.0","description":"This is a great extension again","files":["schema.json"],"author":{"name":"ACME Test","email":"acme@acme.com","url":"https://www.acme.com"},"license":"MIT","catalog_info":{"summary":"This is the summary of a great extension","status":"draft","authors":["acme-test"]}}
