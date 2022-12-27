@@ -128,15 +128,31 @@ export default function newSubmission() {
     });
 
     // Opens Pull Request with the relevant files;
-    await octokit.request('POST /repos/{owner}/{repo}/pulls', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      title: `@${publisherUserId.value}/${packageName.value}`,
-      body: `Creates Data Model Extension @${publisherUserId.value}/${packageName.value}, version ${version.value}`,
-      head: `@${publisherUserId.value}`,
-      // TO DO: Replace 'new-submission-form' with 'main' again
-      base: 'new-submission-form',
-    });
+    const pullRequest = await octokit.request(
+      'POST /repos/{owner}/{repo}/pulls',
+      {
+        owner: 'sine-fdn',
+        repo: 'pact-catalog',
+        title: `@${publisherUserId.value}/${packageName.value}`,
+        body: `Creates Data Model Extension @${publisherUserId.value}/${packageName.value}, version ${version.value}`,
+        head: `@${publisherUserId.value}`,
+        // TO DO: Replace 'new-submission-form' with 'main' again
+        base: 'new-submission-form',
+      }
+    );
+
+    const pullRequestNumber = pullRequest.data.number;
+
+    // Adds automerge label to PR;
+    await octokit.request(
+      'POST /repos/{owner}/{repo}/issues/{issue_number}/labels',
+      {
+        owner: 'sine-fdn',
+        repo: 'pact-catalog',
+        issue_number: pullRequestNumber,
+        labels: ['automerge'],
+      }
+    );
 
     alert('Your extension was successfully submited, thank you!');
     router.push('/');
