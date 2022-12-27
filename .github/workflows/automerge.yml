@@ -6,6 +6,7 @@ on:
   check_suite:
     types:
       - completed
+    branches: new-submission-form
   status: {}
 jobs:
   automerge:
