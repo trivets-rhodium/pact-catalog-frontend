@@ -134,7 +134,8 @@ export default function newSubmission() {
       title: `@${publisherUserId.value}/${packageName.value}`,
       body: `Creates Data Model Extension @${publisherUserId.value}/${packageName.value}, version ${version.value}`,
       head: `@${publisherUserId.value}`,
-      base: 'main',
+      // TO DO: Replace 'new-submission-form' with 'main' again
+      base: 'new-submission-form',
     });
 
     alert('Your extension was successfully submited, thank you!');
