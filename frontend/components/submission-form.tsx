@@ -4,7 +4,7 @@ import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
-import submitToGithub from '../utils/github-api-functions';
+import submitToGithub from '../utils/github-api';
 
 export default function SubmissionForm() {
   const router = useRouter();
