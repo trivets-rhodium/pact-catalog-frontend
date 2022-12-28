@@ -71,6 +71,7 @@ async function getUserFromBasePath(basePath: string): Promise<CatalogUser> {
 
   return {
     ...parsedUser,
+    email: parsedUser.email || null,
     website: parsedUser.website || null,
     logo: parsedUser.logo || null,
     solutions_used: parsedUser.solutions_used || null,

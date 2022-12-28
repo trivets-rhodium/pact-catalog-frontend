@@ -51,6 +51,7 @@ export type CatalogUser = {
   id: UserId;
   kind: 'ngo' | 'company' | 'solutionprovider';
   name: string;
+  email: string | null;
   website: string | null;
   logo: string | null;
   extensions_endorsed: {

@@ -7,6 +7,8 @@ import { EditorView, ViewUpdate } from '@codemirror/view';
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
 import submitToGithub from '../utils/github-api';
+import { getUser } from '../lib/users';
+import { CatalogUser } from '../lib/catalog-types';
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -24,7 +26,7 @@ export default function SubmissionForm() {
     readme: '',
   });
 
-  function handleChange(
+  async function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) {
     const target = event.target;
@@ -86,7 +88,6 @@ export default function SubmissionForm() {
         <label htmlFor="publisherEmail">Publisher Email</label>
         <input
           type="text"
-          id="publisherEmail"
           name="publisherEmail"
           className="mt-2 mb-6 rounded-sm p-2"
           required
@@ -96,19 +97,17 @@ export default function SubmissionForm() {
         <label htmlFor="publisherUrl">Publisher Website</label>
         <input
           type="text"
-          id="publisherUrl"
           name="publisherUrl"
           className="mt-2 mb-6 rounded-sm p-2"
           required
           onChange={handleChange}
         />
 
-        {/* TO DO: Possibility of adding contributors */}
+        {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
 
         <label htmlFor="packageName">Package Name</label>
         <input
           type="text"
-          id="packageName"
           name="packageName"
           pattern="[^\s]+"
           className="mt-2 mb-6 rounded-sm p-2"
@@ -119,7 +118,6 @@ export default function SubmissionForm() {
         <label htmlFor="description">Description</label>
         <input
           type="text"
-          id="description"
           name="description"
           className="mt-2 mb-6 rounded-sm p-2"
           required
@@ -155,7 +153,6 @@ export default function SubmissionForm() {
         <label htmlFor="version">Version</label>
         <input
           type="text"
-          id="version"
           name="version"
           pattern="^(\d+\.){2}\d+$"
           className="mt-2 mb-6 rounded-sm p-2"
@@ -165,7 +162,6 @@ export default function SubmissionForm() {
 
         <label htmlFor="summary">Summary (optional)</label>
         <textarea
-          id="summary"
           name="summary"
           required
           rows={5}

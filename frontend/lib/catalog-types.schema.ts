@@ -49,6 +49,7 @@ export type CatalogUserJsonSchema = {
   id: UserId;
   kind: 'ngo' | 'company' | 'solutionprovider';
   name: string;
+  email?: string;
   website?: string;
   logo?: string;
   extensions_endorsed: {
@@ -63,6 +64,7 @@ export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
     id: z.string(),
     kind: z.enum(['ngo', 'company', 'solutionprovider']),
     name: z.string(),
+    email: z.string().optional(),
     website: z.string().optional(),
     logo: z.string().optional(),
     extensions_endorsed: z.array(
