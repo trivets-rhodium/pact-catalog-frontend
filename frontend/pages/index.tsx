@@ -1,7 +1,10 @@
 import Head from 'next/head';
 import Link from 'next/link';
 import style from '../styles/Home.module.css';
-import { getLatestExtensionsSorted } from '../lib/data-model-extensions';
+import {
+  getAllExtensions,
+  getLatestExtensionsSorted,
+} from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import {
   CatalogDataModelExtension,
@@ -9,11 +12,14 @@ import {
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
+import { useMiniSearch } from 'react-minisearch';
+import React from 'react';
 
 type IndexLayoutProps = {
   title: string;
   children: React.ReactNode;
 };
+
 function IndexLayout(props: IndexLayoutProps) {
   const { title, children } = props;
   return (
@@ -25,69 +31,143 @@ function IndexLayout(props: IndexLayoutProps) {
 }
 
 type PageProps = {
-  latestExtensionsData: CatalogDataModelExtension[];
-  conformingSolutions: ConformingSolution[];
+  latestExtensions: CatalogDataModelExtension[];
+  allConformingSolutions: ConformingSolution[];
+  allExtensions: CatalogDataModelExtension[];
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const latestExtensionsData = await getLatestExtensionsSorted();
-  const conformingSolutions = await getAllSolutions();
+  const latestExtensions = await getLatestExtensionsSorted();
+  const allConformingSolutions = await getAllSolutions();
+  const allExtensions = await getAllExtensions();
   return {
     props: {
-      latestExtensionsData,
-      conformingSolutions,
+      latestExtensions,
+      allConformingSolutions,
+      allExtensions,
     },
   };
 };
 
 export default function Home(props: PageProps) {
-  const { latestExtensionsData, conformingSolutions } = props;
+  const { latestExtensions, allConformingSolutions, allExtensions } = props;
+
+  const extensionIndex: {
+    id: number;
+    author: {
+      name: string;
+      email: string;
+      url: string;
+    };
+    name: string;
+    version: string;
+    description: string;
+    catalog_info: {
+      summary: string | null;
+      status: 'published' | 'draft' | 'deprecated';
+      authors: string[];
+    };
+  }[] = allExtensions.map((extension, index) => {
+    return {
+      id: index + 1,
+      author: extension.author,
+      name: extension.name,
+      version: extension.version,
+      description: extension.description,
+      catalog_info: extension.catalog_info,
+    };
+  });
+
+  // Temporary for testing; see MiniSearch documentation;
+  const miniSearchOptions = { fields: ['name'] };
+
+  const { search, searchResults } = useMiniSearch(
+    extensionIndex,
+    miniSearchOptions
+  );
+
+  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+    search(event.target.value);
+  }
+
 
   return (
     <Layout>
+      <div>
+        <input
+          type="text"
+          onChange={handleSearchChange}
+          placeholder="Search…"
+        />
+      </div>
       <IndexLayout title={'Data Model Catalog'}>
-        {latestExtensionsData.map(
-          ({ author, name, version, description, catalog_info }) => (
-            <Link
-              href={`/extensions/${name}/${version}`}
-              key={`${name}/${version}`}
-            >
+        {!searchResults || !searchResults.length
+          ? latestExtensions.map(
+              ({ author, name, version, description, catalog_info }) => (
+                <Link
+                  href={`/extensions/${name}/${version}`}
+                  key={`${name}/${version}`}
+                >
+                  <li className={`${style.card} flex flex-col justify-between`}>
+                    <div>
+                      <p className="text-xl font-bold">{description}</p>
+                      <p>{version}</p>
+                    </div>
+                    <ul>
+                      <li>Publisher: {author.name}</li>
+                      <li>Status: {catalog_info.status}</li>
+                    </ul>
+                  </li>
+                </Link>
+              )
+            )
+          : searchResults.map(
+              ({ id, author, name, version, description, catalog_info }) => (
+                <Link
+                  href={`/extensions/${name}/${version}`}
+                  key={`${name}/${version}`}
+                >
+                  <li
+                    key={id}
+                    className={`${style.card} flex flex-col justify-between`}
+                  >
+                    <div>
+                      <p className="text-xl font-bold">{description}</p>
+                      <p>{version}</p>
+                    </div>
+                    <ul>
+                      <li>Publisher: {author.name}</li>
+                      <li>Status: {catalog_info.status}</li>
+                    </ul>
+                  </li>
+                </Link>
+              )
+            )}
+      </IndexLayout>
+      <IndexLayout title={'Conforming Solutions'}>
+        {allConformingSolutions.map(
+          ({ id, name, extensions, providerName }) => (
+            <Link href={`/solutions/${id}`} key={id}>
               <li className={`${style.card} flex flex-col justify-between`}>
                 <div>
-                  <p className="text-xl font-bold">{description}</p>
-                  <p>{version}</p>
+                  <p className="text-xl font-bold">{name}</p>
+                  <p>{providerName}</p>
                 </div>
-                <ul>
-                  <li>Publisher: {author.name}</li>
-                  <li>Status: {catalog_info.status}</li>
-                </ul>
+                <div>
+                  <ul>
+                    {extensions.slice(0, 2).map(({ id, version }) => {
+                      return (
+                        <li>
+                          {id} {version}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
               </li>
             </Link>
           )
         )}
-      </IndexLayout>
-      <IndexLayout title={'Conforming Solutions'}>
-        {conformingSolutions.map(({ id, name, extensions, providerName }) => (
-          <Link href={`/solutions/${id}`} key={id}>
-            <li className={`${style.card} flex flex-col justify-between`}>
-              <div>
-                <p className="text-xl font-bold">{name}</p>
-                <p>{providerName}</p>
-              </div>
-              <div>
-                <ul>
-                  {extensions.slice(0, 2).map(({ id, version }) => {
-                    return (
-                      <li>
-                        {id} {version}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </li>
-          </Link>
-        ))}
       </IndexLayout>
     </Layout>
   );
