@@ -50,6 +50,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
 };
 
 export default function Home(props: PageProps) {
+  const [searchType, setSearchType] = React.useState('dataModelExtensions');
+
   const { latestExtensions, allConformingSolutions, allExtensions } = props;
 
   const extensionIndex: {
@@ -78,30 +80,64 @@ export default function Home(props: PageProps) {
     };
   });
 
-  // Temporary for testing; see MiniSearch documentation;
-  const miniSearchOptions = { fields: ['name'] };
+  const miniSearchOptionsExtensions = {
+    fields: ['name', 'version'],
+  };
 
-  const { search, searchResults } = useMiniSearch(
-    extensionIndex,
-    miniSearchOptions
-  );
+  const miniSearchOptionsSolutions = {
+    fields: ['name', 'provider', 'providerName', 'summary'],
+  };
+
+  const { search: searchExtensions, searchResults: searchExtensionsResults } =
+    useMiniSearch(extensionIndex, miniSearchOptionsExtensions);
+
+  const { search: searchSolutions, searchResults: searchSolutionsResults } =
+    useMiniSearch(allConformingSolutions, miniSearchOptionsSolutions);
 
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    search(event.target.value);
+    if (searchType === 'dataModelExtensions') {
+      searchExtensions(event.target.value);
+    } else {
+      searchSolutions(event.target.value);
+    }
+  }
+
+  function handleTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const target = event.target;
+    const checked = target.checked;
+
+    if (checked) {
+      setSearchType(target.value);
+    }
   }
 
 
   return (
     <Layout>
       <div>
-        <input
-          type="text"
-          onChange={handleSearchChange}
-          placeholder="Search…"
-        />
+        <label htmlFor="searchBar">Search</label>
+        <input name="searchBar" type="text" onChange={handleSearchChange} />
+        <fieldset>
+          <legend>Type</legend>
+          <label htmlFor="dataModelExtensions">Data Model Extensions</label>
+          <input
+            type="radio"
+            name="type"
+            value="dataModelExtensions"
+            checked={searchType === 'dataModelExtensions'}
+            onChange={handleTypeChange}
+          />
+          <label htmlFor="conformingSolutions">Conforming Solutions</label>
+          <input
+            type="radio"
+            name="type"
+            value="conformingSolutions"
+            onChange={handleTypeChange}
+          />
+        </fieldset>
       </div>
       <IndexLayout title={'Data Model Catalog'}>
-        {!searchResults || !searchResults.length
+        {!searchExtensionsResults || !searchExtensionsResults.length
           ? latestExtensions.map(
               ({ author, name, version, description, catalog_info }) => (
                 <Link
@@ -121,7 +157,7 @@ export default function Home(props: PageProps) {
                 </Link>
               )
             )
-          : searchResults.map(
+          : searchExtensionsResults.map(
               ({ id, author, name, version, description, catalog_info }) => (
                 <Link
                   href={`/extensions/${name}/${version}`}
@@ -145,29 +181,53 @@ export default function Home(props: PageProps) {
             )}
       </IndexLayout>
       <IndexLayout title={'Conforming Solutions'}>
-        {allConformingSolutions.map(
-          ({ id, name, extensions, providerName }) => (
-            <Link href={`/solutions/${id}`} key={id}>
-              <li className={`${style.card} flex flex-col justify-between`}>
-                <div>
-                  <p className="text-xl font-bold">{name}</p>
-                  <p>{providerName}</p>
-                </div>
-                <div>
-                  <ul>
-                    {extensions.slice(0, 2).map(({ id, version }) => {
-                      return (
-                        <li>
-                          {id} {version}
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </div>
-              </li>
-            </Link>
-          )
-        )}
+        {!searchSolutionsResults
+          ? allConformingSolutions.map(
+              ({ id, name, extensions, providerName }) => (
+                <Link href={`/solutions/${id}`} key={id}>
+                  <li className={`${style.card} flex flex-col justify-between`}>
+                    <div>
+                      <p className="text-xl font-bold">{name}</p>
+                      <p>{providerName}</p>
+                    </div>
+                    <div>
+                      <ul>
+                        {extensions.slice(0, 2).map(({ id, version }) => {
+                          return (
+                            <li>
+                              {id} {version}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </li>
+                </Link>
+              )
+            )
+          : searchSolutionsResults.map(
+              ({ id, name, extensions, providerName }) => (
+                <Link href={`/solutions/${id}`} key={id}>
+                  <li className={`${style.card} flex flex-col justify-between`}>
+                    <div>
+                      <p className="text-xl font-bold">{name}</p>
+                      <p>{providerName}</p>
+                    </div>
+                    <div>
+                      <ul>
+                        {extensions.slice(0, 2).map(({ id, version }) => {
+                          return (
+                            <li>
+                              {id} {version}
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  </li>
+                </Link>
+              )
+            )}
       </IndexLayout>
     </Layout>
   );
