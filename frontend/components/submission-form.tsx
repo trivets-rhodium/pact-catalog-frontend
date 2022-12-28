@@ -2,6 +2,8 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
+import { EditorView, ViewUpdate } from '@codemirror/view';
+
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
 import submitToGithub from '../utils/github-api';
@@ -49,14 +51,14 @@ export default function SubmissionForm() {
     });
   }
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     submitToGithub(formInput);
 
     alert('Your extension was successfully submited, thank you!');
     router.push('/');
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -179,13 +181,15 @@ export default function SubmissionForm() {
           onChange={handleCodeMirrorChangeSchemaJson}
         />
 
-        <label htmlFor="readme">README.md Content</label>
-        <CodeMirror
-          className="mt-2 mb-6"
-          minHeight="200px"
-          extensions={[markdown()]}
-          onChange={handleCodeMirrorChangeReadme}
-        />
+        <div>
+          <label htmlFor="readme">README.md Content</label>
+          <CodeMirror
+            className="mt-2 mb-6"
+            minHeight="200px"
+            extensions={[markdown()]}
+            onChange={handleCodeMirrorChangeReadme}
+          />
+        </div>
 
         <input type="submit" value="Submit" className="primary-button" />
       </div>
