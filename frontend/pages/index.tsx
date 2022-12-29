@@ -1,6 +1,4 @@
 import Head from 'next/head';
-import Link from 'next/link';
-import style from '../styles/Home.module.css';
 import {
   getAllExtensions,
   getLatestExtensionsSorted,
@@ -14,8 +12,7 @@ import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import { useMiniSearch } from 'react-minisearch';
 import React from 'react';
-import Solution from './solutions/[id]';
-import Cards, { extensionCards, solutionCards } from '../components/card';
+import { Cards, extensionCards, solutionCards } from '../components/cards';
 
 type IndexLayoutProps = {
   title: string;
@@ -70,6 +67,7 @@ export type SearchableCatalogDataModelExtension = {
 
 export default function Home(props: PageProps) {
   const [searchType, setSearchType] = React.useState('dataModelExtensions');
+  const [search, setSearch] = React.useState('');
 
   const { latestExtensions, allConformingSolutions, allExtensions } = props;
 
@@ -105,6 +103,7 @@ export default function Home(props: PageProps) {
     } else {
       searchSolutions(event.target.value);
     }
+    setSearch(event.target.value);
   }
 
   function handleSearchTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -141,23 +140,32 @@ export default function Home(props: PageProps) {
           />
         </fieldset>
       </div>
-      <IndexLayout title={'Data Model Catalog'}>
-        {!searchExtensionsResults || !searchExtensionsResults.length ? (
-          <Cards cardDetails={latestExtensions} render={extensionCards}></Cards>
-        ) : (
-          <Cards
-            cardDetails={searchExtensionsResults}
-            render={extensionCards}
-          />
-        )}
-      </IndexLayout>
-      <IndexLayout title={'Conforming Solutions'}>
-        {!searchSolutionsResults || !searchSolutionsResults.length ? (
-          <Cards cardDetails={allConformingSolutions} render={solutionCards} />
-        ) : (
-          <Cards cardDetails={searchSolutionsResults} render={solutionCards} />
-        )}
-      </IndexLayout>
+      {!searchExtensionsResults || !searchExtensionsResults.length ? (
+        <Cards
+          title="Latest Data Model Extensions"
+          cardsContent={latestExtensions}
+          render={extensionCards}
+        ></Cards>
+      ) : (
+        <Cards
+          title={`Searching Data Model Extensions with '${search}'`}
+          cardsContent={searchExtensionsResults}
+          render={extensionCards}
+        />
+      )}
+      {!searchSolutionsResults || !searchSolutionsResults.length ? (
+        <Cards
+          title="All Conforming Solutions"
+          cardsContent={allConformingSolutions}
+          render={solutionCards}
+        />
+      ) : (
+        <Cards
+          title={`Searching Conforming Solutions with '${search}'`}
+          cardsContent={searchSolutionsResults}
+          render={solutionCards}
+        />
+      )}
     </Layout>
   );
 }

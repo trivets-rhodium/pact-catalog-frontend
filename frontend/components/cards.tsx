@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import JSXStyle from 'styled-jsx/style';
 import {
   CatalogDataModelExtension,
   ConformingSolution,
@@ -7,17 +6,22 @@ import {
 import { SearchableCatalogDataModelExtension } from '../pages';
 import style from '../styles/Home.module.css';
 
-export type CardRenderer<T> = (cardDetails: T) => JSX.Element[];
+export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
 
-type CardProps<T> = {
-  cardDetails: T[];
-  render: CardRenderer<T[]>;
+type CardsProps<T> = {
+  title: string;
+  cardsContent: T[];
+  render: CardsRenderer<T[]>;
 };
 
-export default function Cards<T>(props: CardProps<T>) {
-  const { cardDetails, render } = props;
-
-  return <>{render(cardDetails)}</>;
+export function Cards<T>(props: CardsProps<T>) {
+  const { title, cardsContent, render } = props;
+  return (
+    <section className="background pb-10 rounded-sm">
+      <h2 className="title px-4">{title}</h2>
+      <ul className="grid grid-cols-3">{render(cardsContent)}</ul>
+    </section>
+  );
 }
 
 export function extensionCards(
