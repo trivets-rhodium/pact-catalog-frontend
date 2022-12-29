@@ -14,21 +14,6 @@ import { useMiniSearch } from 'react-minisearch';
 import React from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
 
-type IndexLayoutProps = {
-  title: string;
-  children: React.ReactNode;
-};
-
-function IndexLayout(props: IndexLayoutProps) {
-  const { title, children } = props;
-  return (
-    <section className="background pb-10 rounded-sm">
-      <h2 className="title px-4">{title}</h2>
-      <ul className="grid grid-cols-3">{children}</ul>
-    </section>
-  );
-}
-
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
   allConformingSolutions: ConformingSolution[];
@@ -48,38 +33,22 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
-export type SearchableCatalogDataModelExtension = {
-  id: number;
-  author: {
-    name: string;
-    email: string;
-    url: string;
-  };
-  name: string;
-  version: string;
-  description: string;
-  catalog_info: {
-    summary: string | null;
-    status: 'published' | 'draft' | 'deprecated';
-    authors: string[];
-  };
-};
-
 export default function Home(props: PageProps) {
-  const [searchType, setSearchType] = React.useState('dataModelExtensions');
-  const [search, setSearch] = React.useState('');
+  const [search, setSearch] = React.useState({
+    type: 'dataModelExtensions',
+    value: {
+      extensions: '',
+      solutions: '',
+    },
+  });
 
   const { latestExtensions, allConformingSolutions, allExtensions } = props;
 
-  const extensionIndex: SearchableCatalogDataModelExtension[] =
+  const extensionIndex: (CatalogDataModelExtension & { id: number })[] =
     allExtensions.map((extension, index) => {
       return {
+        ...extension,
         id: index + 1,
-        author: extension.author,
-        name: extension.name,
-        version: extension.version,
-        description: extension.description,
-        catalog_info: extension.catalog_info,
       };
     });
 
@@ -98,21 +67,25 @@ export default function Home(props: PageProps) {
     useMiniSearch(allConformingSolutions, miniSearchOptionsSolutions);
 
   function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
-    if (searchType === 'dataModelExtensions') {
+    const searchValue = event.target.value;
+
+    if (search.type === 'dataModelExtensions') {
       searchExtensions(event.target.value);
+      setSearch({
+        ...search,
+        value: { ...search.value, extensions: searchValue },
+      });
     } else {
-      searchSolutions(event.target.value);
+      searchSolutions(searchValue);
+      setSearch({
+        ...search,
+        value: { ...search.value, solutions: searchValue },
+      });
     }
-    setSearch(event.target.value);
   }
 
   function handleSearchTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const target = event.target;
-    const checked = target.checked;
-
-    if (checked) {
-      setSearchType(target.value);
-    }
+    setSearch({ ...search, type: event.target.value });
   }
 
 
@@ -128,7 +101,7 @@ export default function Home(props: PageProps) {
             type="radio"
             name="type"
             value="dataModelExtensions"
-            checked={searchType === 'dataModelExtensions'}
+            checked={search.type === 'dataModelExtensions'}
             onChange={handleSearchTypeChange}
           />
           <label htmlFor="conformingSolutions">Conforming Solutions</label>
@@ -148,7 +121,7 @@ export default function Home(props: PageProps) {
         ></Cards>
       ) : (
         <Cards
-          title={`Searching Data Model Extensions with '${search}'`}
+          title={`Searching Data Model Extensions with '${search.value.extensions}'`}
           cardsContent={searchExtensionsResults}
           render={extensionCards}
         />
@@ -161,7 +134,7 @@ export default function Home(props: PageProps) {
         />
       ) : (
         <Cards
-          title={`Searching Conforming Solutions with '${search}'`}
+          title={`Searching Conforming Solutions with '${search.value.solutions}'`}
           cardsContent={searchSolutionsResults}
           render={solutionCards}
         />
