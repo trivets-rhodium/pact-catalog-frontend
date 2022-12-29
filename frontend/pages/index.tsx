@@ -13,6 +13,7 @@ import { getAllSolutions } from '../lib/solutions';
 import { useMiniSearch } from 'react-minisearch';
 import React from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
+import SearchBar from '../components/search-bar';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -66,7 +67,7 @@ export default function Home(props: PageProps) {
   const { search: searchSolutions, searchResults: searchSolutionsResults } =
     useMiniSearch(allConformingSolutions, miniSearchOptionsSolutions);
 
-  function handleSearchChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
     const searchValue = event.target.value;
 
     if (search.type === 'dataModelExtensions') {
@@ -91,54 +92,49 @@ export default function Home(props: PageProps) {
 
   return (
     <Layout>
-      <div>
-        <label htmlFor="searchBar">Search</label>
-        <input name="searchBar" type="text" onChange={handleSearchChange} />
-        <fieldset>
-          <legend>Type</legend>
-          <label htmlFor="dataModelExtensions">Data Model Extensions</label>
-          <input
-            type="radio"
-            name="type"
-            value="dataModelExtensions"
-            checked={search.type === 'dataModelExtensions'}
-            onChange={handleSearchTypeChange}
+      <Head>
+        <title>PACT Online Catalog</title>
+      </Head>
+
+      <section>
+        <SearchBar
+          onSearchValueChange={handleSearchValueChange}
+          onSearchTypeChange={handleSearchTypeChange}
+          searchState={search}
+        />
+      </section>
+
+      <section>
+        {!searchExtensionsResults || !searchExtensionsResults.length ? (
+          <Cards
+            title="Latest Data Model Extensions"
+            cardsContent={latestExtensions}
+            render={extensionCards}
+          ></Cards>
+        ) : (
+          <Cards
+            title={`Searching Data Model Extensions with '${search.value.extensions}'`}
+            cardsContent={searchExtensionsResults}
+            render={extensionCards}
           />
-          <label htmlFor="conformingSolutions">Conforming Solutions</label>
-          <input
-            type="radio"
-            name="type"
-            value="conformingSolutions"
-            onChange={handleSearchTypeChange}
+        )}
+      </section>
+
+      <section>
+        {!searchSolutionsResults || !searchSolutionsResults.length ? (
+          <Cards
+            title="All Conforming Solutions"
+            cardsContent={allConformingSolutions}
+            render={solutionCards}
           />
-        </fieldset>
-      </div>
-      {!searchExtensionsResults || !searchExtensionsResults.length ? (
-        <Cards
-          title="Latest Data Model Extensions"
-          cardsContent={latestExtensions}
-          render={extensionCards}
-        ></Cards>
-      ) : (
-        <Cards
-          title={`Searching Data Model Extensions with '${search.value.extensions}'`}
-          cardsContent={searchExtensionsResults}
-          render={extensionCards}
-        />
-      )}
-      {!searchSolutionsResults || !searchSolutionsResults.length ? (
-        <Cards
-          title="All Conforming Solutions"
-          cardsContent={allConformingSolutions}
-          render={solutionCards}
-        />
-      ) : (
-        <Cards
-          title={`Searching Conforming Solutions with '${search.value.solutions}'`}
-          cardsContent={searchSolutionsResults}
-          render={solutionCards}
-        />
-      )}
+        ) : (
+          <Cards
+            title={`Searching Conforming Solutions with '${search.value.solutions}'`}
+            cardsContent={searchSolutionsResults}
+            render={solutionCards}
+          />
+        )}
+      </section>
     </Layout>
   );
 }
