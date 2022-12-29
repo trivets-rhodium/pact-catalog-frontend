@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { ConformingSolution } from '../../lib/catalog-types';
-import { Tab, TabRenderer } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs';
 
 const usageTab: TabRenderer<ConformingSolution> = (solution) => {
   const { extensions } = solution;

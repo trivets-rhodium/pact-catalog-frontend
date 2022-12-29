@@ -1,6 +1,6 @@
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Layout from '../../components/layout';
-import { TabsLayout, Tab } from '../../components/tabs-layout';
+import { TabsLayout, Tab } from '../../components/tabs';
 import { ConformingSolution, SolutionId } from '../../lib/catalog-types';
 import { getAllSolutionsIds, getSolution } from '../../lib/solutions';
 import readme from '../../components/solution-tabs/readme-tab';

@@ -14,6 +14,8 @@ import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import { useMiniSearch } from 'react-minisearch';
 import React from 'react';
+import Solution from './solutions/[id]';
+import Card, { extensionCards } from '../components/card';
 
 type IndexLayoutProps = {
   title: string;
@@ -25,7 +27,7 @@ function IndexLayout(props: IndexLayoutProps) {
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">{title}</h2>
-      <ul className="grid grid-cols-3">{children}</ul>
+      <div>{children}</div>
     </section>
   );
 }
@@ -49,36 +51,39 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
+export type SearchableCatalogDataModelExtension = {
+  id: number;
+  author: {
+    name: string;
+    email: string;
+    url: string;
+  };
+  name: string;
+  version: string;
+  description: string;
+  catalog_info: {
+    summary: string | null;
+    status: 'published' | 'draft' | 'deprecated';
+    authors: string[];
+  };
+};
+
 export default function Home(props: PageProps) {
   const [searchType, setSearchType] = React.useState('dataModelExtensions');
 
   const { latestExtensions, allConformingSolutions, allExtensions } = props;
 
-  const extensionIndex: {
-    id: number;
-    author: {
-      name: string;
-      email: string;
-      url: string;
-    };
-    name: string;
-    version: string;
-    description: string;
-    catalog_info: {
-      summary: string | null;
-      status: 'published' | 'draft' | 'deprecated';
-      authors: string[];
-    };
-  }[] = allExtensions.map((extension, index) => {
-    return {
-      id: index + 1,
-      author: extension.author,
-      name: extension.name,
-      version: extension.version,
-      description: extension.description,
-      catalog_info: extension.catalog_info,
-    };
-  });
+  const extensionIndex: SearchableCatalogDataModelExtension[] =
+    allExtensions.map((extension, index) => {
+      return {
+        id: index + 1,
+        author: extension.author,
+        name: extension.name,
+        version: extension.version,
+        description: extension.description,
+        catalog_info: extension.catalog_info,
+      };
+    });
 
   const miniSearchOptionsExtensions = {
     fields: ['name', 'version'],
@@ -102,7 +107,7 @@ export default function Home(props: PageProps) {
     }
   }
 
-  function handleTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSearchTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
     const target = event.target;
     const checked = target.checked;
 
@@ -125,63 +130,44 @@ export default function Home(props: PageProps) {
             name="type"
             value="dataModelExtensions"
             checked={searchType === 'dataModelExtensions'}
-            onChange={handleTypeChange}
+            onChange={handleSearchTypeChange}
           />
           <label htmlFor="conformingSolutions">Conforming Solutions</label>
           <input
             type="radio"
             name="type"
             value="conformingSolutions"
-            onChange={handleTypeChange}
+            onChange={handleSearchTypeChange}
           />
         </fieldset>
       </div>
       <IndexLayout title={'Data Model Catalog'}>
-        {!searchExtensionsResults || !searchExtensionsResults.length
-          ? latestExtensions.map(
-              ({ author, name, version, description, catalog_info }) => (
-                <Link
-                  href={`/extensions/${name}/${version}`}
-                  key={`${name}/${version}`}
-                >
-                  <li className={`${style.card} flex flex-col justify-between`}>
-                    <div>
-                      <p className="text-xl font-bold">{description}</p>
-                      <p>{version}</p>
-                    </div>
-                    <ul>
-                      <li>Publisher: {author.name}</li>
-                      <li>Status: {catalog_info.status}</li>
-                    </ul>
-                  </li>
-                </Link>
-              )
+        {!searchExtensionsResults || !searchExtensionsResults.length ? (
+          <Card cardDetails={latestExtensions} render={extensionCards}></Card>
+        ) : (
+          searchExtensionsResults.map(
+            ({ author, name, version, description, catalog_info }) => (
+              <Link
+                href={`/extensions/${name}/${version}`}
+                key={`${name}/${version}`}
+              >
+                <li className={`${style.card} flex flex-col justify-between`}>
+                  <div>
+                    <p className="text-xl font-bold">{description}</p>
+                    <p>{version}</p>
+                  </div>
+                  <ul>
+                    <li>Publisher: {author.name}</li>
+                    <li>Status: {catalog_info.status}</li>
+                  </ul>
+                </li>
+              </Link>
             )
-          : searchExtensionsResults.map(
-              ({ id, author, name, version, description, catalog_info }) => (
-                <Link
-                  href={`/extensions/${name}/${version}`}
-                  key={`${name}/${version}`}
-                >
-                  <li
-                    key={id}
-                    className={`${style.card} flex flex-col justify-between`}
-                  >
-                    <div>
-                      <p className="text-xl font-bold">{description}</p>
-                      <p>{version}</p>
-                    </div>
-                    <ul>
-                      <li>Publisher: {author.name}</li>
-                      <li>Status: {catalog_info.status}</li>
-                    </ul>
-                  </li>
-                </Link>
-              )
-            )}
+          )
+        )}
       </IndexLayout>
       <IndexLayout title={'Conforming Solutions'}>
-        {!searchSolutionsResults
+        {!searchSolutionsResults || !searchSolutionsResults.length
           ? allConformingSolutions.map(
               ({ id, name, extensions, providerName }) => (
                 <Link href={`/solutions/${id}`} key={id}>

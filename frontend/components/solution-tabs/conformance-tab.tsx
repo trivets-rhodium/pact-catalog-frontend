@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Tab, TabRenderer } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs';
 import style from '../../styles/Tabs.module.css';
 import { ConformingSolution } from '../../lib/catalog-types';
 

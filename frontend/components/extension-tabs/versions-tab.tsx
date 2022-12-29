@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Tab, TabRenderer } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs';
 import { NextRouter } from 'next/router';
 import { CatalogDataModelExtension } from '../../lib/catalog-types';
 

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { Tab, TabRenderer } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs';
 import style from '../../styles/Tabs.module.css';
 import { CatalogDataModelExtension, Endorsers } from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';

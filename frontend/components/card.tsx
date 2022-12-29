@@ -1,0 +1,78 @@
+import Link from 'next/link';
+import JSXStyle from 'styled-jsx/style';
+import { CatalogDataModelExtension } from '../lib/catalog-types';
+import { SearchableCatalogDataModelExtension } from '../pages';
+import style from '../styles/Home.module.css';
+
+export type CardRenderer<T> = (cardDetails: T) => JSX.Element[];
+
+type CardProps<T> = {
+  cardDetails: T[];
+  render: CardRenderer<T[]>;
+};
+
+export default function Card<T>(props: CardProps<T>) {
+  const { cardDetails, render } = props;
+
+  return <ul className="grid grid-cols-3">{render(cardDetails)}</ul>;
+}
+
+// export const extensionCardRender: CardRenderer<
+//   CatalogDataModelExtension[] | SearchableCatalogDataModelExtension[]
+// > = (
+//   cardDetails:
+//     | CatalogDataModelExtension[]
+//     | SearchableCatalogDataModelExtension[]
+// ) => {
+//   return (
+//     <>
+//       {cardDetails.map(
+//         ({ author, name, version, description, catalog_info }) => {
+//           <Link
+//             href={`/extensions/${name}/${version}`}
+//             key={`${name}/${version}`}
+//           >
+//             <li className={`${style.card} flex flex-col justify-between`}>
+//               <div>
+//                 <p className="text-xl font-bold">{description}</p>
+//                 <p>{version}</p>
+//               </div>
+//               <ul>
+//                 <li>Publisher: {author.name}</li>
+//                 <li>Status: {catalog_info.status}</li>
+//               </ul>
+//             </li>
+//           </Link>;
+//         }
+//       )}
+//     </>
+//   );
+// };
+
+export function extensionCards(
+  cardDetails:
+    | CatalogDataModelExtension[]
+    | SearchableCatalogDataModelExtension[]
+): JSX.Element[] {
+  return cardDetails.map(
+    ({ author, name, version, description, catalog_info }) => {
+      return (
+        <Link
+          href={`/extensions/${name}/${version}`}
+          key={`${name}/${version}`}
+        >
+          <li className={`${style.card} flex flex-col justify-between`}>
+            <div>
+              <p className="text-xl font-bold">{description}</p>
+              <p>{version}</p>
+            </div>
+            <ul>
+              <li>Publisher: {author.name}</li>
+              <li>Status: {catalog_info.status}</li>
+            </ul>
+          </li>
+        </Link>
+      );
+    }
+  );
+}
