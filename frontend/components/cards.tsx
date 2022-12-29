@@ -3,7 +3,6 @@ import {
   CatalogDataModelExtension,
   ConformingSolution,
 } from '../lib/catalog-types';
-import { SearchableCatalogDataModelExtension } from '../pages';
 import style from '../styles/Home.module.css';
 
 export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
@@ -25,9 +24,7 @@ export function Cards<T>(props: CardsProps<T>) {
 }
 
 export function extensionCards(
-  cardDetails:
-    | CatalogDataModelExtension[]
-    | SearchableCatalogDataModelExtension[]
+  cardDetails: CatalogDataModelExtension[]
 ): JSX.Element[] {
   return cardDetails.map(
     ({ author, name, version, description, catalog_info }) => {
@@ -67,7 +64,7 @@ export function solutionCards(
             <ul>
               {extensions.slice(0, 2).map(({ id, version }) => {
                 return (
-                  <li>
+                  <li key={id}>
                     {id} {version}
                   </li>
                 );

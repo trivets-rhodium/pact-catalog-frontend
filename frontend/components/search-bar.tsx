@@ -1,43 +1,50 @@
 import { ChangeEventHandler } from 'react';
 
-type SearchState = {
-  type: string;
-  value: {
-    extensions: string;
-    solutions: string;
-  };
-};
-
 type SearchBarProps = {
   onSearchValueChange: ChangeEventHandler<HTMLInputElement>;
-  onSearchTypeChange: ChangeEventHandler<HTMLInputElement>;
-  searchState: SearchState;
+  onSearchTypeChange: ChangeEventHandler<HTMLSelectElement>;
+  publishers: string[];
+  onPublisherChange: ChangeEventHandler<HTMLSelectElement>;
 };
 
 export default function SearchBar(props: SearchBarProps) {
-  const { onSearchValueChange, onSearchTypeChange, searchState: search } = props;
+  const {
+    onSearchValueChange,
+    onSearchTypeChange,
+    publishers,
+    onPublisherChange,
+  } = props;
   return (
     <div>
-      <label htmlFor="searchBar">Search</label>
-      <input name="searchBar" type="text" onChange={onSearchValueChange} />
-      <fieldset>
-        <legend>Type</legend>
-        <label htmlFor="dataModelExtensions">Data Model Extensions</label>
-        <input
-          type="radio"
-          name="type"
-          value="dataModelExtensions"
-          checked={search.type === 'dataModelExtensions'}
-          onChange={onSearchTypeChange}
-        />
-        <label htmlFor="conformingSolutions">Conforming Solutions</label>
-        <input
-          type="radio"
-          name="type"
-          value="conformingSolutions"
-          onChange={onSearchTypeChange}
-        />
-      </fieldset>
+      <select defaultValue="" name="searchType" onChange={onSearchTypeChange}>
+        <option disabled value="">
+          Type
+        </option>
+        <option value="dataModelExtensions">Data Model Extensions</option>
+        <option value="conformingSolutions">Conforming Solutions</option>
+      </select>
+
+      <input
+        name="searchBar"
+        type="text"
+        onChange={onSearchValueChange}
+        placeholder="Title"
+      />
+
+      <select
+        defaultValue="allPublishers"
+        name="publisher"
+        onChange={onPublisherChange}
+      >
+        <option value="allPublishers">All publishers</option>
+        {publishers.map((publisher) => {
+          return (
+            <option key={publisher} value={publisher}>
+              {publisher}
+            </option>
+          );
+        })}
+      </select>
     </div>
   );
 }

@@ -34,6 +34,27 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
+function getAllPublishers(
+  allExtensions: CatalogDataModelExtension[],
+  allConformingSolutions: ConformingSolution[]
+): string[] {
+  const allAuthorsNames = allExtensions.map((extension) => {
+    return extension.author.name;
+  });
+
+  const allProvidersNames = allConformingSolutions.map((solution) => {
+    return solution.providerName;
+  });
+
+  const allPublishersNames = allAuthorsNames.concat(allProvidersNames);
+
+  const allPublishers = allPublishersNames.filter((name, index) => {
+    return allPublishersNames.indexOf(name) == index;
+  });
+
+  return allPublishers;
+}
+
 export default function Home(props: PageProps) {
   const [search, setSearch] = React.useState({
     type: 'dataModelExtensions',
@@ -41,24 +62,30 @@ export default function Home(props: PageProps) {
       extensions: '',
       solutions: '',
     },
+    publisher: '',
   });
 
   const { latestExtensions, allConformingSolutions, allExtensions } = props;
 
-  const extensionIndex: (CatalogDataModelExtension & { id: number })[] =
-    allExtensions.map((extension, index) => {
-      return {
-        ...extension,
-        id: index + 1,
-      };
-    });
+  const extensionIndex: (CatalogDataModelExtension & {
+    id: number;
+    publisher: string;
+  })[] = allExtensions.map((extension, index) => {
+    return {
+      ...extension,
+      id: index + 1,
+      publisher: extension.author.name,
+    };
+  });
 
   const miniSearchOptionsExtensions = {
-    fields: ['name', 'version'],
+    fields: ['name', 'version', 'description'],
+    storeFields: ['publisher'],
   };
 
   const miniSearchOptionsSolutions = {
-    fields: ['name', 'provider', 'providerName', 'summary'],
+    fields: ['name', 'summary'],
+    storeFileds: ['providerName'],
   };
 
   const { search: searchExtensions, searchResults: searchExtensionsResults } =
@@ -71,13 +98,26 @@ export default function Home(props: PageProps) {
     const searchValue = event.target.value;
 
     if (search.type === 'dataModelExtensions') {
-      searchExtensions(event.target.value);
+      search.publisher === 'allPublishers'
+        ? searchExtensions(searchValue)
+        : searchExtensions(searchValue, {
+            filter: (result) => {
+              return result['publisher'] === search.publisher;
+            },
+          });
       setSearch({
         ...search,
         value: { ...search.value, extensions: searchValue },
       });
     } else {
-      searchSolutions(searchValue);
+      search.publisher === 'allPublishers'
+        ? searchSolutions(searchValue)
+        : searchSolutions(searchValue, {
+            filter: (result) => {
+              return result['providerName'] === search.publisher;
+            },
+          });
+
       setSearch({
         ...search,
         value: { ...search.value, solutions: searchValue },
@@ -85,10 +125,16 @@ export default function Home(props: PageProps) {
     }
   }
 
-  function handleSearchTypeChange(event: React.ChangeEvent<HTMLInputElement>) {
+  function handleSearchTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearch({ ...search, type: event.target.value });
   }
 
+  function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSearch({
+      ...search,
+      publisher: event.target.value,
+    });
+  }
 
   return (
     <Layout>
@@ -100,7 +146,8 @@ export default function Home(props: PageProps) {
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
           onSearchTypeChange={handleSearchTypeChange}
-          searchState={search}
+          publishers={getAllPublishers(allExtensions, allConformingSolutions)}
+          onPublisherChange={handlePublisherChange}
         />
       </section>
 
