@@ -15,7 +15,7 @@ import { getAllSolutions } from '../lib/solutions';
 import { useMiniSearch } from 'react-minisearch';
 import React from 'react';
 import Solution from './solutions/[id]';
-import Card, { extensionCards } from '../components/card';
+import Cards, { extensionCards, solutionCards } from '../components/card';
 
 type IndexLayoutProps = {
   title: string;
@@ -27,7 +27,7 @@ function IndexLayout(props: IndexLayoutProps) {
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">{title}</h2>
-      <div>{children}</div>
+      <ul className="grid grid-cols-3">{children}</ul>
     </section>
   );
 }
@@ -143,77 +143,20 @@ export default function Home(props: PageProps) {
       </div>
       <IndexLayout title={'Data Model Catalog'}>
         {!searchExtensionsResults || !searchExtensionsResults.length ? (
-          <Card cardDetails={latestExtensions} render={extensionCards}></Card>
+          <Cards cardDetails={latestExtensions} render={extensionCards}></Cards>
         ) : (
-          searchExtensionsResults.map(
-            ({ author, name, version, description, catalog_info }) => (
-              <Link
-                href={`/extensions/${name}/${version}`}
-                key={`${name}/${version}`}
-              >
-                <li className={`${style.card} flex flex-col justify-between`}>
-                  <div>
-                    <p className="text-xl font-bold">{description}</p>
-                    <p>{version}</p>
-                  </div>
-                  <ul>
-                    <li>Publisher: {author.name}</li>
-                    <li>Status: {catalog_info.status}</li>
-                  </ul>
-                </li>
-              </Link>
-            )
-          )
+          <Cards
+            cardDetails={searchExtensionsResults}
+            render={extensionCards}
+          />
         )}
       </IndexLayout>
       <IndexLayout title={'Conforming Solutions'}>
-        {!searchSolutionsResults || !searchSolutionsResults.length
-          ? allConformingSolutions.map(
-              ({ id, name, extensions, providerName }) => (
-                <Link href={`/solutions/${id}`} key={id}>
-                  <li className={`${style.card} flex flex-col justify-between`}>
-                    <div>
-                      <p className="text-xl font-bold">{name}</p>
-                      <p>{providerName}</p>
-                    </div>
-                    <div>
-                      <ul>
-                        {extensions.slice(0, 2).map(({ id, version }) => {
-                          return (
-                            <li>
-                              {id} {version}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </li>
-                </Link>
-              )
-            )
-          : searchSolutionsResults.map(
-              ({ id, name, extensions, providerName }) => (
-                <Link href={`/solutions/${id}`} key={id}>
-                  <li className={`${style.card} flex flex-col justify-between`}>
-                    <div>
-                      <p className="text-xl font-bold">{name}</p>
-                      <p>{providerName}</p>
-                    </div>
-                    <div>
-                      <ul>
-                        {extensions.slice(0, 2).map(({ id, version }) => {
-                          return (
-                            <li>
-                              {id} {version}
-                            </li>
-                          );
-                        })}
-                      </ul>
-                    </div>
-                  </li>
-                </Link>
-              )
-            )}
+        {!searchSolutionsResults || !searchSolutionsResults.length ? (
+          <Cards cardDetails={allConformingSolutions} render={solutionCards} />
+        ) : (
+          <Cards cardDetails={searchSolutionsResults} render={solutionCards} />
+        )}
       </IndexLayout>
     </Layout>
   );

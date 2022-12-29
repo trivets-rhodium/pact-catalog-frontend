@@ -1,6 +1,9 @@
 import Link from 'next/link';
 import JSXStyle from 'styled-jsx/style';
-import { CatalogDataModelExtension } from '../lib/catalog-types';
+import {
+  CatalogDataModelExtension,
+  ConformingSolution,
+} from '../lib/catalog-types';
 import { SearchableCatalogDataModelExtension } from '../pages';
 import style from '../styles/Home.module.css';
 
@@ -11,43 +14,11 @@ type CardProps<T> = {
   render: CardRenderer<T[]>;
 };
 
-export default function Card<T>(props: CardProps<T>) {
+export default function Cards<T>(props: CardProps<T>) {
   const { cardDetails, render } = props;
 
-  return <ul className="grid grid-cols-3">{render(cardDetails)}</ul>;
+  return <>{render(cardDetails)}</>;
 }
-
-// export const extensionCardRender: CardRenderer<
-//   CatalogDataModelExtension[] | SearchableCatalogDataModelExtension[]
-// > = (
-//   cardDetails:
-//     | CatalogDataModelExtension[]
-//     | SearchableCatalogDataModelExtension[]
-// ) => {
-//   return (
-//     <>
-//       {cardDetails.map(
-//         ({ author, name, version, description, catalog_info }) => {
-//           <Link
-//             href={`/extensions/${name}/${version}`}
-//             key={`${name}/${version}`}
-//           >
-//             <li className={`${style.card} flex flex-col justify-between`}>
-//               <div>
-//                 <p className="text-xl font-bold">{description}</p>
-//                 <p>{version}</p>
-//               </div>
-//               <ul>
-//                 <li>Publisher: {author.name}</li>
-//                 <li>Status: {catalog_info.status}</li>
-//               </ul>
-//             </li>
-//           </Link>;
-//         }
-//       )}
-//     </>
-//   );
-// };
 
 export function extensionCards(
   cardDetails:
@@ -75,4 +46,32 @@ export function extensionCards(
       );
     }
   );
+}
+
+export function solutionCards(
+  cardDetails: ConformingSolution[]
+): JSX.Element[] {
+  return cardDetails.map(({ id, name, extensions, providerName }) => {
+    return (
+      <Link href={`/solutions/${id}`} key={id}>
+        <li className={`${style.card} flex flex-col justify-between`}>
+          <div>
+            <p className="text-xl font-bold">{name}</p>
+            <p>{providerName}</p>
+          </div>
+          <div>
+            <ul>
+              {extensions.slice(0, 2).map(({ id, version }) => {
+                return (
+                  <li>
+                    {id} {version}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </li>
+      </Link>
+    );
+  });
 }
