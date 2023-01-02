@@ -15,6 +15,7 @@ import { Cards, extensionCards, solutionCards } from '../components/cards';
 import SearchBar from '../components/search-bar';
 import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
 import { late } from 'zod';
+import Link from 'next/link';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -49,17 +50,28 @@ function getAllPublishers(
 
   const allPublishersNames = allAuthorsNames.concat(allProvidersNames);
 
-  const allPublishers = allPublishersNames.filter((name, index) => {
-    return allPublishersNames.indexOf(name) == index;
+  return allPublishersNames.filter((name, index) => {
+    return allPublishersNames.indexOf(name) === index;
+  });
+}
+
+function getAllStatus(allExtensions: CatalogDataModelExtension[]) {
+  const allStatus = allExtensions.map((extension) => {
+    return extension.catalog_info.status;
   });
 
-  return allPublishers;
+  allStatus.push('deprecated');
+
+  return allStatus.filter((status, index) => {
+    return allStatus.indexOf(status) === index;
+  });
 }
 
 type Search = {
   matchingExtensions: SearchResult[];
   searchValue: string;
   publisher: string;
+  status: string;
   options: {
     filter: ((result: SearchResult) => boolean) | undefined;
   };
@@ -69,7 +81,8 @@ export default function Home(props: PageProps) {
   const [search, setSearch] = React.useState<Search>({
     matchingExtensions: new Array(),
     searchValue: '',
-    publisher: '',
+    publisher: 'all publishers',
+    status: 'all status',
     options: {
       filter: undefined,
     },
@@ -89,7 +102,7 @@ export default function Home(props: PageProps) {
   });
 
   let miniSearchExtensions = new MiniSearch({
-    fields: ['name', 'version', 'description'],
+    fields: ['name', 'version', 'description', 'publisher'],
     storeFields: [
       'name',
       'version',
@@ -121,6 +134,18 @@ export default function Home(props: PageProps) {
     });
   }
 
+  function handleStatusChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSearch({
+      ...search,
+      status: event.target.value,
+      options: {
+        filter: (result: SearchResult) => {
+          return result.catalog_info.status === event.target.value;
+        },
+      },
+    });
+  }
+
   useEffect(() => {
     const matchingExtensions = miniSearchExtensions.search(
       search.searchValue,
@@ -144,24 +169,25 @@ export default function Home(props: PageProps) {
           onSearchValueChange={handleSearchValueChange}
           publishers={getAllPublishers(allExtensions, allConformingSolutions)}
           onPublisherChange={handlePublisherChange}
+          status={getAllStatus(allExtensions)}
+          onStatusChange={handleStatusChange}
         />
       </section>
 
       <section>
-        {!search.matchingExtensions || search.searchValue === '' ? (
+        {!search.matchingExtensions || !search.searchValue.length ? (
           <Cards
             title="Data Model Extensions"
             subtitle="Latest Extensions"
             cardsContent={latestExtensions}
             render={extensionCards}
-          ></Cards>
+          />
         ) : (
           <Cards
             title="Data Model Extensions"
-            subtitle={`Found ${
-              search.matchingExtensions.length
-            } Data Model Extensions with '${search.searchValue}' from ${
-              search.publisher.length ? search.publisher : 'all publishers'
+            subtitle={`Found ${search.matchingExtensions.length} ${
+              search.status !== 'all status' ? search.status : ''
+            } Data Model Extensions with '${search.searchValue}' from ${search.publisher
             }`}
             cardsContent={search.matchingExtensions}
             render={extensionCards}

@@ -4,10 +4,18 @@ type SearchBarProps = {
   onSearchValueChange: ChangeEventHandler<HTMLInputElement>;
   publishers: string[];
   onPublisherChange: ChangeEventHandler<HTMLSelectElement>;
+  status: string[];
+  onStatusChange: ChangeEventHandler<HTMLSelectElement>;
 };
 
 export default function SearchBar(props: SearchBarProps) {
-  const { onSearchValueChange, publishers, onPublisherChange } = props;
+  const {
+    onSearchValueChange,
+    publishers,
+    onPublisherChange,
+    status,
+    onStatusChange,
+  } = props;
   return (
     <div>
       <h2 className="px-4">Search</h2>
@@ -34,7 +42,7 @@ export default function SearchBar(props: SearchBarProps) {
           className="flex-grow m-1"
           onChange={onPublisherChange}
         >
-          <option value="allPublishers">All publishers</option>
+          <option value="all publishers">All publishers</option>
           {publishers.map((publisher) => {
             return (
               <option key={publisher} value={publisher}>
@@ -44,6 +52,21 @@ export default function SearchBar(props: SearchBarProps) {
           })}
         </select>
 
+        <select
+          defaultValue="all status"
+          name="status"
+          className="flex-grow m-1"
+          onChange={onStatusChange}
+        >
+          <option value="all status">All status</option>
+          {status.map((status) => {
+            return (
+              <option key={status} value={status}>
+                {status}
+              </option>
+            );
+          })}
+        </select>
       </div>
     </div>
   );
