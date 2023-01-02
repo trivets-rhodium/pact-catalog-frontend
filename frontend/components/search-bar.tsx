@@ -3,10 +3,11 @@ import { ChangeEventHandler } from 'react';
 type SearchBarProps = {
   onSearchValueChange: ChangeEventHandler<HTMLInputElement>;
   publishers: string[];
+  onPublisherChange: ChangeEventHandler<HTMLSelectElement>;
 };
 
 export default function SearchBar(props: SearchBarProps) {
-  const { onSearchValueChange, publishers } = props;
+  const { onSearchValueChange, publishers, onPublisherChange } = props;
   return (
     <div>
       <h2 className="px-4">Search</h2>
@@ -31,6 +32,7 @@ export default function SearchBar(props: SearchBarProps) {
           defaultValue="allPublishers"
           name="publisher"
           className="flex-grow m-1"
+          onChange={onPublisherChange}
         >
           <option value="allPublishers">All publishers</option>
           {publishers.map((publisher) => {
@@ -41,6 +43,7 @@ export default function SearchBar(props: SearchBarProps) {
             );
           })}
         </select>
+
       </div>
     </div>
   );

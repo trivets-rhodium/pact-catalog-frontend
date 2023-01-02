@@ -10,12 +10,11 @@ import {
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
-import { useMiniSearch } from 'react-minisearch';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
 import SearchBar from '../components/search-bar';
-import { boolean } from 'zod';
-import { Options, SearchOptions, SearchResult } from 'minisearch';
+import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
+import { late } from 'zod';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -57,16 +56,28 @@ function getAllPublishers(
   return allPublishers;
 }
 
+type Search = {
+  matchingExtensions: SearchResult[];
+  searchValue: string;
+  publisher: string;
+  options: {
+    filter: ((result: SearchResult) => boolean) | undefined;
+  };
+};
+
 export default function Home(props: PageProps) {
-  const [search, setSearch] = React.useState({
-    matchingExtensions: [],
+  const [search, setSearch] = React.useState<Search>({
+    matchingExtensions: new Array(),
     searchValue: '',
     publisher: '',
+    options: {
+      filter: undefined,
+    },
   });
 
   const { latestExtensions, allConformingSolutions, allExtensions } = props;
 
-  const extensionIndex: (CatalogDataModelExtension & {
+  const extensionSearchIndex: (CatalogDataModelExtension & {
     id: number;
     publisher: string;
   })[] = allExtensions.map((extension, index) => {
@@ -77,55 +88,50 @@ export default function Home(props: PageProps) {
     };
   });
 
-  let miniSearchOptionsExtensions: Options<
-    CatalogDataModelExtension & {
-      id: number;
-      publisher: string;
-    }
-  > = {
+  let miniSearchExtensions = new MiniSearch({
     fields: ['name', 'version', 'description'],
-    storeFields: ['publisher'],
-  };
-  // const miniSearchOptionsSolutions = {
-  //   fields: ['name', 'summary'],
-  //   storeFileds: ['providerName'],
-  // };
+    storeFields: [
+      'name',
+      'version',
+      'description',
+      'publisher',
+      'author',
+      'catalog_info',
+    ],
+  });
 
-  const { search: searchExtensions, searchResults: searchExtensionsResults } =
-    useMiniSearch(extensionIndex, miniSearchOptionsExtensions);
-
-  // const { search: searchSolutions, searchResults: searchSolutionsResults } =
-  //   useMiniSearch(allConformingSolutions, miniSearchOptionsSolutions);
+  miniSearchExtensions.addAll(extensionSearchIndex);
 
   function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearch({
       ...search,
       searchValue: event.target.value,
     });
-
-    searchExtensions(search.searchValue, miniSearchOptionsExtensions);
   }
 
   function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearch({
       ...search,
       publisher: event.target.value,
-    });
-
-    searchExtensions(search.searchValue, miniSearchOptionsExtensions);
-
-    searchExtensionsResults &&
-      searchExtensionsResults.filter(
-        (
-          result: CatalogDataModelExtension & {
-            id: number;
-            publisher: string;
-          }
-        ) => {
+      options: {
+        filter: (result: SearchResult) => {
           return result.publisher === event.target.value;
-        }
-      );
+        },
+      },
+    });
   }
+
+  useEffect(() => {
+    const matchingExtensions = miniSearchExtensions.search(
+      search.searchValue,
+      search.options
+    );
+
+    setSearch({
+      ...search,
+      matchingExtensions,
+    });
+  });
 
   return (
     <Layout>
@@ -137,20 +143,27 @@ export default function Home(props: PageProps) {
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
           publishers={getAllPublishers(allExtensions, allConformingSolutions)}
+          onPublisherChange={handlePublisherChange}
         />
       </section>
 
       <section>
-        {!searchExtensionsResults || !searchExtensionsResults.length ? (
+        {!search.matchingExtensions || search.searchValue === '' ? (
           <Cards
-            title="Latest Data Model Extensions"
+            title="Data Model Extensions"
+            subtitle="Latest Extensions"
             cardsContent={latestExtensions}
             render={extensionCards}
           ></Cards>
         ) : (
           <Cards
-            title={`Searching Data Model Extensions with '${search.searchValue}'`}
-            cardsContent={searchExtensionsResults}
+            title="Data Model Extensions"
+            subtitle={`Found ${
+              search.matchingExtensions.length
+            } Data Model Extensions with '${search.searchValue}' from ${
+              search.publisher.length ? search.publisher : 'all publishers'
+            }`}
+            cardsContent={search.matchingExtensions}
             render={extensionCards}
           />
         )}

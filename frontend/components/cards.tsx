@@ -1,3 +1,4 @@
+import { SearchResult } from 'minisearch';
 import Link from 'next/link';
 import {
   CatalogDataModelExtension,
@@ -9,22 +10,24 @@ export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
 
 type CardsProps<T> = {
   title: string;
+  subtitle?: string;
   cardsContent: T[];
   render: CardsRenderer<T[]>;
 };
 
 export function Cards<T>(props: CardsProps<T>) {
-  const { title, cardsContent, render } = props;
+  const { title, cardsContent, render, subtitle } = props;
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">{title}</h2>
+      <h3 className='px-4'>{subtitle}</h3>
       <ul className="grid grid-cols-3">{render(cardsContent)}</ul>
     </section>
   );
 }
 
 export function extensionCards(
-  cardDetails: CatalogDataModelExtension[]
+  cardDetails: CatalogDataModelExtension[] | SearchResult[]
 ): JSX.Element[] {
   return cardDetails.map(
     ({ author, name, version, description, catalog_info }) => {
