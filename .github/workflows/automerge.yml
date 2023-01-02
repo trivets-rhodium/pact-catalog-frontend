@@ -2,16 +2,13 @@ name: automerge
 on:
   pull_request:
     types:
-      - opened
+      # Action does not start before the PR has the automerge label
+      - labeled
   status: {}
 jobs:
   automerge:
     runs-on: ubuntu-latest
     steps:
-      # Gives time for the automerge label to be added to the PR
-      - name: Sleep for 30 seconds
-        run: sleep 30s
-        shell: bash
       - id: automerge
         name: automerge
         uses: "pascalgn/automerge-action@v0.15.5"
