@@ -2,28 +2,16 @@ import { ChangeEventHandler } from 'react';
 
 type SearchBarProps = {
   onSearchValueChange: ChangeEventHandler<HTMLInputElement>;
-  onSearchTypeChange: ChangeEventHandler<HTMLSelectElement>;
   publishers: string[];
-  onPublisherChange: ChangeEventHandler<HTMLSelectElement>;
 };
 
 export default function SearchBar(props: SearchBarProps) {
-  const {
-    onSearchValueChange,
-    onSearchTypeChange,
-    publishers,
-    onPublisherChange,
-  } = props;
+  const { onSearchValueChange, publishers } = props;
   return (
     <div>
       <h2 className="px-4">Search</h2>
       <div className="flex justify-between mb-14 px-4">
-        <select
-          defaultValue=""
-          name="searchType"
-          onChange={onSearchTypeChange}
-          className="flex-grow m-1 p-4"
-        >
+        <select defaultValue="" name="searchType" className="flex-grow m-1 p-4">
           <option disabled value="">
             Type
           </option>
@@ -42,7 +30,6 @@ export default function SearchBar(props: SearchBarProps) {
         <select
           defaultValue="allPublishers"
           name="publisher"
-          onChange={onPublisherChange}
           className="flex-grow m-1"
         >
           <option value="allPublishers">All publishers</option>

@@ -14,6 +14,8 @@ import { useMiniSearch } from 'react-minisearch';
 import React from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
 import SearchBar from '../components/search-bar';
+import { boolean } from 'zod';
+import { Options, SearchOptions, SearchResult } from 'minisearch';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -57,11 +59,8 @@ function getAllPublishers(
 
 export default function Home(props: PageProps) {
   const [search, setSearch] = React.useState({
-    type: 'dataModelExtensions',
-    value: {
-      extensions: '',
-      solutions: '',
-    },
+    matchingExtensions: [],
+    searchValue: '',
     publisher: '',
   });
 
@@ -78,55 +77,33 @@ export default function Home(props: PageProps) {
     };
   });
 
-  const miniSearchOptionsExtensions = {
+  let miniSearchOptionsExtensions: Options<
+    CatalogDataModelExtension & {
+      id: number;
+      publisher: string;
+    }
+  > = {
     fields: ['name', 'version', 'description'],
     storeFields: ['publisher'],
   };
-
-  const miniSearchOptionsSolutions = {
-    fields: ['name', 'summary'],
-    storeFileds: ['providerName'],
-  };
+  // const miniSearchOptionsSolutions = {
+  //   fields: ['name', 'summary'],
+  //   storeFileds: ['providerName'],
+  // };
 
   const { search: searchExtensions, searchResults: searchExtensionsResults } =
     useMiniSearch(extensionIndex, miniSearchOptionsExtensions);
 
-  const { search: searchSolutions, searchResults: searchSolutionsResults } =
-    useMiniSearch(allConformingSolutions, miniSearchOptionsSolutions);
+  // const { search: searchSolutions, searchResults: searchSolutionsResults } =
+  //   useMiniSearch(allConformingSolutions, miniSearchOptionsSolutions);
 
   function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const searchValue = event.target.value;
+    setSearch({
+      ...search,
+      searchValue: event.target.value,
+    });
 
-    if (search.type === 'dataModelExtensions') {
-      search.publisher === 'allPublishers'
-        ? searchExtensions(searchValue)
-        : searchExtensions(searchValue, {
-            filter: (result) => {
-              return result['publisher'] === search.publisher;
-            },
-          });
-      setSearch({
-        ...search,
-        value: { ...search.value, extensions: searchValue },
-      });
-    } else {
-      search.publisher === 'allPublishers'
-        ? searchSolutions(searchValue)
-        : searchSolutions(searchValue, {
-            filter: (result) => {
-              return result['providerName'] === search.publisher;
-            },
-          });
-
-      setSearch({
-        ...search,
-        value: { ...search.value, solutions: searchValue },
-      });
-    }
-  }
-
-  function handleSearchTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({ ...search, type: event.target.value });
+    searchExtensions(search.searchValue, miniSearchOptionsExtensions);
   }
 
   function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -134,6 +111,20 @@ export default function Home(props: PageProps) {
       ...search,
       publisher: event.target.value,
     });
+
+    searchExtensions(search.searchValue, miniSearchOptionsExtensions);
+
+    searchExtensionsResults &&
+      searchExtensionsResults.filter(
+        (
+          result: CatalogDataModelExtension & {
+            id: number;
+            publisher: string;
+          }
+        ) => {
+          return result.publisher === event.target.value;
+        }
+      );
   }
 
   return (
@@ -145,9 +136,7 @@ export default function Home(props: PageProps) {
       <section>
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
-          onSearchTypeChange={handleSearchTypeChange}
           publishers={getAllPublishers(allExtensions, allConformingSolutions)}
-          onPublisherChange={handlePublisherChange}
         />
       </section>
 
@@ -160,7 +149,7 @@ export default function Home(props: PageProps) {
           ></Cards>
         ) : (
           <Cards
-            title={`Searching Data Model Extensions with '${search.value.extensions}'`}
+            title={`Searching Data Model Extensions with '${search.searchValue}'`}
             cardsContent={searchExtensionsResults}
             render={extensionCards}
           />
@@ -168,20 +157,23 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
-        {!searchSolutionsResults || !searchSolutionsResults.length ? (
-          <Cards
-            title="All Conforming Solutions"
-            cardsContent={allConformingSolutions}
-            render={solutionCards}
-          />
-        ) : (
-          <Cards
-            title={`Searching Conforming Solutions with '${search.value.solutions}'`}
-            cardsContent={searchSolutionsResults}
-            render={solutionCards}
-          />
-        )}
+        <Cards
+          title="All Conforming Solutions"
+          cardsContent={allConformingSolutions}
+          render={solutionCards}
+        />
       </section>
     </Layout>
   );
 }
+
+// function handleSearchTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
+//   setSearch({ ...search, type: event.target.value });
+// }
+
+// function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
+//   setSearch({
+//     ...search,
+//     publisher: event.target.value,
+//   });
+// }
