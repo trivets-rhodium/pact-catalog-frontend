@@ -1,44 +1,29 @@
 import Head from 'next/head';
-import {
-  getAllExtensions,
-  getLatestExtensionsSorted,
-} from '../lib/data-model-extensions';
+import { getAllExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
-import {
-  CatalogDataModelExtension,
-  ConformingSolution,
-} from '../lib/catalog-types';
+import { CatalogDataModelExtension } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
 import SearchBar from '../components/search-bar';
 import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
-import { late } from 'zod';
-import Link from 'next/link';
 
 type PageProps = {
-  latestExtensions: CatalogDataModelExtension[];
-  allConformingSolutions: ConformingSolution[];
   allExtensions: CatalogDataModelExtension[];
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const latestExtensions = await getLatestExtensionsSorted();
-  const allConformingSolutions = await getAllSolutions();
   const allExtensions = await getAllExtensions();
   return {
     props: {
-      latestExtensions,
-      allConformingSolutions,
       allExtensions,
     },
   };
 };
 
 function getAllPublishers(
-  allExtensions: CatalogDataModelExtension[],
-  allConformingSolutions: ConformingSolution[]
+  allExtensions: CatalogDataModelExtension[]
 ): string[] {
   const allAuthorsNames = allExtensions.map((extension) => {
     return extension.author.name;
@@ -49,7 +34,7 @@ function getAllPublishers(
   });
 }
 
-function getAllStatus(allExtensions: CatalogDataModelExtension[]) {
+function getAllStatuses(allExtensions: CatalogDataModelExtension[]) {
   const allStatus = allExtensions.map((extension) => {
     return extension.catalog_info.status;
   });
@@ -75,14 +60,14 @@ export default function Home(props: PageProps) {
   const [search, setSearch] = React.useState<Search>({
     matchingExtensions: new Array(),
     searchValue: '',
-    publisher: 'all publishers',
-    status: 'all status',
+    publisher: '',
+    status: '',
     options: {
       filter: undefined,
     },
   });
 
-  const { latestExtensions, allConformingSolutions, allExtensions } = props;
+  const { allExtensions } = props;
 
   const extensionSearchIndex: (CatalogDataModelExtension & {
     id: number;
@@ -135,10 +120,10 @@ export default function Home(props: PageProps) {
 
     const matchingExtensions = miniSearchExtensions.search(searchValue, {
       filter: (result: SearchResult) => {
-        if (publisher !== 'all publishers' && publisher !== result.publisher) {
+        if (publisher !== '' && publisher !== result.publisher) {
           return false;
         }
-        if (status !== 'all status' && status !== result.catalog_info.status) {
+        if (status !== '' && status !== result.catalog_info.status) {
           return false;
         }
         return true;
@@ -151,107 +136,86 @@ export default function Home(props: PageProps) {
     });
   }, [search.searchValue, search.publisher, search.status]);
 
+  function displayExtensions() {
+    const { searchValue, publisher, status, matchingExtensions } = search;
+
+    const filterByPublisher = allExtensions.filter((extension) => {
+      return extension.author.name === publisher;
+    });
+
+    const filterByStatus = allExtensions.filter((extension) => {
+      return extension.catalog_info.status === status;
+    });
+
+    const filterByPublisherAndStatus = filterByPublisher.filter((extension) => {
+      return extension.catalog_info.status === status;
+    });
+
+    if (searchValue !== '') {
+      return (
+        <Cards
+          title="Data Model Extensions"
+          subtitle={`Found ${matchingExtensions.length} ${
+            status !== '' ? status : ''
+          } extensions with '${searchValue}' ${
+            publisher !== '' ? `from ${publisher}` : ''
+          }`}
+          cardsContent={matchingExtensions}
+          render={extensionCards}
+        />
+      );
+    } else if (publisher !== '' && status !== '') {
+      return (
+        <Cards
+          title="Data Model Extensions"
+          subtitle={`All ${status} extensions, from ${publisher}`}
+          cardsContent={filterByPublisherAndStatus}
+          render={extensionCards}
+        />
+      );
+    } else if (publisher !== '' && status === '') {
+      return (
+        <Cards
+          title="Data Model Extensions"
+          subtitle={`All extensions from ${publisher}`}
+          cardsContent={filterByPublisher}
+          render={extensionCards}
+        />
+      );
+    } else if (publisher === '' && status !== '') {
+      return (
+        <Cards
+          title="Data Model Extensions"
+          subtitle={`All ${status} extensions`}
+          cardsContent={filterByStatus}
+          render={extensionCards}
+        />
+      );
+    } else {
+      return (
+        <Cards
+          title="Data Model Extensions"
+          subtitle="All extensions"
+          cardsContent={allExtensions}
+          render={extensionCards}
+        />
+      );
+    }
+  }
+
   return (
     <Layout title="Data Model Extensions">
       <section>
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
-          publishers={getAllPublishers(allExtensions, allConformingSolutions)}
+          publishers={getAllPublishers(allExtensions)}
           onPublisherChange={handlePublisherChange}
-          status={getAllStatus(allExtensions)}
+          status={getAllStatuses(allExtensions)}
           onStatusChange={handleStatusChange}
         />
       </section>
 
-      <section>
-        {displayExtensions(search, latestExtensions, allExtensions)}
-      </section>
+      <section>{displayExtensions()}</section>
     </Layout>
   );
 }
-
-function displayExtensions(
-  search: Search,
-  latestExtensions: CatalogDataModelExtension[],
-  allExtensions: CatalogDataModelExtension[]
-) {
-  const { searchValue, publisher, status } = search;
-
-  const filterByPublisher = allExtensions.filter((extension) => {
-    return extension.author.name === publisher;
-  });
-
-  const filterByStatus = allExtensions.filter((extension) => {
-    return extension.catalog_info.status === status;
-  });
-
-  const filterByPublisherAndStatus = filterByPublisher.filter((extension) => {
-    return extension.catalog_info.status === status;
-  });
-
-  if (
-    searchValue === '' &&
-    publisher === 'all publishers' &&
-    status === 'all status'
-  ) {
-    return (
-      <Cards
-        title="Data Model Extensions"
-        subtitle="Latest extensions"
-        cardsContent={latestExtensions}
-        render={extensionCards}
-      />
-    );
-  } else if (publisher !== 'all publishers' && status === 'all status') {
-    return (
-      <Cards
-        title="Data Model Extensions"
-        subtitle={`All extensions from ${publisher}`}
-        cardsContent={filterByPublisher}
-        render={extensionCards}
-      />
-    );
-  } else if (publisher === 'all publishers' && status !== 'all status') {
-    return (
-      <Cards
-        title="Data Model Extensions"
-        subtitle={`All ${status} extensions`}
-        cardsContent={filterByStatus}
-        render={extensionCards}
-      />
-    );
-  } else if (publisher !== 'all publishers' && status !== 'all status') {
-    return (
-      <Cards
-        title="Data Model Extensions"
-        subtitle={`All ${status} extensions, from ${publisher}`}
-        cardsContent={filterByPublisherAndStatus}
-        render={extensionCards}
-      />
-    );
-  } else {
-    return (
-      <Cards
-        title="Data Model Extensions"
-        subtitle={`Found ${search.matchingExtensions.length} ${
-          search.status !== 'all status' ? search.status : ''
-        } Data Model Extensions with '${search.searchValue}' from ${
-          search.publisher
-        }`}
-        cardsContent={search.matchingExtensions}
-        render={extensionCards}
-      />
-    );
-  }
-}
-
-// function handleSearchTypeChange(event: React.ChangeEvent<HTMLSelectElement>) {
-//   setSearch({ ...search, type: event.target.value });
-// }
-
-// function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
-//   setSearch({
-//     ...search,
-//     publisher: event.target.value,
-//   });
-// }

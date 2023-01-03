@@ -32,17 +32,17 @@ export default function SearchBar(props: SearchBarProps) {
           name="searchBar"
           type="text"
           onChange={onSearchValueChange}
-          placeholder="Title"
-          className="flex-grow m-1 p-4"
+          placeholder="Search extensions"
+          className="flex-grow m-1 p-4 rounded-sm"
         />
 
         <select
-          defaultValue="allPublishers"
+          defaultValue=""
           name="publisher"
-          className="flex-grow m-1"
+          className="flex-grow m-1 p-4 rounded-sm"
           onChange={onPublisherChange}
         >
-          <option value="all publishers">All publishers</option>
+          <option value="">all publishers</option>
           {publishers.map((publisher) => {
             return (
               <option key={publisher} value={publisher}>
@@ -53,12 +53,12 @@ export default function SearchBar(props: SearchBarProps) {
         </select>
 
         <select
-          defaultValue="all status"
+          defaultValue=""
           name="status"
-          className="flex-grow m-1"
+          className="flex-grow m-1 p-4 rounded-sm"
           onChange={onStatusChange}
         >
-          <option value="all status">All status</option>
+          <option value="">all statuses</option>
           {status.map((status) => {
             return (
               <option key={status} value={status}>
