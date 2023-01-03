@@ -20,20 +20,20 @@ export default function SearchBar(props: SearchBarProps) {
     <div>
       <h2 className="px-4">Search</h2>
       <div className="flex justify-between mb-14 px-4">
-        <select defaultValue="" name="searchType" className="flex-grow m-1 p-4">
+        {/* <select defaultValue="" name="searchType" className="flex-grow m-1 p-4">
           <option disabled value="">
             Type
           </option>
           <option value="dataModelExtensions">Data Model Extensions</option>
           <option value="conformingSolutions">Conforming Solutions</option>
-        </select>
+        </select> */}
 
         <input
           name="searchBar"
           type="text"
           onChange={onSearchValueChange}
           placeholder="Title"
-          className="flex-grow m-1"
+          className="flex-grow m-1 p-4"
         />
 
         <select
