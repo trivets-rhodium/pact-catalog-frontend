@@ -122,6 +122,9 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
+        <Link href={'/extensions'} className="mx-16">
+          See all extensions
+        </Link>
         {search.searchValue === '' ? (
           <Cards
             title="Data Model Extensions"
@@ -139,6 +142,9 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
+      <Link href={'/solutions'} className="mx-16">
+          See all solutions
+        </Link>
         {search.searchValue === '' ? (
           <Cards
             title="Conforming Solutions"
