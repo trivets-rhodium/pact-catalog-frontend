@@ -81,7 +81,7 @@ export default function Solutions(props: PageProps) {
 
   const { allSolutions, allResults } = props;
 
-  let miniSearchExtensions = new MiniSearch({
+  let miniSearchSolutions = new MiniSearch({
     fields: [
       'name',
       'providerName',
@@ -100,7 +100,7 @@ export default function Solutions(props: PageProps) {
     ],
   });
 
-  miniSearchExtensions.addAll(allSolutions);
+  miniSearchSolutions.addAll(allSolutions);
 
   function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearch({
@@ -126,7 +126,7 @@ export default function Solutions(props: PageProps) {
   useEffect(() => {
     const { provider, result, searchValue } = search;
 
-    const matchingExtensions = miniSearchExtensions.search(searchValue, {
+    const matchingSolutions = miniSearchSolutions.search(searchValue, {
       filter: (searchResult: SearchResult) => {
         if (provider !== '' && provider !== searchResult.providerName) {
           return false;
@@ -145,7 +145,7 @@ export default function Solutions(props: PageProps) {
 
     setSearch({
       ...search,
-      matchingSolutions: matchingExtensions,
+      matchingSolutions,
     });
   }, [search.searchValue, search.provider, search.result]);
 

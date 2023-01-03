@@ -24,7 +24,7 @@ export default function SolutionSearchBar(props: SolutionSearchProps) {
           name="searchBar"
           type="text"
           onChange={onSearchValueChange}
-          placeholder="Search extensions"
+          placeholder="Search solutions"
           className="flex-grow m-1 p-4 rounded-sm"
         />
 
