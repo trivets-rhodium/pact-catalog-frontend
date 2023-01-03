@@ -1,24 +1,24 @@
 import { ChangeEventHandler } from 'react';
 
-type ExtensionSearchBarProps = {
+type SolutionSearchProps = {
   onSearchValueChange: ChangeEventHandler<HTMLInputElement>;
-  publishers: string[];
-  onPublisherChange: ChangeEventHandler<HTMLSelectElement>;
-  statuses: string[];
-  onStatusChange: ChangeEventHandler<HTMLSelectElement>;
+  providers: string[];
+  onProviderChange: ChangeEventHandler<HTMLSelectElement>;
+  results: string[];
+  onResultChange: ChangeEventHandler<HTMLSelectElement>;
 };
 
-export default function SearchBar(props: ExtensionSearchBarProps) {
+export default function SolutionSearchBar(props: SolutionSearchProps) {
   const {
     onSearchValueChange,
-    publishers,
-    onPublisherChange,
-    statuses: status,
-    onStatusChange,
+    providers: publishers,
+    onProviderChange: onPublisherChange,
+    results: status,
+    onResultChange: onStatusChange,
   } = props;
   return (
     <div>
-      <h2 className="px-4">Search the Catalog</h2>
+      <h2 className="px-4">Search</h2>
       <div className="flex justify-between mb-14 px-4">
         <input
           name="searchBar"

@@ -158,14 +158,13 @@ export default function Home(props: PageProps) {
   }, [search.searchValue, search.publisher, search.status]);
 
   return (
-    <Layout title='Online Catalog'>
-
+    <Layout title="Online Catalog">
       <section>
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
           publishers={getAllPublishers(allExtensions, allConformingSolutions)}
           onPublisherChange={handlePublisherChange}
-          status={getAllStatus(allExtensions)}
+          statuses={getAllStatus(allExtensions)}
           onStatusChange={handleStatusChange}
         />
       </section>

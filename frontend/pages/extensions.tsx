@@ -6,7 +6,7 @@ import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
-import SearchBar from '../components/search-bar';
+import ExtensionSearchBar from '../components/extension-search-bar';
 import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
 
 type PageProps = {
@@ -39,6 +39,7 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]) {
     return extension.catalog_info.status;
   });
 
+  // TO DO: include only represented statuses?
   allStatus.push('deprecated');
 
   return allStatus.filter((status, index) => {
@@ -206,11 +207,11 @@ export default function Home(props: PageProps) {
   return (
     <Layout title="Data Model Extensions">
       <section>
-        <SearchBar
+        <ExtensionSearchBar
           onSearchValueChange={handleSearchValueChange}
           publishers={getAllPublishers(allExtensions)}
           onPublisherChange={handlePublisherChange}
-          status={getAllStatuses(allExtensions)}
+          statuses={getAllStatuses(allExtensions)}
           onStatusChange={handleStatusChange}
         />
       </section>

@@ -8,7 +8,7 @@ type ExtensionSearchBarProps = {
   onStatusChange: ChangeEventHandler<HTMLSelectElement>;
 };
 
-export default function SearchBar(props: ExtensionSearchBarProps) {
+export default function ExtensionSearchBar(props: ExtensionSearchBarProps) {
   const {
     onSearchValueChange,
     publishers,
@@ -18,7 +18,7 @@ export default function SearchBar(props: ExtensionSearchBarProps) {
   } = props;
   return (
     <div>
-      <h2 className="px-4">Search the Catalog</h2>
+      <h2 className="px-4">Search Data Model Extensions</h2>
       <div className="flex justify-between mb-14 px-4">
         <input
           name="searchBar"
