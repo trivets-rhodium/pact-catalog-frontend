@@ -11,14 +11,14 @@ type SolutionSearchProps = {
 export default function SolutionSearchBar(props: SolutionSearchProps) {
   const {
     onSearchValueChange,
-    providers: publishers,
-    onProviderChange: onPublisherChange,
-    results: status,
-    onResultChange: onStatusChange,
+    providers,
+    onProviderChange,
+    results,
+    onResultChange,
   } = props;
   return (
     <div>
-      <h2 className="px-4">Search</h2>
+      <h2 className="px-4">Search Conforming Solutions</h2>
       <div className="flex justify-between mb-14 px-4">
         <input
           name="searchBar"
@@ -30,15 +30,15 @@ export default function SolutionSearchBar(props: SolutionSearchProps) {
 
         <select
           defaultValue=""
-          name="publisher"
+          name="provider"
           className="flex-grow m-1 p-4 rounded-sm"
-          onChange={onPublisherChange}
+          onChange={onProviderChange}
         >
-          <option value="">all publishers</option>
-          {publishers.map((publisher) => {
+          <option value="">all providers</option>
+          {providers.map((provider) => {
             return (
-              <option key={publisher} value={publisher}>
-                {publisher}
+              <option key={provider} value={provider}>
+                {provider}
               </option>
             );
           })}
@@ -46,15 +46,15 @@ export default function SolutionSearchBar(props: SolutionSearchProps) {
 
         <select
           defaultValue=""
-          name="status"
+          name="result"
           className="flex-grow m-1 p-4 rounded-sm"
-          onChange={onStatusChange}
+          onChange={onResultChange}
         >
-          <option value="">all statuses</option>
-          {status.map((status) => {
+          <option value="">all results</option>
+          {results.map((result) => {
             return (
-              <option key={status} value={status}>
-                {status}
+              <option key={result} value={result}>
+                {result}
               </option>
             );
           })}

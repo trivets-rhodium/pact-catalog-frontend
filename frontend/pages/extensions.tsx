@@ -35,15 +35,15 @@ function getAllPublishers(
 }
 
 function getAllStatuses(allExtensions: CatalogDataModelExtension[]) {
-  const allStatus = allExtensions.map((extension) => {
+  const allStatuses = allExtensions.map((extension) => {
     return extension.catalog_info.status;
   });
 
   // TO DO: include only represented statuses?
-  allStatus.push('deprecated');
+  allStatuses.push('deprecated');
 
-  return allStatus.filter((status, index) => {
-    return allStatus.indexOf(status) === index;
+  return allStatuses.filter((status, index) => {
+    return allStatuses.indexOf(status) === index;
   });
 }
 
@@ -57,7 +57,7 @@ type Search = {
   };
 };
 
-export default function Home(props: PageProps) {
+export default function Extensions(props: PageProps) {
   const [search, setSearch] = React.useState<Search>({
     matchingExtensions: new Array(),
     searchValue: '',

@@ -3,6 +3,8 @@ import Link from 'next/link';
 import {
   CatalogDataModelExtension,
   ConformingSolution,
+  DMEId,
+  VersionId,
 } from '../lib/catalog-types';
 import style from '../styles/Home.module.css';
 
@@ -20,7 +22,7 @@ export function Cards<T>(props: CardsProps<T>) {
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">{title}</h2>
-      <h3 className='px-4'>{subtitle}</h3>
+      <h3 className="px-4">{subtitle}</h3>
       <ul className="grid grid-cols-3">{render(cardsContent)}</ul>
     </section>
   );
@@ -53,7 +55,7 @@ export function extensionCards(
 }
 
 export function solutionCards(
-  cardDetails: ConformingSolution[]
+  cardDetails: ConformingSolution[] | SearchResult[]
 ): JSX.Element[] {
   return cardDetails.map(({ id, name, extensions, providerName }) => {
     return (
@@ -65,13 +67,19 @@ export function solutionCards(
           </div>
           <div>
             <ul>
-              {extensions.slice(0, 2).map(({ id, version }) => {
-                return (
-                  <li key={id}>
-                    {id} {version}
-                  </li>
-                );
-              })}
+              {extensions.map(
+                (extension: {
+                  id: DMEId;
+                  version: VersionId;
+                  author: string;
+                }) => {
+                  return (
+                    <li key={extension.id}>
+                      {extension.id} {extension.version}
+                    </li>
+                  );
+                }
+              )}
             </ul>
           </div>
         </li>
