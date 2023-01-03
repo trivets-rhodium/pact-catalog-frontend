@@ -126,11 +126,6 @@ export default function Home(props: PageProps) {
     setSearch({
       ...search,
       publisher: event.target.value,
-      options: {
-        filter: (result: SearchResult) => {
-          return result.publisher === event.target.value;
-        },
-      },
     });
   }
 
@@ -138,19 +133,26 @@ export default function Home(props: PageProps) {
     setSearch({
       ...search,
       status: event.target.value,
-      options: {
-        filter: (result: SearchResult) => {
-          return result.catalog_info.status === event.target.value;
-        },
-      },
     });
   }
 
   useEffect(() => {
-    const matchingExtensions = miniSearchExtensions.search(
-      search.searchValue,
-      search.options
-    );
+    // console.log('search:', search);
+
+    const { publisher, status } = search;
+
+    const matchingExtensions = miniSearchExtensions.search(search.searchValue, {
+      filter: (result: SearchResult) => {
+        // console.log('result:', result);
+        if (publisher !== 'all publishers' && publisher !== result.publisher) {
+          return false;
+        }
+        if (status !== 'all status' && status !== result.catalog_info.status) {
+          return false;
+        }
+        return true;
+      },
+    });
 
     setSearch({
       ...search,
@@ -187,7 +189,8 @@ export default function Home(props: PageProps) {
             title="Data Model Extensions"
             subtitle={`Found ${search.matchingExtensions.length} ${
               search.status !== 'all status' ? search.status : ''
-            } Data Model Extensions with '${search.searchValue}' from ${search.publisher
+            } Data Model Extensions with '${search.searchValue}' from ${
+              search.publisher
             }`}
             cardsContent={search.matchingExtensions}
             render={extensionCards}
