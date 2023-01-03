@@ -137,13 +137,10 @@ export default function Home(props: PageProps) {
   }
 
   useEffect(() => {
-    // console.log('search:', search);
-
     const { publisher, status } = search;
 
     const matchingExtensions = miniSearchExtensions.search(search.searchValue, {
       filter: (result: SearchResult) => {
-        // console.log('result:', result);
         if (publisher !== 'all publishers' && publisher !== result.publisher) {
           return false;
         }
@@ -158,7 +155,7 @@ export default function Home(props: PageProps) {
       ...search,
       matchingExtensions,
     });
-  });
+  }, [search.searchValue, search.publisher, search.status]);
 
   return (
     <Layout>
