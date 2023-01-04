@@ -1,4 +1,5 @@
 import { ChangeEventHandler } from 'react';
+import style from 'styles/SearchBar.module.css';
 
 type SearchBarProps<T> = {
   title: string;
@@ -28,7 +29,7 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
     <>
       <div>
         <h2 className="px-4">{title}</h2>
-        <div className="flex justify-between mb-14 px-4">
+        <div className={`flex justify-evenly mb-14 px-4 ${style.search}`}>
           <input
             name="searchBar"
             type="text"
@@ -38,39 +39,43 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
           />
 
           {firstFilterName && firstFilterContent && onFirstFilterChange && (
-            <select
-              defaultValue=""
-              name={firstFilterName}
-              className="flex-grow m-1 p-4 rounded-sm"
-              onChange={onFirstFilterChange}
-            >
-              <option value="">all {firstFilterName}</option>
-              {firstFilterContent.map((e) => {
-                return (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
-                );
-              })}
-            </select>
+            <div className={style['select-wrapper']}>
+              <select
+                defaultValue=""
+                name={firstFilterName}
+                className="flex-grow m-1 p-4 rounded-sm filter"
+                onChange={onFirstFilterChange}
+              >
+                <option value="">all {firstFilterName}</option>
+                {firstFilterContent.map((e) => {
+                  return (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           )}
 
           {secondFilterName && secondFilterContent && onSecondFilterChange && (
-            <select
-              defaultValue=""
-              name={secondFilterName}
-              className="flex-grow m-1 p-4 rounded-sm"
-              onChange={onSecondFilterChange}
-            >
-              <option value="">all {secondFilterName}</option>
-              {secondFilterContent.map((e) => {
-                return (
-                  <option key={e} value={e}>
-                    {e}
-                  </option>
-                );
-              })}
-            </select>
+            <div className={style['select-wrapper']}>
+              <select
+                defaultValue=""
+                name={secondFilterName}
+                className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm"
+                onChange={onSecondFilterChange}
+              >
+                <option value="">all {secondFilterName}</option>
+                {secondFilterContent.map((e) => {
+                  return (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
           )}
         </div>
       </div>

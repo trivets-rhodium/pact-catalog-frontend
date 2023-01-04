@@ -7,11 +7,8 @@ import {
   DMEId,
   VersionId,
 } from '../lib/catalog-types';
-import {
-  getAllDataModelExtensionIds,
-  getAllExtensions,
-} from '../lib/data-model-extensions';
-import style from '../styles/Home.module.css';
+
+import style from '../styles/Card.module.css';
 
 export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
 

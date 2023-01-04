@@ -39,15 +39,3 @@
   font-size: 1.25rem;
   line-height: 1.5;
 }
-
-.see-more-link {
-  color: #0a0552;
-  padding: 0 0.2rem;
-  border-bottom: 0.2rem solid #08A17F;
-  transition: box-shadow .3s;
-
-}
-
-.see-more-link:hover {
-  box-shadow: inset 0 -0.6rem 0 0 #08A17F;
-}
