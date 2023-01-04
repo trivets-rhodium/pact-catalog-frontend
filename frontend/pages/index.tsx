@@ -38,14 +38,8 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
-type Search = {
-  matchingExtensions: SearchResult[];
-  matchingSolutions: SearchResult[];
-  searchValue: string;
-};
-
 export default function Home(props: PageProps) {
-  const [search, setSearch] = React.useState<Search>({
+  const [search, setSearch] = React.useState({
     matchingExtensions: new Array(),
     matchingSolutions: new Array(),
     searchValue: '',
@@ -65,7 +59,7 @@ export default function Home(props: PageProps) {
     };
   });
 
-  let miniSearchExtensions = new MiniSearch({
+  const miniSearchExtensions = new MiniSearch({
     fields: ['name', 'version', 'description', 'publisher'],
     storeFields: [
       'name',
@@ -79,7 +73,7 @@ export default function Home(props: PageProps) {
 
   miniSearchExtensions.addAll(extensionSearchIndex);
 
-  let miniSearchSolutions = new MiniSearch({
+  const miniSearchSolutions = new MiniSearch({
     fields: [
       'name',
       'providerName',
