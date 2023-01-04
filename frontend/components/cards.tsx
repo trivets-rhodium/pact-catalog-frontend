@@ -1,5 +1,6 @@
 import { SearchResult } from 'minisearch';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import {
   CatalogDataModelExtension,
   ConformingSolution,
@@ -13,17 +14,27 @@ export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
 type CardsProps<T> = {
   title: string;
   subtitle?: string;
+  href?: string;
   cardsContent: T[];
   render: CardsRenderer<T[]>;
 };
 
 export function Cards<T>(props: CardsProps<T>) {
-  const { title, cardsContent, render, subtitle } = props;
+  const { title, cardsContent, render, subtitle, href } = props;
   return (
     <section className="background pb-10 rounded-sm">
-      <h2 className="title px-4">{title}</h2>
+      <Link href={href ? href : useRouter().pathname}>
+        <h2 className="title px-4">{title}</h2>
+      </Link>
       <h3 className="px-4">{subtitle}</h3>
-      <ul className="grid grid-cols-3">{render(cardsContent)}</ul>
+      <ul className="grid grid-cols-3 m-1">
+        {render(cardsContent)}{' '}
+      </ul>
+        {href && (
+          <div className='text-right'>
+            <Link href={href} className={`m-4 ${style["see-more-link"]}`}>See more...</Link>
+          </div>
+        )}
     </section>
   );
 }

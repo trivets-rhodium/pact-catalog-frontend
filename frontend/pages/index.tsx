@@ -122,19 +122,17 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
-        <Link href={'/extensions'} className="mx-16">
-          See all extensions
-        </Link>
         {search.searchValue === '' ? (
           <Cards
             title="Data Model Extensions"
-            subtitle="Latest Extensions"
-            cardsContent={latestExtensions}
+            href="/extensions"
+            cardsContent={latestExtensions.slice(0, 3)}
             render={extensionCards}
           />
         ) : (
           <Cards
             title="Data Model Extensions"
+            href="/extensions"
             cardsContent={search.matchingExtensions}
             render={extensionCards}
           />
@@ -142,18 +140,17 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
-      <Link href={'/solutions'} className="mx-16">
-          See all solutions
-        </Link>
         {search.searchValue === '' ? (
           <Cards
             title="Conforming Solutions"
-            cardsContent={allSolutions}
+            href="/solutions"
+            cardsContent={allSolutions.slice(0, 3)}
             render={solutionCards}
           />
         ) : (
           <Cards
             title="All Conforming Solutions"
+            href="/solutions"
             cardsContent={search.matchingSolutions}
             render={solutionCards}
           />
