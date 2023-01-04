@@ -6,8 +6,8 @@ import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
-import ExtensionSearchBar from '../components/extension-search-bar';
 import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
+import SearchBar from '../components/search-bar';
 
 type PageProps = {
   allExtensions: CatalogDataModelExtension[];
@@ -207,12 +207,18 @@ export default function Extensions(props: PageProps) {
   return (
     <Layout title="Data Model Extensions">
       <section>
-        <ExtensionSearchBar
+        <SearchBar
           onSearchValueChange={handleSearchValueChange}
-          publishers={getAllPublishers(allExtensions)}
-          onPublisherChange={handlePublisherChange}
-          statuses={getAllStatuses(allExtensions)}
-          onStatusChange={handleStatusChange}
+          firstFilterName="publishers"
+          firstFilterContent={getAllPublishers(allExtensions)}
+          onFirstFilterChange={handlePublisherChange}
+          secondFilterName="statuses"
+          secondFilterContent={getAllStatuses(allExtensions)}
+          onSecondFilterChange={handleStatusChange}
+          title={'Search Data Model Extensions'}
+          placeholder={
+            'e.g. World Business Council for Sustainable Development'
+          }
         />
       </section>
 

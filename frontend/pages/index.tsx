@@ -131,7 +131,11 @@ export default function Home(props: PageProps) {
   return (
     <Layout title="Online Catalog">
       <section>
-        <SearchBar onSearchValueChange={handleSearchValueChange} />
+        <SearchBar
+          title="Search the Catalog"
+          placeholder="Search Data Model Extensions and Conforming Solutions"
+          onSearchValueChange={handleSearchValueChange}
+        />
       </section>
 
       {!searchTrigger ? (

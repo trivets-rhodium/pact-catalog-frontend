@@ -10,12 +10,13 @@ import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
 import { Cards, extensionCards, solutionCards } from '../components/cards';
-import SolutionSearchBar from '../components/solution-search-bar';
 import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
 import {
   getAllTestResults,
   getSolutionTestResults,
 } from '../lib/conformance-tests';
+import SearchBar from '../components/search-bar';
+import { getAllExtensions } from '../lib/data-model-extensions';
 
 type PageProps = {
   allSolutions: ConformingSolution[];
@@ -227,14 +228,18 @@ export default function Solutions(props: PageProps) {
   }
 
   return (
-    <Layout title="Data Model Extensions">
+    <Layout title="Conforming Solutions">
       <section>
-        <SolutionSearchBar
+        <SearchBar
           onSearchValueChange={handleSearchValueChange}
-          providers={getAllProviders(allSolutions)}
-          onProviderChange={handleProviderChange}
-          results={getAllResults(allResults)}
-          onResultChange={handleResultsChange}
+          firstFilterName="providers"
+          firstFilterContent={getAllProviders(allSolutions)}
+          onFirstFilterChange={handleProviderChange}
+          secondFilterName="results"
+          secondFilterContent={getAllResults(allResults)}
+          onSecondFilterChange={handleResultsChange}
+          title={'Search Conforming Solutions'}
+          placeholder={'e.g. Some Solution Provider'}
         />
       </section>
 
