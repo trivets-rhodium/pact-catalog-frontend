@@ -1,4 +1,3 @@
-import Head from 'next/head';
 import {
   getAllExtensions,
   getLatestExtensionsSorted,
@@ -18,9 +17,7 @@ import {
   solutionCards,
 } from '../components/cards';
 import SearchBar from '../components/search-bar';
-import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
-import { late } from 'zod';
-import Link from 'next/link';
+import MiniSearch, { SearchResult } from 'minisearch';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -55,6 +52,7 @@ export default function Home(props: PageProps) {
   });
 
   const { latestExtensions, allSolutions, allExtensions } = props;
+  const { searchValue, matchingExtensions, matchingSolutions } = search;
 
   const extensionSearchIndex: (CatalogDataModelExtension & {
     id: number;
@@ -102,6 +100,22 @@ export default function Home(props: PageProps) {
 
   miniSearchSolutions.addAll(allSolutions);
 
+  const searchTrigger = searchValue.length < 3;
+
+  // Generates message for button linking to all extensions/solutions
+  function generateMessage(
+    pool: CatalogDataModelExtension[] | ConformingSolution[] | SearchResult[],
+    type: string
+  ) {
+    if (pool.length > cols - 1 && searchTrigger) {
+      return `See ${pool.length - (cols - 1)} other ${type}(s)...`;
+    } else if (!searchTrigger) {
+      return `All ${type}(s)...`;
+    } else {
+      return undefined;
+    }
+  }
+
   function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
     setSearch({
       ...search,
@@ -110,73 +124,59 @@ export default function Home(props: PageProps) {
   }
 
   useEffect(() => {
-    const matchingExtensions = miniSearchExtensions.search(search.searchValue);
-    const matchingSolutions = miniSearchSolutions.search(search.searchValue);
+    const matchingExtensions = miniSearchExtensions.search(searchValue);
+    const matchingSolutions = miniSearchSolutions.search(searchValue);
 
     setSearch({
       ...search,
       matchingExtensions,
       matchingSolutions,
     });
-  }, [search.searchValue]);
+  }, [searchValue]);
 
-  function generateMessage(
-    pool: CatalogDataModelExtension[] | ConformingSolution[] | SearchResult[],
-    type: string
-  ) {
-    if (pool.length > cols - 1 && search.searchValue === '') {
-      return `See ${pool.length - (cols - 1)} other ${type}...`;
-    } else if (search.searchValue !== '') {
-      return `More ${type}...`;
-    } else {
-      return undefined;
-    }
-  }
   return (
     <Layout title="Online Catalog">
       <section>
         <SearchBar onSearchValueChange={handleSearchValueChange} />
       </section>
 
-      <section>
-        {search.searchValue.length < 3 ? (
+      {searchTrigger ? (
+        <section>
           <Cards
             title="Latest Data Model Extensions"
             href="/extensions"
-            message={generateMessage(allExtensions, 'extensions')}
+            message={generateMessage(allExtensions, 'extension')}
             cardsContent={latestExtensions.slice(0, cols - 1)}
             render={extensionCards}
           />
-        ) : (
-          <Cards
-            title={`Searching Data Model Extensions with '${search.searchValue}'`}
-            href="/extensions"
-            message={generateMessage(search.matchingExtensions, 'extensions')}
-            cardsContent={search.matchingExtensions.slice(0, cols - 1)}
-            render={extensionCards}
-          />
-        )}
-      </section>
 
-      <section>
-        {search.searchValue.length < 3 ? (
           <Cards
             title="Latest Conforming Solutions"
             href="/solutions"
-            message={generateMessage(allSolutions, 'solutions')}
+            message={generateMessage(allSolutions, 'solution')}
             cardsContent={allSolutions.slice(0, cols - 1)}
             render={solutionCards}
           />
-        ) : (
+        </section>
+      ) : (
+        <section>
           <Cards
-            title={`Searching Conforming Solutions with '${search.searchValue}'`}
+            title={`${matchingExtensions.length} Data Model Extension(s) for '${searchValue}'`}
+            href="/extensions"
+            message={generateMessage(matchingExtensions, 'extension')}
+            cardsContent={matchingExtensions.slice(0, cols - 1)}
+            render={extensionCards}
+          />
+
+          <Cards
+            title={`${matchingSolutions.length} Conforming Solution(s) for '${searchValue}'`}
             href="/solutions"
-            message={generateMessage(search.matchingSolutions, 'solutions')}
-            cardsContent={search.matchingSolutions.slice(0, cols - 1)}
+            message={generateMessage(matchingSolutions, 'solution')}
+            cardsContent={matchingSolutions.slice(0, cols - 1)}
             render={solutionCards}
           />
-        )}
-      </section>
+        </section>
+      )}
     </Layout>
   );
 }
