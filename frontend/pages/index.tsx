@@ -100,16 +100,16 @@ export default function Home(props: PageProps) {
 
   miniSearchSolutions.addAll(allSolutions);
 
-  const searchTrigger = searchValue.length < 3;
+  const searchTrigger = searchValue.length >= 3;
 
   // Generates message for button linking to all extensions/solutions
   function generateMessage(
     pool: CatalogDataModelExtension[] | ConformingSolution[] | SearchResult[],
     type: string
   ) {
-    if (pool.length > cols - 1 && searchTrigger) {
+    if (pool.length > cols - 1 && !searchTrigger) {
       return `See ${pool.length - (cols - 1)} other ${type}(s)...`;
-    } else if (!searchTrigger) {
+    } else if (searchTrigger) {
       return `All ${type}(s)...`;
     } else {
       return undefined;
@@ -140,7 +140,7 @@ export default function Home(props: PageProps) {
         <SearchBar onSearchValueChange={handleSearchValueChange} />
       </section>
 
-      {searchTrigger ? (
+      {!searchTrigger ? (
         <section>
           <Cards
             title="Latest Data Model Extensions"
