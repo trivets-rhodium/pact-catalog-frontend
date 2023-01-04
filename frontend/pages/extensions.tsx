@@ -45,18 +45,8 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]) {
   });
 }
 
-type Search = {
-  matchingExtensions: SearchResult[];
-  searchValue: string;
-  publisher: string;
-  status: string;
-  options: {
-    filter: ((result: SearchResult) => boolean) | undefined;
-  };
-};
-
 export default function Extensions(props: PageProps) {
-  const [search, setSearch] = React.useState<Search>({
+  const [search, setSearch] = React.useState({
     matchingExtensions: new Array(),
     searchValue: '',
     publisher: '',

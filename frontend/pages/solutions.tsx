@@ -52,18 +52,8 @@ function getAllResults(allResults: ConformanceTestResult[]) {
   });
 }
 
-type Search = {
-  matchingSolutions: SearchResult[];
-  searchValue: string;
-  provider: string;
-  result: string;
-  options: {
-    filter: ((result: SearchResult) => boolean) | undefined;
-  };
-};
-
 export default function Solutions(props: PageProps) {
-  const [search, setSearch] = React.useState<Search>({
+  const [search, setSearch] = React.useState({
     matchingSolutions: new Array(),
     searchValue: '',
     provider: '',
