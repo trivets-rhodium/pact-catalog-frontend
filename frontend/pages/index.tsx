@@ -122,7 +122,7 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
-        {search.searchValue === '' ? (
+        {search.searchValue === '' || !search.matchingExtensions.length ? (
           <Cards
             title="Data Model Extensions"
             href="/extensions"
@@ -140,7 +140,7 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
-        {search.searchValue === '' ? (
+        {search.searchValue === '' || !search.matchingSolutions.length ? (
           <Cards
             title="Conforming Solutions"
             href="/solutions"
@@ -149,7 +149,7 @@ export default function Home(props: PageProps) {
           />
         ) : (
           <Cards
-            title="All Conforming Solutions"
+            title="Conforming Solutions"
             href="/solutions"
             cardsContent={search.matchingSolutions}
             render={solutionCards}
