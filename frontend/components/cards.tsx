@@ -7,6 +7,10 @@ import {
   DMEId,
   VersionId,
 } from '../lib/catalog-types';
+import {
+  getAllDataModelExtensionIds,
+  getAllExtensions,
+} from '../lib/data-model-extensions';
 import style from '../styles/Home.module.css';
 
 export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
@@ -15,26 +19,36 @@ type CardsProps<T> = {
   title: string;
   subtitle?: string;
   href?: string;
+  message?: string;
   cardsContent: T[];
   render: CardsRenderer<T[]>;
 };
 
+export const cols = 4;
+
 export function Cards<T>(props: CardsProps<T>) {
-  const { title, cardsContent, render, subtitle, href } = props;
+  const { title, cardsContent, render, subtitle, href, message } = props;
   return (
     <section className="background pb-10 rounded-sm">
       <Link href={href ? href : useRouter().pathname}>
         <h2 className="title px-4">{title}</h2>
       </Link>
       <h3 className="px-4">{subtitle}</h3>
-      <ul className="grid grid-cols-3 m-1">
-        {render(cardsContent)}{' '}
-      </ul>
-        {href && (
-          <div className='text-right'>
-            <Link href={href} className={`m-4 ${style["see-more-link"]}`}>See more...</Link>
-          </div>
+      <ul className="grid grid-cols-4 m-1">
+        {render(cardsContent)}
+        {href && message && (
+          <Link href={href}>
+            <li
+              className={`${style['card-invert']} flex flex-col justify-between`}
+            >
+              <div>
+                <p className="text-xl font-bold">{message}</p>
+              </div>
+              <ul></ul>
+            </li>
+          </Link>
         )}
+      </ul>
     </section>
   );
 }

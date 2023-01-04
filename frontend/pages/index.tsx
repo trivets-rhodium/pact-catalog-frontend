@@ -11,7 +11,12 @@ import {
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
-import { Cards, extensionCards, solutionCards } from '../components/cards';
+import {
+  Cards,
+  extensionCards,
+  cols,
+  solutionCards,
+} from '../components/cards';
 import SearchBar from '../components/search-bar';
 import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
 import { late } from 'zod';
@@ -115,6 +120,18 @@ export default function Home(props: PageProps) {
     });
   }, [search.searchValue]);
 
+  function generateMessage(
+    pool: CatalogDataModelExtension[] | ConformingSolution[] | SearchResult[],
+    type: string
+  ) {
+    if (pool.length > cols - 1 && search.searchValue === '') {
+      return `See ${pool.length - (cols - 1)} other ${type}...`;
+    } else if (search.searchValue !== '') {
+      return `More ${type}...`;
+    } else {
+      return undefined;
+    }
+  }
   return (
     <Layout title="Online Catalog">
       <section>
@@ -122,36 +139,40 @@ export default function Home(props: PageProps) {
       </section>
 
       <section>
-        {search.searchValue === '' || !search.matchingExtensions.length ? (
+        {search.searchValue.length < 3 ? (
           <Cards
-            title="Data Model Extensions"
+            title="Latest Data Model Extensions"
             href="/extensions"
-            cardsContent={latestExtensions.slice(0, 3)}
+            message={generateMessage(allExtensions, 'extensions')}
+            cardsContent={latestExtensions.slice(0, cols - 1)}
             render={extensionCards}
           />
         ) : (
           <Cards
-            title="Data Model Extensions"
+            title={`Searching Data Model Extensions with '${search.searchValue}'`}
             href="/extensions"
-            cardsContent={search.matchingExtensions}
+            message={generateMessage(search.matchingExtensions, 'extensions')}
+            cardsContent={search.matchingExtensions.slice(0, cols - 1)}
             render={extensionCards}
           />
         )}
       </section>
 
       <section>
-        {search.searchValue === '' || !search.matchingSolutions.length ? (
+        {search.searchValue.length < 3 ? (
           <Cards
-            title="Conforming Solutions"
+            title="Latest Conforming Solutions"
             href="/solutions"
-            cardsContent={allSolutions.slice(0, 3)}
+            message={generateMessage(allSolutions, 'solutions')}
+            cardsContent={allSolutions.slice(0, cols - 1)}
             render={solutionCards}
           />
         ) : (
           <Cards
-            title="Conforming Solutions"
+            title={`Searching Conforming Solutions with '${search.searchValue}'`}
             href="/solutions"
-            cardsContent={search.matchingSolutions}
+            message={generateMessage(search.matchingSolutions, 'solutions')}
+            cardsContent={search.matchingSolutions.slice(0, cols - 1)}
             render={solutionCards}
           />
         )}
