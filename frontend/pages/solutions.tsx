@@ -1,22 +1,15 @@
-import Head from 'next/head';
 import { GetStaticProps } from 'next';
 import {
-  CatalogDataModelExtension,
   ConformanceTestResult,
   ConformingSolution,
-  SolutionTestResults,
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
-import { Cards, extensionCards, solutionCards } from '../components/cards';
-import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
-import {
-  getAllTestResults,
-  getSolutionTestResults,
-} from '../lib/conformance-tests';
+import { Cards, solutionCards } from '../components/cards';
+import MiniSearch, { SearchResult } from 'minisearch';
+import { getAllTestResults } from '../lib/conformance-tests';
 import SearchBar from '../components/search-bar';
-import { getAllExtensions } from '../lib/data-model-extensions';
 
 type PageProps = {
   allSolutions: ConformingSolution[];
@@ -178,12 +171,11 @@ export default function Solutions(props: PageProps) {
     if (searchValue !== '') {
       return (
         <Cards
-          title="Conforming Solutions"
-          subtitle={`Found ${matchingSolutions.length} ${
-            result !== '' ? result : ''
-          } solutions with '${searchValue}' ${
+          title={`${
+            matchingSolutions.length
+          } Conforming Solutions for '${searchValue}' ${
             provider !== '' ? `from ${provider}` : ''
-          }`}
+          } with ${result !== '' ? result : ''} test results`}
           cardsContent={matchingSolutions}
           render={solutionCards}
         />
@@ -191,8 +183,7 @@ export default function Solutions(props: PageProps) {
     } else if (provider !== '' && result !== '') {
       return (
         <Cards
-          title="Conforming Solutions"
-          subtitle={`All ${result} extensions, from ${provider}`}
+          title={`All ${result} Conforming Solutions, from ${provider}`}
           cardsContent={filterByProviderAndResult}
           render={solutionCards}
         />
@@ -200,8 +191,7 @@ export default function Solutions(props: PageProps) {
     } else if (provider !== '' && result === '') {
       return (
         <Cards
-          title="Conforming Solutions"
-          subtitle={`All solutions from ${provider}`}
+          title={`All Conforming Solutions from ${provider}`}
           cardsContent={filterByProvider}
           render={solutionCards}
         />
@@ -209,8 +199,7 @@ export default function Solutions(props: PageProps) {
     } else if (provider === '' && result !== '') {
       return (
         <Cards
-          title="Conforming Solutions"
-          subtitle={`All ${result} solutions`}
+          title={`All ${result} Conforming Solutions`}
           cardsContent={filterByResult}
           render={solutionCards}
         />
@@ -218,8 +207,7 @@ export default function Solutions(props: PageProps) {
     } else {
       return (
         <Cards
-          title="Data Model Extensions"
-          subtitle="All solutions"
+          title="All Conforming Solutions"
           cardsContent={allSolutions}
           render={solutionCards}
         />

@@ -1,12 +1,10 @@
-import Head from 'next/head';
 import { getAllExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import { CatalogDataModelExtension } from '../lib/catalog-types';
 import Layout from '../components/layout';
-import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect } from 'react';
-import { Cards, extensionCards, solutionCards } from '../components/cards';
-import MiniSearch, { Options, SearchOptions, SearchResult } from 'minisearch';
+import { Cards, extensionCards } from '../components/cards';
+import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
 
 type PageProps = {
@@ -155,10 +153,9 @@ export default function Extensions(props: PageProps) {
     if (searchValue !== '') {
       return (
         <Cards
-          title="Data Model Extensions"
-          subtitle={`Found ${matchingExtensions.length} ${
+          title={`${matchingExtensions.length} ${
             status !== '' ? status : ''
-          } extensions with '${searchValue}' ${
+          } Data Model Extensions for '${searchValue}' ${
             publisher !== '' ? `from ${publisher}` : ''
           }`}
           cardsContent={matchingExtensions}
@@ -168,8 +165,7 @@ export default function Extensions(props: PageProps) {
     } else if (publisher !== '' && status !== '') {
       return (
         <Cards
-          title="Data Model Extensions"
-          subtitle={`All ${status} extensions, from ${publisher}`}
+          title={`All ${status} Data Model Extensions, from ${publisher}`}
           cardsContent={filterByPublisherAndStatus}
           render={extensionCards}
         />
@@ -177,8 +173,7 @@ export default function Extensions(props: PageProps) {
     } else if (publisher !== '' && status === '') {
       return (
         <Cards
-          title="Data Model Extensions"
-          subtitle={`All extensions from ${publisher}`}
+          title={`All Data Model Extensions from ${publisher}`}
           cardsContent={filterByPublisher}
           render={extensionCards}
         />
@@ -186,8 +181,7 @@ export default function Extensions(props: PageProps) {
     } else if (publisher === '' && status !== '') {
       return (
         <Cards
-          title="Data Model Extensions"
-          subtitle={`All ${status} extensions`}
+          title={`All ${status} Data Model Extensions`}
           cardsContent={filterByStatus}
           render={extensionCards}
         />
@@ -195,8 +189,7 @@ export default function Extensions(props: PageProps) {
     } else {
       return (
         <Cards
-          title="Data Model Extensions"
-          subtitle="All extensions"
+          title="All Data Model Extensions"
           cardsContent={allExtensions}
           render={extensionCards}
         />
