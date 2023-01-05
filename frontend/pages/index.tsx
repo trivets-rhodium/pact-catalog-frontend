@@ -105,7 +105,7 @@ export default function Home(props: PageProps) {
     if (pool.length > cols - 1 && !searchTrigger) {
       return `See ${pool.length - (cols - 1)} other ${type}(s)...`;
     } else if (searchTrigger) {
-      return `All ${type}(s)...`;
+      return `All ${type}s...`;
     } else {
       return undefined;
     }
