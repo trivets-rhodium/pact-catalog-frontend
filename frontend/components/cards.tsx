@@ -2,13 +2,21 @@ import { SearchResult } from 'minisearch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import {
+  Key,
+  ReactElement,
+  JSXElementConstructor,
+  ReactFragment,
+  ReactPortal,
+} from 'react';
+import {
   CatalogDataModelExtension,
+  CatalogUser,
   ConformingSolution,
   DMEId,
   VersionId,
 } from '../lib/catalog-types';
 
-import style from '../styles/Card.module.css';
+import style from '../styles/Cards.module.css';
 
 export type CardsRenderer<T> = (cardDetails: T) => JSX.Element[];
 
@@ -54,7 +62,7 @@ export function extensionCards(
   cardDetails: CatalogDataModelExtension[] | SearchResult[]
 ): JSX.Element[] {
   return cardDetails.map(
-    ({ author, name, version, description, catalog_info }) => {
+    ({ author, name, version, description, catalog_info, endorsers }) => {
       return (
         <Link
           href={`/extensions/${name}/${version}`}
@@ -62,12 +70,20 @@ export function extensionCards(
         >
           <li className={`${style.card} flex flex-col justify-between`}>
             <div>
-              <p className="text-xl font-bold">{description}</p>
+              <p className="font-bold">{description}</p>
               <p>{version}</p>
             </div>
             <ul>
               <li>Publisher: {author.name}</li>
               <li>Status: {catalog_info.status}</li>
+              <li>
+                {endorsers.length ? `Endorsers (${endorsers.length}):` : ''}
+                <ul>
+                  {endorsers.map((endorser: CatalogUser) => {
+                    return <li key={endorser.id}>{endorser.name}</li>;
+                  })}
+                </ul>
+              </li>
             </ul>
           </li>
         </Link>

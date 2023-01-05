@@ -68,6 +68,7 @@ export default function Home(props: PageProps) {
       'publisher',
       'author',
       'catalog_info',
+      'endorsers',
     ],
   });
 
