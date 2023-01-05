@@ -38,7 +38,7 @@ function getAllProviders(allSolutions: ConformingSolution[]): string[] {
   });
 }
 
-function getAllResults(allResults: ConformanceTestResult[]) {
+function getAllResults(allResults: ConformanceTestResult[]): string[] {
   const allTestResults = allResults.map((result) => {
     return result.test_result;
   });

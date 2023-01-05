@@ -32,7 +32,7 @@ function getAllPublishers(
   });
 }
 
-function getAllStatuses(allExtensions: CatalogDataModelExtension[]) {
+function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
   const allStatuses = allExtensions.map((extension) => {
     return extension.catalog_info.status;
   });
