@@ -28,9 +28,7 @@ function TabHead<T>(props: TabsProps<T>) {
 
   const defaultTab = () => {
     if (!activeTab) {
-      router.asPath === '/new'
-        ? (router.query.activeTab = 'metadata')
-        : (router.query.activeTab = 'readme');
+      router.query.activeTab = 'readme';
       return true;
     }
   };
