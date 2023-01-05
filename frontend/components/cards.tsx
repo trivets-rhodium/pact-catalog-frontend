@@ -78,11 +78,14 @@ function renderExtensionCard(
       <li>Publisher: {author.name}</li>
       <li>Status: {catalog_info.status}</li>
       <li>
-        {endorsers ? `Endorsers (${endorsers.length}):` : ''}
+        {endorsers && endorsers.length
+          ? `Endorsers (${endorsers.length}):`
+          : ''}
         <ul>
-          {endorsers && endorsers.map((endorser: CatalogUser) => {
-            return <li key={endorser.id}>{endorser.name}</li>;
-          })}
+          {endorsers &&
+            endorsers.map((endorser: CatalogUser) => {
+              return <li key={endorser.id}>{endorser.name}</li>;
+            })}
         </ul>
       </li>
     </ul>
@@ -146,7 +149,7 @@ function Card<T>(props: CardProps<T>) {
           invert ? style['card-invert'] : style.card
         } flex flex-col justify-between`}
       >
-        <div className='pb-10'>
+        <div className="pb-10">
           <p className="font-bold">{title}</p>
           <p>{subtitle}</p>
         </div>
