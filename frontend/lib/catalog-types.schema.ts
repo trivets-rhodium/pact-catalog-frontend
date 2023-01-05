@@ -1,6 +1,14 @@
-import { ConformingSolution, DMEId, VersionId } from './catalog-types';
+// This file contains everything that allows parsing the JSON files from the catalog as the adequate
+// types.
+
+import {
+  ConformanceTestResult,
+  DMEId,
+  SolutionId,
+  VersionId,
+} from './catalog-types';
 import { z } from 'zod';
-import { CatalogUser, UserId } from './catalog-types';
+import { UserId } from './catalog-types';
 
 export type PackageJsonSchema = {
   name: DMEId;
@@ -34,13 +42,29 @@ export type ConformingSolutionJsonSchema = {
     id: DMEId;
     version: VersionId;
   }[];
-}
+  summary?: string;
+};
 
-export const UserParser: z.ZodType<CatalogUser> = z.lazy(() =>
+export type CatalogUserJsonSchema = {
+  id: UserId;
+  kind: 'ngo' | 'company' | 'solutionprovider';
+  name: string;
+  email?: string;
+  website?: string;
+  logo?: string;
+  extensions_endorsed: {
+    id: DMEId;
+    version: VersionId;
+  }[];
+  solutions_used?: SolutionId[];
+};
+
+export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
   z.object({
     id: z.string(),
     kind: z.enum(['ngo', 'company', 'solutionprovider']),
     name: z.string(),
+    email: z.string().optional(),
     website: z.string().optional(),
     logo: z.string().optional(),
     extensions_endorsed: z.array(
@@ -49,6 +73,7 @@ export const UserParser: z.ZodType<CatalogUser> = z.lazy(() =>
         version: z.string().regex(/[0-9]+\.[0-9]+\.[0-9]+/),
       })
     ),
+    solutions_used: z.array(z.string().min(1)).optional(),
   })
 );
 
@@ -81,15 +106,32 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
   })
 );
 
-export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(() =>
+export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
+  () =>
+    z.object({
+      id: z.string(),
+      name: z.string(),
+      website: z.string(),
+      provider: z.string(),
+      extensions: z.array(
+        z.object({
+          id: z.string().min(1),
+          version: z.string().min(1),
+        })
+      ),
+      summary: z.string().optional(),
+    })
+);
+
+export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
   z.object({
-    id: z.string(),
-    name: z.string(),
-    website: z.string(),
-    provider: z.string(),
-    extensions: z.array(
+    system_under_test: z.string().min(1),
+    system_tester: z.string().min(1),
+    test_result: z.enum(['passed', 'ongoing', 'failed']),
+    test_date: z.string().datetime(),
+    tests: z.array(
       z.object({
-        id: z.string().min(1),
+        extension: z.string().min(1),
         version: z.string().min(1),
       })
     ),

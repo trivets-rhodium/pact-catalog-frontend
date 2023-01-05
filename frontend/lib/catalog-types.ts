@@ -4,32 +4,8 @@ export type UserId = string;
 export type DMEId = string;
 export type VersionId = string;
 export type SolutionId = string;
-
-export type CatalogUser = {
-  id: UserId;
-  kind: 'ngo' | 'company' | 'solutionprovider';
-  name: string;
-  website?: string;
-  logo?: string;
-  extensions_endorsed: {
-    id: DMEId;
-    version: VersionId;
-  }[];
-};
-
 export type Endorsers = CatalogUser[];
-
-export type ConformingSolution = {
-  id: string;
-  name: string;
-  website: string;
-  provider: UserId;
-  extensions: {
-    id: DMEId;
-    version: VersionId;
-  }[];
-  providerName: string;
-};
+export type SolutionUsers = CatalogUser[];
 
 export type CatalogDataModelExtension = {
   name: DMEId;
@@ -64,20 +40,56 @@ export type CatalogDataModelExtension = {
   versions: VersionId[];
 };
 
-export function toExtensionId(
-  dataModelExtension: CatalogDataModelExtension
-): DataModelExtensionId {
-  const [namespace, packageName] = dataModelExtension.name.split('/');
-  return {
-    namespace,
-    packageName,
-    version: dataModelExtension.version,
-  };
-}
-
 // a data model extension id uniquely identifies a data model extension within the catalog
 export type DataModelExtensionId = {
   namespace: string;
   packageName: string;
   version: VersionId;
+};
+
+export type CatalogUser = {
+  id: UserId;
+  kind: 'ngo' | 'company' | 'solutionprovider';
+  name: string;
+  email: string | null;
+  website: string | null;
+  logo: string | null;
+  extensions_endorsed: {
+    id: DMEId;
+    version: VersionId;
+  }[];
+  solutions_used: SolutionId[] | null;
+};
+
+export type ConformingSolution = {
+  id: SolutionId;
+  name: string;
+  website: string;
+  provider: UserId;
+  extensions: {
+    id: DMEId;
+    version: VersionId;
+    author: string;
+  }[];
+  providerName: string;
+  summary: string | null;
+  users: SolutionUsers | null;
+  conformance_tests: SolutionTestResults | null;
+};
+
+export type SolutionTestResults = {
+  test: ConformanceTestResult;
+  tester: ConformingSolution;
+}[];
+
+export type ConformanceTestResult = {
+  system_under_test: SolutionId;
+  system_tester: SolutionId;
+  test_result: 'passed' | 'ongoing' | 'failed';
+  // TO DO: Turn test date into Date ?
+  test_date: string;
+  tests: {
+    extension: DMEId;
+    version: VersionId;
+  }[];
 };

@@ -1,0 +1,18 @@
+.search select {
+  appearance: none;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: "^";
+  transform: rotate(180deg);
+  font-weight: bold;
+  color: #08A17F;
+  font-size: 0.8rem;
+  top: 1.4rem;
+  right: 1rem;
+  position: absolute;
+}

@@ -25,8 +25,8 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="px-2">
-            <Link href={'#'} className="text-white">
-              New Package
+            <Link href={'/new'} className="text-white">
+              New Submission
             </Link>
           </li>
         </ul>

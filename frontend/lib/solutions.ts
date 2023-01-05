@@ -3,43 +3,41 @@ import fs from 'fs';
 import {
   CatalogDataModelExtension,
   ConformingSolution,
-  Endorsers,
   SolutionId,
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
-import { getAllExtensions } from './data-model-extensions';
-import { getUser } from './users';
+import { getAuthorName } from './data-model-extensions';
+import { getSolutionUsers, getUser } from './users';
+import { getSolutionTestResults } from './conformance-tests';
 
 const solutionsDirectory = path.posix.join(
   process.cwd(),
   '../catalog/solutions'
 );
 
+export async function getAllSolutionsIds() {
+  const solutions = await getAllSolutions();
+  return solutions.map((solution) => {
+    const { id } = solution;
+    return {
+      params: {
+        id,
+      },
+    };
+  });
+}
+
 export async function getSolution(id: SolutionId): Promise<ConformingSolution> {
-  const solutionPath = path.join(solutionsDirectory, `${id}.json`);
-
-  const solutionContent = fs.readFileSync(solutionPath, 'utf8');
-  const solution = JSON.parse(solutionContent);
-  const solutionJson = SolutionParser.parse(solution);
-
-  const providerName = (await getUser(solutionJson.provider)).name;
-
-  return {
-    ...solutionJson,
-    providerName,
-  };
+  const basePath = path.join(solutionsDirectory, `${id}.json`);
+  return getSolutionFromBasePath(basePath);
 }
 
 export async function getAllSolutions(): Promise<ConformingSolution[]> {
   const paths = fs.readdirSync(solutionsDirectory);
 
-  const allSolutionsData = paths.map(async (solutionFilePath) => {
-    const solutionPath = path.join(solutionsDirectory, solutionFilePath);
-    const solutionContent = fs.readFileSync(solutionPath, 'utf8');
-    const solution = JSON.parse(solutionContent);
-    const solutionJson = SolutionParser.parse(solution);
-
-    return getSolution(solutionJson.id)
+  const allSolutionsData = paths.map((solutionFilePath) => {
+    const basePath = path.resolve(solutionsDirectory, solutionFilePath);
+    return getSolutionFromBasePath(basePath);
   });
 
   return Promise.all(allSolutionsData);
@@ -61,4 +59,44 @@ export async function getConformingSolutions(
     }
   }
   return conformingSolutions;
+}
+
+async function getSolutionFromBasePath(
+  basePath: string
+): Promise<ConformingSolution> {
+  const solutionContent = fs.readFileSync(basePath, 'utf-8');
+  const solutionObject = JSON.parse(solutionContent);
+  const parsedSolution = SolutionParser.parse(solutionObject);
+
+  const solutionId = path.basename(basePath, '.json');
+
+  return {
+    ...parsedSolution,
+    extensions: await enrichExtensions(parsedSolution.extensions),
+    providerName: (await getUser(parsedSolution.provider)).name,
+    summary: parsedSolution.summary || null,
+    users: (await getSolutionUsers(solutionId)) || null,
+    conformance_tests: (await getSolutionTestResults(solutionId)) || null,
+  };
+}
+
+async function enrichExtensions(
+  extensions: { id: string; version: string }[]
+): Promise<
+  {
+    id: string;
+    version: string;
+    author: string;
+  }[]
+> {
+  const enrichedExtensions = extensions.map(async (extension) => {
+    const author = await getAuthorName(extension.id);
+
+    return {
+      ...extension,
+      author,
+    };
+  });
+
+  return Promise.all(enrichedExtensions);
 }

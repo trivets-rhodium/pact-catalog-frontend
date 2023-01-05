@@ -1,9 +1,10 @@
 import Link from 'next/link';
-import { Tab, TabRenderFunction } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs';
 import { NextRouter } from 'next/router';
+import { CatalogDataModelExtension } from '../../lib/catalog-types';
 
-const versionTab: TabRenderFunction = (extension) => {
-
+const versionTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
+  const { versions, name, catalog_info } = extension;
   return (
     <div>
       <section className="mb-12">
@@ -17,14 +18,16 @@ const versionTab: TabRenderFunction = (extension) => {
             </tr>
           </thead>
           <tbody>
-            {extension.versions.map((version) => {
+            {versions.map((version) => {
               return (
                 <tr>
-                  <Link href={`/extensions/${extension.name}/${version}`}>
-                    {version}
-                  </Link>
+                  <td>
+                    <Link href={`/extensions/${name}/${version}`}>
+                      {version}
+                    </Link>
+                  </td>
                   <td>TO DO</td>
-                  <td>{extension.catalog_info.status}</td>
+                  <td>{catalog_info.status}</td>
                 </tr>
               );
             })}
@@ -35,7 +38,7 @@ const versionTab: TabRenderFunction = (extension) => {
   );
 };
 
-const version: Tab = {
+const version: Tab<CatalogDataModelExtension> = {
   tabId: 'versions',
   title: 'Versions',
   render: versionTab,

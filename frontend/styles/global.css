@@ -58,6 +58,7 @@ h3 {
 .primary-button:hover {
   background-color: transparent;
   color: #0a0552;
+  cursor: pointer;
 }
 
 .background {

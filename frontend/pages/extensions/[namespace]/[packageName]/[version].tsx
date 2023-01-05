@@ -8,12 +8,22 @@ import {
 } from '../../../../lib/data-model-extensions';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../../../components/layout';
-import TabsLayout from '../../../../components/tabs-layout';
-import readme from '../../../../components/tabs/readme-tab';
-import explore from '../../../../components/tabs/explore-tab';
-import usage from '../../../../components/tabs/usage-tab';
-import version from '../../../../components/tabs/versions-tab';
-import { getConformingSolutions } from '../../../../lib/solutions';
+import { Tab, TabsLayout } from '../../../../components/tabs';
+import readme from '../../../../components/extension-tabs/readme-tab';
+import explore from '../../../../components/extension-tabs/explore-tab';
+import usage from '../../../../components/extension-tabs/usage-tab';
+import version from '../../../../components/extension-tabs/versions-tab';
+
+export const getStaticPaths: GetStaticPaths<
+  DataModelExtensionId
+> = async () => {
+  const paths = await getAllDataModelExtensionIds();
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
 
 type PageProps = {
   extension: CatalogDataModelExtension;
@@ -28,7 +38,7 @@ export const getStaticProps: GetStaticProps<
   }
 
   const extension = await getExtension(params);
-  const solutions = await getConformingSolutions(extension);
+
   return {
     props: {
       extension,
@@ -36,25 +46,24 @@ export const getStaticProps: GetStaticProps<
   };
 };
 
-export const getStaticPaths: GetStaticPaths<
-  DataModelExtensionId
-> = async () => {
-  const paths = await getAllDataModelExtensionIds();
-
-  return {
-    paths,
-    fallback: false,
-  };
-};
-
-const tabs = [readme, explore, usage, version];
-
 export default function Extension(props: PageProps) {
   const { extension } = props;
+  // These are not passed as props, not only because they don't change from extension to extension,
+  // but also because, since Tab<T> includes a function, they could not be serialized in a JSON.
+  const tabs: Tab<CatalogDataModelExtension>[] = [
+    readme,
+    explore,
+    usage,
+    version,
+  ];
 
   return (
-    <Layout extension={extension}>
-      <TabsLayout tabs={tabs} extension={extension}></TabsLayout>
+    <Layout title={extension.description}>
+      <TabsLayout
+        tabs={tabs}
+        content={extension}
+        title={extension.description}
+      ></TabsLayout>
     </Layout>
   );
 }
