@@ -19,6 +19,7 @@ export default function SubmissionForm() {
     publisherEmail: '',
     publisherUrl: '',
     packageName: '',
+    industry: '',
     description: '',
     version: '',
     summary: '',
@@ -123,18 +124,14 @@ export default function SubmissionForm() {
         onChange={handleChange}
       />
 
-      {/* <label>Industry</label>
-        <input
-          list="industry"
-          name="industry"
-          required
-          className="mt-2 mb-6 rounded-sm p-2"
-        />
-        <datalist id="industry">
-          <option value="Steel" />
-          <option value="Another Industry" />
-          <option value="Products" />
-        </datalist> */}
+      <label htmlFor="industry">Industry</label>
+      <input
+        type="text"
+        name="industry"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
       {/* <label>Status</label>
         <input
