@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { CatalogDataModelExtension } from '../../lib/catalog-types';
-import { Tab, TabRenderer } from '../tabs-layout';
+import { Tab, TabRenderer } from '../tabs';
 
 const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
   const { dependencies, conformingSolutions } = extension;

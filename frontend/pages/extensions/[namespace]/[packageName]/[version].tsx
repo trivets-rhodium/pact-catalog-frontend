@@ -8,7 +8,7 @@ import {
 } from '../../../../lib/data-model-extensions';
 import { GetStaticProps, GetStaticPaths } from 'next';
 import Layout from '../../../../components/layout';
-import { Tab, TabsLayout } from '../../../../components/tabs-layout';
+import { Tab, TabsLayout } from '../../../../components/tabs';
 import readme from '../../../../components/extension-tabs/readme-tab';
 import explore from '../../../../components/extension-tabs/explore-tab';
 import usage from '../../../../components/extension-tabs/usage-tab';

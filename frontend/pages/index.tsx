@@ -1,7 +1,7 @@
-import Head from 'next/head';
-import Link from 'next/link';
-import style from '../styles/Home.module.css';
-import { getLatestExtensionsSorted } from '../lib/data-model-extensions';
+import {
+  getAllExtensions,
+  getLatestExtensionsSorted,
+} from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import {
   CatalogDataModelExtension,
@@ -9,86 +9,172 @@ import {
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
-
-type IndexLayoutProps = {
-  title: string;
-  children: React.ReactNode;
-};
-function IndexLayout(props: IndexLayoutProps) {
-  const { title, children } = props;
-  return (
-    <section className="background pb-10 rounded-sm">
-      <h2 className="title px-4">{title}</h2>
-      <ul className="grid grid-cols-3">{children}</ul>
-    </section>
-  );
-}
+import React, { useEffect } from 'react';
+import {
+  Cards,
+  extensionCards,
+  cols,
+  solutionCards,
+} from '../components/cards';
+import SearchBar from '../components/search-bar';
+import MiniSearch, { SearchResult } from 'minisearch';
 
 type PageProps = {
-  latestExtensionsData: CatalogDataModelExtension[];
-  conformingSolutions: ConformingSolution[];
+  latestExtensions: CatalogDataModelExtension[];
+  allSolutions: ConformingSolution[];
+  allExtensions: CatalogDataModelExtension[];
 };
 
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
-  const latestExtensionsData = await getLatestExtensionsSorted();
-  const conformingSolutions = await getAllSolutions();
+  const latestExtensions = await getLatestExtensionsSorted();
+  const allSolutions = await getAllSolutions();
+  const allExtensions = await getAllExtensions();
   return {
     props: {
-      latestExtensionsData,
-      conformingSolutions,
+      latestExtensions,
+      allSolutions,
+      allExtensions,
     },
   };
 };
 
 export default function Home(props: PageProps) {
-  const { latestExtensionsData, conformingSolutions } = props;
+  const [search, setSearch] = React.useState({
+    matchingExtensions: new Array(),
+    matchingSolutions: new Array(),
+    searchValue: '',
+  });
+
+  const { latestExtensions, allSolutions, allExtensions } = props;
+  const { searchValue, matchingExtensions, matchingSolutions } = search;
+
+  const extensionSearchIndex: (CatalogDataModelExtension & {
+    id: number;
+    publisher: string;
+  })[] = allExtensions.map((extension, index) => {
+    return {
+      ...extension,
+      id: index + 1,
+      publisher: extension.author.name,
+    };
+  });
+
+  const miniSearchExtensions = new MiniSearch({
+    fields: ['name', 'version', 'description', 'publisher'],
+    storeFields: [
+      'name',
+      'version',
+      'description',
+      'publisher',
+      'author',
+      'catalog_info',
+    ],
+  });
+
+  miniSearchExtensions.addAll(extensionSearchIndex);
+
+  const miniSearchSolutions = new MiniSearch({
+    fields: [
+      'name',
+      'providerName',
+      'extensions',
+      'summary',
+      'conformance_tests',
+    ],
+    storeFields: [
+      'id',
+      'name',
+      'providerName',
+      'extensions',
+      'summary',
+      'conformance_tests',
+      'extensions',
+    ],
+  });
+
+  miniSearchSolutions.addAll(allSolutions);
+
+  const searchTrigger = searchValue.length >= 3;
+
+  // Generates message for button linking to all extensions/solutions
+  function generateMessage(
+    pool: CatalogDataModelExtension[] | ConformingSolution[] | SearchResult[],
+    type: string
+  ) {
+    if (pool.length > cols - 1 && !searchTrigger) {
+      return `See ${pool.length - (cols - 1)} other ${type}(s)...`;
+    } else if (searchTrigger) {
+      return `All ${type}(s)...`;
+    } else {
+      return undefined;
+    }
+  }
+
+  function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setSearch({
+      ...search,
+      searchValue: event.target.value,
+    });
+  }
+
+  useEffect(() => {
+    const matchingExtensions = miniSearchExtensions.search(searchValue);
+    const matchingSolutions = miniSearchSolutions.search(searchValue);
+
+    setSearch({
+      ...search,
+      matchingExtensions,
+      matchingSolutions,
+    });
+  }, [searchValue]);
 
   return (
-    <Layout>
-      <IndexLayout title={'Data Model Catalog'}>
-        {latestExtensionsData.map(
-          ({ author, name, version, description, catalog_info }) => (
-            <Link
-              href={`/extensions/${name}/${version}`}
-              key={`${name}/${version}`}
-            >
-              <li className={`${style.card} flex flex-col justify-between`}>
-                <div>
-                  <p className="text-xl font-bold">{description}</p>
-                  <p>{version}</p>
-                </div>
-                <ul>
-                  <li>Publisher: {author.name}</li>
-                  <li>Status: {catalog_info.status}</li>
-                </ul>
-              </li>
-            </Link>
-          )
-        )}
-      </IndexLayout>
-      <IndexLayout title={'Conforming Solutions'}>
-        {conformingSolutions.map(({ id, name, extensions, providerName }) => (
-          <Link href={`/solutions/${id}`} key={id}>
-            <li className={`${style.card} flex flex-col justify-between`}>
-              <div>
-                <p className="text-xl font-bold">{name}</p>
-                <p>{providerName}</p>
-              </div>
-              <div>
-                <ul>
-                  {extensions.slice(0, 2).map(({ id, version }) => {
-                    return (
-                      <li>
-                        {id} {version}
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-            </li>
-          </Link>
-        ))}
-      </IndexLayout>
+    <Layout title="Online Catalog">
+      <section>
+        <SearchBar
+          title="Search the Catalog"
+          placeholder="Search Data Model Extensions and Conforming Solutions"
+          onSearchValueChange={handleSearchValueChange}
+        />
+      </section>
+
+      {!searchTrigger ? (
+        <section>
+          <Cards
+            title="Latest Data Model Extensions"
+            href="/extensions"
+            message={generateMessage(allExtensions, 'extension')}
+            cardsContent={latestExtensions.slice(0, cols - 1)}
+            render={extensionCards}
+          />
+
+          <Cards
+            title="Latest Conforming Solutions"
+            href="/solutions"
+            message={generateMessage(allSolutions, 'solution')}
+            cardsContent={allSolutions.slice(0, cols - 1)}
+            render={solutionCards}
+          />
+        </section>
+      ) : (
+        <section>
+          <Cards
+            title={`${matchingExtensions.length} Data Model Extension(s) for '${searchValue}'`}
+            href="/extensions"
+            message={generateMessage(matchingExtensions, 'extension')}
+            cardsContent={matchingExtensions.slice(0, cols - 1)}
+            render={extensionCards}
+          />
+
+          <Cards
+            title={`${matchingSolutions.length} Conforming Solution(s) for '${searchValue}'`}
+            href="/solutions"
+            message={generateMessage(matchingSolutions, 'solution')}
+            cardsContent={matchingSolutions.slice(0, cols - 1)}
+            render={solutionCards}
+          />
+        </section>
+      )}
     </Layout>
   );
 }

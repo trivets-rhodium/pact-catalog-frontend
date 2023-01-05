@@ -1,0 +1,17 @@
+.search select {
+  appearance: none;
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+.select-wrapper::after {
+  content: ">";
+  transform: rotate(90deg);
+  color: #08A17F;
+  font-size: 0.8rem;
+  top: 1.5rem;
+  right: 1rem;
+  position: absolute;
+}
