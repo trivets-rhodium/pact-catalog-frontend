@@ -63,68 +63,67 @@ export default function SubmissionForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="flex flex-col">
-        <label htmlFor="publisherName">Publisher Name</label>
-        <input
-          type="text"
-          id="publisherName"
-          name="publisherName"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+    <form onSubmit={handleSubmit} className="flex flex-col px-40">
+      <label htmlFor="publisherName">Publisher Name</label>
+      <input
+        type="text"
+        id="publisherName"
+        name="publisherName"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        <label htmlFor="publisherUserId">Publisher User Id</label>
-        <input
-          type="text"
-          id="publisherUserId"
-          name="publisherUserId"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+      <label htmlFor="publisherUserId">Publisher User Id</label>
+      <input
+        type="text"
+        id="publisherUserId"
+        name="publisherUserId"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        <label htmlFor="publisherEmail">Publisher Email</label>
-        <input
-          type="text"
-          name="publisherEmail"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+      <label htmlFor="publisherEmail">Publisher Email</label>
+      <input
+        type="text"
+        name="publisherEmail"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        <label htmlFor="publisherUrl">Publisher Website</label>
-        <input
-          type="text"
-          name="publisherUrl"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+      <label htmlFor="publisherUrl">Publisher Website</label>
+      <input
+        type="text"
+        name="publisherUrl"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
+      {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
 
-        <label htmlFor="packageName">Package Name</label>
-        <input
-          type="text"
-          name="packageName"
-          pattern="[^\s]+"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+      <label htmlFor="packageName">Package Name</label>
+      <input
+        type="text"
+        name="packageName"
+        pattern="[^\s]+"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        <label htmlFor="description">Description</label>
-        <input
-          type="text"
-          name="description"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+      <label htmlFor="description">Description</label>
+      <input
+        type="text"
+        name="description"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        {/* <label>Industry</label>
+      {/* <label>Industry</label>
         <input
           list="industry"
           name="industry"
@@ -137,7 +136,7 @@ export default function SubmissionForm() {
           <option value="Products" />
         </datalist> */}
 
-        {/* <label>Status</label>
+      {/* <label>Status</label>
         <input
           list="status"
           name="status"
@@ -150,45 +149,44 @@ export default function SubmissionForm() {
           <option value="Deprecated" disabled />
         </datalist> */}
 
-        <label htmlFor="version">Version</label>
-        <input
-          type="text"
-          name="version"
-          pattern="^(\d+\.){2}\d+$"
-          className="mt-2 mb-6 rounded-sm p-2"
-          required
-          onChange={handleChange}
-        />
+      <label htmlFor="version">Version</label>
+      <input
+        type="text"
+        name="version"
+        pattern="^(\d+\.){2}\d+$"
+        className="mt-2 mb-6 rounded-sm p-2"
+        required
+        onChange={handleChange}
+      />
 
-        <label htmlFor="summary">Summary (optional)</label>
-        <textarea
-          name="summary"
-          required
-          rows={5}
-          className="mt-2 mb-6 rounded-sm p-2"
-          onChange={handleChange}
-        />
+      <label htmlFor="summary">Summary (optional)</label>
+      <textarea
+        name="summary"
+        required
+        rows={5}
+        className="mt-2 mb-6 rounded-sm p-2"
+        onChange={handleChange}
+      />
 
-        <label htmlFor="schemaJson">schema.json Content</label>
+      <label htmlFor="schemaJson">schema.json Content</label>
+      <CodeMirror
+        className="mt-2 mb-6"
+        minHeight="200px"
+        extensions={[json()]}
+        onChange={handleCodeMirrorChangeSchemaJson}
+      />
+
+      <div>
+        <label htmlFor="readme">README.md Content</label>
         <CodeMirror
           className="mt-2 mb-6"
           minHeight="200px"
-          extensions={[json()]}
-          onChange={handleCodeMirrorChangeSchemaJson}
+          extensions={[markdown()]}
+          onChange={handleCodeMirrorChangeReadme}
         />
-
-        <div>
-          <label htmlFor="readme">README.md Content</label>
-          <CodeMirror
-            className="mt-2 mb-6"
-            minHeight="200px"
-            extensions={[markdown()]}
-            onChange={handleCodeMirrorChangeReadme}
-          />
-        </div>
-
-        <input type="submit" value="Submit" className="primary-button" />
       </div>
+
+      <input type="submit" value="Submit" className="primary-button" />
     </form>
   );
 }

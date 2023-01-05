@@ -127,7 +127,6 @@ function renderSolutionCard(
 
 type CardProps<T> = {
   href: string;
-  key?: string;
   title: string;
   invert?: boolean;
   subtitle?: string;
@@ -138,10 +137,10 @@ type CardProps<T> = {
 export type CardRenderer<T> = (cardDetails: T) => JSX.Element;
 
 function Card<T>(props: CardProps<T>) {
-  const { href, key, title, invert, subtitle, cardContent, render } = props;
+  const { href, title, invert, subtitle, cardContent, render } = props;
 
   return (
-    <Link href={href} key={key}>
+    <Link href={href}>
       <li
         className={`${
           invert ? style['card-invert'] : style.card
