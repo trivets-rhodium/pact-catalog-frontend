@@ -28,6 +28,18 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
+function getAllIndustries(allSolutions: ConformingSolution[]): string[] {
+  const allIndustries = allSolutions.map((solution) => {
+    return solution.industries;
+  });
+
+  const industries = allIndustries.flat();
+
+  return industries.filter((industry, index) => {
+    return industries.indexOf(industry) === index;
+  });
+}
+
 function getAllProviders(allSolutions: ConformingSolution[]): string[] {
   const allProvidersNames = allSolutions.map((solution) => {
     return solution.providerName;
@@ -35,6 +47,23 @@ function getAllProviders(allSolutions: ConformingSolution[]): string[] {
 
   return allProvidersNames.filter((name, index) => {
     return allProvidersNames.indexOf(name) === index;
+  });
+}
+
+function getProviderByIndustry(
+  industry: string,
+  allSolutions: ConformingSolution[]
+): string[] {
+  const filteredSolutions = allSolutions.filter((solution) => {
+    return solution.industries.includes(industry);
+  });
+
+  const filteredProvidersNames = filteredSolutions.map((solution) => {
+    return solution.providerName;
+  });
+
+  return filteredProvidersNames.filter((name, index) => {
+    return filteredProvidersNames.indexOf(name) === index;
   });
 }
 
@@ -56,6 +85,7 @@ export default function Solutions(props: PageProps) {
   const [search, setSearch] = React.useState({
     matchingSolutions: new Array(),
     searchValue: '',
+    industry: '',
     provider: '',
     result: '',
     options: {
@@ -81,6 +111,7 @@ export default function Solutions(props: PageProps) {
       'summary',
       'conformance_tests',
       'extensions',
+      'industries',
     ],
   });
 
@@ -90,6 +121,13 @@ export default function Solutions(props: PageProps) {
     setSearch({
       ...search,
       searchValue: event.target.value,
+    });
+  }
+
+  function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSearch({
+      ...search,
+      industry: event.target.value,
     });
   }
 
@@ -108,10 +146,13 @@ export default function Solutions(props: PageProps) {
   }
 
   useEffect(() => {
-    const { provider, result, searchValue } = search;
+    const { industry, provider, result, searchValue } = search;
 
     const matchingSolutions = miniSearchSolutions.search(searchValue, {
       filter: (searchResult: SearchResult) => {
+        if (industry !== '' && !searchResult.industries.includes(industry)) {
+          return false;
+        }
         if (provider !== '' && provider !== searchResult.providerName) {
           return false;
         }
@@ -131,16 +172,30 @@ export default function Solutions(props: PageProps) {
       ...search,
       matchingSolutions,
     });
-  }, [search.searchValue, search.provider, search.result]);
+  }, [search.searchValue, search.industry, search.provider, search.result]);
 
   function displaySolutions() {
-    const { searchValue, provider, result, matchingSolutions } = search;
+    const { searchValue, industry, provider, result, matchingSolutions } =
+      search;
+
+    const filterByIndustry = allSolutions.filter((solution) => {
+      return solution.industries.includes(industry);
+    });
 
     const filterByProvider = allSolutions.filter((solution) => {
       return solution.providerName === provider;
     });
 
     const filterByResult = allSolutions.filter((solution) => {
+      return (
+        solution.conformance_tests &&
+        solution.conformance_tests.some((test) => {
+          return test.test.test_result === result;
+        })
+      );
+    });
+
+    const filterByIndustryAndResult = filterByIndustry.filter((solution) => {
       return (
         solution.conformance_tests &&
         solution.conformance_tests.some((test) => {
@@ -161,12 +216,20 @@ export default function Solutions(props: PageProps) {
     if (searchValue !== '') {
       return (
         <Cards
-          title={`${matchingSolutions.length} ${
-            result !== '' ? result : ''
-          } Conforming Solution(s) for '${searchValue}' ${
+          title={`${matchingSolutions.length} ${result !== '' ? result : ''} ${
+            industry !== '' ? `${industry} related` : ''
+          } Conforming Solutions for '${searchValue}' ${
             provider !== '' ? `from ${provider}` : ''
           }`}
           cardsContent={matchingSolutions}
+          render={solutionCards}
+        />
+      );
+    } else if (industry !== '' && provider === '' && result === '') {
+      return (
+        <Cards
+          title={`All ${industry} related Conforming Solutions`}
+          cardsContent={filterByIndustry}
           render={solutionCards}
         />
       );
@@ -183,6 +246,14 @@ export default function Solutions(props: PageProps) {
         <Cards
           title={`All Conforming Solutions from ${provider}`}
           cardsContent={filterByProvider}
+          render={solutionCards}
+        />
+      );
+    } else if (industry !== '' && provider === '' && result !== '') {
+      return (
+        <Cards
+          title={`All ${industry} related ${result} Conforming Solutions`}
+          cardsContent={filterByIndustryAndResult}
           render={solutionCards}
         />
       );
@@ -210,12 +281,19 @@ export default function Solutions(props: PageProps) {
       <section>
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
-          firstFilterName="providers"
-          firstFilterContent={getAllProviders(allSolutions)}
-          onFirstFilterChange={handleProviderChange}
-          secondFilterName="results"
-          secondFilterContent={getAllResults(allResults)}
-          onSecondFilterChange={handleResultsChange}
+          firstFilterName="industries"
+          firstFilterContent={getAllIndustries(allSolutions)}
+          onFirstFilterChange={handleIndustryChange}
+          secondFilterName="providers"
+          secondFilterContent={
+            search.industry === ''
+              ? getAllProviders(allSolutions)
+              : getProviderByIndustry(search.industry, allSolutions)
+          }
+          onSecondFilterChange={handleProviderChange}
+          thirdFilterName="results"
+          thirdFilterContent={getAllResults(allResults)}
+          onThirdFilterChange={handleResultsChange}
           title={'Search Conforming Solutions'}
           placeholder={'e.g. Some Solution Provider'}
         />

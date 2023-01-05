@@ -110,7 +110,7 @@ export default function Extensions(props: PageProps) {
       'publisher',
       'author',
       'catalog_info',
-      'industry',
+      'industries',
     ],
   });
 
@@ -149,7 +149,7 @@ export default function Extensions(props: PageProps) {
 
     const matchingExtensions = miniSearchExtensions.search(searchValue, {
       filter: (result: SearchResult) => {
-        if (industry !== '' && industry !== result.industry) {
+        if (industry !== '' && !result.industries.includes(industry)) {
           return false;
         }
         if (publisher !== '' && publisher !== result.publisher) {
@@ -184,12 +184,6 @@ export default function Extensions(props: PageProps) {
       return extension.catalog_info.status === status;
     });
 
-    const filterByIndustryAndPublisher = filterByIndustry.filter(
-      (extension) => {
-        return extension.author.name === publisher;
-      }
-    );
-
     const filterByIndustryAndStatus = filterByIndustry.filter((extension) => {
       return extension.catalog_info.status === status;
     });
@@ -197,15 +191,6 @@ export default function Extensions(props: PageProps) {
     const filterByPublisherAndStatus = filterByPublisher.filter((extension) => {
       return extension.catalog_info.status === status;
     });
-
-    const filterByIndustryAndPublisherAndStatus = filterByIndustry.filter(
-      (extension) => {
-        return (
-          extension.author.name === publisher &&
-          extension.catalog_info.status === status
-        );
-      }
-    );
 
     if (searchValue !== '') {
       return (
