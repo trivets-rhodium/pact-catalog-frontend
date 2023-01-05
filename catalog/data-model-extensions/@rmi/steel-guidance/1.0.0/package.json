@@ -28,5 +28,8 @@
       "rmi",
       "acme-steel-manufacturer"
     ]
-  }
+  },
+  "industries": [
+    "steel"
+  ]
 }

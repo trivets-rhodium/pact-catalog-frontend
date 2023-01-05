@@ -15,6 +15,7 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
     endorsers,
     downloadLink,
     gitRepositoryUrl,
+    industries,
   } = extension;
 
   return (
@@ -28,6 +29,7 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
             {catalog_info.summary === null ? description : catalog_info.summary}
           </p>
         </section>
+
         <section className="mb-12">
           <h2>Contributors</h2>
           <ul>
@@ -49,11 +51,12 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
               })}
           </ul>
         </section>
-        <section className="mb-12">
-          <h2>Endorsers</h2>
-          <ul>
-            {endorsers &&
-              endorsers.map(({ id, website, name }) => {
+
+        {endorsers.length > 0 && (
+          <section className="mb-12">
+            <h2>Endorsers</h2>
+            <ul>
+              {endorsers.map(({ id, website, name }) => {
                 return (
                   <li key={id}>
                     {website !== null ? (
@@ -70,12 +73,27 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
                   </li>
                 );
               })}
+            </ul>
+          </section>
+        )}
+
+        <section className="mb-12">
+          <h2>Industries</h2>
+          <ul>
+            {industries.map((industry) => {
+              return (
+                <li>
+                  {industry.replace(industry[0], industry[0].toUpperCase())}
+                </li>
+              );
+            })}
           </ul>
         </section>
       </div>
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
-          <Link href={`${downloadLink}`}>
+          {/* TO DO: replace '#' with {downloadlink} */}
+          <Link href={'#'}>
             <div className="mb-8 primary-button">Download Package (TO DO)</div>
           </Link>
           <h3>Repository</h3>

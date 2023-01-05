@@ -11,6 +11,9 @@ type SearchBarProps<T> = {
   secondFilterName?: string;
   secondFilterContent?: string[];
   onSecondFilterChange?: ChangeEventHandler<HTMLSelectElement>;
+  thirdFilterName?: string;
+  thirdFilterContent?: string[];
+  onThirdFilterChange?: ChangeEventHandler<HTMLSelectElement>;
 };
 
 export default function SearchBar<T>(props: SearchBarProps<T>) {
@@ -24,6 +27,9 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
     secondFilterName,
     secondFilterContent,
     onSecondFilterChange,
+    thirdFilterName,
+    thirdFilterContent,
+    onThirdFilterChange,
   } = props;
   return (
     <>
@@ -43,7 +49,7 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
               <select
                 defaultValue=""
                 name={firstFilterName}
-                className="flex-grow m-1 p-4 rounded-sm filter"
+                className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm filter"
                 onChange={onFirstFilterChange}
               >
                 <option value="">all {firstFilterName}</option>
@@ -68,6 +74,26 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
               >
                 <option value="">all {secondFilterName}</option>
                 {secondFilterContent.map((e) => {
+                  return (
+                    <option key={e} value={e}>
+                      {e}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          )}
+
+          {thirdFilterName && thirdFilterContent && onThirdFilterChange && (
+            <div className={style['select-wrapper']}>
+              <select
+                defaultValue=""
+                name={thirdFilterName}
+                className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm"
+                onChange={onThirdFilterChange}
+              >
+                <option value="">all {thirdFilterName}</option>
+                {thirdFilterContent.map((e) => {
                   return (
                     <option key={e} value={e}>
                       {e}

@@ -60,8 +60,7 @@ export async function getLatestExtensionsSorted(): Promise<
     versionId && latestVersions.push({ name, versionId });
   }
 
-  console.log('latestVersions', latestVersions);
-
+  // TO DO: replace with logic that presents the extensions most recently added to the catalog
   const latestExtensions = (await allExtensions).filter((extension) => {
     for (const e of latestVersions) {
       if (e.name === extension.name && e.versionId === extension.version) {
