@@ -145,7 +145,7 @@ export default function Extensions(props: PageProps) {
         <Cards
           title={`${matchingExtensions.length} ${
             status !== '' ? status : ''
-          } Data Model Extensions for '${searchValue}' ${
+          } Data Model Extension(s) for '${searchValue}' ${
             publisher !== '' ? `from ${publisher}` : ''
           }`}
           cardsContent={matchingExtensions}

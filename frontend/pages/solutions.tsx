@@ -161,11 +161,11 @@ export default function Solutions(props: PageProps) {
     if (searchValue !== '') {
       return (
         <Cards
-          title={`${
-            matchingSolutions.length
-          } Conforming Solutions for '${searchValue}' ${
+          title={`${matchingSolutions.length} ${
+            result !== '' ? result : ''
+          } Conforming Solution(s) for '${searchValue}' ${
             provider !== '' ? `from ${provider}` : ''
-          } with ${result !== '' ? result : ''} test results`}
+          }`}
           cardsContent={matchingSolutions}
           render={solutionCards}
         />
