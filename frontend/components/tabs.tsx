@@ -27,7 +27,7 @@ function TabHead<T>(props: TabsProps<T>) {
   } = router;
 
   const defaultTab = () => {
-    if (!activeTab) {
+    if (!router.query.activeTab) {
       router.query.activeTab = 'readme';
       return true;
     }
