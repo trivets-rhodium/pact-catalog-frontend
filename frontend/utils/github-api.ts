@@ -39,8 +39,7 @@ export default async function submitToGithub(formInput: FormInput) {
     {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      // TO DO: Replace 'new-submission-form' with 'main' again.
-      ref: 'heads/new-submission-form',
+      ref: 'heads/main',
     }
   );
 
@@ -131,8 +130,7 @@ export default async function submitToGithub(formInput: FormInput) {
       title: `@${publisherUserId}/${packageName}`,
       body: `Creates Data Model Extension @${publisherUserId}/${packageName}, version ${version}`,
       head: `@${publisherUserId}`,
-      // TO DO: Replace 'new-submission-form' with 'main' again
-      base: 'new-submission-form',
+      base: 'main',
     }
   );
 
