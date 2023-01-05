@@ -147,7 +147,7 @@ function Card<T>(props: CardProps<T>) {
           invert ? style['card-invert'] : style.card
         } flex flex-col justify-between`}
       >
-        <div>
+        <div className='pb-10'>
           <p className="font-bold">{title}</p>
           <p>{subtitle}</p>
         </div>
