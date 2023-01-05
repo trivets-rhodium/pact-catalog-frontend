@@ -78,9 +78,9 @@ function renderExtensionCard(
       <li>Publisher: {author.name}</li>
       <li>Status: {catalog_info.status}</li>
       <li>
-        {endorsers.length ? `Endorsers (${endorsers.length}):` : ''}
+        {endorsers ? `Endorsers (${endorsers.length}):` : ''}
         <ul>
-          {endorsers.map((endorser: CatalogUser) => {
+          {endorsers && endorsers.map((endorser: CatalogUser) => {
             return <li key={endorser.id}>{endorser.name}</li>;
           })}
         </ul>
