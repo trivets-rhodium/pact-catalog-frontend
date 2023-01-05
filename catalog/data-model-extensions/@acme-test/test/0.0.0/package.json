@@ -1,1 +1,0 @@
-{"name":"@acme-test/test","version":"0.0.0","description":"This is a great extension again","files":["schema.json"],"author":{"name":"ACME Test","email":"acme@acme.com","url":"https://www.acme.com"},"license":"MIT","catalog_info":{"summary":"S","status":"draft","authors":["acme-test"]}}
