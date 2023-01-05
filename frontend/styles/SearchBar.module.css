@@ -7,11 +7,12 @@
 }
 
 .select-wrapper::after {
-  content: ">";
-  transform: rotate(90deg);
+  content: "^";
+  transform: rotate(180deg);
+  font-weight: bold;
   color: #08A17F;
   font-size: 0.8rem;
-  top: 1.5rem;
+  top: 1.4rem;
   right: 1rem;
   position: absolute;
 }
