@@ -1,19 +1,19 @@
 {
-  "$id": "https://catalog.carbon-transparency.com/data-model-extension/@rmi/steel-guidance/1.0.0/schema.json",
+  "$id": "https://catalog.carbon-transparency.com/data-model-extension/@rmi/steel-guidance/1.1.0/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "RMI Steel Guidance Data Model Extensions",
   "type": "object",
   "properties": {
-    "firstName": {
+    "propertyOne": {
       "type": "string",
-      "description": "The person's first name."
+      "description": "The description of the first property."
     },
-    "lastName": {
+    "propertyTwo": {
       "type": "string",
-      "description": "The person's last name."
+      "description": "The description of the second property."
     },
-    "age": {
-      "description": "Age in years which must be equal to or greater than zero.",
+    "propertyThree": {
+      "description": "The description of the third property.",
       "type": "integer",
       "minimum": 0
     }
