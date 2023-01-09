@@ -13,6 +13,7 @@ type FormInput = {
   publisherUrl: string;
   packageName: string;
   description: string;
+  industries: string[];
   version: string;
   summary: string;
   schemaJson: string;
@@ -27,6 +28,7 @@ export default async function submitToGithub(formInput: FormInput) {
     publisherUrl,
     packageName,
     description,
+    industries,
     version,
     summary,
     schemaJson,
@@ -60,7 +62,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/index.js`,
     message: 'Create empty index.js file',
     branch: `@${publisherUserId}`,
-    content: btoa(''),
+    content: '',
   });
 
   // Creates LICENSE file; TO DO: allow other licenses;
@@ -70,7 +72,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/LICENSE`,
     message: 'Create LICENSE file',
     branch: `@${publisherUserId}`,
-    content: btoa(licenseText),
+    content: Buffer.from(licenseText).toString('base64'),
   });
 
   // Creates object to pass as the content of the package.json file;
@@ -98,7 +100,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/package.json`,
     message: 'Create package.json',
     branch: `@${publisherUserId}`,
-    content: btoa(JSON.stringify(packageJsonContent)),
+    content: Buffer.from(JSON.stringify(packageJsonContent)).toString('base64'),
   });
 
   // Creates schema.json file with the submitted data;
@@ -108,7 +110,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/schema.json`,
     message: 'Create schema.json',
     branch: `@${publisherUserId}`,
-    content: btoa(JSON.stringify(schemaJson)),
+    content: Buffer.from(JSON.stringify(schemaJson)).toString('base64'),
   });
 
   // Creates README.md file with the submitted data;
@@ -118,7 +120,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/documentation/README.md`,
     message: 'Create README.md',
     branch: `@${publisherUserId}`,
-    content: btoa(readme),
+    content: Buffer.from(readme).toString('base64'),
   });
 
   // Opens Pull Request with the relevant files;

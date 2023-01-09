@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
@@ -21,6 +21,7 @@ export default function SubmissionForm() {
     packageName: '',
     industry: '',
     description: '',
+    industries: [''],
     version: '',
     summary: '',
     schemaJson: '',
@@ -37,6 +38,28 @@ export default function SubmissionForm() {
     setFormInput({
       ...formInput,
       [name]: value,
+    });
+  }
+
+  function handleChangeToLowerCase(event: React.ChangeEvent<HTMLInputElement>) {
+    const name = event.target.name;
+    const value = event.target.value.toLocaleLowerCase();
+
+    setFormInput({
+      ...formInput,
+      [name]: value,
+    });
+  }
+
+  function handleIndustriesChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const industries = event.target.value.split(',');
+    const value = industries.map((industry) => {
+      return industry.trim();
+    });
+
+    setFormInput({
+      ...formInput,
+      industries: value,
     });
   }
 
@@ -72,6 +95,12 @@ export default function SubmissionForm() {
         name="publisherName"
         className="mt-2 mb-6 rounded-sm p-2"
         required
+        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('Please chose a publisher name')
+        }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
         onChange={handleChange}
       />
 
@@ -82,12 +111,19 @@ export default function SubmissionForm() {
         name="publisherUserId"
         className="mt-2 mb-6 rounded-sm p-2"
         required
-        onChange={handleChange}
+        onChange={handleChangeToLowerCase}
+        pattern="\S+"
+        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('Please do not use whitespaces')
+        }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
       <input
-        type="text"
+        type="email"
         name="publisherEmail"
         className="mt-2 mb-6 rounded-sm p-2"
         required
@@ -96,7 +132,7 @@ export default function SubmissionForm() {
 
       <label htmlFor="publisherUrl">Publisher Website</label>
       <input
-        type="text"
+        type="url"
         name="publisherUrl"
         className="mt-2 mb-6 rounded-sm p-2"
         required
@@ -109,10 +145,16 @@ export default function SubmissionForm() {
       <input
         type="text"
         name="packageName"
-        pattern="[^\s]+"
         className="mt-2 mb-6 rounded-sm p-2"
         required
-        onChange={handleChange}
+        onChange={handleChangeToLowerCase}
+        pattern="\S+"
+        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('Please do not use whitespaces')
+        }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
       />
 
       <label htmlFor="description">Description</label>
@@ -124,13 +166,22 @@ export default function SubmissionForm() {
         onChange={handleChange}
       />
 
-      <label htmlFor="industry">Industry</label>
+      <label htmlFor="industries">Industries</label>
       <input
         type="text"
-        name="industry"
+        name="industries"
         className="mt-2 mb-6 rounded-sm p-2"
+        onChange={handleIndustriesChange}
+        pattern="\w+(,\s*\w+)*"
         required
-        onChange={handleChange}
+        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity(
+            'Please write industry names separated by commas'
+          )
+        }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
       />
 
       {/* <label>Status</label>
@@ -154,12 +205,19 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity(
+            'Please use the X.Y.Z format, where X, Y and Z are non-negative integers'
+          )
+        }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
       />
 
       <label htmlFor="summary">Summary (optional)</label>
       <textarea
         name="summary"
-        required
         rows={5}
         className="mt-2 mb-6 rounded-sm p-2"
         onChange={handleChange}
