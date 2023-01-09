@@ -1,1 +1,0 @@
-{"name":"@test-publisher-2/test-extension-2","version":"0.0.1","description":"Description of the Test Extension","files":["schema.json"],"author":{"name":"Test Publisher 2","email":"test@publisher.com","url":"https://test-publisher.com"},"license":"MIT","catalog_info":{"summary":"Summary","status":"draft","authors":["test-publisher-2"]}}
