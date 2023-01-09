@@ -13,6 +13,7 @@ type FormInput = {
   publisherUrl: string;
   packageName: string;
   description: string;
+  industries: string[];
   version: string;
   summary: string;
   schemaJson: string;
@@ -27,6 +28,7 @@ export default async function submitToGithub(formInput: FormInput) {
     publisherUrl,
     packageName,
     description,
+    industries,
     version,
     summary,
     schemaJson,

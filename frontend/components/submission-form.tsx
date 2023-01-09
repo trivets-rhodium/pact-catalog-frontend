@@ -21,6 +21,7 @@ export default function SubmissionForm() {
     packageName: '',
     industry: '',
     description: '',
+    industries: [''],
     version: '',
     summary: '',
     schemaJson: '',
@@ -47,6 +48,18 @@ export default function SubmissionForm() {
     setFormInput({
       ...formInput,
       [name]: value,
+    });
+  }
+
+  function handleIndustriesChange(event: React.ChangeEvent<HTMLInputElement>) {
+    const industries = event.target.value.split(',');
+    const value = industries.map((industry) => {
+      return industry.trim();
+    });
+
+    setFormInput({
+      ...formInput,
+      industries: value,
     });
   }
 
@@ -153,13 +166,22 @@ export default function SubmissionForm() {
         onChange={handleChange}
       />
 
-      <label htmlFor="industry">Industries</label>
+      <label htmlFor="industries">Industries</label>
       <input
         type="text"
-        name="industry"
+        name="industries"
         className="mt-2 mb-6 rounded-sm p-2"
+        onChange={handleIndustriesChange}
+        pattern="\w+(,\s*\w+)*"
         required
-        onChange={handleChange}
+        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity(
+            'Please write industry names separated by commas'
+          )
+        }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
       />
 
       {/* <label>Status</label>
@@ -188,12 +210,14 @@ export default function SubmissionForm() {
             'Please use the X.Y.Z format, where X, Y and Z are non-negative integers'
           )
         }
+        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
+          event.target.setCustomValidity('')
+        }
       />
 
       <label htmlFor="summary">Summary (optional)</label>
       <textarea
         name="summary"
-        required
         rows={5}
         className="mt-2 mb-6 rounded-sm p-2"
         onChange={handleChange}
