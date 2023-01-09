@@ -6,6 +6,8 @@ import React, { useEffect } from 'react';
 import { Cards, extensionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
+import Link from 'next/link';
+import { Router, useRouter } from 'next/router';
 
 type PageProps = {
   allExtensions: CatalogDataModelExtension[];
@@ -171,22 +173,8 @@ export default function Extensions(props: PageProps) {
   function resetSearch() {
     return (
       <div className="text-right">
-        <button
-          className="secondary-button"
-          onClick={() => {
-            setSearch({
-              matchingExtensions: new Array(),
-              searchValue: '',
-              industry: '',
-              publisher: '',
-              status: '',
-              options: {
-                filter: undefined,
-              },
-            });
-          }}
-        >
-          Reset
+        <button className="secondary-button" onClick={() => Router.reload()}>
+          {'<'} Reset
         </button>
       </div>
     );
