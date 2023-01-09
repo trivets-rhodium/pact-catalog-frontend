@@ -92,6 +92,7 @@ export default async function submitToGithub(formInput: FormInput) {
       status: 'draft',
       authors: [`${publisherUserId}`],
     },
+    industries,
   };
 
   await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
