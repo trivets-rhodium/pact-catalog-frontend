@@ -62,7 +62,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/index.js`,
     message: 'Create empty index.js file',
     branch: `@${publisherUserId}`,
-    content: btoa(''),
+    content: '',
   });
 
   // Creates LICENSE file; TO DO: allow other licenses;
@@ -72,7 +72,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/LICENSE`,
     message: 'Create LICENSE file',
     branch: `@${publisherUserId}`,
-    content: btoa(licenseText),
+    content: licenseText,
   });
 
   // Creates object to pass as the content of the package.json file;
@@ -100,7 +100,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/package.json`,
     message: 'Create package.json',
     branch: `@${publisherUserId}`,
-    content: btoa(JSON.stringify(packageJsonContent)),
+    content: JSON.stringify(packageJsonContent),
   });
 
   // Creates schema.json file with the submitted data;
@@ -110,7 +110,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/schema.json`,
     message: 'Create schema.json',
     branch: `@${publisherUserId}`,
-    content: btoa(JSON.stringify(schemaJson)),
+    content: JSON.stringify(schemaJson),
   });
 
   // Creates README.md file with the submitted data;
@@ -120,7 +120,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/documentation/README.md`,
     message: 'Create README.md',
     branch: `@${publisherUserId}`,
-    content: btoa(readme),
+    content: readme,
   });
 
   // Opens Pull Request with the relevant files;
