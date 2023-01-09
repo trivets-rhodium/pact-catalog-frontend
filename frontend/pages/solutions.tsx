@@ -50,6 +50,7 @@ function getAllProviders(allSolutions: ConformingSolution[]): string[] {
   });
 }
 
+
 function getProviderByIndustry(
   industry: string,
   allSolutions: ConformingSolution[]

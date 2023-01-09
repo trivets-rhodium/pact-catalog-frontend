@@ -46,6 +46,7 @@ function getAllPublishers(
   });
 }
 
+
 function getPublishersByIndustry(
   industry: string,
   allExtensions: CatalogDataModelExtension[]
