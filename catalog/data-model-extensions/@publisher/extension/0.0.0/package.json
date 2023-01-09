@@ -1,1 +1,0 @@
-{"name":"@publisher/extension","version":"0.0.0","description":"Extension","files":["schema.json"],"author":{"name":"Publisher","email":"publisher@email.com","url":"https://www.publisher.com"},"license":"MIT","catalog_info":{"summary":"Summary","status":"draft","authors":["publisher"]},"industries":["steel","chemical"]}
