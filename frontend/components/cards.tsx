@@ -27,9 +27,10 @@ export function Cards<T>(props: CardsProps<T>) {
   const { title, cardsContent, render, subtitle, href, message } = props;
   return (
     <section className="background pb-10 rounded-sm">
-      <Link href={href ? href : useRouter().pathname}>
-        <h2 className="title px-4">{title}</h2>
-      </Link>
+      <h2 className="title px-4">
+        <Link href={href ? href : useRouter().pathname}>{title}</Link>
+      </h2>
+
       <h3 className="px-4">{subtitle}</h3>
       <ul className="grid grid-cols-4 m-1">
         {render(cardsContent)}

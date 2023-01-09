@@ -6,9 +6,10 @@ import {
   SolutionId,
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
-import { getAuthorName } from './data-model-extensions';
+import { getAuthorName, getExtension } from './data-model-extensions';
 import { getSolutionUsers, getUser } from './users';
 import { getSolutionTestResults } from './conformance-tests';
+import Extensions from '../pages/extensions';
 
 const solutionsDirectory = path.posix.join(
   process.cwd(),

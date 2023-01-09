@@ -4,6 +4,7 @@
 import {
   ConformanceTestResult,
   DMEId,
+  Industry,
   SolutionId,
   VersionId,
 } from './catalog-types';
@@ -31,6 +32,7 @@ export type PackageJsonSchema = {
     status: 'published' | 'draft' | 'deprecated';
     authors: UserId[];
   };
+  industries: Industry[];
 };
 
 export type ConformingSolutionJsonSchema = {
@@ -43,6 +45,7 @@ export type ConformingSolutionJsonSchema = {
     version: VersionId;
   }[];
   summary?: string;
+  industries: Industry[];
 };
 
 export type CatalogUserJsonSchema = {
@@ -103,6 +106,7 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
       status: z.enum(['published', 'draft', 'deprecated']),
       authors: z.array(z.string().min(1)),
     }),
+    industries: z.array(z.string().min(1)),
   })
 );
 
@@ -120,6 +124,7 @@ export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
         })
       ),
       summary: z.string().optional(),
+      industries: z.array(z.string().min(1)),
     })
 );
 

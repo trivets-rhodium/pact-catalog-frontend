@@ -1,1 +1,24 @@
-{"name":"@test-publisher/test-extension","version":"0.0.1","description":"Description of the Test Extension","files":["schema.json"],"author":{"name":"Test Publisher","email":"test@publisher.com","url":"https://test-publisher.com"},"license":"MIT","catalog_info":{"summary":"Summary of the Test Extension","status":"draft","authors":["test-publisher"]}}
+{
+  "name": "@test-publisher/test-extension",
+  "version": "0.0.1",
+  "description": "Description of the Test Extension",
+  "files": [
+    "schema.json"
+  ],
+  "author": {
+    "name": "Test Publisher",
+    "email": "test@publisher.com",
+    "url": "https://test-publisher.com"
+  },
+  "license": "MIT",
+  "catalog_info": {
+    "summary": "Summary of the Test Extension",
+    "status": "draft",
+    "authors": [
+      "test-publisher"
+    ]
+  },
+  "industries": [
+    "chemical"
+  ]
+}

@@ -28,5 +28,11 @@
       "wbcsd",
       "acme-steel-manufacturer"
     ]
-  }
+  },
+  "industries": [
+    "steel",
+    "automotive",
+    "chemical",
+    "logistics"
+  ]
 }

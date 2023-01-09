@@ -6,6 +6,7 @@ export type VersionId = string;
 export type SolutionId = string;
 export type Endorsers = CatalogUser[];
 export type SolutionUsers = CatalogUser[];
+export type Industry = string;
 
 export type CatalogDataModelExtension = {
   name: DMEId;
@@ -38,6 +39,7 @@ export type CatalogDataModelExtension = {
   endorsers: Endorsers;
   conformingSolutions: ConformingSolution[];
   versions: VersionId[];
+  industries: Industry[];
 };
 
 // a data model extension id uniquely identifies a data model extension within the catalog
@@ -73,6 +75,7 @@ export type ConformingSolution = {
   }[];
   providerName: string;
   summary: string | null;
+  industries: Industry[];
   users: SolutionUsers | null;
   conformance_tests: SolutionTestResults | null;
 };

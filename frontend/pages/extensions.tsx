@@ -20,6 +20,20 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
+function getAllIndustries(
+  allExtensions: CatalogDataModelExtension[]
+): string[] {
+  const allIndustries = allExtensions.map((extension) => {
+    return extension.industries;
+  });
+
+  const industries = allIndustries.flat();
+
+  return industries.filter((industry, index) => {
+    return industries.indexOf(industry) === index;
+  });
+}
+
 function getAllPublishers(
   allExtensions: CatalogDataModelExtension[]
 ): string[] {
@@ -29,6 +43,24 @@ function getAllPublishers(
 
   return allAuthorsNames.filter((name, index) => {
     return allAuthorsNames.indexOf(name) === index;
+  });
+}
+
+
+function getPublishersByIndustry(
+  industry: string,
+  allExtensions: CatalogDataModelExtension[]
+): string[] {
+  const filteredExtensions = allExtensions.filter((extension) => {
+    return extension.industries.includes(industry);
+  });
+
+  const filteredAuthorsNames = filteredExtensions.map((extension) => {
+    return extension.author.name;
+  });
+
+  return filteredAuthorsNames.filter((name, index) => {
+    return filteredAuthorsNames.indexOf(name) === index;
   });
 }
 
@@ -49,6 +81,7 @@ export default function Extensions(props: PageProps) {
   const [search, setSearch] = React.useState({
     matchingExtensions: new Array(),
     searchValue: '',
+    industry: '',
     publisher: '',
     status: '',
     options: {
@@ -78,6 +111,7 @@ export default function Extensions(props: PageProps) {
       'publisher',
       'author',
       'catalog_info',
+      'industries',
     ],
   });
 
@@ -87,6 +121,13 @@ export default function Extensions(props: PageProps) {
     setSearch({
       ...search,
       searchValue: event.target.value,
+    });
+  }
+
+  function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setSearch({
+      ...search,
+      industry: event.target.value,
     });
   }
 
@@ -105,10 +146,13 @@ export default function Extensions(props: PageProps) {
   }
 
   useEffect(() => {
-    const { publisher, status, searchValue } = search;
+    const { industry, publisher, status, searchValue } = search;
 
     const matchingExtensions = miniSearchExtensions.search(searchValue, {
       filter: (result: SearchResult) => {
+        if (industry !== '' && !result.industries.includes(industry)) {
+          return false;
+        }
         if (publisher !== '' && publisher !== result.publisher) {
           return false;
         }
@@ -123,16 +167,25 @@ export default function Extensions(props: PageProps) {
       ...search,
       matchingExtensions,
     });
-  }, [search.searchValue, search.publisher, search.status]);
+  }, [search.searchValue, search.industry, search.publisher, search.status]);
 
   function displayExtensions() {
-    const { searchValue, publisher, status, matchingExtensions } = search;
+    const { searchValue, industry, publisher, status, matchingExtensions } =
+      search;
+
+    const filterByIndustry = allExtensions.filter((extension) => {
+      return extension.industries.includes(industry);
+    });
 
     const filterByPublisher = allExtensions.filter((extension) => {
       return extension.author.name === publisher;
     });
 
     const filterByStatus = allExtensions.filter((extension) => {
+      return extension.catalog_info.status === status;
+    });
+
+    const filterByIndustryAndStatus = filterByIndustry.filter((extension) => {
       return extension.catalog_info.status === status;
     });
 
@@ -144,18 +197,30 @@ export default function Extensions(props: PageProps) {
       return (
         <Cards
           title={`${matchingExtensions.length} ${
+            industry !== '' ? `${industry} related` : ''
+          } ${
             status !== '' ? status : ''
-          } Data Model Extension(s) for '${searchValue}' ${
-            publisher !== '' ? `from ${publisher}` : ''
+          } Data Model Extension(s) for '${searchValue}'${
+            publisher !== '' ? `, from ${publisher}` : ''
           }`}
           cardsContent={matchingExtensions}
+          render={extensionCards}
+        />
+      );
+    } else if (industry !== '' && publisher === '' && status === '') {
+      return (
+        <Cards
+          title={`All ${industry} related Data Model Extensions`}
+          cardsContent={filterByIndustry}
           render={extensionCards}
         />
       );
     } else if (publisher !== '' && status !== '') {
       return (
         <Cards
-          title={`All ${status} Data Model Extensions, from ${publisher}`}
+          title={`All ${
+            industry !== '' ? `${industry} related` : ''
+          } ${status} Data Model Extensions, from ${publisher}`}
           cardsContent={filterByPublisherAndStatus}
           render={extensionCards}
         />
@@ -163,8 +228,18 @@ export default function Extensions(props: PageProps) {
     } else if (publisher !== '' && status === '') {
       return (
         <Cards
-          title={`All Data Model Extensions from ${publisher}`}
+          title={`All ${
+            industry !== '' ? `${industry} related` : ''
+          } Data Model Extensions from ${publisher}`}
           cardsContent={filterByPublisher}
+          render={extensionCards}
+        />
+      );
+    } else if (industry !== '' && publisher === '' && status !== '') {
+      return (
+        <Cards
+          title={`All ${industry} related ${status} Data Model Extensions`}
+          cardsContent={filterByIndustryAndStatus}
           render={extensionCards}
         />
       );
@@ -192,19 +267,25 @@ export default function Extensions(props: PageProps) {
       <section>
         <SearchBar
           onSearchValueChange={handleSearchValueChange}
-          firstFilterName="publishers"
-          firstFilterContent={getAllPublishers(allExtensions)}
-          onFirstFilterChange={handlePublisherChange}
-          secondFilterName="statuses"
-          secondFilterContent={getAllStatuses(allExtensions)}
-          onSecondFilterChange={handleStatusChange}
+          firstFilterName="industries"
+          firstFilterContent={getAllIndustries(allExtensions)}
+          onFirstFilterChange={handleIndustryChange}
+          secondFilterName="publishers"
+          secondFilterContent={
+            search.industry === ''
+              ? getAllPublishers(allExtensions)
+              : getPublishersByIndustry(search.industry, allExtensions)
+          }
+          onSecondFilterChange={handlePublisherChange}
+          thirdFilterName="statuses"
+          thirdFilterContent={getAllStatuses(allExtensions)}
+          onThirdFilterChange={handleStatusChange}
           title={'Search Data Model Extensions'}
           placeholder={
             'e.g. World Business Council for Sustainable Development'
           }
         />
       </section>
-
       <section>{displayExtensions()}</section>
     </Layout>
   );
