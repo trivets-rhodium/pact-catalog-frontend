@@ -72,7 +72,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/LICENSE`,
     message: 'Create LICENSE file',
     branch: `@${publisherUserId}`,
-    content: licenseText,
+    content: Buffer.from(licenseText).toString('base64'),
   });
 
   // Creates object to pass as the content of the package.json file;
