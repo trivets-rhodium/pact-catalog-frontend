@@ -100,7 +100,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/package.json`,
     message: 'Create package.json',
     branch: `@${publisherUserId}`,
-    content: JSON.stringify(packageJsonContent),
+    content: Buffer.from(JSON.stringify(packageJsonContent)).toString('base64'),
   });
 
   // Creates schema.json file with the submitted data;
@@ -110,7 +110,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/schema.json`,
     message: 'Create schema.json',
     branch: `@${publisherUserId}`,
-    content: JSON.stringify(schemaJson),
+    content: Buffer.from(JSON.stringify(schemaJson)).toString('base64'),
   });
 
   // Creates README.md file with the submitted data;
@@ -120,7 +120,7 @@ export default async function submitToGithub(formInput: FormInput) {
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/documentation/README.md`,
     message: 'Create README.md',
     branch: `@${publisherUserId}`,
-    content: readme,
+    content: Buffer.from(readme).toString('base64'),
   });
 
   // Opens Pull Request with the relevant files;
