@@ -80,9 +80,8 @@ export default function SubmissionForm() {
     event.preventDefault();
 
     const JSONdata = JSON.stringify(formInput);
-    console.log('JSONdata', JSONdata);
 
-    const endpoint = '/pact-catalog/api/form';
+    const endpoint = 'api/form';
 
     const options = {
       method: 'POST',
@@ -95,11 +94,9 @@ export default function SubmissionForm() {
     const response = await fetch(endpoint, options);
 
     const result = await response.json();
-    alert(
-      `Thank you, ${result.data.publisherName} for submitting extension ${result.data.packageName}`
-    );
+    alert(`Thank you, your extension was successfully submitted`);
 
-    router.push('/');
+    // router.push('/');
   }
 
   return (
