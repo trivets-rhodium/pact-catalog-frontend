@@ -1,5 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { Octokit } from 'octokit';
+import fs from 'fs';
+import path from 'path';
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,7 +17,6 @@ export default async function handler(
     summary,
     industries,
     description,
-    licenseText,
     schemaJson,
     readme,
   } = req.body;
@@ -55,13 +56,15 @@ export default async function handler(
   });
 
   // Creates LICENSE file; TO DO: allow other licenses;
+  const licenseTextPath = path.join(process.cwd(), '/utils/MIT.txt');
+  const licenseText = fs.readFileSync(licenseTextPath, 'utf-8').toString();
   await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
     owner: 'sine-fdn',
     repo: 'pact-catalog',
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/LICENSE`,
     message: 'Create LICENSE file',
     branch: `@${publisherUserId}`,
-    content: Buffer.from("TEST LICENSE").toString('base64'),
+    content: Buffer.from(licenseText).toString('base64'),
   });
 
   // Creates object to pass as the content of the package.json file;
@@ -110,7 +113,7 @@ export default async function handler(
     path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/documentation/README.md`,
     message: 'Create README.md',
     branch: `@${publisherUserId}`,
-    content: Buffer.from('TEST README').toString('base64'),
+    content: Buffer.from(readme).toString('base64'),
   });
 
   // Opens Pull Request with the relevant files;
@@ -141,27 +144,3 @@ export default async function handler(
 
   res.status(200).json({ data: `${req.body}` });
 }
-
-const licenseText = `
-MIT License
-
-Copyright (c) 2022 <TBD>
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-`;
