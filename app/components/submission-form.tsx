@@ -14,18 +14,17 @@ export default function SubmissionForm() {
   const router = useRouter();
 
   const [formInput, setFormInput] = React.useState({
-    publisherName: '',
-    publisherUserId: '',
-    publisherEmail: '',
-    publisherUrl: '',
-    packageName: '',
-    industry: '',
-    description: '',
-    industries: [''],
-    version: '',
-    summary: '',
-    schemaJson: '',
-    readme: '',
+    publisherName: 'Test Publisher',
+    publisherUserId: 'test-publisher',
+    publisherEmail: 'publisher@email.com',
+    publisherUrl: 'https://publisher.com',
+    packageName: 'test-extension',
+    description: 'Extension Description',
+    industries: ['steel', 'chemical'],
+    version: '0.0.0',
+    summary: 'This is a summary of the extension',
+    schemaJson: '{schema: JSON}',
+    readme: '# Readme file',
   });
 
   async function handleChange(
@@ -80,9 +79,26 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    submitToGithub(formInput);
+    const JSONdata = JSON.stringify(formInput);
+    console.log('JSONdata', JSONdata);
 
-    alert('Your extension was successfully submited, thank you!');
+    const endpoint = '/pact-catalog/api/form';
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSONdata,
+    };
+
+    const response = await fetch(endpoint, options);
+
+    const result = await response.json();
+    alert(
+      `Thank you, ${result.data.publisherName} for submitting extension ${result.data.packageName}`
+    );
+
     router.push('/');
   }
 
@@ -102,6 +118,8 @@ export default function SubmissionForm() {
           event.target.setCustomValidity('')
         }
         onChange={handleChange}
+        // TO DO: Erase pre-written values
+        value={formInput.publisherName}
       />
 
       <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -119,6 +137,8 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        // TO DO: Erase pre-written values
+        value={formInput.publisherUserId}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
@@ -128,6 +148,8 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        // TO DO: Erase pre-written values
+        value={formInput.publisherEmail}
       />
 
       <label htmlFor="publisherUrl">Publisher Website</label>
@@ -137,6 +159,8 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        // TO DO: Erase pre-written values
+        value={formInput.publisherUrl}
       />
 
       {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
@@ -155,6 +179,8 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        // TO DO: Erase pre-written values
+        value={formInput.packageName}
       />
 
       <label htmlFor="description">Description</label>
@@ -164,6 +190,8 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        // TO DO: Erase pre-written values
+        value={formInput.description}
       />
 
       <label htmlFor="industries">Industries</label>
@@ -182,6 +210,8 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        // TO DO: Erase pre-written values
+        value={formInput.industries}
       />
 
       {/* <label>Status</label>
@@ -213,6 +243,8 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        // TO DO: Erase pre-written values
+        value={formInput.version}
       />
 
       <label htmlFor="summary">Summary (optional)</label>
@@ -221,6 +253,8 @@ export default function SubmissionForm() {
         rows={5}
         className="mt-2 mb-6 rounded-sm p-2"
         onChange={handleChange}
+        // TO DO: Erase pre-written values
+        value={formInput.summary}
       />
 
       <label htmlFor="schemaJson">schema.json Content</label>
@@ -229,6 +263,8 @@ export default function SubmissionForm() {
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
+        // TO DO: Erase pre-written values
+        value={formInput.schemaJson}
       />
 
       <div>
@@ -238,6 +274,8 @@ export default function SubmissionForm() {
           minHeight="200px"
           extensions={[markdown()]}
           onChange={handleCodeMirrorChangeReadme}
+          // TO DO: Erase pre-written values
+          value={formInput.readme}
         />
       </div>
 
