@@ -91,11 +91,11 @@ export default function SubmissionForm() {
       body: JSONdata,
     };
 
+    // TO DO: improve submission feedback and display success message only
+    alert(`Thank you, your extension was submitted`);
     const response = await fetch(endpoint, options);
 
-    const result = await response.json();
-    alert(`Thank you, your extension was successfully submitted`);
-
+    // TO DO: uncomment redirect
     // router.push('/');
   }
 
