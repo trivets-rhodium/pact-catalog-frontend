@@ -1,9 +1,13 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { use, useEffect } from 'react';
 import style from '../styles/Navbar.module.css';
 
 export default function Navbar() {
   return (
-    <div className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}>
+    <div
+      className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}
+    >
       <Link href={'/'}>
         <h2 className="text-white p-0">WBCSD | PACT Online Catalog</h2>
       </Link>
@@ -27,6 +31,17 @@ export default function Navbar() {
           <li className="px-2">
             <Link href={'/new'} className="text-white">
               New Submission
+            </Link>
+          </li>
+          <li className="px-2">
+            <Link
+              href={
+                'https://github.com/login/oauth/authorize?client_id=' +
+                process.env.NEXT_PUBLIC_CLIENT_ID
+              }
+              className="text-white"
+            >
+              Log in
             </Link>
           </li>
         </ul>

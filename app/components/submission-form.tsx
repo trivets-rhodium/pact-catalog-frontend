@@ -1,4 +1,4 @@
-import React, { FormEvent } from 'react';
+import React, { FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
@@ -25,6 +25,7 @@ export default function SubmissionForm() {
     summary: 'This is a summary of the extension',
     schemaJson: '{schema: JSON}',
     readme: '# Readme file',
+    code: '',
   });
 
   async function handleChange(
@@ -75,6 +76,13 @@ export default function SubmissionForm() {
       readme: value,
     });
   }
+
+  useEffect(() => {
+    setFormInput({
+      ...formInput,
+      code: router.asPath.replace('/new?code=', ''),
+    });
+  }, []);
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();

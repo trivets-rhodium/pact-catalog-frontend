@@ -2,6 +2,8 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { Octokit } from 'octokit';
 import fs from 'fs';
 import path from 'path';
+import { createOAuthAppAuth } from '@octokit/auth-oauth-app';
+import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
 
 export default async function handler(
   req: NextApiRequest,
@@ -19,12 +21,38 @@ export default async function handler(
     description,
     schemaJson,
     readme,
+    code,
   } = req.body;
 
-  // Creates Octokit with access token passed as env variable;
+  // WORKING:
+  // const octokit = new Octokit({
+  //   auth: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+  // });
+
+  // const octokit = new Octokit({
+  //   authStrategy: createOAuthAppAuth,
+  //   auth: {
+  //     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+  //     clientSecret: process.env.CLIENT_SECRET,
+  //   },
+  // });
+
   const octokit = new Octokit({
-    auth: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+    authStrategy: createOAuthUserAuth,
+    auth: {
+      clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+      clientSecret: process.env.CLIENT_SECRET,
+      code,
+    },
   });
+
+  // Kept from documentation for testing purposes:
+  // Exchanges the code for the user access token authentication on first request
+  // and caches the authentication for successive requests
+  const {
+    data: { login },
+  } = await octokit.request('GET /user');
+  console.log('Hello, %s!', login);
 
   const reference = await octokit.request(
     'GET /repos/{owner}/{repo}/git/ref/{ref}',
