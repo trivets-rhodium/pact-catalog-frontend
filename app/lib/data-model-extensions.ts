@@ -3,7 +3,7 @@ import {
   DataModelExtensionId,
   DMEId,
   VersionId,
-} from '../lib/catalog-types';
+} from './catalog-types';
 import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
