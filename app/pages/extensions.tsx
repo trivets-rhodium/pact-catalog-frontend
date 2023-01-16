@@ -6,8 +6,7 @@ import React, { useEffect } from 'react';
 import { Cards, extensionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
-import Link from 'next/link';
-import { Router, useRouter } from 'next/router';
+import { useRouter } from 'next/router';
 
 type PageProps = {
   allExtensions: CatalogDataModelExtension[];
@@ -79,6 +78,8 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
 }
 
 export default function Extensions(props: PageProps) {
+  const router = useRouter();
+
   const [search, setSearch] = React.useState({
     matchingExtensions: new Array(),
     searchValue: '',
@@ -123,6 +124,9 @@ export default function Extensions(props: PageProps) {
       ...search,
       searchValue: event.target.value,
     });
+
+    router.query.search = event.target.value;
+    router.push(router);
   }
 
   function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -130,6 +134,9 @@ export default function Extensions(props: PageProps) {
       ...search,
       industry: event.target.value,
     });
+
+    router.query.industry = event.target.value;
+    router.push(router);
   }
 
   function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -137,6 +144,9 @@ export default function Extensions(props: PageProps) {
       ...search,
       publisher: event.target.value,
     });
+
+    router.query.publisher = event.target.value;
+    router.push(router);
   }
 
   function handleStatusChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -144,6 +154,9 @@ export default function Extensions(props: PageProps) {
       ...search,
       status: event.target.value,
     });
+
+    router.query.status = event.target.value;
+    router.push(router);
   }
 
   useEffect(() => {
@@ -169,8 +182,6 @@ export default function Extensions(props: PageProps) {
       matchingExtensions,
     });
   }, [search.searchValue, search.industry, search.publisher, search.status]);
-
-  const router = useRouter();
 
   function resetSearch() {
     return (
