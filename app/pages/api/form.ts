@@ -1,9 +1,9 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { Octokit } from 'octokit';
 import fs from 'fs';
 import path from 'path';
 import { createOAuthAppAuth } from '@octokit/auth-oauth-app';
 import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
+import { Octokit } from '@octokit/rest';
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,6 +29,7 @@ export default async function handler(
   //   auth: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
   // });
 
+  // ALTERNATIVE:
   // const octokit = new Octokit({
   //   authStrategy: createOAuthAppAuth,
   //   auth: {
@@ -37,6 +38,7 @@ export default async function handler(
   //   },
   // });
 
+  //  GOAL:
   const octokit = new Octokit({
     authStrategy: createOAuthUserAuth,
     auth: {
@@ -49,28 +51,33 @@ export default async function handler(
   // Kept from documentation for testing purposes:
   // Exchanges the code for the user access token authentication on first request
   // and caches the authentication for successive requests
+  // const {
+  //   data: { login: login1 },
+  // } = await octokit.request('GET /user');
+  // console.log('1: Hello, %s!', login1);
+
   const {
-    data: { login },
-  } = await octokit.request('GET /user');
+    data: { login, name, email },
+  } = await octokit.rest.users.getAuthenticated();
   console.log('Hello, %s!', login);
 
-  const reference = await octokit.request(
-    'GET /repos/{owner}/{repo}/git/ref/{ref}',
-    {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
-      ref: 'heads/main',
-    }
-  );
-
-  const sha = reference.data.object.sha;
+  const {
+    data: {
+      ref,
+      object: { sha },
+    },
+  } = await octokit.rest.git.getRef({
+    owner: 'sine-fdn',
+    repo: 'pact-catalog',
+    ref: 'heads/main',
+  });
 
   // Creates new branch (from main, using main's sha) with the publisher's user id;
-  await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
+  await octokit.rest.git.createRef({
     owner: 'sine-fdn',
     repo: 'pact-catalog',
     ref: `refs/heads/@${publisherUserId}`,
-    sha: `${sha}`,
+    sha,
   });
 
   // Creates empty index.js file to satisfy the NPM system requirements;

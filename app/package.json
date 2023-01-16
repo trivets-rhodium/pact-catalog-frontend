@@ -16,6 +16,7 @@
     "@codemirror/lang-markdown": "^6.0.5",
     "@octokit/auth-oauth-app": "^5.0.4",
     "@octokit/auth-oauth-user": "^2.1.0",
+    "@octokit/rest": "^19.0.5",
     "@types/node": "18.11.13",
     "@types/react": "18.0.26",
     "@types/react-dom": "18.0.9",
