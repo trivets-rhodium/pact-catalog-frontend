@@ -10,6 +10,8 @@ import { Cards, solutionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import { getAllTestResults } from '../lib/conformance-tests';
 import SearchBar from '../components/search-bar';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type PageProps = {
   allSolutions: ConformingSolution[];
@@ -49,7 +51,6 @@ function getAllProviders(allSolutions: ConformingSolution[]): string[] {
     return allProvidersNames.indexOf(name) === index;
   });
 }
-
 
 function getProviderByIndustry(
   industry: string,
@@ -175,6 +176,18 @@ export default function Solutions(props: PageProps) {
     });
   }, [search.searchValue, search.industry, search.provider, search.result]);
 
+  const router = useRouter();
+
+  function resetSearch() {
+    return (
+      <div className="text-right">
+        <button className="secondary-button" onClick={() => router.reload()}>
+          {'<'} Reset
+        </button>
+      </div>
+    );
+  }
+
   function displaySolutions() {
     const { searchValue, industry, provider, result, matchingSolutions } =
       search;
@@ -216,55 +229,75 @@ export default function Solutions(props: PageProps) {
 
     if (searchValue !== '') {
       return (
-        <Cards
-          title={`${matchingSolutions.length} ${result !== '' ? result : ''} ${
-            industry !== '' ? `${industry} related` : ''
-          } Conforming Solutions for '${searchValue}' ${
-            provider !== '' ? `from ${provider}` : ''
-          }`}
-          cardsContent={matchingSolutions}
-          render={solutionCards}
-        />
+        <>
+          <Cards
+            title={`${matchingSolutions.length} ${
+              result !== '' ? result : ''
+            } ${
+              industry !== '' ? `${industry} related` : ''
+            } Conforming Solutions for '${searchValue}' ${
+              provider !== '' ? `from ${provider}` : ''
+            }`}
+            cardsContent={matchingSolutions}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (industry !== '' && provider === '' && result === '') {
       return (
-        <Cards
-          title={`All ${industry} related Conforming Solutions`}
-          cardsContent={filterByIndustry}
-          render={solutionCards}
-        />
+        <>
+          <Cards
+            title={`All ${industry} related Conforming Solutions`}
+            cardsContent={filterByIndustry}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (provider !== '' && result !== '') {
       return (
-        <Cards
-          title={`All ${result} Conforming Solutions, from ${provider}`}
-          cardsContent={filterByProviderAndResult}
-          render={solutionCards}
-        />
+        <>
+          <Cards
+            title={`All ${result} Conforming Solutions, from ${provider}`}
+            cardsContent={filterByProviderAndResult}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (provider !== '' && result === '') {
       return (
-        <Cards
-          title={`All Conforming Solutions from ${provider}`}
-          cardsContent={filterByProvider}
-          render={solutionCards}
-        />
+        <>
+          <Cards
+            title={`All Conforming Solutions from ${provider}`}
+            cardsContent={filterByProvider}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (industry !== '' && provider === '' && result !== '') {
       return (
-        <Cards
-          title={`All ${industry} related ${result} Conforming Solutions`}
-          cardsContent={filterByIndustryAndResult}
-          render={solutionCards}
-        />
+        <>
+          <Cards
+            title={`All ${industry} related ${result} Conforming Solutions`}
+            cardsContent={filterByIndustryAndResult}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (provider === '' && result !== '') {
       return (
-        <Cards
-          title={`All ${result} Conforming Solutions`}
-          cardsContent={filterByResult}
-          render={solutionCards}
-        />
+        <>
+          <Cards
+            title={`All ${result} Conforming Solutions`}
+            cardsContent={filterByResult}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else {
       return (

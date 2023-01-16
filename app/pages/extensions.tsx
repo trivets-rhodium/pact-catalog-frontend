@@ -6,6 +6,8 @@ import React, { useEffect } from 'react';
 import { Cards, extensionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
+import Link from 'next/link';
+import { Router, useRouter } from 'next/router';
 
 type PageProps = {
   allExtensions: CatalogDataModelExtension[];
@@ -45,7 +47,6 @@ function getAllPublishers(
     return allAuthorsNames.indexOf(name) === index;
   });
 }
-
 
 function getPublishersByIndustry(
   industry: string,
@@ -169,6 +170,18 @@ export default function Extensions(props: PageProps) {
     });
   }, [search.searchValue, search.industry, search.publisher, search.status]);
 
+  const router = useRouter();
+
+  function resetSearch() {
+    return (
+      <div className="text-right">
+        <button className="secondary-button" onClick={() => router.reload()}>
+          {'<'} Reset
+        </button>
+      </div>
+    );
+  }
+
   function displayExtensions() {
     const { searchValue, industry, publisher, status, matchingExtensions } =
       search;
@@ -195,61 +208,79 @@ export default function Extensions(props: PageProps) {
 
     if (searchValue !== '') {
       return (
-        <Cards
-          title={`${matchingExtensions.length} ${
-            industry !== '' ? `${industry} related` : ''
-          } ${
-            status !== '' ? status : ''
-          } Data Model Extension(s) for '${searchValue}'${
-            publisher !== '' ? `, from ${publisher}` : ''
-          }`}
-          cardsContent={matchingExtensions}
-          render={extensionCards}
-        />
+        <>
+          <Cards
+            title={`${matchingExtensions.length} ${
+              industry !== '' ? `${industry} related` : ''
+            } ${
+              status !== '' ? status : ''
+            } Data Model Extension(s) for '${searchValue}'${
+              publisher !== '' ? `, from ${publisher}` : ''
+            }`}
+            cardsContent={matchingExtensions}
+            render={extensionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (industry !== '' && publisher === '' && status === '') {
       return (
-        <Cards
-          title={`All ${industry} related Data Model Extensions`}
-          cardsContent={filterByIndustry}
-          render={extensionCards}
-        />
+        <>
+          <Cards
+            title={`All ${industry} related Data Model Extensions`}
+            cardsContent={filterByIndustry}
+            render={extensionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (publisher !== '' && status !== '') {
       return (
-        <Cards
-          title={`All ${
-            industry !== '' ? `${industry} related` : ''
-          } ${status} Data Model Extensions, from ${publisher}`}
-          cardsContent={filterByPublisherAndStatus}
-          render={extensionCards}
-        />
+        <>
+          <Cards
+            title={`All ${
+              industry !== '' ? `${industry} related` : ''
+            } ${status} Data Model Extensions, from ${publisher}`}
+            cardsContent={filterByPublisherAndStatus}
+            render={extensionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (publisher !== '' && status === '') {
       return (
-        <Cards
-          title={`All ${
-            industry !== '' ? `${industry} related` : ''
-          } Data Model Extensions from ${publisher}`}
-          cardsContent={filterByPublisher}
-          render={extensionCards}
-        />
+        <>
+          <Cards
+            title={`All ${
+              industry !== '' ? `${industry} related` : ''
+            } Data Model Extensions from ${publisher}`}
+            cardsContent={filterByPublisher}
+            render={extensionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (industry !== '' && publisher === '' && status !== '') {
       return (
-        <Cards
-          title={`All ${industry} related ${status} Data Model Extensions`}
-          cardsContent={filterByIndustryAndStatus}
-          render={extensionCards}
-        />
+        <>
+          <Cards
+            title={`All ${industry} related ${status} Data Model Extensions`}
+            cardsContent={filterByIndustryAndStatus}
+            render={extensionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else if (publisher === '' && status !== '') {
       return (
-        <Cards
-          title={`All ${status} Data Model Extensions`}
-          cardsContent={filterByStatus}
-          render={extensionCards}
-        />
+        <>
+          <Cards
+            title={`All ${status} Data Model Extensions`}
+            cardsContent={filterByStatus}
+            render={extensionCards}
+          />
+          {resetSearch()}
+        </>
       );
     } else {
       return (
