@@ -1,7 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
-import { createOAuthAppAuth } from '@octokit/auth-oauth-app';
 import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
 import { Octokit } from '@octokit/rest';
 
