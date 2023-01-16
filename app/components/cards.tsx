@@ -85,13 +85,18 @@ export function LongCards(props: LongCardsProps) {
 export function extensionCards(
   extensions: CatalogDataModelExtension[] | SearchResult[]
 ): JSX.Element[] {
+  const router = useRouter();
+
   return extensions.map((extension) => {
     const { author, name, version, description, catalog_info, endorsers } =
       extension;
     return (
       <Card
         key={`${name}/${version}`}
-        href={`/extensions/${name}/${version}`}
+        href={`extensions/${name}/${version}${router.asPath.replace(
+          'extensions',
+          ''
+        )}`}
         title={description}
         subtitle={version}
         cardContent={extension}
