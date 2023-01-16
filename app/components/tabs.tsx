@@ -33,13 +33,22 @@ function TabHead<T>(props: TabsProps<T>) {
     }
   };
 
+  console.log(asPath);
+
   return (
     <div className="flex">
       {tabs.map(({ tabId, title }) => (
         <Link
           href={{
+            // TO DO: improve path
             pathname: asPath.split('?')[0],
-            query: { activeTab: tabId },
+            query: {
+              activeTab: tabId,
+              search: router.query.search,
+              industry: router.query.industry,
+              publisher: router.query.publisher,
+              status: router.query.status,
+            },
           }}
           key={tabId}
         >
