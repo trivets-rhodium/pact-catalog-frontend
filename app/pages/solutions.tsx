@@ -11,6 +11,7 @@ import MiniSearch, { SearchResult } from 'minisearch';
 import { getAllTestResults } from '../lib/conformance-tests';
 import SearchBar from '../components/search-bar';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 type PageProps = {
   allSolutions: ConformingSolution[];
@@ -175,12 +176,14 @@ export default function Solutions(props: PageProps) {
     });
   }, [search.searchValue, search.industry, search.provider, search.result]);
 
+  const router = useRouter();
+
   function resetSearch() {
     return (
       <div className="text-right">
-        <Link href={'/solutions'} className="secondary-button">
+        <button className="secondary-button" onClick={() => router.reload()}>
           {'<'} Reset
-        </Link>
+        </button>
       </div>
     );
   }

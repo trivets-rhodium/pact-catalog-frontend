@@ -170,10 +170,12 @@ export default function Extensions(props: PageProps) {
     });
   }, [search.searchValue, search.industry, search.publisher, search.status]);
 
+  const router = useRouter();
+
   function resetSearch() {
     return (
       <div className="text-right">
-        <button className="secondary-button" onClick={() => Router.reload()}>
+        <button className="secondary-button" onClick={() => router.reload()}>
           {'<'} Reset
         </button>
       </div>
