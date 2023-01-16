@@ -125,7 +125,11 @@ export default function Extensions(props: PageProps) {
       searchValue: event.target.value,
     });
 
-    router.query.search = event.target.value;
+    if (event.target.value === '') {
+      delete router.query.search;
+    } else {
+      router.query.search = event.target.value;
+    }
     router.push(router);
   }
 
@@ -135,8 +139,11 @@ export default function Extensions(props: PageProps) {
       industry: event.target.value,
     });
 
-    router.query.industry = event.target.value;
-    router.push(router);
+    if (event.target.value === '') {
+      delete router.query.industry;
+    } else {
+      router.query.industry = event.target.value;
+    }    router.push(router);
   }
 
   function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -145,8 +152,11 @@ export default function Extensions(props: PageProps) {
       publisher: event.target.value,
     });
 
-    router.query.publisher = event.target.value;
-    router.push(router);
+    if (event.target.value === '') {
+      delete router.query.publisher;
+    } else {
+      router.query.publisher = event.target.value;
+    }    router.push(router);
   }
 
   function handleStatusChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -155,8 +165,11 @@ export default function Extensions(props: PageProps) {
       status: event.target.value,
     });
 
-    router.query.status = event.target.value;
-    router.push(router);
+    if (event.target.value === '') {
+      delete router.query.status;
+    } else {
+      router.query.status = event.target.value;
+    }    router.push(router);
   }
 
   useEffect(() => {
