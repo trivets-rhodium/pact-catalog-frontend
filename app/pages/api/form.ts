@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
-// import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
+import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
 // import { Octokit } from '@octokit/rest';
 import { OAuthApp, createNodeMiddleware } from '@octokit/oauth-app';
 import { Octokit } from 'octokit';
@@ -25,21 +25,12 @@ export default async function handler(
     code,
   } = req.body;
 
-  // WORKING:
+  // WORKING BUT SUBOPTIMAL:
   // const octokit = new Octokit({
   //   auth: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
   // });
 
-  // ALTERNATIVE:
-  // const octokit = new Octokit({
-  //   authStrategy: createOAuthAppAuth,
-  //   auth: {
-  //     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
-  //     clientSecret: process.env.CLIENT_SECRET,
-  //   },
-  // });
-
-  //  GOAL:
+  // NOT WORKING:
   // const octokit = new Octokit({
   //   authStrategy: createOAuthUserAuth,
   //   auth: {
@@ -57,36 +48,28 @@ export default async function handler(
   // } = await octokit.request('GET /user');
   // console.log('1: Hello, %s!', login1);
 
+  //WORKING:
   const app = new OAuthApp({
     clientType: 'oauth-app',
     clientId: process.env.NEXT_PUBLIC_CLIENT_ID as string,
     clientSecret: process.env.CLIENT_SECRET as string,
-    defaultScopes: ['repo']
+    defaultScopes: ['repo'],
   });
 
-  // const octokit = await app.getUserOctokit({ code });
+  const octokit = await app.getUserOctokit({ code });
 
-  const token = await app.createToken({
-    code,
-  });
-
-  console.log('token', token);
-
-  const octokit = new Octokit({
-    auth: token.authentication.token,
-  });
-
-  console.log('octokit', octokit);
-
-  // app.on('token', async ({ token, octokit }) => {
-  //   const { data } = await octokit.request('GET /user');
-  //   console.log(`Token retrieved for ${data.login}`);
+  // const token = await app.createToken({
+  //   code,
   // });
 
-  const {
-    data: { login, name, email },
-  } = await octokit.request('GET /user');
-  console.log('Hello, %s!', login);
+  // const octokit = new Octokit({
+  //   auth: token.authentication.token,
+  // });
+
+  // const {
+  //   data: { login, name, email },
+  // } = await octokit.request('GET /user');
+  // console.log('Hello, %s!', login);
 
   // const {
   //   data: {
