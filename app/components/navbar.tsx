@@ -1,6 +1,4 @@
 import Link from 'next/link';
-import { useRouter } from 'next/router';
-import { use, useEffect } from 'react';
 import style from '../styles/Navbar.module.css';
 
 export default function Navbar() {
