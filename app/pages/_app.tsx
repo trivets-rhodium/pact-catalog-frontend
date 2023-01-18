@@ -7,7 +7,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }: AppProps) {
   return (
-    <SessionProvider session={session} basePath="/pact-catalog">
+    <SessionProvider session={session}>
       <Component {...pageProps} />
     </SessionProvider>
   );
