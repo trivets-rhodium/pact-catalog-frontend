@@ -1,8 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import fs from 'fs';
 import path from 'path';
-import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
-import { Octokit } from '@octokit/rest';
+// import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
+// import { Octokit } from '@octokit/rest';
+import { OAuthApp, createNodeMiddleware } from '@octokit/oauth-app';
+import { Octokit } from 'octokit';
 
 export default async function handler(
   req: NextApiRequest,
@@ -38,14 +40,14 @@ export default async function handler(
   // });
 
   //  GOAL:
-  const octokit = new Octokit({
-    authStrategy: createOAuthUserAuth,
-    auth: {
-      clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
-      clientSecret: process.env.CLIENT_SECRET,
-      code,
-    },
-  });
+  // const octokit = new Octokit({
+  //   authStrategy: createOAuthUserAuth,
+  //   auth: {
+  //     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+  //     clientSecret: process.env.CLIENT_SECRET,
+  //     code,
+  //   },
+  // });
 
   // Kept from documentation for testing purposes:
   // Exchanges the code for the user access token authentication on first request
@@ -55,29 +57,73 @@ export default async function handler(
   // } = await octokit.request('GET /user');
   // console.log('1: Hello, %s!', login1);
 
-  const {
-    data: { login, name, email },
-  } = await octokit.rest.users.getAuthenticated();
-  console.log('Hello, %s!', login);
-
-  const {
-    data: {
-      ref,
-      object: { sha },
-    },
-  } = await octokit.rest.git.getRef({
-    owner: 'sine-fdn',
-    repo: 'pact-catalog',
-    ref: 'heads/main',
+  const app = new OAuthApp({
+    clientType: 'oauth-app',
+    clientId: process.env.NEXT_PUBLIC_CLIENT_ID as string,
+    clientSecret: process.env.CLIENT_SECRET as string,
+    defaultScopes: ['repo']
   });
 
-  // Creates new branch (from main, using main's sha) with the publisher's user id;
-  await octokit.rest.git.createRef({
+  // const octokit = await app.getUserOctokit({ code });
+
+  const token = await app.createToken({
+    code,
+  });
+
+  console.log('token', token);
+
+  const octokit = new Octokit({
+    auth: token.authentication.token,
+  });
+
+  console.log('octokit', octokit);
+
+  // app.on('token', async ({ token, octokit }) => {
+  //   const { data } = await octokit.request('GET /user');
+  //   console.log(`Token retrieved for ${data.login}`);
+  // });
+
+  const {
+    data: { login, name, email },
+  } = await octokit.request('GET /user');
+  console.log('Hello, %s!', login);
+
+  // const {
+  //   data: {
+  //     ref,
+  //     object: { sha },
+  //   },
+  // } = await octokit.rest.git.getRef({
+  //   owner: 'sine-fdn',
+  //   repo: 'pact-catalog',
+  //   ref: 'heads/main',
+  // });
+
+  const ref = await octokit.request(
+    'GET /repos/{owner}/{repo}/git/matching-refs/{ref}',
+    {
+      owner: 'sine-fdn',
+      repo: 'pact-catalog',
+      ref: 'heads/main',
+    }
+  );
+
+  const sha = ref.data[0].object.sha;
+
+  await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
     owner: 'sine-fdn',
     repo: 'pact-catalog',
     ref: `refs/heads/@${publisherUserId}`,
     sha,
   });
+
+  // Creates new branch (from main, using main's sha) with the publisher's user id;
+  // await octokit.rest.git.createRef({
+  //   owner: 'sine-fdn',
+  //   repo: 'pact-catalog',
+  //   ref: `refs/heads/@${publisherUserId}`,
+  //   sha,
+  // });
 
   // Creates empty index.js file to satisfy the NPM system requirements;
   await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {

@@ -37,7 +37,8 @@ export default function Navbar() {
             <Link
               href={
                 'https://github.com/login/oauth/authorize?client_id=' +
-                process.env.NEXT_PUBLIC_CLIENT_ID
+                process.env.NEXT_PUBLIC_CLIENT_ID +
+                '&scope=repo'
               }
               className="text-white"
             >
