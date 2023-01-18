@@ -5,6 +5,7 @@ import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
 // import { Octokit } from '@octokit/rest';
 import { OAuthApp, createNodeMiddleware } from '@octokit/oauth-app';
 import { Octokit } from 'octokit';
+import { getToken } from 'next-auth/jwt';
 
 export default async function handler(
   req: NextApiRequest,
@@ -24,6 +25,9 @@ export default async function handler(
     readme,
     code,
   } = req.body;
+
+  const token = await getToken({ req });
+  console.log('token.accessToken', token?.accessToken);
 
   // WORKING BUT SUBOPTIMAL:
   // const octokit = new Octokit({
@@ -56,15 +60,15 @@ export default async function handler(
     defaultScopes: ['repo'],
   });
 
-  const octokit = await app.getUserOctokit({ code });
+  // const octokit = await app.getUserOctokit({ code });
 
   // const token = await app.createToken({
   //   code,
   // });
 
-  // const octokit = new Octokit({
-  //   auth: token.authentication.token,
-  // });
+  const octokit = new Octokit({
+    auth: token?.accessToken,
+  });
 
   // const {
   //   data: { login, name, email },
@@ -92,6 +96,8 @@ export default async function handler(
   );
 
   const sha = ref.data[0].object.sha;
+
+  console.log('ref.data[0].object.sha', ref.data[0].object.sha);
 
   await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
     owner: 'sine-fdn',

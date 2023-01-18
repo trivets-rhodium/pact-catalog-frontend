@@ -1,7 +1,12 @@
 import Link from 'next/link';
 import style from '../styles/Navbar.module.css';
+import { useSession, signIn, signOut } from 'next-auth/react';
 
 export default function Navbar() {
+  const { data: session } = useSession();
+
+  console.log('useSession()', useSession());
+
   return (
     <div
       className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}
@@ -26,23 +31,27 @@ export default function Navbar() {
               Contact
             </Link>
           </li>
-          <li className="px-2">
-            <Link href={'/new'} className="text-white">
-              New Submission
-            </Link>
-          </li>
-          <li className="px-2">
-            <Link
-              href={
-                'https://github.com/login/oauth/authorize?client_id=' +
-                process.env.NEXT_PUBLIC_CLIENT_ID +
-                '&scope=repo'
-              }
-              className="text-white"
-            >
-              Log in
-            </Link>
-          </li>
+
+          {session ? (
+            <div className="flex justify-between">
+              <li className="px-2">
+                <Link href={'/new'} className="text-white">
+                  New Submission
+                </Link>
+              </li>
+              <li className="px-2">
+                <button onClick={() => signOut()} className="text-white">
+                  Log out
+                </button>
+              </li>
+            </div>
+          ) : (
+            <li className="px-2">
+              <button onClick={() => signIn()} className="text-white">
+                Log in
+              </button>
+            </li>
+          )}
         </ul>
       </div>
     </div>
