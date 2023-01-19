@@ -3,8 +3,10 @@ import { useRouter } from 'next/router';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
+import { useSession } from 'next-auth/react';
 
 export default function SubmissionForm() {
+  const { data: session } = useSession();
   const router = useRouter();
 
   const [formInput, setFormInput] = React.useState({
@@ -94,7 +96,12 @@ export default function SubmissionForm() {
     };
 
     // TO DO: improve submission feedback and display success message only
-    alert(`Thank you, your extension was submitted`);
+    if (session) {
+      alert(`Thank you, your extension was submitted`);
+    } else {
+      alert('Please log in and try again');
+    }
+
     const response = await fetch(endpoint, options);
 
     // TO DO: uncomment redirect

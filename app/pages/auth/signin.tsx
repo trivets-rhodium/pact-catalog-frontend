@@ -16,6 +16,8 @@ type SignInProps = {
   callback: string;
 };
 
+// const home = 'http://localhost:3000/pact-catalog';
+
 export default function SignIn(props: SignInProps) {
   const { providers, callback } = props;
   const github = Object.values(providers)[0];
@@ -41,7 +43,10 @@ export default function SignIn(props: SignInProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const providers = await getProviders();
-  const callback = context.req.headers.referer;
+  const callback =
+    context.req.headers.referer === undefined
+      ? '/'
+      : context.req.headers.referer;
   return {
     props: { providers, callback },
   };

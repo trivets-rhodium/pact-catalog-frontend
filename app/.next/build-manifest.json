@@ -25,10 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/auth/signin": [
+    "/new": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/auth/signin.js"
+      "static/chunks/pages/new.js"
     ]
   },
   "ampFirstPages": []
