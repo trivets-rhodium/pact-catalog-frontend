@@ -7,16 +7,16 @@ import { useSession } from 'next-auth/react';
 export default function SubmissionForm() {
   const { data: session } = useSession();
 
-  const preFilledName = session?.user?.name ? session.user.name : '';
-  const preFilledUserId = session?.user?.login ? session.user.login : '';
-  const preFilledEmail = session?.user?.email ? session.user.email : '';
-  const preFilledURL = session?.user?.blog ? session.user.blog : '';
+  const preFilledName = session?.user?.name;
+  const preFilledUserId = session?.user?.login;
+  const preFilledEmail = session?.user?.email;
+  const preFilledURL = session?.user?.blog;
 
   const [formInput, setFormInput] = React.useState({
-    publisherName: preFilledName,
-    publisherUserId: preFilledUserId,
-    publisherEmail: preFilledEmail,
-    publisherUrl: preFilledURL,
+    publisherName: preFilledName || '',
+    publisherUserId: preFilledUserId || '',
+    publisherEmail: preFilledEmail || '',
+    publisherUrl: preFilledURL || '',
     packageName: 'test-extension',
     description: 'Extension Description',
     industries: ['steel', 'chemical'],
@@ -119,7 +119,7 @@ export default function SubmissionForm() {
           event.target.setCustomValidity('')
         }
         onChange={handleChange}
-        value={preFilledName}
+        value={formInput.publisherName}
       />
 
       <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -137,7 +137,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        value={preFilledUserId}
+        value={formInput.publisherUserId}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
@@ -147,7 +147,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        value={preFilledEmail}
+        value={formInput.publisherEmail}
       />
 
       <label htmlFor="publisherUrl">Publisher Website</label>
@@ -157,7 +157,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        value={preFilledURL}
+        value={formInput.publisherUrl}
       />
 
       {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
