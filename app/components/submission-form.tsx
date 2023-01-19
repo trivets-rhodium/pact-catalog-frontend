@@ -1,13 +1,8 @@
 import React, { FormEvent, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { Octokit } from 'octokit';
 import CodeMirror from '@uiw/react-codemirror';
-import { EditorView, ViewUpdate } from '@codemirror/view';
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
-import submitToGithub from '../utils/github-api';
-import { getUser } from '../lib/users';
-import { CatalogUser } from '../lib/catalog-types';
 
 export default function SubmissionForm() {
   const router = useRouter();
