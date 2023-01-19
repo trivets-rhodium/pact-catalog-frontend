@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
+import { getServerSideProps } from '../../auth/signin';
 
 export const authOptions = {
   providers: [
@@ -21,6 +22,13 @@ export const authOptions = {
       }
       return token;
     },
+    // async redirect({ url, baseUrl }: any) {
+
+    //   return url;
+    // },
+  },
+  pages: {
+    signIn: '/pact-catalog/auth/signin',
   },
 };
 
