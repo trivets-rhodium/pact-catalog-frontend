@@ -31,14 +31,14 @@ export default async function handler(
 
   // WORKING BUT SUBOPTIMAL:
   // const octokit = new Octokit({
-  //   auth: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+  //   auth: process.env.ACCESS_TOKEN,
   // });
 
   // NOT WORKING:
   // const octokit = new Octokit({
   //   authStrategy: createOAuthUserAuth,
   //   auth: {
-  //     clientId: process.env.NEXT_PUBLIC_CLIENT_ID,
+  //     clientId: process.env.CLIENT_ID,
   //     clientSecret: process.env.CLIENT_SECRET,
   //     code,
   //   },
@@ -55,7 +55,7 @@ export default async function handler(
   //WORKING:
   const app = new OAuthApp({
     clientType: 'oauth-app',
-    clientId: process.env.NEXT_PUBLIC_CLIENT_ID as string,
+    clientId: process.env.CLIENT_ID as string,
     clientSecret: process.env.CLIENT_SECRET as string,
     defaultScopes: ['repo'],
   });

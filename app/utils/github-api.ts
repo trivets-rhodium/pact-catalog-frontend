@@ -3,7 +3,7 @@ import fs from 'fs';
 
 // Creates Octokit with access token passed as env variable;
 const octokit = new Octokit({
-  auth: process.env.NEXT_PUBLIC_ACCESS_TOKEN,
+  auth: process.env.ACCESS_TOKEN,
 });
 
 type FormInput = {
