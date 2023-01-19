@@ -35,8 +35,8 @@ export default function Navbar() {
           {session ? (
             <div className="flex justify-between">
               <li className="px-2">
-                <Link href={'/new'} className="text-white">
-                  New Submission
+                <Link href={'/new-extension'} className="text-white">
+                  New Extension
                 </Link>
               </li>
               <li className="px-2">

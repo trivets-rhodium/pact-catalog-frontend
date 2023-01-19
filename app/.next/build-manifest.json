@@ -25,10 +25,10 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/new": [
+    "/new-extension": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/new.js"
+      "static/chunks/pages/new-extension.js"
     ]
   },
   "ampFirstPages": []

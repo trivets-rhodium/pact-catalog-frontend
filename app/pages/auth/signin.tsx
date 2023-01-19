@@ -7,21 +7,26 @@ import {
   signIn,
 } from 'next-auth/react';
 import Layout from '../../components/layout';
+import { Router, useRouter } from 'next/router';
 
 type SignInProps = {
   providers: Record<
     LiteralUnion<BuiltInProviderType, string>,
     ClientSafeProvider
   >;
-  callback: string;
 };
 
 // const home = 'http://localhost:3000/pact-catalog';
 
-export default function SignIn(props: SignInProps) {
-  const { providers, callback } = props;
+export default function SignIn(
+  providers: Record<
+    LiteralUnion<BuiltInProviderType, string>,
+    ClientSafeProvider
+  >
+) {
+  const router = useRouter();
   const github = Object.values(providers)[0];
-  console.log('callback', callback);
+
   return (
     <>
       <Layout>
@@ -29,7 +34,9 @@ export default function SignIn(props: SignInProps) {
           <h3>PACT Online Catalog</h3>
           <button
             onClick={() => {
-              signIn(github.id, { callbackUrl: callback });
+              signIn(github.id, {
+                callbackUrl: router.query.callbackUrl as string,
+              });
             }}
             className="primary-button"
           >
@@ -43,11 +50,7 @@ export default function SignIn(props: SignInProps) {
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
   const providers = await getProviders();
-  const callback =
-    context.req.headers.referer === undefined
-      ? '/'
-      : context.req.headers.referer;
   return {
-    props: { providers, callback },
+    props: { providers },
   };
 }

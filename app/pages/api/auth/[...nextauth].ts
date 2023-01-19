@@ -27,9 +27,9 @@ export const authOptions = {
     //   return url;
     // },
   },
-  pages: {
-    signIn: '/pact-catalog/auth/signin',
-  },
+  // pages: {
+  //   signIn: '/pact-catalog/auth/signin',
+  // },
 };
 
 export default NextAuth(authOptions);
