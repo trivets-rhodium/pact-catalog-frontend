@@ -8,6 +8,7 @@ import {
 } from 'next-auth/react';
 import Layout from '../../components/layout';
 import { Router, useRouter } from 'next/router';
+import { redirect } from 'next/dist/server/api-utils';
 
 type SignInProps = {
   providers: Record<
@@ -18,12 +19,9 @@ type SignInProps = {
 
 // const home = 'http://localhost:3000/pact-catalog';
 
-export default function SignIn(
-  providers: Record<
-    LiteralUnion<BuiltInProviderType, string>,
-    ClientSafeProvider
-  >
-) {
+export default function SignIn({
+  providers,
+}: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>) {
   const router = useRouter();
   const github = Object.values(providers)[0];
 
@@ -48,7 +46,7 @@ export default function SignIn(
   );
 }
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps() {
   const providers = await getProviders();
   return {
     props: { providers },

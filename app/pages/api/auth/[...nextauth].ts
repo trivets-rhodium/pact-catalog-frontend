@@ -22,14 +22,10 @@ export const authOptions = {
       }
       return token;
     },
-    // async redirect({ url, baseUrl }: any) {
-
-    //   return url;
-    // },
   },
-  // pages: {
-  //   signIn: '/pact-catalog/auth/signin',
-  // },
+  pages: {
+    signIn: '/pact-catalog/auth/signin',
+  },
 };
 
 export default NextAuth(authOptions);
