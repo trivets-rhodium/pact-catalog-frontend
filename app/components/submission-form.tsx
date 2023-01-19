@@ -7,11 +7,16 @@ import { useSession } from 'next-auth/react';
 export default function SubmissionForm() {
   const { data: session } = useSession();
 
+  const preFilledName = session?.user?.name ? session.user.name : '';
+  const preFilledUserId = session?.user?.login ? session.user.login : '';
+  const preFilledEmail = session?.user?.email ? session.user.email : '';
+  const preFilledURL = session?.user?.blog ? session.user.blog : '';
+
   const [formInput, setFormInput] = React.useState({
-    publisherName: '',
-    publisherUserId: '',
-    publisherEmail: '',
-    publisherUrl: '',
+    publisherName: preFilledName,
+    publisherUserId: preFilledUserId,
+    publisherEmail: preFilledEmail,
+    publisherUrl: preFilledURL,
     packageName: 'test-extension',
     description: 'Extension Description',
     industries: ['steel', 'chemical'],
@@ -114,7 +119,7 @@ export default function SubmissionForm() {
           event.target.setCustomValidity('')
         }
         onChange={handleChange}
-        value={session?.user.name ? session?.user.name : ''}
+        value={preFilledName}
       />
 
       <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -132,7 +137,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        value={session?.user.login ? session?.user.login : ''}
+        value={preFilledUserId}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
@@ -142,7 +147,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        value={session?.user.email ? session?.user.email : ''}
+        value={preFilledEmail}
       />
 
       <label htmlFor="publisherUrl">Publisher Website</label>
@@ -152,7 +157,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        value={session?.user.blog ? session?.user.blog : ''}
+        value={preFilledURL}
       />
 
       {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
