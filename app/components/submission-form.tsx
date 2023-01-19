@@ -1,5 +1,4 @@
-import React, { FormEvent, useEffect } from 'react';
-import { useRouter } from 'next/router';
+import React, { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
@@ -7,13 +6,12 @@ import { useSession } from 'next-auth/react';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
-  const router = useRouter();
 
   const [formInput, setFormInput] = React.useState({
-    publisherName: session?.user?.name,
-    publisherUserId: session?.user?.login,
-    publisherEmail: session?.user?.email,
-    publisherUrl: session?.user?.blog,
+    publisherName: '',
+    publisherUserId: '',
+    publisherEmail: '',
+    publisherUrl: '',
     packageName: 'test-extension',
     description: 'Extension Description',
     industries: ['steel', 'chemical'],
@@ -116,8 +114,7 @@ export default function SubmissionForm() {
           event.target.setCustomValidity('')
         }
         onChange={handleChange}
-        // TO DO: Erase pre-written values
-        value={formInput.publisherName || ''}
+        value={session?.user.name ? session?.user.name : ''}
       />
 
       <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -135,7 +132,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        value={formInput.publisherUserId || ''}
+        value={session?.user.login ? session?.user.login : ''}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
@@ -145,7 +142,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        value={formInput.publisherEmail || ''}
+        value={session?.user.email ? session?.user.email : ''}
       />
 
       <label htmlFor="publisherUrl">Publisher Website</label>
@@ -155,7 +152,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        value={formInput.publisherUrl || ''}
+        value={session?.user.blog ? session?.user.blog : ''}
       />
 
       {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
