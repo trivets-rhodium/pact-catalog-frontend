@@ -10,10 +10,10 @@ export default function SubmissionForm() {
   const router = useRouter();
 
   const [formInput, setFormInput] = React.useState({
-    publisherName: 'Test Publisher',
-    publisherUserId: 'test-publisher',
-    publisherEmail: 'publisher@email.com',
-    publisherUrl: 'https://publisher.com',
+    publisherName: session?.user?.name,
+    publisherUserId: session?.user?.login,
+    publisherEmail: session?.user?.email,
+    publisherUrl: session?.user?.blog,
     packageName: 'test-extension',
     description: 'Extension Description',
     industries: ['steel', 'chemical'],
@@ -21,7 +21,6 @@ export default function SubmissionForm() {
     summary: 'This is a summary of the extension',
     schemaJson: '{schema: JSON}',
     readme: '# Readme file',
-    code: '',
   });
 
   async function handleChange(
@@ -73,13 +72,6 @@ export default function SubmissionForm() {
     });
   }
 
-  useEffect(() => {
-    setFormInput({
-      ...formInput,
-      code: router.asPath.replace('/new?code=', ''),
-    });
-  }, []);
-
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -102,7 +94,7 @@ export default function SubmissionForm() {
       alert('Please log in and try again');
     }
 
-    const response = await fetch(endpoint, options);
+    await fetch(endpoint, options);
 
     // TO DO: uncomment redirect
     // router.push('/');
@@ -125,7 +117,7 @@ export default function SubmissionForm() {
         }
         onChange={handleChange}
         // TO DO: Erase pre-written values
-        value={formInput.publisherName}
+        value={formInput.publisherName || ''}
       />
 
       <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -143,8 +135,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        // TO DO: Erase pre-written values
-        value={formInput.publisherUserId}
+        value={formInput.publisherUserId || ''}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
@@ -154,8 +145,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        // TO DO: Erase pre-written values
-        value={formInput.publisherEmail}
+        value={formInput.publisherEmail || ''}
       />
 
       <label htmlFor="publisherUrl">Publisher Website</label>
@@ -165,8 +155,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        // TO DO: Erase pre-written values
-        value={formInput.publisherUrl}
+        value={formInput.publisherUrl || ''}
       />
 
       {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}

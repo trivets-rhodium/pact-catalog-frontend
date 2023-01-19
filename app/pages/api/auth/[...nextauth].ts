@@ -16,11 +16,14 @@ export const authOptions = {
   callbacks: {
     async jwt({ token, account, profile }: any) {
       if (account) {
-        console.log('account', account);
         token.accessToken = account.access_token;
-        token.id = profile.id;
+        token.user = profile;
       }
       return token;
+    },
+    async session({ session, token }: any) {
+      session.user = token.user;
+      return session;
     },
   },
   pages: {
