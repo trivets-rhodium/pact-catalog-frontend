@@ -3,7 +3,9 @@ import style from '../styles/Navbar.module.css';
 
 export default function Navbar() {
   return (
-    <div className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}>
+    <div
+      className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}
+    >
       <Link href={'/'}>
         <h2 className="text-white p-0">WBCSD | PACT Online Catalog</h2>
       </Link>
