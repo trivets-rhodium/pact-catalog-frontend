@@ -7,16 +7,13 @@ import { useSession } from 'next-auth/react';
 export default function SubmissionForm() {
   const { data: session } = useSession();
 
-  const preFilledName = session?.user?.name;
-  const preFilledUserId = session?.user?.login;
-  const preFilledEmail = session?.user?.email;
-  const preFilledURL = session?.user?.blog;
+  console.log('session', session);
 
   const [formInput, setFormInput] = React.useState({
-    publisherName: preFilledName || '',
-    publisherUserId: preFilledUserId || '',
-    publisherEmail: preFilledEmail || '',
-    publisherUrl: preFilledURL || '',
+    publisherName: '',
+    publisherUserId: '',
+    publisherEmail: '',
+    publisherUrl: '',
     packageName: 'test-extension',
     description: 'Extension Description',
     industries: ['steel', 'chemical'],
@@ -25,6 +22,27 @@ export default function SubmissionForm() {
     schemaJson: '{schema: JSON}',
     readme: '# Readme file',
   });
+
+  useEffect(() => {
+    console.log('sessionUseEffect', session);
+
+    let input = { ...formInput };
+
+    if (session?.user?.name) {
+      input.publisherName = session.user.name;
+    }
+    if (session?.user?.login) {
+      input.publisherUserId = session.user.login;
+    }
+    if (session?.user?.email) {
+      input.publisherEmail = session.user.email;
+    }
+    if (session?.user?.blog) {
+      input.publisherUrl = session.user.blog;
+    }
+
+    setFormInput(input);
+  }, [session]);
 
   async function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>

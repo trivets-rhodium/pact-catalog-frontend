@@ -5,8 +5,6 @@ import { useSession, signIn, signOut } from 'next-auth/react';
 export default function Navbar() {
   const { data: session } = useSession();
 
-  console.log('useSession()', useSession());
-
   return (
     <div
       className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}
