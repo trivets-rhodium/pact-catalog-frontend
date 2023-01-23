@@ -1,17 +1,11 @@
-import React, { FormEvent } from 'react';
-import { useRouter } from 'next/router';
-import { Octokit } from 'octokit';
+import React, { useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
-import { EditorView, ViewUpdate } from '@codemirror/view';
-
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
-import submitToGithub from '../utils/github-api';
-import { getUser } from '../lib/users';
-import { CatalogUser } from '../lib/catalog-types';
+import { useSession } from 'next-auth/react';
 
 export default function SubmissionForm() {
-  const router = useRouter();
+  const { data: session } = useSession();
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -19,7 +13,6 @@ export default function SubmissionForm() {
     publisherEmail: '',
     publisherUrl: '',
     packageName: '',
-    industry: '',
     description: '',
     industries: [''],
     version: '',
@@ -27,6 +20,25 @@ export default function SubmissionForm() {
     schemaJson: '',
     readme: '',
   });
+
+  useEffect(() => {
+    let input = { ...formInput };
+
+    if (session?.user?.name) {
+      input.publisherName = session.user.name;
+    }
+    if (session?.user?.login) {
+      input.publisherUserId = session.user.login;
+    }
+    if (session?.user?.email) {
+      input.publisherEmail = session.user.email;
+    }
+    if (session?.user?.blog) {
+      input.publisherUrl = session.user.blog;
+    }
+
+    setFormInput(input);
+  }, [session]);
 
   async function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -80,10 +92,29 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    submitToGithub(formInput);
+    const JSONdata = JSON.stringify(formInput);
 
-    alert('Your extension was successfully submited, thank you!');
-    router.push('/');
+    const endpoint = 'api/form';
+
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSONdata,
+    };
+
+    // TO DO: improve submission feedback and display success message only
+    if (session) {
+      alert(`Thank you, your extension was submitted`);
+    } else {
+      alert('Please log in and try again');
+    }
+
+    await fetch(endpoint, options);
+
+    // TO DO: uncomment redirect
+    // router.push('/');
   }
 
   return (
@@ -102,6 +133,7 @@ export default function SubmissionForm() {
           event.target.setCustomValidity('')
         }
         onChange={handleChange}
+        value={formInput.publisherName}
       />
 
       <label htmlFor="publisherUserId">Publisher User Id</label>
@@ -119,6 +151,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        value={formInput.publisherUserId}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
@@ -128,6 +161,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        value={formInput.publisherEmail}
       />
 
       <label htmlFor="publisherUrl">Publisher Website</label>
@@ -137,6 +171,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        value={formInput.publisherUrl}
       />
 
       {/* TO DO: possibility of adding contributors? With userID? Or by manually adding their e-mails, etc.? */}
@@ -155,6 +190,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        value={formInput.packageName}
       />
 
       <label htmlFor="description">Description</label>
@@ -164,6 +200,7 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
+        value={formInput.description}
       />
 
       <label htmlFor="industries">Industries</label>
@@ -182,6 +219,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        value={formInput.industries}
       />
 
       {/* <label>Status</label>
@@ -213,6 +251,7 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
+        value={formInput.version}
       />
 
       <label htmlFor="summary">Summary (optional)</label>
@@ -221,6 +260,7 @@ export default function SubmissionForm() {
         rows={5}
         className="mt-2 mb-6 rounded-sm p-2"
         onChange={handleChange}
+        value={formInput.summary}
       />
 
       <label htmlFor="schemaJson">schema.json Content</label>
@@ -229,6 +269,7 @@ export default function SubmissionForm() {
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
+        value={formInput.schemaJson}
       />
 
       <div>
@@ -238,6 +279,7 @@ export default function SubmissionForm() {
           minHeight="200px"
           extensions={[markdown()]}
           onChange={handleCodeMirrorChangeReadme}
+          value={formInput.readme}
         />
       </div>
 

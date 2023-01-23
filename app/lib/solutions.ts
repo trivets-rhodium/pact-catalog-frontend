@@ -53,7 +53,6 @@ export async function getConformingSolutions(
 
   for (const solution of solutions) {
     for (const e of solution.extensions) {
-      console.log('extension', extension);
       if (e.id === extension.name && e.version === extension.version) {
         conformingSolutions.push(solution);
       }
