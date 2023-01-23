@@ -7,25 +7,21 @@ import { useSession } from 'next-auth/react';
 export default function SubmissionForm() {
   const { data: session } = useSession();
 
-  console.log('session', session);
-
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
     publisherUserId: '',
     publisherEmail: '',
     publisherUrl: '',
-    packageName: 'test-extension',
-    description: 'Extension Description',
-    industries: ['steel', 'chemical'],
-    version: '0.0.0',
-    summary: 'This is a summary of the extension',
-    schemaJson: '{schema: JSON}',
-    readme: '# Readme file',
+    packageName: '',
+    description: '',
+    industries: [''],
+    version: '',
+    summary: '',
+    schemaJson: '',
+    readme: '',
   });
 
   useEffect(() => {
-    console.log('sessionUseEffect', session);
-
     let input = { ...formInput };
 
     if (session?.user?.name) {
@@ -194,7 +190,6 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        // TO DO: Erase pre-written values
         value={formInput.packageName}
       />
 
@@ -205,7 +200,6 @@ export default function SubmissionForm() {
         className="mt-2 mb-6 rounded-sm p-2"
         required
         onChange={handleChange}
-        // TO DO: Erase pre-written values
         value={formInput.description}
       />
 
@@ -225,7 +219,6 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        // TO DO: Erase pre-written values
         value={formInput.industries}
       />
 
@@ -258,7 +251,6 @@ export default function SubmissionForm() {
         onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('')
         }
-        // TO DO: Erase pre-written values
         value={formInput.version}
       />
 
@@ -268,7 +260,6 @@ export default function SubmissionForm() {
         rows={5}
         className="mt-2 mb-6 rounded-sm p-2"
         onChange={handleChange}
-        // TO DO: Erase pre-written values
         value={formInput.summary}
       />
 
@@ -278,7 +269,6 @@ export default function SubmissionForm() {
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
-        // TO DO: Erase pre-written values
         value={formInput.schemaJson}
       />
 
@@ -289,7 +279,6 @@ export default function SubmissionForm() {
           minHeight="200px"
           extensions={[markdown()]}
           onChange={handleCodeMirrorChangeReadme}
-          // TO DO: Erase pre-written values
           value={formInput.readme}
         />
       </div>
