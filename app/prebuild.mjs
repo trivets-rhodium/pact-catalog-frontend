@@ -13,9 +13,9 @@ const originPaths = await globby(extensionsDirectory, {
   },
 });
 
-fs.mkdir('./public/schemas', () => {
-  console.log('created schemas directory');
-});
+await fs.rmSync('./public/schemas', { recursive: true, force: true });
+
+await fs.mkdirSync('./public/schemas');
 
 const destinyPaths = originPaths.map((path) => {
   const schemaIdentifiers = path.split('/').slice(-4, -1);
@@ -27,8 +27,6 @@ const originDestinyPairs = originPaths.map((origin, i) => [
   destinyPaths[i],
 ]);
 
-originDestinyPairs.forEach((pair) => {
-  fs.copyFile(pair[0], pair[1], () => {
-    console.log(`copied ${pair}`);
-  });
+originDestinyPairs.forEach(async (pair) => {
+  await fs.copyFileSync(pair[0], pair[1]);
 });
