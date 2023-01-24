@@ -1,15 +1,7 @@
 {
   "/_app": "pages/_app.js",
-  "/api/form": "pages/api/form.js",
-  "/new-extension": "pages/new-extension.html",
   "/_error": "pages/_error.js",
-  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js",
-  "/extensions/[namespace]/[packageName]/[version]": "pages/extensions/[namespace]/[packageName]/[version].js",
-  "/auth/signin": "pages/auth/signin.js",
-  "/solutions/[id]": "pages/solutions/[id].js",
-  "/": "pages/index.js",
-  "/extensions": "pages/extensions.js",
   "/_document": "pages/_document.js",
-  "/solutions": "pages/solutions.js",
-  "/404": "pages/404.html"
+  "/extensions/[namespace]/[packageName]/[version]": "pages/extensions/[namespace]/[packageName]/[version].js",
+  "/api/auth/[...nextauth]": "pages/api/auth/[...nextauth].js"
 }

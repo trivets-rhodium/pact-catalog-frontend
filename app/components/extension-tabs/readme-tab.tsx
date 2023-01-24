@@ -92,9 +92,14 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
       </div>
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
-          {/* TO DO: replace '#' with {downloadlink} */}
-          <Link href={'#'}>
-            <div className="mb-8 primary-button">Download Package (TO DO)</div>
+          <Link
+            href={`/schemas/${name.split('/')[0]}-${
+              name.split('/')[1]
+            }-${version}.schema.json`}
+            //TO DO: download file instead of opening on a tab
+            target="_blank"
+          >
+            <div className="mb-8 primary-button">Download Package (Open Schema)</div>
           </Link>
           <h3>Repository</h3>
           <a
