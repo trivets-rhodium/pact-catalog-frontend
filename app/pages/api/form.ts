@@ -183,7 +183,11 @@ export default async function handler(
       message: 'Create schema.json',
       branch: `@${publisherUserId}`,
       content: Buffer.from(
-        JSON.stringify(schemaJson, null, 2)
+        JSON.stringify(schemaJson)
+          .replace(/\\n/g, '\n')
+          .replace(/^"/, '')
+          .replace(/"$/, '')
+          .replace(/\\/g, '')
       ).toString('base64'),
     });
 
