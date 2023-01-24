@@ -16,7 +16,10 @@
       "page": "/",
       "matchers": [
         {
-          "regexp": "^/.*$"
+          "regexp": "^\\/pact-catalog(?:\\/(_next\\/data\\/[^/]{1,}))?\\/api\\/form(.json)?[\\/#\\?]?$"
+        },
+        {
+          "regexp": "^\\/pact-catalog(?:\\/(_next\\/data\\/[^/]{1,}))?\\/new-extension(.json)?[\\/#\\?]?$"
         }
       ],
       "wasm": [],
