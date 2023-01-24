@@ -170,9 +170,9 @@ export default async function handler(
       path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/package.json`,
       message: 'Create package.json',
       branch: `@${publisherUserId}`,
-      content: Buffer.from(JSON.stringify(packageJsonContent)).toString(
-        'base64'
-      ),
+      content: Buffer.from(
+        JSON.stringify(packageJsonContent).replace('\n', '\\n')
+      ).toString('base64'),
     });
 
     // Creates schema.json file with the submitted data;
