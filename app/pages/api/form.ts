@@ -171,7 +171,7 @@ export default async function handler(
       message: 'Create package.json',
       branch: `@${publisherUserId}`,
       content: Buffer.from(
-        JSON.stringify(packageJsonContent).replace('\n', '\\n')
+        JSON.stringify(packageJsonContent, null, 2)
       ).toString('base64'),
     });
 
@@ -182,7 +182,9 @@ export default async function handler(
       path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/schema.json`,
       message: 'Create schema.json',
       branch: `@${publisherUserId}`,
-      content: Buffer.from(JSON.stringify(schemaJson)).toString('base64'),
+      content: Buffer.from(
+        JSON.stringify(schemaJson).replace(/\\n/g, '\n')
+      ).toString('base64'),
     });
 
     // Creates README.md file with the submitted data;
