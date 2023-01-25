@@ -9,7 +9,6 @@ import { JWT } from 'next-auth/jwt';
 import GithubProvider from 'next-auth/providers/github';
 import { getServerSideProps } from '../../auth/signin';
 
-
 export const authOptions = {
   providers: [
     GithubProvider({
@@ -18,7 +17,11 @@ export const authOptions = {
       clientSecret: process.env.CLIENT_SECRET as string,
       authorization: {
         url: 'https://github.com/login/oauth/authorize',
-        params: { scope: 'repo' },
+        params: {
+          scope: 'repo',
+          redirect_uri:
+            'https://pact-catalog-git-auth-debug-logging-sine-fdn.vercel.app/pact-catalog/api/auth/callback/github',
+        },
       },
     }),
   ],
