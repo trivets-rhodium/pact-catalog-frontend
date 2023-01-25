@@ -104,8 +104,9 @@ export type WorkInProgress = {
   extensions: {
     id: DMEId;
     version: VersionId;
+    description: string;
   }[];
-  solutions: { id: SolutionId }[];
+  solutions: { id: SolutionId; name: string; summary: string | null }[];
 };
 
 export type WorkingGroup = {
@@ -115,7 +116,7 @@ export type WorkingGroup = {
     email: string;
   };
   description: string;
-  work_in_progress: WorkInProgress;
+  workInProgress: WorkInProgress;
   members: {
     user_id: UserId;
     user: CatalogUser;

@@ -72,7 +72,15 @@ export type WorkingGroupSchema = {
     email: string;
   };
   description: string;
-  work_in_progress: WorkInProgress;
+  work_in_progress: {
+    extensions: {
+      id: string;
+      version: string;
+    }[];
+    solutions: {
+      id: string;
+    }[];
+  };
   members: {
     user_id: UserId;
   }[];

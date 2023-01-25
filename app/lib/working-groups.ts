@@ -1,9 +1,17 @@
 import path from 'path';
-import { CatalogUser, GroupId, UserId, WorkingGroup } from './catalog-types';
+import {
+  CatalogUser,
+  GroupId,
+  UserId,
+  WorkingGroup,
+  WorkInProgress,
+} from './catalog-types';
 import fs from 'fs';
 import { WorkingGroupParser, WorkingGroupSchema } from './catalog-types.schema';
 import { globby } from 'globby';
 import { getUser } from './users';
+import { getExtension } from './data-model-extensions';
+import { getSolution } from './solutions';
 
 const workingGroupsDirectory = path.posix.join(
   process.cwd(),
@@ -50,6 +58,7 @@ async function getWorkingGroupFromBasePath(
   return {
     ...groupJson,
     members: await getMembers(groupJson),
+    workInProgress: await getWorkInProgress(groupJson),
   };
 }
 
@@ -64,4 +73,58 @@ function getMembers(
     };
   });
   return Promise.all(members);
+}
+
+async function getWorkInProgress(
+  workingGroup: WorkingGroupSchema
+): Promise<WorkInProgress> {
+  const extensions = await getWorkInProgressExtensions(workingGroup);
+  const solutions = await getWorkInProgressSolutions(workingGroup);
+
+  return {
+    extensions,
+    solutions,
+  };
+}
+
+function getWorkInProgressExtensions(
+  workingGroup: WorkingGroupSchema
+): Promise<{ id: string; version: string; description: string }[]> {
+  const extensions = workingGroup.work_in_progress.extensions.map(async (e) => {
+    const namespace = e.id.split('/')[0];
+    const packageName = e.id.split('/')[1];
+    const version = e.version;
+
+    const extensionId = {
+      namespace,
+      packageName,
+      version,
+    };
+
+    const extension = await getExtension(extensionId);
+
+    return {
+      id: extension.name,
+      version: extension.version,
+      description: extension.description,
+    };
+  });
+
+  return Promise.all(extensions);
+}
+
+function getWorkInProgressSolutions(
+  workingGroup: WorkingGroupSchema
+): Promise<{ id: string; name: string; summary: string | null }[]> {
+  const solutions = workingGroup.work_in_progress.solutions.map(async (s) => {
+    const solution = await getSolution(s.id);
+
+    return {
+      id: solution.id,
+      name: solution.name,
+      summary: solution.summary,
+    };
+  });
+
+  return Promise.all(solutions);
 }

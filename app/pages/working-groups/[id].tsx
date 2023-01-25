@@ -52,11 +52,34 @@ export default function WorkingGroupDetails(props: PageProps) {
 
           <ul>
             {workingGroup.members.map((member) => {
-              return <li className="text-white mb-2">{member.user.name}</li>;
+              return (
+                <li className="text-white mb-2" key={member.user_id}>
+                  {member.user.name}
+                </li>
+              );
             })}
           </ul>
         </section>
-        <section className="h-100 pr-24 py-20 rounded-r-md border-2 z-0 flex-grow"></section>
+        <section className="h-100 p-14 rounded-r-md border-2 z-0 flex-grow">
+          <p>{workingGroup.description}</p>
+          <h3 className="mt-8 mb-2">Work in Progress</h3>
+          <ul>
+            {workingGroup.workInProgress.extensions.map((extension) => {
+              return (
+                <li key={`${extension.id}.${extension.version}`}>
+                  {extension.description} (Extension)
+                </li>
+              );
+            })}
+          </ul>
+          <ul>
+            {workingGroup.workInProgress.solutions.map((solution) => {
+              return <li key={solution.id}>{solution.name} (Solution)</li>;
+            })}
+          </ul>
+          <h3 className="mt-8 mb-2">Contacts</h3>
+          <p>{Object.values(workingGroup.contacts)}</p>
+        </section>
       </div>
     </Layout>
   );
