@@ -1,7 +1,6 @@
 import { SearchResult } from 'minisearch';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { NoSubstitutionTemplateLiteral } from 'typescript';
 import {
   CatalogDataModelExtension,
   CatalogUser,
