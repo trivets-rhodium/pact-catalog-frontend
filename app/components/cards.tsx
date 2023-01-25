@@ -57,6 +57,7 @@ type LongCardsProps = {
     href: string;
     title: string;
     subtitle: string;
+    id: string;
   }[];
 };
 
@@ -73,6 +74,7 @@ export function LongCards(props: LongCardsProps) {
               href={longCard.href}
               title={longCard.title}
               subtitle={longCard.subtitle}
+              key={longCard.id}
             />
           );
         })}
@@ -204,9 +206,9 @@ function LongCard(props: LongCardProps) {
     <li className={`${style['long-card']} flex flex-col justify-between`}>
       <div>
         <h3>{title}</h3>
-        <p className='pr-32 '>{subtitle}</p>
+        <p className="pr-32 ">{subtitle}</p>
       </div>
-      <div className='flex justify-end'>
+      <div className="flex justify-end">
         <Link href={href} className="primary-button">
           Learn more
         </Link>{' '}

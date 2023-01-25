@@ -19,10 +19,12 @@ export default function WorkingGroups(props: PageProps) {
   const { allWorkingGroups } = props;
 
   const groupLongCards = allWorkingGroups.map((workingGroup) => {
+    const { id, name, description } = workingGroup;
     return {
-      href: '#', // TO DO: Get static props
-      title: workingGroup.name,
-      subtitle: workingGroup.description,
+      id,
+      href: `/working-groups/${id}`,
+      title: name,
+      subtitle: description,
     };
   });
 

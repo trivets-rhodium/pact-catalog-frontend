@@ -82,7 +82,7 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
         <h1 className="title">{props.title}</h1>
       </header>
       <TabHead {...props} />
-      <div className="background h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
+      <div className="h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
         <TabContent {...props} />
         <div className="text-right mt-16">
           <Link href="/" className="secondary-button">
