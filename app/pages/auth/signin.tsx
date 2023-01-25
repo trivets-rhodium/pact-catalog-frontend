@@ -40,7 +40,7 @@ export default function SignIn({
               signIn(github.id, {
                 callbackUrl: router.query.callbackUrl as string,
               });
-              console.log('on click done successfully');
+              console.log('on click done successfully!');
             }}
             className="primary-button"
           >
