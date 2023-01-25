@@ -35,12 +35,9 @@ export default function SignIn({
                 github.id,
                 router.query.callbackUrl
               );
-              signIn(
-                github.id
-                //   {
-                //   callbackUrl: router.query.callbackUrl as string,
-                // }
-              );
+              signIn(github.id, {
+                callbackUrl: router.query.callbackUrl as string,
+              });
               console.log('on click done successfully!');
             }}
             className="primary-button"
