@@ -1,5 +1,5 @@
 import path from 'path';
-import { WorkingGroup } from './catalog-types';
+import { GroupId, WorkingGroup } from './catalog-types';
 import fs from 'fs';
 import { WorkingGroupParser } from './catalog-types.schema';
 import { globby } from 'globby';
@@ -18,6 +18,25 @@ export async function getAllWorkingGroups(): Promise<WorkingGroup[]> {
   });
 
   return Promise.all(allWorkingGroupsData);
+}
+
+export async function getAllWorkingGroupsIds() {
+  const allWorkingGroups = await getAllWorkingGroups();
+
+  return allWorkingGroups.map((workingGroup) => {
+    const { id } = workingGroup;
+    return {
+      params: {
+        id,
+      },
+    };
+  });
+}
+
+export async function getWorkingGroup(id: GroupId): Promise<WorkingGroup> {
+  const basePath = path.join(workingGroupsDirectory, `${id}.json`);
+
+  return getWorkingGroupFromBasePath(basePath);
 }
 
 async function getWorkingGroupFromBasePath(
