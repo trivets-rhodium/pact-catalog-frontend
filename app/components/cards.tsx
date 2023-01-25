@@ -204,7 +204,7 @@ function LongCard(props: LongCardProps) {
     <li className={`${style['long-card']} flex flex-col justify-between`}>
       <div>
         <h3>{title}</h3>
-        <p>{subtitle}</p>
+        <p className='pr-32 '>{subtitle}</p>
       </div>
       <div className='flex justify-end'>
         <Link href={href} className="primary-button">
