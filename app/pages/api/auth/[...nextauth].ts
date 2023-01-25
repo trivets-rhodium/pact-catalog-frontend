@@ -19,8 +19,6 @@ export const authOptions = {
         url: 'https://github.com/login/oauth/authorize',
         params: {
           scope: 'repo',
-          redirect_uri:
-            'https://pact-catalog-git-auth-debug-logging-sine-fdn.vercel.app/pact-catalog/api/auth/callback/github',
         },
       },
     }),
