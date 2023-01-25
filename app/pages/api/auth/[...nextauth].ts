@@ -9,6 +9,7 @@ import { JWT } from 'next-auth/jwt';
 import GithubProvider from 'next-auth/providers/github';
 import { getServerSideProps } from '../../auth/signin';
 
+
 export const authOptions = {
   providers: [
     GithubProvider({

@@ -6,6 +6,8 @@ export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }: AppProps) {
+  console.log('process.env.NEXTAUTH_URL', process.env.NEXTAUTH_URL);
+
   return (
     <SessionProvider session={session}>
       <Component {...pageProps} />
