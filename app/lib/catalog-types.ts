@@ -1,9 +1,12 @@
 // This file contains all the types used with the catalog
 
+import { User } from 'next-auth';
+
 export type UserId = string;
 export type DMEId = string;
 export type VersionId = string;
 export type SolutionId = string;
+export type GroupId = string;
 export type Endorsers = CatalogUser[];
 export type SolutionUsers = CatalogUser[];
 export type Industry = string;
@@ -94,5 +97,26 @@ export type ConformanceTestResult = {
   tests: {
     extension: DMEId;
     version: VersionId;
+  }[];
+};
+
+export type WorkInProgress = {
+  extensions: {
+    id: DMEId;
+    version: VersionId;
+  }[];
+  solutions: { id: SolutionId }[];
+};
+
+export type WorkingGroup = {
+  id: GroupId;
+  name: string;
+  contacts: {
+    email: string;
+  };
+  description: string;
+  work_in_progress: WorkInProgress;
+  members: {
+    user_id: UserId;
   }[];
 };

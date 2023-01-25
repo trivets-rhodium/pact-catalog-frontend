@@ -7,6 +7,7 @@ import {
   Industry,
   SolutionId,
   VersionId,
+  WorkingGroup,
 } from './catalog-types';
 import { z } from 'zod';
 import { UserId } from './catalog-types';
@@ -138,6 +139,31 @@ export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
       z.object({
         extension: z.string().min(1),
         version: z.string().min(1),
+      })
+    ),
+  })
+);
+
+export const WorkingGroupParser: z.ZodType<WorkingGroup> = z.lazy(() =>
+  z.object({
+    id: z.string().min(1),
+    name: z.string().min(1),
+    contacts: z.object({
+      email: z.string().min(1),
+    }),
+    description: z.string().min(1),
+    work_in_progress: z.object({
+      extensions: z.array(
+        z.object({
+          id: z.string().min(1),
+          version: z.string().min(1),
+        })
+      ),
+      solutions: z.array(z.object({ id: z.string().min(1) })),
+    }),
+    members: z.array(
+      z.object({
+        user_id: z.string().min(1),
       })
     ),
   })
