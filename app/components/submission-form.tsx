@@ -5,13 +5,6 @@ import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
 
-type CustomSession = DefaultSession & {
-  user?: {
-    login?: string;
-    blog?: string;
-  };
-};
-
 export default function SubmissionForm() {
   const { data: session } = useSession();
 
@@ -30,21 +23,19 @@ export default function SubmissionForm() {
   });
 
   useEffect(() => {
-    const s = session as CustomSession;
-
     let input = { ...formInput };
 
-    if (s?.user?.name) {
-      input.publisherName = s.user.name;
+    if (session?.user?.name) {
+      input.publisherName = session.user.name;
     }
-    if (s?.user && s.user.login) {
-      input.publisherUserId = s.user.login;
+    if (session?.user && session.user.login) {
+      input.publisherUserId = session.user.login;
     }
-    if (s?.user?.email) {
-      input.publisherEmail = s.user.email;
+    if (session?.user?.email) {
+      input.publisherEmail = session.user.email;
     }
-    if (s?.user?.blog) {
-      input.publisherUrl = s.user.blog;
+    if (session?.user?.blog) {
+      input.publisherUrl = session.user.blog;
     }
 
     setFormInput(input);
