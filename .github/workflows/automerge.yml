@@ -4,7 +4,6 @@ on:
     types:
       # Action does not start before the PR has the automerge label
       - labeled
-  status: {}
 jobs:
   automerge:
     runs-on: ubuntu-latest
