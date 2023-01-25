@@ -1,8 +1,9 @@
 import path from 'path';
-import { GroupId, WorkingGroup } from './catalog-types';
+import { CatalogUser, GroupId, UserId, WorkingGroup } from './catalog-types';
 import fs from 'fs';
-import { WorkingGroupParser } from './catalog-types.schema';
+import { WorkingGroupParser, WorkingGroupSchema } from './catalog-types.schema';
 import { globby } from 'globby';
+import { getUser } from './users';
 
 const workingGroupsDirectory = path.posix.join(
   process.cwd(),
@@ -48,5 +49,19 @@ async function getWorkingGroupFromBasePath(
 
   return {
     ...groupJson,
+    members: await getMembers(groupJson),
   };
+}
+
+function getMembers(
+  workingGroup: WorkingGroupSchema
+): Promise<{ user_id: UserId; user: CatalogUser }[]> {
+  const members = workingGroup.members.map(async (member) => {
+    const user = await getUser(member.user_id);
+    return {
+      user_id: member.user_id,
+      user: user,
+    };
+  });
+  return Promise.all(members);
 }

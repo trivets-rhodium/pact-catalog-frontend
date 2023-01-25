@@ -118,5 +118,6 @@ export type WorkingGroup = {
   work_in_progress: WorkInProgress;
   members: {
     user_id: UserId;
+    user: CatalogUser;
   }[];
 };

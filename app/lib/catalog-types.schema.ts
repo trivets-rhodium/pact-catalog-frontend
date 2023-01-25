@@ -4,10 +4,12 @@
 import {
   ConformanceTestResult,
   DMEId,
+  GroupId,
   Industry,
   SolutionId,
   VersionId,
   WorkingGroup,
+  WorkInProgress,
 } from './catalog-types';
 import { z } from 'zod';
 import { UserId } from './catalog-types';
@@ -61,6 +63,19 @@ export type CatalogUserJsonSchema = {
     version: VersionId;
   }[];
   solutions_used?: SolutionId[];
+};
+
+export type WorkingGroupSchema = {
+  id: GroupId;
+  name: string;
+  contacts: {
+    email: string;
+  };
+  description: string;
+  work_in_progress: WorkInProgress;
+  members: {
+    user_id: UserId;
+  }[];
 };
 
 export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
@@ -144,7 +159,7 @@ export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
   })
 );
 
-export const WorkingGroupParser: z.ZodType<WorkingGroup> = z.lazy(() =>
+export const WorkingGroupParser: z.ZodType<WorkingGroupSchema> = z.lazy(() =>
   z.object({
     id: z.string().min(1),
     name: z.string().min(1),

@@ -43,16 +43,16 @@ export default function WorkingGroupDetails(props: PageProps) {
   const { workingGroup } = props;
   return (
     <Layout>
-      <h1 className="mx-12">{workingGroup.name}</h1>
+      <h1 className="mx-1">{workingGroup.name}</h1>
       <div className="flex justify-center mt-6 mx-12">
         <section
-          className={`${style['members-background']}  h-100 p-14 rounded-l-md border-2 z-0 align-top`}
+          className={`${style['members-background']}  h-100 w-1/3 p-14 rounded-l-md border-2 z-0 align-top`}
         >
           <h2>Members</h2>
 
           <ul>
             {workingGroup.members.map((member) => {
-              return <ul>{member.user_id}</ul>;
+              return <li className="text-white mb-2">{member.user.name}</li>;
             })}
           </ul>
         </section>
