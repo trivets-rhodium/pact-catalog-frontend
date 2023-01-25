@@ -17,8 +17,6 @@ type SignInProps = {
   >;
 };
 
-// const home = 'http://localhost:3000/pact-catalog';
-
 export default function SignIn({
   providers,
 }: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>) {

@@ -8,6 +8,7 @@ import NextAuth, {
 import { JWT } from 'next-auth/jwt';
 import GithubProvider from 'next-auth/providers/github';
 import { getServerSideProps } from '../../auth/signin';
+import nextConfig from '../../../next.config';
 
 export const authOptions = {
   providers: [
@@ -38,7 +39,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: '/pact-catalog/auth/signin',
+    signIn: nextConfig.basePath + '/auth/signin',
   },
 };
 
