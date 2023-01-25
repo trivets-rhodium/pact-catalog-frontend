@@ -1,3 +1,4 @@
+import { LongCards } from '../components/cards';
 import Layout from '../components/layout';
 
 type PageProps = {};
@@ -5,7 +6,16 @@ type PageProps = {};
 export default function WorkingGroups(props: PageProps) {
   return (
     <Layout>
-      <h1>Working Groups</h1>
+      <LongCards
+        title="Working Groups"
+        longCards={[
+          {
+            href: '#',
+            title: 'TITLE',
+            subtitle: 'SUBTITLE',
+          },
+        ]}
+      ></LongCards>
     </Layout>
   );
 }
