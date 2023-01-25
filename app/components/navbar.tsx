@@ -30,19 +30,17 @@ export default function Navbar() {
             </Link>
           </li>
 
+          <li className="px-2">
+            <Link href={'/new-extension'} className="text-white">
+              New Extension
+            </Link>
+          </li>
           {session ? (
-            <div className="flex justify-between">
-              <li className="px-2">
-                <Link href={'/new-extension'} className="text-white">
-                  New Extension
-                </Link>
-              </li>
-              <li className="px-2">
-                <button onClick={() => signOut()} className="text-white">
-                  Log out
-                </button>
-              </li>
-            </div>
+            <li className="px-2">
+              <button onClick={() => signOut()} className="text-white">
+                Log out
+              </button>
+            </li>
           ) : (
             <li className="px-2">
               <button onClick={() => signIn()} className="text-white">
