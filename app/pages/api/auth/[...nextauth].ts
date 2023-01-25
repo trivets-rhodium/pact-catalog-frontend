@@ -8,6 +8,7 @@ import NextAuth, {
 import { JWT } from 'next-auth/jwt';
 import GithubProvider from 'next-auth/providers/github';
 import { getServerSideProps } from '../../auth/signin';
+import nextConfig from '../../../next.config';
 
 export const authOptions = {
   providers: [
@@ -17,7 +18,9 @@ export const authOptions = {
       clientSecret: process.env.CLIENT_SECRET as string,
       authorization: {
         url: 'https://github.com/login/oauth/authorize',
-        params: { scope: 'repo' },
+        params: {
+          scope: 'repo',
+        },
       },
     }),
   ],
@@ -36,7 +39,7 @@ export const authOptions = {
     },
   },
   pages: {
-    signIn: '/pact-catalog/auth/signin',
+    signIn: nextConfig.basePath + '/auth/signin',
   },
 };
 

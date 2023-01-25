@@ -17,8 +17,6 @@ type SignInProps = {
   >;
 };
 
-// const home = 'http://localhost:3000/pact-catalog';
-
 export default function SignIn({
   providers,
 }: Record<LiteralUnion<BuiltInProviderType, string>, ClientSafeProvider>) {
@@ -32,9 +30,15 @@ export default function SignIn({
           <h3>PACT Online Catalog</h3>
           <button
             onClick={() => {
+              console.log(
+                'sign in on click',
+                github.id,
+                router.query.callbackUrl
+              );
               signIn(github.id, {
                 callbackUrl: router.query.callbackUrl as string,
               });
+              console.log('on click done successfully!');
             }}
             className="primary-button"
           >
