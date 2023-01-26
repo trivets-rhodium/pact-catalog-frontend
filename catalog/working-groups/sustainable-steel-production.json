@@ -1,20 +1,26 @@
 {
   "id": "sustainable-steel-production",
   "name": "Sustainable Steel Production",
-  "contacts": {
-    "email": "sustainablesteelproduction@wbcsd.org"
-  },
+  "email": "sustainablesteelproduction@wbcsd.org",
   "description": "A working group focused on sustainability standards for the steel industry",
   "work_in_progress": {
     "extensions": [
       {
         "id": "@rmi/steel-guidance",
-        "version": "1.0.0"
+        "version": "1.1.0"
       }
     ],
     "solutions": [
       {
         "id": "steel-industry-solution"
+      }
+    ]
+  },
+  "completed_work": {
+    "extensions": [
+      {
+        "id": "@rmi/steel-guidance",
+        "version": "1.0.0"
       }
     ]
   },

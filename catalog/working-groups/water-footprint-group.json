@@ -1,9 +1,6 @@
 {
   "id": "water-footprint-group",
   "name": "Water Footprint Group",
-  "contacts": {
-    "email": "waterfootprint@email.com"
-  },
   "description": "The Water Footprint Group aims at developing the adequate Data Model Extensions to calculate the water footprint of a given product",
   "work_in_progress": {
     "extensions": [

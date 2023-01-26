@@ -43,21 +43,33 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
 
 export default function WorkingGroupDetails(props: PageProps) {
   const {
-    workingGroup: { name, members, description, workInProgress, contacts },
+    workingGroup: {
+      name,
+      members,
+      description,
+      workInProgress,
+      completedWork,
+      email,
+    },
   } = props;
+
+  console.log('email', email);
   return (
     <Layout>
       <h1 className="mx-1">{name}</h1>
       <div className="flex justify-center mt-6 ">
         <section
-          className={`${style['members-background']}  h-100 w-1/3 p-14 rounded-l-md border-2 z-0 align-top`}
+          className={`${style['members-background']}  h-100 w-2/5 p-14 rounded-l-md border-2 z-0 align-top`}
         >
           <h2>Members</h2>
 
-          <ul>
+          <ul className="">
             {members.map((member) => {
               return (
-                <li className="text-white mb-2" key={member.user_id}>
+                <li
+                  className="text-white my-8 border-l-2 pl-2"
+                  key={member.user_id}
+                >
                   {member.user.name}
                 </li>
               );
@@ -68,7 +80,7 @@ export default function WorkingGroupDetails(props: PageProps) {
           <p>{description}</p>
           <h3 className="mt-8 mb-2">Work in Progress</h3>
           <ul>
-            {workInProgress.extensions.map((extension) => {
+            {workInProgress.extensions?.map((extension) => {
               return (
                 <li
                   key={`${extension.id}.${extension.version}`}
@@ -81,20 +93,25 @@ export default function WorkingGroupDetails(props: PageProps) {
                   </Link>{' '}
                   <span className={style.pill}>Extension</span>
                   {extension.summary ? (
-                    <p className="my-4 pl-4 text-sm pr-24">
-                      {extension.summary}
-                    </p>
+                    <div>
+                      <p className="my-4 pl-4 text-sm pr-24">
+                        {extension.summary}
+                      </p>
+                    </div>
                   ) : (
                     <p className="my-4 pl-4 text-sm pr-24">
                       {extension.description}
                     </p>
                   )}
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Publisher:</span> {extension.author}
+                  </p>
                 </li>
               );
             })}
           </ul>
           <ul>
-            {workInProgress.solutions.map((solution) => {
+            {workInProgress.solutions?.map((solution) => {
               return (
                 <li key={solution.id}>
                   <Link href={`/solutions/${solution.id}`}>
@@ -106,21 +123,78 @@ export default function WorkingGroupDetails(props: PageProps) {
                       {solution.summary}
                     </p>
                   )}
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Provider:</span>{' '}
+                    {solution.providerName}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <h3 className="mt-8 mb-2">Completed Work</h3>
+          <ul>
+            {completedWork.extensions?.map((extension) => {
+              return (
+                <li
+                  key={`${extension.id}.${extension.version}`}
+                  className="mb-2"
+                >
+                  <Link
+                    href={`/extensions/${extension.id}/${extension.version}`}
+                  >
+                    {extension.id} {extension.version}
+                  </Link>{' '}
+                  <span className={style.pill}>Extension</span>
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Publisher:</span> {extension.author}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <ul>
+            {completedWork.solutions?.map((solution) => {
+              return (
+                <li key={solution.id}>
+                  <Link href={`/solutions/${solution.id}`}>
+                    {solution.name}
+                  </Link>{' '}
+                  <span className={style.pill}>Solution</span>
+                  {solution.summary && (
+                    <p className="my-4 pl-4 text-sm pr-24">
+                      {solution.summary}
+                    </p>
+                  )}
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Provider:</span>{' '}
+                    {solution.providerName}
+                  </p>
                 </li>
               );
             })}
           </ul>
           <h3 className="mt-8 mb-2">Contacts</h3>
           <ul>
-            {Object.keys(contacts).map((contact) => {
-              return contact === 'email' ? (
-                <li key={contacts[contact]}>
-                  <a href={`mailto: ${contacts[contact]}`}>
-                    {contacts[contact]}
+            {email && (
+              <li className=" pr-4 grid grid-cols-2 my-4" key={email}>
+                <p>Group email:</p>
+                <a href={`mailto: ${email}`}>{email}</a>
+              </li>
+            )}
+            {members.map((member) => {
+              return (
+                <li
+                  className="font-light pr-4 grid grid-cols-2 my-4"
+                  key={member.user_id}
+                >
+                  <p className="pr-10">{member.user.name}: </p>
+                  <a
+                    href={`mailto: ${member.user.email}`}
+                    className="flex items-end"
+                  >
+                    {member.user.email}
                   </a>
                 </li>
-              ) : (
-                <li> {contacts[contact as keyof typeof contacts]}</li>
               );
             })}
           </ul>
