@@ -4,9 +4,12 @@
 import {
   ConformanceTestResult,
   DMEId,
+  GroupId,
   Industry,
   SolutionId,
   VersionId,
+  WorkingGroup,
+  WorkInProgress,
 } from './catalog-types';
 import { z } from 'zod';
 import { UserId } from './catalog-types';
@@ -60,6 +63,27 @@ export type CatalogUserJsonSchema = {
     version: VersionId;
   }[];
   solutions_used?: SolutionId[];
+};
+
+export type WorkingGroupSchema = {
+  id: GroupId;
+  name: string;
+  contacts: {
+    email: string;
+  };
+  description: string;
+  work_in_progress: {
+    extensions: {
+      id: string;
+      version: string;
+    }[];
+    solutions: {
+      id: string;
+    }[];
+  };
+  members: {
+    user_id: UserId;
+  }[];
 };
 
 export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
@@ -138,6 +162,31 @@ export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
       z.object({
         extension: z.string().min(1),
         version: z.string().min(1),
+      })
+    ),
+  })
+);
+
+export const WorkingGroupParser: z.ZodType<WorkingGroupSchema> = z.lazy(() =>
+  z.object({
+    id: z.string().min(1),
+    name: z.string().min(1),
+    contacts: z.object({
+      email: z.string().min(1),
+    }),
+    description: z.string().min(1),
+    work_in_progress: z.object({
+      extensions: z.array(
+        z.object({
+          id: z.string().min(1),
+          version: z.string().min(1),
+        })
+      ),
+      solutions: z.array(z.object({ id: z.string().min(1) })),
+    }),
+    members: z.array(
+      z.object({
+        user_id: z.string().min(1),
       })
     ),
   })

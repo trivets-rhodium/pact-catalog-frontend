@@ -50,6 +50,38 @@ export function Cards<T>(props: CardsProps<T>) {
   );
 }
 
+type LongCardsProps = {
+  title: string;
+  longCards: {
+    href: string;
+    title: string;
+    subtitle: string;
+    id: string;
+  }[];
+};
+
+export function LongCards(props: LongCardsProps) {
+  const { title, longCards } = props;
+
+  return (
+    <section className="background pb-10 rounded-sm">
+      <h1>{title}</h1>
+      <ul>
+        {longCards.map((longCard) => {
+          return (
+            <LongCard
+              href={longCard.href}
+              title={longCard.title}
+              subtitle={longCard.subtitle}
+              key={longCard.id}
+            />
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 export function extensionCards(
   extensions: CatalogDataModelExtension[] | SearchResult[]
 ): JSX.Element[] {
@@ -157,5 +189,29 @@ function Card<T>(props: CardProps<T>) {
         {render(cardContent)}
       </li>
     </Link>
+  );
+}
+
+type LongCardProps = {
+  href: string;
+  title: string;
+  subtitle: string;
+};
+
+function LongCard(props: LongCardProps) {
+  const { href, title, subtitle } = props;
+
+  return (
+    <li className={`${style['long-card']} flex flex-col justify-between`}>
+      <div>
+        <h3>{title}</h3>
+        <p className="pr-32 ">{subtitle}</p>
+      </div>
+      <div className="flex justify-end">
+        <Link href={href} className="primary-button">
+          Learn more
+        </Link>{' '}
+      </div>
+    </li>
   );
 }
