@@ -100,20 +100,20 @@ export type ConformanceTestResult = {
   }[];
 };
 
-export type WorkInProgress = {
+export type Works = {
   extensions: {
     id: DMEId;
     version: VersionId;
     description: string;
     summary: string | null;
     author: string;
-  }[];
+  }[] | null;
   solutions: {
     id: SolutionId;
     name: string;
     summary: string | null;
     providerName: string;
-  }[];
+  }[] | null;
 };
 
 export type WorkingGroup = {
@@ -121,7 +121,8 @@ export type WorkingGroup = {
   name: string;
   email: string | null;
   description: string;
-  workInProgress: WorkInProgress;
+  workInProgress: Works;
+  completedWork: Works;
   members: {
     user_id: UserId;
     user: CatalogUser;

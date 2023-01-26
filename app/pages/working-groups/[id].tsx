@@ -43,7 +43,14 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
 
 export default function WorkingGroupDetails(props: PageProps) {
   const {
-    workingGroup: { name, members, description, workInProgress, email },
+    workingGroup: {
+      name,
+      members,
+      description,
+      workInProgress,
+      completedWork,
+      email,
+    },
   } = props;
 
   console.log('email', email);
@@ -73,7 +80,7 @@ export default function WorkingGroupDetails(props: PageProps) {
           <p>{description}</p>
           <h3 className="mt-8 mb-2">Work in Progress</h3>
           <ul>
-            {workInProgress.extensions.map((extension) => {
+            {workInProgress.extensions?.map((extension) => {
               return (
                 <li
                   key={`${extension.id}.${extension.version}`}
@@ -104,7 +111,49 @@ export default function WorkingGroupDetails(props: PageProps) {
             })}
           </ul>
           <ul>
-            {workInProgress.solutions.map((solution) => {
+            {workInProgress.solutions?.map((solution) => {
+              return (
+                <li key={solution.id}>
+                  <Link href={`/solutions/${solution.id}`}>
+                    {solution.name}
+                  </Link>{' '}
+                  <span className={style.pill}>Solution</span>
+                  {solution.summary && (
+                    <p className="my-4 pl-4 text-sm pr-24">
+                      {solution.summary}
+                    </p>
+                  )}
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Provider:</span>{' '}
+                    {solution.providerName}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <h3 className="mt-8 mb-2">Completed Work</h3>
+          <ul>
+            {completedWork.extensions?.map((extension) => {
+              return (
+                <li
+                  key={`${extension.id}.${extension.version}`}
+                  className="mb-2"
+                >
+                  <Link
+                    href={`/extensions/${extension.id}/${extension.version}`}
+                  >
+                    {extension.id} {extension.version}
+                  </Link>{' '}
+                  <span className={style.pill}>Extension</span>
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Publisher:</span> {extension.author}
+                  </p>
+                </li>
+              );
+            })}
+          </ul>
+          <ul>
+            {completedWork.solutions?.map((solution) => {
               return (
                 <li key={solution.id}>
                   <Link href={`/solutions/${solution.id}`}>
@@ -138,7 +187,7 @@ export default function WorkingGroupDetails(props: PageProps) {
                   className="font-light pr-4 grid grid-cols-2 my-4"
                   key={member.user_id}
                 >
-                  <p className='pr-10'>{member.user.name}: </p>
+                  <p className="pr-10">{member.user.name}: </p>
                   <a
                     href={`mailto: ${member.user.email}`}
                     className="flex items-end"

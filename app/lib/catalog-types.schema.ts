@@ -9,7 +9,7 @@ import {
   SolutionId,
   VersionId,
   WorkingGroup,
-  WorkInProgress,
+  Works,
 } from './catalog-types';
 import { z } from 'zod';
 import { UserId } from './catalog-types';
@@ -71,11 +71,20 @@ export type WorkingGroupSchema = {
   email?: string;
   description: string;
   work_in_progress: {
-    extensions: {
+    extensions?: {
       id: string;
       version: string;
     }[];
-    solutions: {
+    solutions?: {
+      id: string;
+    }[];
+  };
+  completed_work?: {
+    extensions?: {
+      id: string;
+      version: string;
+    }[];
+    solutions?: {
       id: string;
     }[];
   };
@@ -172,14 +181,29 @@ export const WorkingGroupParser: z.ZodType<WorkingGroupSchema> = z.lazy(() =>
     email: z.string().optional(),
     description: z.string().min(1),
     work_in_progress: z.object({
-      extensions: z.array(
-        z.object({
-          id: z.string().min(1),
-          version: z.string().min(1),
-        })
-      ),
-      solutions: z.array(z.object({ id: z.string().min(1) })),
+      extensions: z
+        .array(
+          z.object({
+            id: z.string().min(1),
+            version: z.string().min(1),
+          })
+        )
+        .optional(),
+      solutions: z.array(z.object({ id: z.string().min(1) })).optional(),
     }),
+    completed_work: z
+      .object({
+        extensions: z
+          .array(
+            z.object({
+              id: z.string().min(1),
+              version: z.string().min(1),
+            })
+          )
+          .optional(),
+        solutions: z.array(z.object({ id: z.string().min(1) })).optional(),
+      })
+      .optional(),
     members: z.array(
       z.object({
         user_id: z.string().min(1),
