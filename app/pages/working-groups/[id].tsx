@@ -42,10 +42,12 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
 };
 
 export default function WorkingGroupDetails(props: PageProps) {
-  const { workingGroup } = props;
+  const {
+    workingGroup: { name, members, description, workInProgress, contacts },
+  } = props;
   return (
     <Layout>
-      <h1 className="mx-1">{workingGroup.name}</h1>
+      <h1 className="mx-1">{name}</h1>
       <div className="flex justify-center mt-6 ">
         <section
           className={`${style['members-background']}  h-100 w-1/3 p-14 rounded-l-md border-2 z-0 align-top`}
@@ -53,7 +55,7 @@ export default function WorkingGroupDetails(props: PageProps) {
           <h2>Members</h2>
 
           <ul>
-            {workingGroup.members.map((member) => {
+            {members.map((member) => {
               return (
                 <li className="text-white mb-2" key={member.user_id}>
                   {member.user.name}
@@ -63,10 +65,10 @@ export default function WorkingGroupDetails(props: PageProps) {
           </ul>
         </section>
         <section className="bg-white h-100 p-14 rounded-r-md border-2 z-0 flex-grow">
-          <p>{workingGroup.description}</p>
+          <p>{description}</p>
           <h3 className="mt-8 mb-2">Work in Progress</h3>
           <ul>
-            {workingGroup.workInProgress.extensions.map((extension) => {
+            {workInProgress.extensions.map((extension) => {
               return (
                 <li
                   key={`${extension.id}.${extension.version}`}
@@ -92,7 +94,7 @@ export default function WorkingGroupDetails(props: PageProps) {
             })}
           </ul>
           <ul>
-            {workingGroup.workInProgress.solutions.map((solution) => {
+            {workInProgress.solutions.map((solution) => {
               return (
                 <li key={solution.id}>
                   <Link href={`/solutions/${solution.id}`}>
@@ -110,22 +112,15 @@ export default function WorkingGroupDetails(props: PageProps) {
           </ul>
           <h3 className="mt-8 mb-2">Contacts</h3>
           <ul>
-            {Object.keys(workingGroup.contacts).map((contact) => {
+            {Object.keys(contacts).map((contact) => {
               return contact === 'email' ? (
-                <li key={workingGroup.contacts[contact]}>
-                  <a href={`mailto: ${workingGroup.contacts[contact]}`}>
-                    {workingGroup.contacts[contact]}
+                <li key={contacts[contact]}>
+                  <a href={`mailto: ${contacts[contact]}`}>
+                    {contacts[contact]}
                   </a>
                 </li>
               ) : (
-                <li>
-                  {' '}
-                  {
-                    workingGroup.contacts[
-                      contact as keyof typeof workingGroup.contacts
-                    ]
-                  }
-                </li>
+                <li> {contacts[contact as keyof typeof contacts]}</li>
               );
             })}
           </ul>

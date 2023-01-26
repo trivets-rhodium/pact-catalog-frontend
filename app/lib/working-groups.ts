@@ -8,7 +8,6 @@ import {
 } from './catalog-types';
 import fs from 'fs';
 import { WorkingGroupParser, WorkingGroupSchema } from './catalog-types.schema';
-import { globby } from 'globby';
 import { getUser } from './users';
 import { getExtension } from './data-model-extensions';
 import { getSolution } from './solutions';
@@ -95,21 +94,28 @@ function getWorkInProgressExtensions(
   const extensions = workingGroup.work_in_progress.extensions.map(async (e) => {
     const namespace = e.id.split('/')[0];
     const packageName = e.id.split('/')[1];
-    const version = e.version;
+    const parsedVersion = e.version;
 
     const extensionId = {
       namespace,
       packageName,
-      version,
+      version: parsedVersion,
     };
 
     const extension = await getExtension(extensionId);
 
+    const {
+      name,
+      version,
+      description,
+      catalog_info: { summary },
+    } = extension;
+
     return {
-      id: extension.name,
-      version: extension.version,
-      description: extension.description,
-      summary: extension.catalog_info.summary,
+      id: name,
+      version,
+      description,
+      summary,
     };
   });
 
@@ -122,10 +128,12 @@ function getWorkInProgressSolutions(
   const solutions = workingGroup.work_in_progress.solutions.map(async (s) => {
     const solution = await getSolution(s.id);
 
+    const { id, name, summary } = solution;
+
     return {
-      id: solution.id,
-      name: solution.name,
-      summary: solution.summary,
+      id,
+      name,
+      summary,
     };
   });
 
