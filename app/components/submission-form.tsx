@@ -81,7 +81,6 @@ export default function SubmissionForm() {
       ...formInput,
       schemaJson: value,
     });
-    console.log('schemaJson: value', value);
   }
 
   function handleCodeMirrorChangeReadme(value: string) {

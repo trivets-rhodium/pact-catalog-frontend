@@ -105,8 +105,6 @@ export default async function handler(
 
     const sha = ref.data[0].object.sha;
 
-    console.log('ref.data[0].object.sha', ref.data[0].object.sha);
-
     await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',

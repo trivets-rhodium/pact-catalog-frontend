@@ -2,7 +2,7 @@ import { getAllExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
 import { CatalogDataModelExtension } from '../lib/catalog-types';
 import Layout from '../components/layout';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cards, extensionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
@@ -80,12 +80,17 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
 export default function Extensions(props: PageProps) {
   const router = useRouter();
 
-  const [search, setSearch] = React.useState({
+  const {
+    query: { search, industry, publisher, status },
+  } = router;
+
+
+  const [searchState, setSearchState] = useState({
     matchingExtensions: new Array(),
-    searchValue: '',
-    industry: '',
-    publisher: '',
-    status: '',
+    searchValue: (search as string) || '',
+    industry: (industry as string) || '',
+    publisher: (publisher as string) || '',
+    status: (status as string) || '',
     options: {
       filter: undefined,
     },
@@ -120,8 +125,8 @@ export default function Extensions(props: PageProps) {
   miniSearchExtensions.addAll(extensionSearchIndex);
 
   function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       searchValue: event.target.value,
     });
 
@@ -134,8 +139,8 @@ export default function Extensions(props: PageProps) {
   }
 
   function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       industry: event.target.value,
     });
 
@@ -143,12 +148,13 @@ export default function Extensions(props: PageProps) {
       delete router.query.industry;
     } else {
       router.query.industry = event.target.value;
-    }    router.push(router);
+    }
+    router.push(router);
   }
 
   function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       publisher: event.target.value,
     });
 
@@ -156,12 +162,13 @@ export default function Extensions(props: PageProps) {
       delete router.query.publisher;
     } else {
       router.query.publisher = event.target.value;
-    }    router.push(router);
+    }
+    router.push(router);
   }
 
   function handleStatusChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       status: event.target.value,
     });
 
@@ -169,11 +176,12 @@ export default function Extensions(props: PageProps) {
       delete router.query.status;
     } else {
       router.query.status = event.target.value;
-    }    router.push(router);
+    }
+    router.push(router);
   }
 
   useEffect(() => {
-    const { industry, publisher, status, searchValue } = search;
+    const { industry, publisher, status, searchValue } = searchState;
 
     const matchingExtensions = miniSearchExtensions.search(searchValue, {
       filter: (result: SearchResult) => {
@@ -190,11 +198,16 @@ export default function Extensions(props: PageProps) {
       },
     });
 
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       matchingExtensions,
     });
-  }, [search.searchValue, search.industry, search.publisher, search.status]);
+  }, [
+    searchState.searchValue,
+    searchState.industry,
+    searchState.publisher,
+    searchState.status,
+  ]);
 
   function resetSearch() {
     return (
@@ -208,7 +221,7 @@ export default function Extensions(props: PageProps) {
 
   function displayExtensions() {
     const { searchValue, industry, publisher, status, matchingExtensions } =
-      search;
+      searchState;
 
     const filterByIndustry = allExtensions.filter((extension) => {
       return extension.industries.includes(industry);
@@ -321,19 +334,23 @@ export default function Extensions(props: PageProps) {
     <Layout title="Data Model Extensions">
       <section>
         <SearchBar
+          searchValue={searchState.searchValue}
           onSearchValueChange={handleSearchValueChange}
           firstFilterName="industries"
           firstFilterContent={getAllIndustries(allExtensions)}
+          firstFilterValue={searchState.industry}
           onFirstFilterChange={handleIndustryChange}
           secondFilterName="publishers"
           secondFilterContent={
-            search.industry === ''
+            searchState.industry === ''
               ? getAllPublishers(allExtensions)
-              : getPublishersByIndustry(search.industry, allExtensions)
+              : getPublishersByIndustry(searchState.industry, allExtensions)
           }
+          secondFilterValue={searchState.publisher}
           onSecondFilterChange={handlePublisherChange}
           thirdFilterName="statuses"
           thirdFilterContent={getAllStatuses(allExtensions)}
+          thirdFilterValue={searchState.status}
           onThirdFilterChange={handleStatusChange}
           title={'Search Data Model Extensions'}
           placeholder={

@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { string } from 'zod';
 import style from '../styles/Tabs.module.css';
 
 // as an idea, we could have a type for the tab render function
@@ -22,18 +23,16 @@ function TabHead<T>(props: TabsProps<T>) {
   const router = useRouter();
 
   const {
-    query: { activeTab },
+    query: { activeTab, search, industry, publisher, status },
     asPath,
   } = router;
 
   const defaultTab = () => {
-    if (!router.query.activeTab) {
+    if (!activeTab) {
       router.query.activeTab = 'readme';
       return true;
     }
   };
-
-  console.log(asPath);
 
   return (
     <div className="flex">
@@ -43,11 +42,11 @@ function TabHead<T>(props: TabsProps<T>) {
             // TO DO: improve path
             pathname: asPath.split('?')[0],
             query: {
+              search,
+              industry,
+              publisher,
+              status,
               activeTab: tabId,
-              search: router.query.search,
-              industry: router.query.industry,
-              publisher: router.query.publisher,
-              status: router.query.status,
             },
           }}
           key={tabId}
@@ -85,6 +84,9 @@ function TabContent<T>(props: TabsProps<T>) {
 }
 
 export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
+  const {
+    query: { search, industry, publisher, status },
+  } = useRouter();
   return (
     <>
       <header>
@@ -93,9 +95,24 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
       <TabHead {...props} />
       <div className="h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
         <TabContent {...props} />
-        <div className="text-right mt-16">
+
+        <div className="flex justify-end">
           <Link href="/" className="secondary-button">
             Back to home
+          </Link>
+          <Link
+            href={{
+              pathname: '/extensions',
+              query: {
+                search,
+                industry,
+                publisher,
+                status,
+              },
+            }}
+            className="secondary-button ml-4"
+          >
+            Back to search
           </Link>
         </div>
       </div>
