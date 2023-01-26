@@ -106,8 +106,14 @@ export type WorkInProgress = {
     version: VersionId;
     description: string;
     summary: string | null;
+    author: string;
   }[];
-  solutions: { id: SolutionId; name: string; summary: string | null }[];
+  solutions: {
+    id: SolutionId;
+    name: string;
+    summary: string | null;
+    providerName: string;
+  }[];
 };
 
 export type WorkingGroup = {

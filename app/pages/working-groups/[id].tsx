@@ -84,14 +84,19 @@ export default function WorkingGroupDetails(props: PageProps) {
                   </Link>{' '}
                   <span className={style.pill}>Extension</span>
                   {extension.summary ? (
-                    <p className="my-4 pl-4 text-sm pr-24">
-                      {extension.summary}
-                    </p>
+                    <div>
+                      <p className="my-4 pl-4 text-sm pr-24">
+                        {extension.summary}
+                      </p>
+                    </div>
                   ) : (
                     <p className="my-4 pl-4 text-sm pr-24">
                       {extension.description}
                     </p>
                   )}
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Publisher:</span> {extension.author}
+                  </p>
                 </li>
               );
             })}
@@ -109,6 +114,9 @@ export default function WorkingGroupDetails(props: PageProps) {
                       {solution.summary}
                     </p>
                   )}
+                  <p className="my-4 pl-4 text-sm pr-24">
+                    <span className="b bol">Provider:</span> {solution.providerName}
+                  </p>
                 </li>
               );
             })}

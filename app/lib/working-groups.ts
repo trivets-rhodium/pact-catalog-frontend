@@ -86,10 +86,14 @@ async function getWorkInProgress(
   };
 }
 
-function getWorkInProgressExtensions(
-  workingGroup: WorkingGroupSchema
-): Promise<
-  { id: string; version: string; description: string; summary: string | null }[]
+function getWorkInProgressExtensions(workingGroup: WorkingGroupSchema): Promise<
+  {
+    id: string;
+    version: string;
+    description: string;
+    summary: string | null;
+    author: string;
+  }[]
 > {
   const extensions = workingGroup.work_in_progress.extensions.map(async (e) => {
     const namespace = e.id.split('/')[0];
@@ -109,6 +113,7 @@ function getWorkInProgressExtensions(
       version,
       description,
       catalog_info: { summary },
+      author,
     } = extension;
 
     return {
@@ -116,6 +121,7 @@ function getWorkInProgressExtensions(
       version,
       description,
       summary,
+      author: author.name,
     };
   });
 
@@ -124,16 +130,19 @@ function getWorkInProgressExtensions(
 
 function getWorkInProgressSolutions(
   workingGroup: WorkingGroupSchema
-): Promise<{ id: string; name: string; summary: string | null }[]> {
+): Promise<
+  { id: string; name: string; summary: string | null; providerName: string }[]
+> {
   const solutions = workingGroup.work_in_progress.solutions.map(async (s) => {
     const solution = await getSolution(s.id);
 
-    const { id, name, summary } = solution;
+    const { id, name, summary, providerName } = solution;
 
     return {
       id,
       name,
       summary,
+      providerName,
     };
   });
 
