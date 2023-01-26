@@ -68,9 +68,7 @@ export type CatalogUserJsonSchema = {
 export type WorkingGroupSchema = {
   id: GroupId;
   name: string;
-  contacts: {
-    email: string;
-  };
+  email?: string;
   description: string;
   work_in_progress: {
     extensions: {
@@ -171,9 +169,7 @@ export const WorkingGroupParser: z.ZodType<WorkingGroupSchema> = z.lazy(() =>
   z.object({
     id: z.string().min(1),
     name: z.string().min(1),
-    contacts: z.object({
-      email: z.string().min(1),
-    }),
+    email: z.string().optional(),
     description: z.string().min(1),
     work_in_progress: z.object({
       extensions: z.array(

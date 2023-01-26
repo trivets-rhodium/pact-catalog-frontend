@@ -43,8 +43,10 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
 
 export default function WorkingGroupDetails(props: PageProps) {
   const {
-    workingGroup: { name, members, description, workInProgress, contacts },
+    workingGroup: { name, members, description, workInProgress, email },
   } = props;
+
+  console.log('email', email);
   return (
     <Layout>
       <h1 className="mx-1">{name}</h1>
@@ -115,7 +117,8 @@ export default function WorkingGroupDetails(props: PageProps) {
                     </p>
                   )}
                   <p className="my-4 pl-4 text-sm pr-24">
-                    <span className="b bol">Provider:</span> {solution.providerName}
+                    <span className="b bol">Provider:</span>{' '}
+                    {solution.providerName}
                   </p>
                 </li>
               );
@@ -123,15 +126,26 @@ export default function WorkingGroupDetails(props: PageProps) {
           </ul>
           <h3 className="mt-8 mb-2">Contacts</h3>
           <ul>
-            {Object.keys(contacts).map((contact) => {
-              return contact === 'email' ? (
-                <li key={contacts[contact]}>
-                  <a href={`mailto: ${contacts[contact]}`}>
-                    {contacts[contact]}
+            {email && (
+              <li className=" pr-4 grid grid-cols-2 my-4" key={email}>
+                <p>Group email:</p>
+                <a href={`mailto: ${email}`}>{email}</a>
+              </li>
+            )}
+            {members.map((member) => {
+              return (
+                <li
+                  className="font-light pr-4 grid grid-cols-2 my-4"
+                  key={member.user_id}
+                >
+                  <p className='pr-10'>{member.user.name}: </p>
+                  <a
+                    href={`mailto: ${member.user.email}`}
+                    className="flex items-end"
+                  >
+                    {member.user.email}
                   </a>
                 </li>
-              ) : (
-                <li> {contacts[contact as keyof typeof contacts]}</li>
               );
             })}
           </ul>

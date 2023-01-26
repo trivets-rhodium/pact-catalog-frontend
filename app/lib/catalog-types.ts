@@ -119,9 +119,7 @@ export type WorkInProgress = {
 export type WorkingGroup = {
   id: GroupId;
   name: string;
-  contacts: {
-    email: string;
-  };
+  email: string | null;
   description: string;
   workInProgress: WorkInProgress;
   members: {

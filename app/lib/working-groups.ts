@@ -54,8 +54,10 @@ async function getWorkingGroupFromBasePath(
   const workingGroup = JSON.parse(groupContent);
   const groupJson = WorkingGroupParser.parse(workingGroup);
 
+  console.log('workingGroup', workingGroup);
   return {
     ...groupJson,
+    email: groupJson.email || null,
     members: await getMembers(groupJson),
     workInProgress: await getWorkInProgress(groupJson),
   };
