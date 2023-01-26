@@ -29,10 +29,14 @@ export default function Navbar() {
               Contact
             </Link>
           </li>
-
           <li className="px-2">
-            <Link href={'/new-extension'} className="text-white">
-              New Extension
+            <Link href={'/working-groups'} className="text-white">
+              Working Groups
+            </Link>
+          </li>
+          <li className="px-2">
+            <Link href={'/submit-extension'} className="text-white">
+              Submit Extension
             </Link>
           </li>
           {session ? (
