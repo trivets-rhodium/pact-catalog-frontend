@@ -84,7 +84,7 @@ function getAllResults(allResults: ConformanceTestResult[]): string[] {
 }
 
 export default function Solutions(props: PageProps) {
-  const [search, setSearch] = React.useState({
+  const [searchState, setSearchState] = React.useState({
     matchingSolutions: new Array(),
     searchValue: '',
     industry: '',
@@ -120,35 +120,67 @@ export default function Solutions(props: PageProps) {
   miniSearchSolutions.addAll(allSolutions);
 
   function handleSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       searchValue: event.target.value,
     });
+
+    if (event.target.value === '') {
+      delete router.query.search;
+    } else {
+      router.query.search = event.target.value;
+    }
+
+    router.push(router);
   }
 
   function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       industry: event.target.value,
     });
+
+    if (event.target.value === '') {
+      delete router.query.industry;
+    } else {
+      router.query.industry = event.target.value;
+    }
+
+    router.push(router);
   }
 
   function handleProviderChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       provider: event.target.value,
     });
+
+    if (event.target.value === '') {
+      delete router.query.provider;
+    } else {
+      router.query.provider = event.target.value;
+    }
+
+    router.push(router);
   }
 
   function handleResultsChange(event: React.ChangeEvent<HTMLSelectElement>) {
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       result: event.target.value,
     });
+
+    if (event.target.value === '') {
+      delete router.query.results;
+    } else {
+      router.query.results = event.target.value;
+    }
+
+    router.push(router);
   }
 
   useEffect(() => {
-    const { industry, provider, result, searchValue } = search;
+    const { industry, provider, result, searchValue } = searchState;
 
     const matchingSolutions = miniSearchSolutions.search(searchValue, {
       filter: (searchResult: SearchResult) => {
@@ -170,11 +202,16 @@ export default function Solutions(props: PageProps) {
       },
     });
 
-    setSearch({
-      ...search,
+    setSearchState({
+      ...searchState,
       matchingSolutions,
     });
-  }, [search.searchValue, search.industry, search.provider, search.result]);
+  }, [
+    searchState.searchValue,
+    searchState.industry,
+    searchState.provider,
+    searchState.result,
+  ]);
 
   const router = useRouter();
 
@@ -190,7 +227,7 @@ export default function Solutions(props: PageProps) {
 
   function displaySolutions() {
     const { searchValue, industry, provider, result, matchingSolutions } =
-      search;
+      searchState;
 
     const filterByIndustry = allSolutions.filter((solution) => {
       return solution.industries.includes(industry);
@@ -320,9 +357,9 @@ export default function Solutions(props: PageProps) {
           onFirstFilterChange={handleIndustryChange}
           secondFilterName="providers"
           secondFilterContent={
-            search.industry === ''
+            searchState.industry === ''
               ? getAllProviders(allSolutions)
-              : getProviderByIndustry(search.industry, allSolutions)
+              : getProviderByIndustry(searchState.industry, allSolutions)
           }
           onSecondFilterChange={handleProviderChange}
           thirdFilterName="results"

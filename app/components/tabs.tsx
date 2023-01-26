@@ -34,6 +34,8 @@ function TabHead<T>(props: TabsProps<T>) {
     }
   };
 
+  console.log(asPath);
+
   return (
     <div className="flex">
       {tabs.map(({ tabId, title }) => (
