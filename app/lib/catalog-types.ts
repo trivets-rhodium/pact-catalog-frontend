@@ -105,6 +105,7 @@ export type WorkInProgress = {
     id: DMEId;
     version: VersionId;
     description: string;
+    summary: string | null;
   }[];
   solutions: { id: SolutionId; name: string; summary: string | null }[];
 };

@@ -89,7 +89,9 @@ async function getWorkInProgress(
 
 function getWorkInProgressExtensions(
   workingGroup: WorkingGroupSchema
-): Promise<{ id: string; version: string; description: string }[]> {
+): Promise<
+  { id: string; version: string; description: string; summary: string | null }[]
+> {
   const extensions = workingGroup.work_in_progress.extensions.map(async (e) => {
     const namespace = e.id.split('/')[0];
     const packageName = e.id.split('/')[1];
@@ -107,6 +109,7 @@ function getWorkInProgressExtensions(
       id: extension.name,
       version: extension.version,
       description: extension.description,
+      summary: extension.catalog_info.summary,
     };
   });
 
