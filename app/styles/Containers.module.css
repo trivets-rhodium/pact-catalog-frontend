@@ -1,5 +1,9 @@
-.members-background {
+.members {
   background-color: #08A17F;
+}
+
+.members > * {
+  position: sticky;
 }
 
 .pill {
