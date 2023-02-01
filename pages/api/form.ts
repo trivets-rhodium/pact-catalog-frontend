@@ -61,22 +61,24 @@ export default async function handler(
     // console.log('1: Hello, %s!', login1);
 
     //WORKING:
-    // const app = new OAuthApp({
-    //   clientType: 'oauth-app',
-    //   clientId: process.env.CLIENT_ID as string,
-    //   clientSecret: process.env.CLIENT_SECRET as string,
-    //   defaultScopes: ['repo'],
-    // });
+    const app = new OAuthApp({
+      clientType: 'oauth-app',
+      clientId: process.env.CLIENT_ID as string,
+      clientSecret: process.env.CLIENT_SECRET as string,
+      defaultScopes: ['repo'],
+    });
 
     // const octokit = await app.getUserOctokit({ code });
+
+    const octokit = app.octokit;
 
     // const token = await app.createToken({
     //   code,
     // });
 
-    const octokit = new Octokit({
-      auth: token?.accessToken,
-    });
+    // const octokit = new Octokit({
+    //   auth: token?.accessToken,
+    // });
 
     // const {
     //   data: { login, name, email },
