@@ -66,7 +66,6 @@ export default async function handler(
       clientId: process.env.CLIENT_ID as string,
       clientSecret: process.env.CLIENT_SECRET as string,
       defaultScopes: ['repo'],
-      Octokit: Octokit.defaults({}),
     });
 
     // const octokit = await app.getUserOctokit({ code });
