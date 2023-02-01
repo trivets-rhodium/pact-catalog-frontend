@@ -10,7 +10,7 @@ import {
 } from './catalog-types';
 import { UserParser } from './catalog-types.schema';
 
-const usersDirectory = path.posix.join(process.cwd(), '../catalog/users');
+const usersDirectory = '/catalog/users';
 
 export async function getUser(id: UserId): Promise<CatalogUser> {
   const basePath = path.join(usersDirectory, `${id}.json`);

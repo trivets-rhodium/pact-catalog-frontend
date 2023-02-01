@@ -12,10 +12,7 @@ import { getUser } from './users';
 import { getExtension } from './data-model-extensions';
 import { getSolution } from './solutions';
 
-const workingGroupsDirectory = path.posix.join(
-  process.cwd(),
-  '../catalog/working-groups'
-);
+const workingGroupsDirectory = '/catalog/working-groups';
 
 export async function getAllWorkingGroups(): Promise<WorkingGroup[]> {
   const paths = fs.readdirSync(workingGroupsDirectory);
