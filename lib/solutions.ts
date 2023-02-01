@@ -11,7 +11,10 @@ import { getSolutionUsers, getUser } from './users';
 import { getSolutionTestResults } from './conformance-tests';
 import Extensions from '../pages/extensions';
 
-const solutionsDirectory = '/catalog/solutions';
+const solutionsDirectory = path.posix.join(
+  process.cwd(),
+  '../catalog/solutions'
+);
 
 export async function getAllSolutionsIds() {
   const solutions = await getAllSolutions();

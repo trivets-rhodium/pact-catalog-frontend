@@ -11,7 +11,10 @@ import { PackageJsonParser } from './catalog-types.schema';
 import { getConformingSolutions } from './solutions';
 import { getEndorsers, getUser } from './users';
 
-const extensionsDirectory = '/catalog/data-model-extensions';
+const extensionsDirectory = path.posix.join(
+  process.cwd(),
+  '../catalog/data-model-extensions'
+);
 
 export async function getAllDataModelExtensionIds() {
   const extensions = await getAllExtensions();
