@@ -36,7 +36,7 @@ export default async function handler(
     name: packageName,
     version,
     description,
-    files: 'schema.json',
+    files: ['schema.json'],
     author: {
       name: publisherName,
       email: publisherEmail,
