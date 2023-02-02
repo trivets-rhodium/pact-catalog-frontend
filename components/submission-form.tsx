@@ -9,6 +9,7 @@ import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
+  const [buttonText, setButtonText] = React.useState('Submit');
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -96,6 +97,8 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    setButtonText('Loading...');
+
     const JSONdata = JSON.stringify(formInput);
 
     const endpoint = 'api/form';
@@ -113,9 +116,8 @@ export default function SubmissionForm() {
         alert(`Thank you, your extension was successfully submitted`);
         useRouter().push('/');
       } else {
-        alert(
-          'Please try again'
-        );
+        alert('Please try again');
+        setButtonText('Submit');
       }
     });
   }
@@ -286,7 +288,10 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <input type="submit" value="Submit" className="primary-button" />
+      <input type="submit" value={buttonText} className="primary-button" />
     </form>
   );
+}
+function useState(arg0: string): [any, any] {
+  throw new Error('Function not implemented.');
 }
