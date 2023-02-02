@@ -61,14 +61,16 @@ export default async function handler(
     res.status(401);
   } else {
     const app = new App({
-      appId: process.env.GITHUB_APP_ID as string,
+      appId: parseInt(process.env.GITHUB_APP_ID as string),
       privateKey: process.env.GITHUB_APP_PRIVATE_KEY as string,
       webhooks: {
         secret: process.env.WEBHOOK_SECRET as string,
       },
     });
 
-    const octokit = app.octokit;
+    const octokit = await app.getInstallationOctokit(
+      parseInt(process.env.GITHUB_APP_INSTALLATION_ID as string)
+    );
 
     // WORKING BUT SUBOPTIMAL:
     // const octokit = new Octokit({
