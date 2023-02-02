@@ -38,9 +38,9 @@ export default async function handler(
     res.status(401);
   } else {
     // WORKING BUT SUBOPTIMAL:
-    // const octokit = new Octokit({
-    //   auth: process.env.ACCESS_TOKEN,
-    // });
+    const octokit = new Octokit({
+      auth: process.env.ACCESS_TOKEN,
+    });
 
     // NOT WORKING:
     // const octokit = new Octokit({
@@ -70,13 +70,15 @@ export default async function handler(
 
     // const octokit = await app.getUserOctokit({ code });
 
+    // const octokit = app.octokit;
+
     // const token = await app.createToken({
     //   code,
     // });
 
-    const octokit = new Octokit({
-      auth: token?.accessToken,
-    });
+    // const octokit = new Octokit({
+    //   auth: token?.accessToken,
+    // });
 
     // const {
     //   data: { login, name, email },
