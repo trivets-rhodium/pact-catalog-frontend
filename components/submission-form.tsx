@@ -9,7 +9,10 @@ import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
-  const [buttonText, setButtonText] = React.useState('Submit');
+  const [button, setButton] = React.useState({
+    text: 'Submit',
+    disabled: false,
+  });
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -97,7 +100,7 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    setButtonText('Loading...');
+    setButton({ text: 'Loading...', disabled: true });
 
     const JSONdata = JSON.stringify(formInput);
 
@@ -114,10 +117,11 @@ export default function SubmissionForm() {
     await fetch(endpoint, options).then((response) => {
       if (response.status === 200) {
         alert(`Thank you, your extension was successfully submitted`);
-        useRouter().push('/');
+        useRouter().replace('/');
+        setButton({ text: 'Submit', disabled: false });
       } else {
         alert('Please try again');
-        setButtonText('Submit');
+        setButton({ text: 'Submit', disabled: false });
       }
     });
   }
@@ -288,7 +292,12 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <input type="submit" value={buttonText} className="primary-button" />
+      <input
+        type="submit"
+        disabled={button.disabled}
+        value={button.text}
+        className="primary-button"
+      />
     </form>
   );
 }
