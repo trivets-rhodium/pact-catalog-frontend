@@ -4,9 +4,13 @@ import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
+import { PackageJsonParser } from '../lib/catalog-types.schema';
+import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
+  const router = useRouter();
   const { data: session } = useSession();
+  const [submitting, setSubmitting] = React.useState(false);
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -94,6 +98,15 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
+    setSubmitting(true);
+
+    if (formInput.schemaJson.trim() === '') {
+      alert('Please provide a schema.json');
+      setSubmitting(false);
+
+      return;
+    }
+
     const JSONdata = JSON.stringify(formInput);
 
     const endpoint = 'api/form';
@@ -106,17 +119,15 @@ export default function SubmissionForm() {
       body: JSONdata,
     };
 
-    // TO DO: improve submission feedback and display success message only
-    if (session) {
-      alert(`Thank you, your extension was submitted`);
-    } else {
-      alert('Please log in and try again');
-    }
-
-    await fetch(endpoint, options);
-
-    // TO DO: uncomment redirect
-    // router.push('/');
+    await fetch(endpoint, options).then((response) => {
+      if (response.status === 200) {
+        alert(`Thank you, your extension was successfully submitted`);
+        router.push('/');
+      } else {
+        alert('Please try again');
+      }
+      setSubmitting(false);
+    });
   }
 
   return (
@@ -285,7 +296,14 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <input type="submit" value="Submit" className="primary-button" />
+      <input
+        type="submit"
+        value={submitting ? 'Loading...' : 'Submit'}
+        className={submitting ? 'primary-button-loading' : 'primary-button'}
+      />
     </form>
   );
+}
+function useState(arg0: string): [any, any] {
+  throw new Error('Function not implemented.');
 }

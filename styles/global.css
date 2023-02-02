@@ -60,6 +60,16 @@ h3 {
   color: #0a0552;
   cursor: pointer;
 }
+.primary-button-loading {
+  border: 2px solid #08a17f;
+  padding: 10px 10px 8px;
+  background-color: transparent;
+  color: #0a0552;
+  border-radius: 5px;
+  text-align: center;
+  cursor: wait;
+}
+
 
 .background {
   background-color: #f3f3f3;

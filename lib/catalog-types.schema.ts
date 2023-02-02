@@ -133,7 +133,7 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
       .optional(),
     license: z.string().min(1),
     catalog_info: z.object({
-      summary: z.string().min(1).optional(),
+      summary: z.string().optional(),
       status: z.enum(['published', 'draft', 'deprecated']),
       authors: z.array(z.string().min(1)),
     }),
