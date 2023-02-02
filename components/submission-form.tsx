@@ -9,10 +9,7 @@ import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
-  const [button, setButton] = React.useState({
-    text: 'Submit',
-    disabled: false,
-  });
+  const [submitting, setSubmitting] = React.useState(false);
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -100,13 +97,13 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    setButton({ text: 'Loading...', disabled: true });
+    setSubmitting(true);
 
     if (formInput.schemaJson.trim() === '') {
       alert('Please provide a schema.json');
-      setButton({ text: 'Submit', disabled: false });
+      setSubmitting(false);
 
-      return
+      return;
     }
 
     const JSONdata = JSON.stringify(formInput);
@@ -125,11 +122,10 @@ export default function SubmissionForm() {
       if (response.status === 200) {
         alert(`Thank you, your extension was successfully submitted`);
         useRouter().replace('/');
-        setButton({ text: 'Submit', disabled: false });
       } else {
         alert('Please try again');
-        setButton({ text: 'Submit', disabled: false });
       }
+      setSubmitting(false);
     });
   }
 
@@ -299,11 +295,10 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <button
+      <input
         type="submit"
-        disabled={button.disabled}
-        value={button.text}
-        className="primary-button"
+        value={submitting ? 'Loading...' : 'Submit'}
+        className={submitting ? 'primary-button-loading' : 'primary-button'}
       />
     </form>
   );
