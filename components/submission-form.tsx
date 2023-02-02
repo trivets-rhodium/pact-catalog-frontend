@@ -114,7 +114,7 @@ export default function SubmissionForm() {
         useRouter().push('/');
       } else {
         alert(
-          `Please try again. response.status: ${response.status}; response.statusText: ${response.statusText}; response.body: ${response.body}`
+          'Please try again'
         );
       }
     });
