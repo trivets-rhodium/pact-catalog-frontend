@@ -31,7 +31,7 @@ export type PackageJsonSchema = {
   }[];
   license: string;
   catalog_info: {
-    summary?: string;
+    summary: string;
     status: 'published' | 'draft' | 'deprecated';
     authors: UserId[];
   };
@@ -133,7 +133,7 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
       .optional(),
     license: z.string().min(1),
     catalog_info: z.object({
-      summary: z.string().min(1).optional(),
+      summary: z.string().min(1),
       status: z.enum(['published', 'draft', 'deprecated']),
       authors: z.array(z.string().min(1)),
     }),

@@ -4,6 +4,7 @@ import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
+import { PackageJsonParser } from '../lib/catalog-types.schema';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
@@ -96,24 +97,26 @@ export default function SubmissionForm() {
 
     const JSONdata = JSON.stringify(formInput);
 
-    const endpoint = 'api/form';
-
-    const options = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSONdata,
-    };
+    const zodValidation = PackageJsonParser.parse(JSONdata);
 
     // TO DO: improve submission feedback and display success message only
-    if (session) {
+    if (session && zodValidation) {
       alert(`Thank you, your extension was submitted`);
-    } else {
-      alert('Please log in and try again');
-    }
 
-    await fetch(endpoint, options);
+      const endpoint = 'api/form';
+
+      const options = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSONdata,
+      };
+
+      await fetch(endpoint, options);
+    } else {
+      alert('Please try again');
+    }
 
     // TO DO: uncomment redirect
     // router.push('/');
