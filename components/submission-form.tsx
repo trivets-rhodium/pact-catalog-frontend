@@ -102,6 +102,12 @@ export default function SubmissionForm() {
 
     setButton({ text: 'Loading...', disabled: true });
 
+    if (formInput.schemaJson.trim() === '') {
+      alert('Please provide a schema.json');
+      setButton({ text: 'Submit', disabled: false });
+      return
+    }
+
     const JSONdata = JSON.stringify(formInput);
 
     const endpoint = 'api/form';

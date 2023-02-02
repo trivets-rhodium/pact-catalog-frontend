@@ -56,9 +56,7 @@ export default async function handler(
   // TO DO: Decide whether this logic is needed. The goal was to have as many layers of
   // authorization as possible, but this is throwing a 500 error:  Error: Cannot find module
   // './lib/validateAsymmetricKey'
-  if (!session) {
-    res.status(401);
-  } else if (!zodValidation) {
+  if (!session || !zodValidation || !schemaJson) {
     res.status(401);
   } else {
     // WORKING BUT SUBOPTIMAL:
