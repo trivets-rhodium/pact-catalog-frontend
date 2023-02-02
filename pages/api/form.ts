@@ -30,7 +30,7 @@ export default async function handler(
     code,
   } = req.body;
 
-  const token = await getToken({ req });
+  // const token = await getToken({ req });
   const session = await unstable_getServerSession(req, res, authOptions);
 
   const zodReadyJson = {
@@ -54,9 +54,6 @@ export default async function handler(
 
   const zodValidation = PackageJsonParser.parse(zodReadyJson);
 
-  // TO DO: Decide whether this logic is needed. The goal was to have as many layers of
-  // authorization as possible, but this is throwing a 500 error:  Error: Cannot find module
-  // './lib/validateAsymmetricKey'
   if (!session || !zodValidation || !schemaJson) {
     res.status(401);
   } else {
@@ -77,24 +74,6 @@ export default async function handler(
     //   auth: process.env.ACCESS_TOKEN,
     // });
 
-    // NOT WORKING:
-    // const octokit = new Octokit({
-    //   authStrategy: createOAuthUserAuth,
-    //   auth: {
-    //     clientId: process.env.CLIENT_ID,
-    //     clientSecret: process.env.CLIENT_SECRET,
-    //     code,
-    //   },
-    // });
-
-    // Kept from documentation for testing purposes:
-    // Exchanges the code for the user access token authentication on first request
-    // and caches the authentication for successive requests
-    // const {
-    //   data: { login: login1 },
-    // } = await octokit.request('GET /user');
-    // console.log('1: Hello, %s!', login1);
-
     //WORKING:
     // const app = new OAuthApp({
     //   clientType: 'oauth-app',
@@ -113,22 +92,6 @@ export default async function handler(
 
     // const octokit = new Octokit({
     //   auth: token?.accessToken,
-    // });
-
-    // const {
-    //   data: { login, name, email },
-    // } = await octokit.request('GET /user');
-    // console.log('Hello, %s!', login);
-
-    // const {
-    //   data: {
-    //     ref,
-    //     object: { sha },
-    //   },
-    // } = await octokit.rest.git.getRef({
-    //   owner: 'sine-fdn',
-    //   repo: 'pact-catalog',
-    //   ref: 'heads/main',
     // });
 
     const ref = await octokit.request(
