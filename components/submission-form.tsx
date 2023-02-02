@@ -8,6 +8,7 @@ import { PackageJsonParser } from '../lib/catalog-types.schema';
 import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
+  const router = useRouter();
   const { data: session } = useSession();
   const [submitting, setSubmitting] = React.useState(false);
 
@@ -121,7 +122,7 @@ export default function SubmissionForm() {
     await fetch(endpoint, options).then((response) => {
       if (response.status === 200) {
         alert(`Thank you, your extension was successfully submitted`);
-        useRouter().replace('/');
+        router.push('/');
       } else {
         alert('Please try again');
       }
