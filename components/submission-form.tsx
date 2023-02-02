@@ -96,24 +96,22 @@ export default function SubmissionForm() {
     event.preventDefault();
 
     const JSONdata = JSON.stringify(formInput);
-    const zodValidation = PackageJsonParser.parse(formInput);
 
-    if (session && zodValidation) {
-      const endpoint = 'api/form';
+    const endpoint = 'api/form';
 
-      const options = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSONdata,
-      };
-
-      await fetch(endpoint, options);
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSONdata,
+    };
+    if (session) {
       alert(`Thank you, your extension was submitted`);
     } else {
       alert('Please try again');
     }
+    await fetch(endpoint, options);
 
     // TO DO: uncomment redirect
     // router.push('/');

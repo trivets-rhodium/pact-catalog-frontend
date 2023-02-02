@@ -8,6 +8,7 @@ import { Octokit } from 'octokit';
 import { getToken } from 'next-auth/jwt';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
+import { PackageJsonParser } from '../../lib/catalog-types.schema';
 
 export default async function handler(
   req: NextApiRequest,
@@ -31,10 +32,14 @@ export default async function handler(
   const token = await getToken({ req });
   const session = await unstable_getServerSession(req, res, authOptions);
 
+  const zodValidation = PackageJsonParser.parse(req.body)
+
   // TO DO: Decide whether this logic is needed. The goal was to have as many layers of
   // authorization as possible, but this is throwing a 500 error:  Error: Cannot find module
   // './lib/validateAsymmetricKey'
   if (!session) {
+    res.status(401);
+  } else if (!zodValidation) {
     res.status(401);
   } else {
     // WORKING BUT SUBOPTIMAL:
