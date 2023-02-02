@@ -105,6 +105,7 @@ export default function SubmissionForm() {
     if (formInput.schemaJson.trim() === '') {
       alert('Please provide a schema.json');
       setButton({ text: 'Submit', disabled: false });
+
       return
     }
 
@@ -298,7 +299,7 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <input
+      <button
         type="submit"
         disabled={button.disabled}
         value={button.text}
