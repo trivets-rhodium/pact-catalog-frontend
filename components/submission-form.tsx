@@ -5,9 +5,11 @@ import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
 import { PackageJsonParser } from '../lib/catalog-types.schema';
+import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
+  const { submit, setSubmit } = useState(false);
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -94,6 +96,7 @@ export default function SubmissionForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setSubmit(true);
 
     const JSONdata = JSON.stringify(formInput);
 
@@ -106,15 +109,12 @@ export default function SubmissionForm() {
       },
       body: JSONdata,
     };
-    if (session) {
-      alert(`Thank you, your extension was submitted`);
-    } else {
-      alert('Please try again');
-    }
+    // if (session) {
+    //   alert(`Thank you, your extension was submitted`);
+    // } else {
+    //   alert('Please try again');
+    // }
     await fetch(endpoint, options);
-
-    // TO DO: uncomment redirect
-    // router.push('/');
   }
 
   return (
@@ -283,7 +283,14 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <input type="submit" value="Submit" className="primary-button" />
+      <input
+        type="submit"
+        value={`${submit ? 'Submit' : 'Loading'}`}
+        className="primary-button"
+      />
     </form>
   );
+}
+function useState(arg0: boolean): { submit: any; setSubmit: any } {
+  throw new Error('Function not implemented.');
 }
