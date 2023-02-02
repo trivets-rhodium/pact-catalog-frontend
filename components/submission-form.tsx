@@ -96,13 +96,9 @@ export default function SubmissionForm() {
     event.preventDefault();
 
     const JSONdata = JSON.stringify(formInput);
+    const zodValidation = PackageJsonParser.parse(formInput);
 
-    const zodValidation = PackageJsonParser.parse(JSONdata);
-
-    // TO DO: improve submission feedback and display success message only
     if (session && zodValidation) {
-      alert(`Thank you, your extension was submitted`);
-
       const endpoint = 'api/form';
 
       const options = {
@@ -114,6 +110,7 @@ export default function SubmissionForm() {
       };
 
       await fetch(endpoint, options);
+      alert(`Thank you, your extension was submitted`);
     } else {
       alert('Please try again');
     }
