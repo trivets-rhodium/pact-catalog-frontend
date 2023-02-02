@@ -32,7 +32,26 @@ export default async function handler(
   const token = await getToken({ req });
   const session = await unstable_getServerSession(req, res, authOptions);
 
-  const zodValidation = PackageJsonParser.parse(req.body)
+  const zodReadyJson = {
+    name: packageName,
+    version,
+    description,
+    files: 'schema.json',
+    author: {
+      name: publisherName,
+      email: publisherEmail,
+      url: publisherUrl,
+    },
+    license: 'MIT',
+    catalog_info: {
+      summary,
+      status: 'draft',
+      authors: [publisherName],
+    },
+    industries,
+  };
+
+  const zodValidation = PackageJsonParser.parse(zodReadyJson);
 
   // TO DO: Decide whether this logic is needed. The goal was to have as many layers of
   // authorization as possible, but this is throwing a 500 error:  Error: Cannot find module
