@@ -8,7 +8,6 @@ import { PackageJsonParser } from '../lib/catalog-types.schema';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
-  const {submit, setSubmit} = useState(false)
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
@@ -95,9 +94,8 @@ export default function SubmissionForm() {
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    setSubmit(true);
 
-    const JSONdata = JSON.stringify(formInput);
+    const JSONdata = JSON.stringify(formInput)
 
     const endpoint = 'api/form';
 
@@ -113,7 +111,6 @@ export default function SubmissionForm() {
     } else {
       alert('Please try again');
     }
-    setSubmit(false);
     await fetch(endpoint, options);
 
     // TO DO: uncomment redirect
@@ -286,14 +283,7 @@ export default function SubmissionForm() {
         />
       </div>
 
-      <input
-        type="submit"
-        value='Submit'
-        className="primary-button"
-      />
+      <input type="submit" value="Submit" className="primary-button" />
     </form>
   );
-}
-function useState(arg0: boolean): { submit: any; setSubmit: any; } {
-  throw new Error('Function not implemented.');
 }
