@@ -5,6 +5,7 @@ import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
 import { PackageJsonParser } from '../lib/catalog-types.schema';
+import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
   const { data: session } = useSession();
@@ -95,7 +96,7 @@ export default function SubmissionForm() {
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const JSONdata = JSON.stringify(formInput)
+    const JSONdata = JSON.stringify(formInput);
 
     const endpoint = 'api/form';
 
@@ -106,15 +107,15 @@ export default function SubmissionForm() {
       },
       body: JSONdata,
     };
-    if (session) {
-      alert(`Thank you, your extension was submitted`);
-    } else {
-      alert('Please try again');
-    }
-    await fetch(endpoint, options);
 
-    // TO DO: uncomment redirect
-    // router.push('/');
+    await fetch(endpoint, options).then((response) => {
+      if (response.status === 200) {
+        alert(`Thank you, your extension was successfully submitted`);
+        useRouter().push('/');
+      } else {
+        alert('Please try again');
+      }
+    });
   }
 
   return (
