@@ -113,7 +113,9 @@ export default function SubmissionForm() {
         alert(`Thank you, your extension was successfully submitted`);
         useRouter().push('/');
       } else {
-        alert('Please try again');
+        alert(
+          `Please try again. response.status: ${response.status}; response.statusText: ${response.statusText}; response.body: ${response.body}`
+        );
       }
     });
   }
