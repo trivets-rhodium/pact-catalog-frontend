@@ -3,7 +3,8 @@ import fs from 'fs';
 import path from 'path';
 import { createOAuthUserAuth } from '@octokit/auth-oauth-user';
 // import { Octokit } from '@octokit/rest';
-import { OAuthApp, createNodeMiddleware } from '@octokit/oauth-app';
+// import { OAuthApp, createNodeMiddleware } from '@octokit/oauth-app';
+import { App, createNodeMiddleware } from '@octokit/app';
 import { Octokit } from 'octokit';
 import { getToken } from 'next-auth/jwt';
 import { unstable_getServerSession } from 'next-auth';
@@ -59,10 +60,20 @@ export default async function handler(
   if (!session || !zodValidation || !schemaJson) {
     res.status(401);
   } else {
-    // WORKING BUT SUBOPTIMAL:
-    const octokit = new Octokit({
-      auth: process.env.ACCESS_TOKEN,
+    const app = new App({
+      appId: process.env.GITHUB_APP_ID as string,
+      privateKey: process.env.GITHUB_APP_PRIVATE_KEY as string,
+      webhooks: {
+        secret: process.env.WEBHOOK_SECRET as string,
+      },
     });
+
+    const octokit = app.octokit;
+
+    // WORKING BUT SUBOPTIMAL:
+    // const octokit = new Octokit({
+    //   auth: process.env.ACCESS_TOKEN,
+    // });
 
     // NOT WORKING:
     // const octokit = new Octokit({
