@@ -23,7 +23,7 @@ function TabHead<T>(props: TabsProps<T>) {
   const router = useRouter();
 
   const {
-    query: { activeTab, search, industry, publisher, status },
+    query: { activeTab, search, industry, publisher, status, provider, result },
     asPath,
   } = router;
 
@@ -34,8 +34,6 @@ function TabHead<T>(props: TabsProps<T>) {
     }
   };
 
-  console.log(asPath);
-
   return (
     <div className="flex">
       {tabs.map(({ tabId, title }) => (
@@ -43,10 +41,13 @@ function TabHead<T>(props: TabsProps<T>) {
           href={{
             // TO DO: improve path
             pathname: asPath.split('?')[0],
+            // TO DO: split queries concerning extensions from those concerning solutions
             query: {
               search,
               industry,
               publisher,
+              provider,
+              result,
               status,
               activeTab: tabId,
             },
@@ -87,8 +88,12 @@ function TabContent<T>(props: TabsProps<T>) {
 
 export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
   const {
-    query: { search, industry, publisher, status },
+    pathname,
+    query: { search, industry, publisher, status, provider, result },
   } = useRouter();
+
+  console.log('pathname', pathname);
+
   return (
     <>
       <header>
@@ -102,20 +107,38 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
           <Link href="/" className="secondary-button">
             Back to home
           </Link>
-          <Link
-            href={{
-              pathname: '/extensions',
-              query: {
-                search,
-                industry,
-                publisher,
-                status,
-              },
-            }}
-            className="secondary-button ml-4"
-          >
-            Back to search
-          </Link>
+          {/* TO DO: avoid casting as string */}
+          {pathname && (pathname as string).startsWith('/extensions') ? (
+            <Link
+              href={{
+                pathname: '/extensions',
+                query: {
+                  search,
+                  industry,
+                  publisher,
+                  status,
+                },
+              }}
+              className="secondary-button ml-4"
+            >
+              Back to search
+            </Link>
+          ) : (
+            <Link
+              href={{
+                pathname: '/solutions',
+                query: {
+                  search,
+                  industry,
+                  provider,
+                  result,
+                },
+              }}
+              className="secondary-button ml-4"
+            >
+              Back to search
+            </Link>
+          )}
         </div>
       </div>
     </>

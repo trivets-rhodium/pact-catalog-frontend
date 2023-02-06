@@ -142,12 +142,13 @@ function renderExtensionCard(
 export function solutionCards(
   solutions: ConformingSolution[] | SearchResult[]
 ): JSX.Element[] {
+  const router = useRouter();
   return solutions.map((solution) => {
     const { id, name, extensions, providerName } = solution;
     return (
       <Card
         key={id}
-        href={`/solutions/${id}`}
+        href={`solutions/${id}/${router.asPath.replace('solutions', '')}`}
         title={name}
         subtitle={providerName}
         cardContent={solution}

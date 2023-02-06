@@ -5,7 +5,7 @@ import {
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Cards, solutionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import { getAllTestResults } from '../lib/conformance-tests';
@@ -84,12 +84,18 @@ function getAllResults(allResults: ConformanceTestResult[]): string[] {
 }
 
 export default function Solutions(props: PageProps) {
-  const [searchState, setSearchState] = React.useState({
+  const router = useRouter();
+
+  const {
+    query: { search, industry, provider, result },
+  } = router;
+
+  const [searchState, setSearchState] = useState({
     matchingSolutions: new Array(),
-    searchValue: '',
-    industry: '',
-    provider: '',
-    result: '',
+    searchValue: (search as string) || '',
+    industry: (industry as string) || '',
+    provider: (provider as string) || '',
+    result: (result as string) || '',
     options: {
       filter: undefined,
     },
@@ -171,9 +177,9 @@ export default function Solutions(props: PageProps) {
     });
 
     if (event.target.value === '') {
-      delete router.query.results;
+      delete router.query.result;
     } else {
-      router.query.results = event.target.value;
+      router.query.result = event.target.value;
     }
 
     router.push(router);
@@ -212,8 +218,6 @@ export default function Solutions(props: PageProps) {
     searchState.provider,
     searchState.result,
   ]);
-
-  const router = useRouter();
 
   function resetSearch() {
     return (
@@ -351,9 +355,11 @@ export default function Solutions(props: PageProps) {
     <Layout title="Conforming Solutions">
       <section>
         <SearchBar
+          searchValue={searchState.searchValue}
           onSearchValueChange={handleSearchValueChange}
           firstFilterName="industries"
           firstFilterContent={getAllIndustries(allSolutions)}
+          firstFilterValue={searchState.industry}
           onFirstFilterChange={handleIndustryChange}
           secondFilterName="providers"
           secondFilterContent={
@@ -361,9 +367,11 @@ export default function Solutions(props: PageProps) {
               ? getAllProviders(allSolutions)
               : getProviderByIndustry(searchState.industry, allSolutions)
           }
+          secondFilterValue={searchState.provider}
           onSecondFilterChange={handleProviderChange}
           thirdFilterName="results"
           thirdFilterContent={getAllResults(allResults)}
+          thirdFilterValue={searchState.result}
           onThirdFilterChange={handleResultsChange}
           title={'Search Conforming Solutions'}
           placeholder={'e.g. Some Solution Provider'}
