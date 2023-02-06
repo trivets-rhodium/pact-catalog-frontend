@@ -1,4 +1,5 @@
 import { GetStaticProps } from 'next';
+import Link from 'next/link';
 import { LongCards } from '../components/cards';
 import Layout from '../components/layout';
 import { WorkingGroup } from '../lib/catalog-types';
