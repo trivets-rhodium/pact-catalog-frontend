@@ -20,13 +20,13 @@ export default function Navbar() {
             </Link>
           </li>
           <li className="px-2">
-            <Link href={'#'} className="text-white">
+            <Link href={'/resources'} className="text-white">
               Resources
             </Link>
           </li>
           <li className="px-2">
-            <Link href={'#'} className="text-white">
-              Contact
+            <Link href={'/contacts'} className="text-white">
+              Contacts
             </Link>
           </li>
           <li className="px-2">
