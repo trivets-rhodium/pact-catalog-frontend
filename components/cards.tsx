@@ -28,7 +28,16 @@ export function Cards<T>(props: CardsProps<T>) {
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">
-        <Link href={href ? href : useRouter().pathname} className="primary-link">{title}</Link>
+        {href ? (
+          <Link
+            href={href ? href : useRouter().pathname}
+            className="primary-link"
+          >
+            {title}
+          </Link>
+        ) : (
+          <>{title}</>
+        )}
       </h2>
 
       <h3 className="px-4">{subtitle}</h3>
@@ -85,13 +94,18 @@ export function LongCards(props: LongCardsProps) {
 export function extensionCards(
   extensions: CatalogDataModelExtension[] | SearchResult[]
 ): JSX.Element[] {
+  const router = useRouter();
+
   return extensions.map((extension) => {
     const { author, name, version, description, catalog_info, endorsers } =
       extension;
     return (
       <Card
         key={`${name}/${version}`}
-        href={`/extensions/${name}/${version}`}
+        href={`extensions/${name}/${version}${router.asPath.replace(
+          'extensions',
+          ''
+        )}`}
         title={description}
         subtitle={version}
         cardContent={extension}
@@ -128,12 +142,13 @@ function renderExtensionCard(
 export function solutionCards(
   solutions: ConformingSolution[] | SearchResult[]
 ): JSX.Element[] {
+  const router = useRouter();
   return solutions.map((solution) => {
     const { id, name, extensions, providerName } = solution;
     return (
       <Card
         key={id}
-        href={`/solutions/${id}`}
+        href={`solutions/${id}${router.asPath.replace('solutions', '')}`}
         title={name}
         subtitle={providerName}
         cardContent={solution}

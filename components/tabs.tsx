@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
+import { string } from 'zod';
 import style from '../styles/Tabs.module.css';
 
 // as an idea, we could have a type for the tab render function
@@ -22,12 +23,12 @@ function TabHead<T>(props: TabsProps<T>) {
   const router = useRouter();
 
   const {
-    query: { activeTab },
+    query: { activeTab, search, industry, publisher, status, provider, result },
     asPath,
   } = router;
 
   const defaultTab = () => {
-    if (!router.query.activeTab) {
+    if (!activeTab) {
       router.query.activeTab = 'readme';
       return true;
     }
@@ -38,8 +39,18 @@ function TabHead<T>(props: TabsProps<T>) {
       {tabs.map(({ tabId, title }) => (
         <Link
           href={{
+            // TO DO: improve path
             pathname: asPath.split('?')[0],
-            query: { activeTab: tabId },
+            // TO DO: split queries concerning extensions from those concerning solutions
+            query: {
+              search,
+              industry,
+              publisher,
+              provider,
+              result,
+              status,
+              activeTab: tabId,
+            },
           }}
           key={tabId}
         >
@@ -76,6 +87,11 @@ function TabContent<T>(props: TabsProps<T>) {
 }
 
 export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
+  const {
+    pathname,
+    query: { search, industry, publisher, status, provider, result },
+  } = useRouter();
+
   return (
     <>
       <header>
@@ -84,10 +100,43 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
       <TabHead {...props} />
       <div className="h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
         <TabContent {...props} />
-        <div className="text-right mt-16">
+
+        <div className="flex justify-end">
           <Link href="/" className="secondary-button">
             Back to home
           </Link>
+          {/* TO DO: avoid casting as string */}
+          {pathname && (pathname as string).startsWith('/extensions') ? (
+            <Link
+              href={{
+                pathname: '/extensions',
+                query: {
+                  search,
+                  industry,
+                  publisher,
+                  status,
+                },
+              }}
+              className="secondary-button ml-4"
+            >
+              Back to search
+            </Link>
+          ) : (
+            <Link
+              href={{
+                pathname: '/solutions',
+                query: {
+                  search,
+                  industry,
+                  provider,
+                  result,
+                },
+              }}
+              className="secondary-button ml-4"
+            >
+              Back to search
+            </Link>
+          )}
         </div>
       </div>
     </>
