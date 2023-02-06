@@ -6,6 +6,7 @@ import { getAllSolutionsIds, getSolution } from '../../lib/solutions';
 import readme from '../../components/solution-tabs/readme-tab';
 import conformance from '../../components/solution-tabs/conformance-tab';
 import usage from '../../components/solution-tabs/usage-tab';
+import { useRouter } from 'next/router';
 
 type Id = {
   id: SolutionId;
