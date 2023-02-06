@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { string } from 'zod';
 import style from '../styles/Tabs.module.css';
 
@@ -28,7 +28,7 @@ function TabHead<T>(props: TabsProps<T>) {
   } = router;
 
   const defaultTab = () => {
-    if (!activeTab) {
+    if (!router.query.activeTab) {
       router.query.activeTab = 'readme';
       return true;
     }
@@ -43,13 +43,13 @@ function TabHead<T>(props: TabsProps<T>) {
             pathname: asPath.split('?')[0],
             // TO DO: split queries concerning extensions from those concerning solutions
             query: {
+              activeTab: tabId,
               search,
               industry,
               publisher,
               provider,
-              result,
               status,
-              activeTab: tabId,
+              result,
             },
           }}
           key={tabId}
@@ -89,14 +89,11 @@ function TabContent<T>(props: TabsProps<T>) {
 export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
   const {
     pathname,
-    query: { search, industry, publisher, status, provider, result },
+    query: { activeTab, search, industry, publisher, status, provider, result },
   } = useRouter();
 
   return (
     <>
-      <header>
-        <h1 className="title">{props.title}</h1>
-      </header>
       <TabHead {...props} />
       <div className="h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
         <TabContent {...props} />
