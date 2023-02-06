@@ -15,7 +15,7 @@ export default function Navbar() {
       <div>
         <ul className="flex">
           <li className="px-2">
-            <Link href={'#'} className="text-white">
+            <Link href={'/faq'} className="text-white">
               FAQ
             </Link>
           </li>
