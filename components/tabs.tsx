@@ -92,8 +92,6 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
     query: { search, industry, publisher, status, provider, result },
   } = useRouter();
 
-  console.log('pathname', pathname);
-
   return (
     <>
       <header>

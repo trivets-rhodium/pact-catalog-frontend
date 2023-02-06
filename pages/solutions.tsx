@@ -137,8 +137,10 @@ export default function Solutions(props: PageProps) {
       router.query.search = event.target.value;
     }
 
-    router.push(router);
-  }
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });  }
 
   function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchState({
@@ -152,8 +154,10 @@ export default function Solutions(props: PageProps) {
       router.query.industry = event.target.value;
     }
 
-    router.push(router);
-  }
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });  }
 
   function handleProviderChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchState({
@@ -167,8 +171,10 @@ export default function Solutions(props: PageProps) {
       router.query.provider = event.target.value;
     }
 
-    router.push(router);
-  }
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });  }
 
   function handleResultsChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchState({
@@ -182,8 +188,10 @@ export default function Solutions(props: PageProps) {
       router.query.result = event.target.value;
     }
 
-    router.push(router);
-  }
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });  }
 
   useEffect(() => {
     const { industry, provider, result, searchValue } = searchState;

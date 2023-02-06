@@ -134,7 +134,10 @@ export default function Extensions(props: PageProps) {
     } else {
       router.query.search = event.target.value;
     }
-    router.push(router);
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });
   }
 
   function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -148,7 +151,10 @@ export default function Extensions(props: PageProps) {
     } else {
       router.query.industry = event.target.value;
     }
-    router.push(router);
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });
   }
 
   function handlePublisherChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -162,7 +168,10 @@ export default function Extensions(props: PageProps) {
     } else {
       router.query.publisher = event.target.value;
     }
-    router.push(router);
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });
   }
 
   function handleStatusChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -176,7 +185,10 @@ export default function Extensions(props: PageProps) {
     } else {
       router.query.status = event.target.value;
     }
-    router.push(router);
+    router.push({
+      pathname: router.pathname,
+      query: router.query,
+    });
   }
 
   useEffect(() => {
