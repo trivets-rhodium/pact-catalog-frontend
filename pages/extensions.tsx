@@ -84,7 +84,6 @@ export default function Extensions(props: PageProps) {
     query: { search, industry, publisher, status },
   } = router;
 
-
   const [searchState, setSearchState] = useState({
     matchingExtensions: new Array(),
     searchValue: (search as string) || '',

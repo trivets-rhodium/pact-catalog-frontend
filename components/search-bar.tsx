@@ -57,7 +57,6 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
           {firstFilterName && firstFilterContent && onFirstFilterChange && (
             <div className={style['select-wrapper']}>
               <select
-                defaultValue=""
                 name={firstFilterName}
                 className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm filter"
                 onChange={onFirstFilterChange}
@@ -78,7 +77,6 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
           {secondFilterName && secondFilterContent && onSecondFilterChange && (
             <div className={style['select-wrapper']}>
               <select
-                defaultValue=""
                 name={secondFilterName}
                 className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm"
                 onChange={onSecondFilterChange}
@@ -99,7 +97,6 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
           {thirdFilterName && thirdFilterContent && onThirdFilterChange && (
             <div className={style['select-wrapper']}>
               <select
-                defaultValue=""
                 name={thirdFilterName}
                 className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm"
                 onChange={onThirdFilterChange}

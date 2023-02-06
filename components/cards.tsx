@@ -148,7 +148,7 @@ export function solutionCards(
     return (
       <Card
         key={id}
-        href={`solutions/${id}/${router.asPath.replace('solutions', '')}`}
+        href={`solutions/${id}${router.asPath.replace('solutions', '')}`}
         title={name}
         subtitle={providerName}
         cardContent={solution}
