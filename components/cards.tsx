@@ -28,7 +28,7 @@ export function Cards<T>(props: CardsProps<T>) {
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">
-        <Link href={href ? href : useRouter().pathname}>{title}</Link>
+        <Link href={href ? href : useRouter().pathname} className="primary-link">{title}</Link>
       </h2>
 
       <h3 className="px-4">{subtitle}</h3>
