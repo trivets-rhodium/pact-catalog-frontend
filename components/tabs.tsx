@@ -34,7 +34,6 @@ function TabHead<T>(props: TabsProps<T>) {
     }
   };
 
-  console.log('activeTab', activeTab);
   return (
     <div className="flex">
       {tabs.map(({ tabId, title }) => (
