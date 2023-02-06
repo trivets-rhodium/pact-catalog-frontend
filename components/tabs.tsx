@@ -48,7 +48,9 @@ function TabHead<T>(props: TabsProps<T>) {
               search,
               industry,
               publisher,
+              provider,
               status,
+              result,
             },
           }}
           key={tabId}
