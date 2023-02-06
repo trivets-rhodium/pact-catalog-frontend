@@ -15,18 +15,18 @@ export default function Navbar() {
       <div>
         <ul className="flex">
           <li className="px-2">
-            <Link href={'#'} className="text-white">
+            <Link href={'/faq'} className="text-white">
               FAQ
             </Link>
           </li>
           <li className="px-2">
-            <Link href={'#'} className="text-white">
+            <Link href={'/resources'} className="text-white">
               Resources
             </Link>
           </li>
           <li className="px-2">
-            <Link href={'#'} className="text-white">
-              Contact
+            <Link href={'/contacts'} className="text-white">
+              Contacts
             </Link>
           </li>
           <li className="px-2">
