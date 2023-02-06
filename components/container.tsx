@@ -15,7 +15,7 @@ function LeftBanner(props: ContainerProps) {
     <section
       className={`${style['members']}  h-100 w-2/5 p-14 rounded-l-md border-2 z-0 align-top`}
     >
-      <div className='sticky top-32'>
+      <div className="sticky top-32">
         <h2>Members</h2>
 
         <ul className="">
@@ -158,6 +158,11 @@ export default function Container(props: ContainerProps) {
       <div className="flex justify-center mt-6 ">
         <LeftBanner workingGroup={workingGroup} />
         <RightBox workingGroup={workingGroup} />
+      </div>
+      <div className="text-right pt-12">
+        <Link href="/working-groups" className="secondary-button text-right">
+          {'<'} Other groups
+        </Link>
       </div>
     </>
   );
