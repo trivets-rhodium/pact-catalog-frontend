@@ -142,7 +142,7 @@ export default function Home(props: PageProps) {
       {!searchTrigger ? (
         <section>
           <Cards
-            title="Latest Data Model Extensions"
+            title="Data Model Extensions"
             href="/extensions"
             message={generateMessage(allExtensions, 'extension')}
             cardsContent={latestExtensions.slice(0, cols - 1)}
@@ -150,7 +150,7 @@ export default function Home(props: PageProps) {
           />
 
           <Cards
-            title="Latest Conforming Solutions"
+            title="Conforming Solutions"
             href="/solutions"
             message={generateMessage(allSolutions, 'solution')}
             cardsContent={allSolutions.slice(0, cols - 1)}
