@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
 
+console.log('Starting prebuild.mjs')
 const extensionsDirectory = path.posix.join(
   process.cwd(),
   '../catalog/data-model-extensions'
