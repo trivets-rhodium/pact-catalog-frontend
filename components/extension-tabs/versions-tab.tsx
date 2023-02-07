@@ -20,7 +20,7 @@ const versionTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
           <tbody>
             {versions.map((version) => {
               return (
-                <tr>
+                <tr key={version}>
                   <td>
                     <Link href={`/extensions/${name}/${version}`}>
                       {version}

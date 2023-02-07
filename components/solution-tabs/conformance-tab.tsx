@@ -22,7 +22,7 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
             {conformance_tests &&
               conformance_tests.map(({ test, tester }) => {
                 return (
-                  <tr>
+                  <tr key={`${test}-${tester}`}>
                     <td>
                       <Link href={`/solutions/${tester.id}`}>
                         {tester.name}
@@ -32,7 +32,10 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
                     <td>
                       {test.tests.map(({ extension, version }) => {
                         return (
-                          <Link href={`/extensions${extension}/${version}`}>
+                          <Link
+                            href={`/extensions${extension}/${version}`}
+                            key={`${extension}/${version}`}
+                          >
                             <p>{extension}</p>
                           </Link>
                         );
