@@ -20,7 +20,7 @@ const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
                 href={`/extensions/${namespace}/${packageName}/${version}`}
                 key={`${namespace}/${packageName}/${version}`}
               >
-                <li>
+                <li key={`${namespace}/${packageName}/${version}`}>
                   {namespace} {packageName} {version}
                 </li>
               </Link>

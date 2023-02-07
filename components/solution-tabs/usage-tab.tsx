@@ -12,7 +12,7 @@ const usageTab: TabRenderer<ConformingSolution> = (solution) => {
         <ul>
           {extensions.map(({ id, version, author }) => {
             return (
-              <li className="my-4">
+              <li className="my-4" key={id}>
                 <Link href={`/extensions/${id}/${version}`}>
                   <h3>
                     {id} {version}

@@ -26,7 +26,7 @@ const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
           <ul>
             {users &&
               users.map((user) => {
-                return <li>{user.name}</li>;
+                return <li key={user.id}>{user.name}</li>;
               })}
           </ul>
         </section>

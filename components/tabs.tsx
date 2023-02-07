@@ -38,6 +38,7 @@ function TabHead<T>(props: TabsProps<T>) {
     <div className="flex">
       {tabs.map(({ tabId, title }) => (
         <Link
+          key={tabId}
           href={{
             // TO DO: improve path
             pathname: asPath.split('?')[0],
@@ -52,7 +53,6 @@ function TabHead<T>(props: TabsProps<T>) {
               result,
             },
           }}
-          key={tabId}
         >
           <div
             className={`${

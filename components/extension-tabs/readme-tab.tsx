@@ -82,7 +82,7 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
           <ul>
             {industries.map((industry) => {
               return (
-                <li>
+                <li key={industry}>
                   {industry.replace(industry[0], industry[0].toUpperCase())}
                 </li>
               );
