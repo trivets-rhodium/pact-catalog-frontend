@@ -47,6 +47,20 @@ export type PackageJsonSchema = {
 //   z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
 // );
 
+export function parseSchemaJson(schemaJson: string, flag?: boolean) {
+  try {
+    // TO DO: use more robust validation;
+    JSON.parse(schemaJson);
+
+    return true;
+  } catch {
+    // TO DO: improve error message;
+    alert('Please provide a valid json');
+
+    return false;
+  }
+}
+
 export type ConformingSolutionJsonSchema = {
   id: string;
   name: string;

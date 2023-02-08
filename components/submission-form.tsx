@@ -4,7 +4,10 @@ import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
-import { PackageJsonParser } from '../lib/catalog-types.schema';
+import {
+  PackageJsonParser,
+  parseSchemaJson,
+} from '../lib/catalog-types.schema';
 import { useRouter } from 'next/router';
 
 export default function SubmissionForm() {
@@ -99,16 +102,10 @@ export default function SubmissionForm() {
 
     setSubmitting(true);
 
-    // try {
-    //   // TO DO: use more robust validation;
-    //   JSON.parse(formInput.schemaJson);
-    // } catch {
-    //   // TO DO: improve error message;
-    //   alert('Please provide a valid json');
-    //   setSubmitting(false);
-
-    //   return;
-    // }
+    if (!parseSchemaJson(formInput.schemaJson)) {
+      setSubmitting(false);
+      return;
+    }
 
     const JSONdata = JSON.stringify(formInput);
 
@@ -135,13 +132,7 @@ export default function SubmissionForm() {
 
   const onBlurValidate = useCallback(
     (_event: React.FocusEvent<HTMLDivElement, Element>) => {
-      try {
-        // TO DO: use more robust validation;
-        JSON.parse(formInput.schemaJson);
-      } catch {
-        // TO DO: improve error message;
-        alert('Please provide a valid json');
-      }
+      parseSchemaJson(formInput.schemaJson);
     },
     [formInput]
   );

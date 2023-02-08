@@ -9,7 +9,10 @@ import { Octokit } from 'octokit';
 import { getToken } from 'next-auth/jwt';
 import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
-import { PackageJsonParser } from '../../lib/catalog-types.schema';
+import {
+  PackageJsonParser,
+  parseSchemaJson,
+} from '../../lib/catalog-types.schema';
 
 export default async function handler(
   req: NextApiRequest,
@@ -53,9 +56,9 @@ export default async function handler(
   };
 
   const packageValidation = PackageJsonParser.parse(zodReadyJson);
-  const schemaValidation = JSON.parse(schemaJson);
 
-  if (!session || !packageValidation || !schemaValidation) {
+  if (!session || !packageValidation) {
+    parseSchemaJson(schemaJson);
     return res.status(401);
   } else {
     const app = new App({
