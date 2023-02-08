@@ -11,8 +11,9 @@ import {
   WorkingGroup,
   Works,
 } from './catalog-types';
-import { z } from 'zod';
+import { Schema, z } from 'zod';
 import { UserId } from './catalog-types';
+import { minimalSetup } from '@uiw/react-codemirror';
 
 export type PackageJsonSchema = {
   name: DMEId;
@@ -46,6 +47,22 @@ export type PackageJsonSchema = {
 // export const jsonSchema: z.ZodType<Json> = z.lazy(() =>
 //   z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
 // );
+
+// type SchemaKeyword = `\$${string}`;
+
+export type MetaSchema = {
+  id: string;
+  schema: string;
+  title: string;
+  type: 'object';
+  properties: {
+    [key: string]: {
+      type: string;
+      description: string;
+      [key: string]: string | number;
+    };
+  };
+};
 
 export function parseSchemaJson(schemaJson: string, flag?: boolean) {
   try {
@@ -115,6 +132,23 @@ export type WorkingGroupSchema = {
     user_id: UserId;
   }[];
 };
+
+// WIP:
+// export const JsonSchemaParser: z.ZodType<MetaSchema> = z.lazy(() =>
+//   z.object({
+//     id: z.string().min(2).startsWith('$'),
+//     schema: z.string().min(2).startsWith('$'),
+//     title: z.string().min(1),
+//     type: z.string().regex(/object/),
+//     properties: z.object({
+//       DYNAMIC_FIELD: z.object({
+//         type: z.string().min(1),
+//         description: z.string().min(1),
+//         DYNAMIC_FIELD_2: z.string() || z.number(),
+//       }),
+//     }),
+//   })
+// );
 
 export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
   z.object({
