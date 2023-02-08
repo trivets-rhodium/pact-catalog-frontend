@@ -183,6 +183,7 @@ export default async function handler(
       content: Buffer.from(
         JSON.stringify(schemaJson)
           .replace(/\\n/g, '\n')
+          .replace(/\\t/g, '\t')
           .replace(/^"/, '')
           .replace(/"$/, '')
           .replace(/\\/g, '')
