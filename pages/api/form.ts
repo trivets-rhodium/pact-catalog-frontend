@@ -186,7 +186,7 @@ export default async function handler(
           .replace(/\\t/g, '\t')
           .replace(/^"/, '')
           .replace(/"$/, '')
-          .replace(/\\/g, '')
+          .replace(/\"/g, '\"')
       ).toString('base64'),
     });
 
