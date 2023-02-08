@@ -180,14 +180,7 @@ export default async function handler(
       path: `catalog/data-model-extensions/@${publisherUserId}/${packageName}/${version}/schema.json`,
       message: 'Create schema.json',
       branch: `@${publisherUserId}`,
-      content: Buffer.from(
-        JSON.stringify(schemaJson)
-          .replace(/\\n/g, '\n')
-          .replace(/\\t/g, '\t')
-          .replace(/^"/, '')
-          .replace(/"$/, '')
-          .replace(/\\/g, '')
-      ).toString('base64'),
+      content: Buffer.from(schemaJson).toString('base64'),
     });
 
     // Creates README.md file with the submitted data;
