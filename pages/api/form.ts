@@ -52,10 +52,11 @@ export default async function handler(
     industries,
   };
 
-  const zodValidation = PackageJsonParser.parse(zodReadyJson);
+  const packageValidation = PackageJsonParser.parse(zodReadyJson);
+  const schemaValidation = JSON.parse(schemaJson);
 
-  if (!session || !zodValidation || !schemaJson) {
-    res.status(401);
+  if (!session || !packageValidation || !schemaValidation) {
+    return res.status(401);
   } else {
     const app = new App({
       appId: parseInt(process.env.GITHUB_APP_ID as string),
