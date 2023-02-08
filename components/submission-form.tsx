@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
@@ -106,6 +106,17 @@ export default function SubmissionForm() {
       return;
     }
 
+    try {
+      // TO DO: use more robust validation;
+      JSON.parse(formInput.schemaJson);
+    } catch {
+      // TO DO: improve error message;
+      alert('Please provide a valid json');
+      setSubmitting(false);
+
+      return;
+    }
+
     const JSONdata = JSON.stringify(formInput);
 
     const endpoint = 'api/form';
@@ -128,6 +139,19 @@ export default function SubmissionForm() {
       setSubmitting(false);
     });
   }
+
+  const onBlurValidate = useCallback(
+    (_event: React.FocusEvent<HTMLDivElement, Element>) => {
+      try {
+        // TO DO: use more robust validation;
+        JSON.parse(formInput.schemaJson);
+      } catch {
+        // TO DO: improve error message;
+        alert('Please provide a valid json');
+      }
+    },
+    [formInput]
+  );
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col px-40">
@@ -281,6 +305,7 @@ export default function SubmissionForm() {
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
+        onBlur={onBlurValidate}
         value={formInput.schemaJson}
       />
 
