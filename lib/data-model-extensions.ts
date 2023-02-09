@@ -7,9 +7,14 @@ import {
 import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
-import { PackageJsonParser } from './catalog-types.schema';
+import {
+  JsonSchemaParser,
+  MetaSchema,
+  PackageJsonParser,
+} from './catalog-types.schema';
 import { getConformingSolutions } from './solutions';
 import { getEndorsers, getUser } from './users';
+import { basePath } from '../next.config';
 
 const extensionsDirectory = path.posix.join(
   process.cwd(),
@@ -122,6 +127,16 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
   return undefined;
 }
 
+async function getSchemaJson(basePath: string): Promise<MetaSchema> {
+  const schemaJsonPath = path.join(basePath, 'schema.json');
+  const schemaContent = fs.readFileSync(schemaJsonPath, 'utf-8');
+  console.log('schemaContent', schemaContent);
+  const schemaJson = JSON.parse(schemaContent);
+  const parsedSchemaJson = JsonSchemaParser.parse(schemaJson);
+
+  return parsedSchemaJson;
+}
+
 async function getVersions(basePath: string): Promise<VersionId[]> {
   const packagePath = path.join(basePath, '../');
 
@@ -156,5 +171,6 @@ async function getExtensionFromBasePath(
     downloadLink: null,
     gitRepositoryUrl: null,
     contributors: packageJson.contributors || null,
+    schemaJson: await getSchemaJson(basePath),
   };
 }

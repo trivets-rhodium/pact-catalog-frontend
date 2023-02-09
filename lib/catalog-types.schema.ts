@@ -51,32 +51,18 @@ export type PackageJsonSchema = {
 // type SchemaKeyword = `\$${string}`;
 
 export type MetaSchema = {
-  id: string;
-  schema: string;
+  $id: string;
+  $schema: string;
   title: string;
   type: 'object';
   properties: {
     [key: string]: {
-      type: string;
-      description: string;
-      [key: string]: string | number;
+      // type: string;
+      // description: string;
+      [key: string]: unknown;
     };
   };
 };
-
-export function parseSchemaJson(schemaJson: string, flag?: boolean) {
-  try {
-    // TO DO: use more robust validation;
-    JSON.parse(schemaJson);
-
-    return true;
-  } catch {
-    // TO DO: improve error message;
-    alert('Please provide a valid json');
-
-    return false;
-  }
-}
 
 export type ConformingSolutionJsonSchema = {
   id: string;
@@ -133,22 +119,32 @@ export type WorkingGroupSchema = {
   }[];
 };
 
+export function parseSchemaJson(schemaJson: string) {
+  try {
+    // TO DO: use more robust validation;
+    const parsedSchemaJson = JSON.parse(schemaJson);
+    JsonSchemaParser.parse(parsedSchemaJson)
+
+    return true;
+  } catch {
+    // TO DO: improve error message;
+    alert('Please provide a valid schema.json');
+
+    return false;
+  }
+}
+
 // WIP:
-// export const JsonSchemaParser: z.ZodType<MetaSchema> = z.lazy(() =>
-//   z.object({
-//     id: z.string().min(2).startsWith('$'),
-//     schema: z.string().min(2).startsWith('$'),
-//     title: z.string().min(1),
-//     type: z.string().regex(/object/),
-//     properties: z.object({
-//       DYNAMIC_FIELD: z.object({
-//         type: z.string().min(1),
-//         description: z.string().min(1),
-//         DYNAMIC_FIELD_2: z.string() || z.number(),
-//       }),
-//     }),
-//   })
-// );
+export const JsonSchemaParser: z.ZodType<MetaSchema> = z.lazy(() =>
+  z.object({
+    $id: z.string().min(1),
+    $schema: z.string().min(1),
+    title: z.string().min(1),
+    type: z.enum(['object']),
+    // TO DO: Make sure that the key has a type field, a description field, and more.
+    properties: z.record(z.string().min(1), z.record(z.string(), z.unknown())),
+  })
+);
 
 export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
   z.object({

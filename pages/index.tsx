@@ -48,6 +48,10 @@ export default function Home(props: PageProps) {
   const { latestExtensions, allSolutions, allExtensions } = props;
   const { searchValue, matchingExtensions, matchingSolutions } = search;
 
+  for (const extension of allExtensions) {
+    console.log('extension.schemaJson', extension.schemaJson);
+  }
+
   const extensionSearchIndex: (CatalogDataModelExtension & {
     id: number;
     publisher: string;

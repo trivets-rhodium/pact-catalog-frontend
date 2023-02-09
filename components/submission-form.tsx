@@ -5,6 +5,7 @@ import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
 import {
+  JsonSchemaParser,
   PackageJsonParser,
   parseSchemaJson,
 } from '../lib/catalog-types.schema';
@@ -132,7 +133,7 @@ export default function SubmissionForm() {
 
   const onBlurValidate = useCallback(
     (_event: React.FocusEvent<HTMLDivElement, Element>) => {
-      parseSchemaJson(formInput.schemaJson);
+      // parseSchemaJson(formInput.schemaJson);
     },
     [formInput]
   );

@@ -1,6 +1,7 @@
 // This file contains all the types used with the catalog
 
 import { User } from 'next-auth';
+import { MetaSchema } from './catalog-types.schema';
 
 export type UserId = string;
 export type DMEId = string;
@@ -43,6 +44,7 @@ export type CatalogDataModelExtension = {
   conformingSolutions: ConformingSolution[];
   versions: VersionId[];
   industries: Industry[];
+  schemaJson: MetaSchema;
 };
 
 // a data model extension id uniquely identifies a data model extension within the catalog
