@@ -56,9 +56,9 @@ export default async function handler(
   };
 
   const packageValidation = PackageJsonParser.parse(zodReadyJson);
+  const schemaJsonValidation = parseSchemaJson(schemaJson);
 
-  if (!session || !packageValidation) {
-    parseSchemaJson(schemaJson);
+  if (!session || !packageValidation || !schemaJsonValidation) {
     return res.status(401);
   } else {
     const app = new App({
