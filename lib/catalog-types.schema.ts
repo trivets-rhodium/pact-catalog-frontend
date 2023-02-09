@@ -39,17 +39,6 @@ export type PackageJsonSchema = {
   industries: Industry[];
 };
 
-// From Zod's readme, to validate json:
-// const literalSchema = z.union([z.string(), z.number(), z.boolean(), z.null()]);
-// type Literal = z.infer<typeof literalSchema>;
-// type Json = Literal | { [key: string]: Json } | Json[];
-
-// export const jsonSchema: z.ZodType<Json> = z.lazy(() =>
-//   z.union([literalSchema, z.array(jsonSchema), z.record(jsonSchema)])
-// );
-
-// type SchemaKeyword = `\$${string}`;
-
 export type MetaSchema = {
   $id: string;
   $schema: string;
@@ -123,7 +112,7 @@ export function parseSchemaJson(schemaJson: string) {
   try {
     // TO DO: use more robust validation;
     const parsedSchemaJson = JSON.parse(schemaJson);
-    JsonSchemaParser.parse(parsedSchemaJson)
+    JsonSchemaParser.parse(parsedSchemaJson);
 
     return true;
   } catch {
@@ -142,7 +131,20 @@ export const JsonSchemaParser: z.ZodType<MetaSchema> = z.lazy(() =>
     title: z.string().min(1),
     type: z.enum(['object']),
     // TO DO: Make sure that the key has a type field, a description field, and more.
-    properties: z.record(z.string().min(1), z.record(z.string(), z.unknown())),
+    properties: z.record(
+      z.string().min(1),
+      z.record(z.string().min(1), z.unknown())
+    ),
+    // NOT WORKING: attempt to extend an object with static keys with a z.record:
+    // properties: z.record(
+    //   (z.string().min(1),
+    //   z
+    //     .object({
+    //       type: z.string(),
+    //       description: z.string(),
+    //     })
+    //     .extend(z.record(z.string(), z.unknown())))
+    // ),
   })
 );
 

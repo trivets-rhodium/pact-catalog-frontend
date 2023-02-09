@@ -10,5 +10,4 @@ export default withAuth({
 
 // Doesn't allow access to the api/form route, and therefore nothing at all happens: neither a call to the
 // GitHub API, nor an error
-// TO DO: add back: '/api/form', '/submit-extension'
-export const config = { matcher: ['/faq'] };
+export const config = { matcher: ['/api/form', '/submit-extension'] };
