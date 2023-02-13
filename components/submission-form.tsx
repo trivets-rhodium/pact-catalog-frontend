@@ -120,7 +120,7 @@ export default function SubmissionForm() {
     await fetch(endpoint, options).then((response) => {
       if (response.status === 200) {
         alert(`Thank you, your extension was successfully submitted`);
-        // router.push('/');
+        router.push('/');
       } else {
         alert('Please try again');
       }
@@ -130,7 +130,7 @@ export default function SubmissionForm() {
 
   const onBlurValidate = useCallback(
     (_event: React.FocusEvent<HTMLDivElement, Element>) => {
-      // parseSchemaJson(formInput.schemaJson);
+      validateSchemaJson(formInput.schemaJson);
     },
     [formInput]
   );
