@@ -4,12 +4,9 @@ import { json } from '@codemirror/lang-json';
 import { markdown } from '@codemirror/lang-markdown';
 import { useSession } from 'next-auth/react';
 import { DefaultSession, ISODateString } from 'next-auth';
-import {
-  JsonSchemaParser,
-  PackageJsonParser,
-  parseSchemaJson,
-} from '../lib/catalog-types.schema';
+import { PackageJsonParser } from '../lib/catalog-types.schema';
 import { useRouter } from 'next/router';
+import { validateSchemaJson } from '../lib/catalog-types.schema';
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -103,7 +100,7 @@ export default function SubmissionForm() {
 
     setSubmitting(true);
 
-    if (!parseSchemaJson(formInput.schemaJson)) {
+    if (!validateSchemaJson(formInput.schemaJson)) {
       setSubmitting(false);
       return;
     }
@@ -312,7 +309,4 @@ export default function SubmissionForm() {
       />
     </form>
   );
-}
-function useState(arg0: string): [any, any] {
-  throw new Error('Function not implemented.');
 }

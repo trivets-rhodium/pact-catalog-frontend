@@ -11,9 +11,48 @@ import {
   WorkingGroup,
   Works,
 } from './catalog-types';
-import { Schema, z } from 'zod';
+import { Schema, z, ZodObject, ZodRawShape, ZodRecord } from 'zod';
 import { UserId } from './catalog-types';
 import { minimalSetup } from '@uiw/react-codemirror';
+import Ajv from 'ajv';
+import Error from 'ajv';
+
+const ajv = new Ajv({ validateSchema: false });
+// TO DO: instead of returning true or false, return either an empty string/array or an array of error messages;
+export function validateSchemaJson(schema: string) {
+  try {
+    const schemaJson = JSON.parse(schema);
+    ajv.compile(schemaJson);
+
+    const { $id, $schema, title, description, type, properties } = schemaJson;
+
+    if (
+      $id === undefined ||
+      $schema === undefined ||
+      title === undefined ||
+      type === undefined ||
+      properties === undefined
+    ) {
+      alert(
+        'Please make sure your schema.json includes the fields "$id", "$schema", "title", "type" and "properties"'
+      );
+      return false;
+    }
+    return true;
+  } catch (error) {
+    if (error instanceof SyntaxError) {
+      console.log('syntaxError', error);
+      alert('Please provide a valid json');
+      return false;
+    } else if (error instanceof Error) {
+      console.log('Error', error);
+      alert('Please provide a valid schema.json');
+      return false;
+    } else {
+      throw error;
+    }
+  }
+}
 
 export type PackageJsonSchema = {
   name: DMEId;
@@ -37,20 +76,6 @@ export type PackageJsonSchema = {
     authors: UserId[];
   };
   industries: Industry[];
-};
-
-export type MetaSchema = {
-  $id: string;
-  $schema: string;
-  title: string;
-  type: 'object';
-  properties: {
-    [key: string]: {
-      // type: string;
-      // description: string;
-      [key: string]: unknown;
-    };
-  };
 };
 
 export type ConformingSolutionJsonSchema = {
@@ -107,46 +132,6 @@ export type WorkingGroupSchema = {
     user_id: UserId;
   }[];
 };
-
-export function parseSchemaJson(schemaJson: string) {
-  try {
-    // TO DO: use more robust validation;
-    const parsedSchemaJson = JSON.parse(schemaJson);
-    JsonSchemaParser.parse(parsedSchemaJson);
-
-    return true;
-  } catch {
-    // TO DO: improve error message;
-    alert('Please provide a valid schema.json');
-
-    return false;
-  }
-}
-
-// WIP:
-export const JsonSchemaParser: z.ZodType<MetaSchema> = z.lazy(() =>
-  z.object({
-    $id: z.string().min(1),
-    $schema: z.string().min(1),
-    title: z.string().min(1),
-    type: z.enum(['object']),
-    // TO DO: Make sure that the key has a type field, a description field, and more.
-    properties: z.record(
-      z.string().min(1),
-      z.record(z.string().min(1), z.unknown())
-    ),
-    // NOT WORKING: attempt to extend an object with static keys with a z.record:
-    // properties: z.record(
-    //   (z.string().min(1),
-    //   z
-    //     .object({
-    //       type: z.string(),
-    //       description: z.string(),
-    //     })
-    //     .extend(z.record(z.string(), z.unknown())))
-    // ),
-  })
-);
 
 export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
   z.object({

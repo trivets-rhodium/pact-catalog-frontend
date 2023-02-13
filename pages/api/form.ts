@@ -11,7 +11,7 @@ import { unstable_getServerSession } from 'next-auth';
 import { authOptions } from './auth/[...nextauth]';
 import {
   PackageJsonParser,
-  parseSchemaJson,
+  validateSchemaJson,
 } from '../../lib/catalog-types.schema';
 
 export default async function handler(
@@ -56,7 +56,7 @@ export default async function handler(
   };
 
   const packageValidation = PackageJsonParser.parse(zodReadyJson);
-  const schemaJsonValidation = parseSchemaJson(schemaJson);
+  const schemaJsonValidation = validateSchemaJson(schemaJson);
 
   if (!session || !packageValidation || !schemaJsonValidation) {
     return res.status(401);
