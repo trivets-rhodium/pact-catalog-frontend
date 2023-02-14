@@ -34,20 +34,22 @@ export function validateSchemaJson(schema: string): ParsedSchemaJson {
       type === undefined ||
       properties === undefined
     ) {
-      alert(
-        'Please make sure your schema.json includes the fields "$id", "$schema", "title", "type" and "properties"'
-      );
+      typeof window !== 'undefined' &&
+        alert(
+          'Please make sure your schema.json includes the fields "$id", "$schema", "title", "type" and "properties"'
+        );
       return { validSchemaJson: false };
     }
     return { validSchemaJson: true, ...schemaJson };
   } catch (error) {
     if (error instanceof SyntaxError) {
       console.log('syntaxError', error);
-      alert('Please provide a valid json');
+      typeof window !== 'undefined' && alert('Please provide a valid json');
       return { validSchemaJson: false };
     } else {
       console.log('Error', error);
-      alert('Please provide a valid schema.json');
+      typeof window !== 'undefined' &&
+        alert('Please provide a valid schema.json');
       return { validSchemaJson: false };
     }
   }

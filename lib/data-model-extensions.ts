@@ -126,8 +126,7 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
 async function getSchemaJson(basePath: string): Promise<ParsedSchemaJson> {
   const schemaJsonPath = path.join(basePath, 'schema.json');
   const schemaContent = fs.readFileSync(schemaJsonPath, 'utf-8');
-  const schemaJson = JSON.parse(schemaContent);
-  return validateSchemaJson(schemaJson);
+  return validateSchemaJson(schemaContent);
 }
 
 async function getVersions(basePath: string): Promise<VersionId[]> {
