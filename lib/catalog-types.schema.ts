@@ -6,6 +6,7 @@ import {
   DMEId,
   GroupId,
   Industry,
+  ParsedSchemaJson,
   SolutionId,
   VersionId,
   WorkingGroup,
@@ -14,17 +15,17 @@ import {
 import { Schema, z, ZodObject, ZodRawShape, ZodRecord } from 'zod';
 import { UserId } from './catalog-types';
 import { minimalSetup } from '@uiw/react-codemirror';
-import Ajv from 'ajv';
+import Ajv, { ValidationError } from 'ajv';
 import Error from 'ajv';
 
 const ajv = new Ajv({ validateSchema: false });
 // TO DO: instead of returning true or false, return either an empty string/array or an array of error messages;
-export function validateSchemaJson(schema: string) {
+export function validateSchemaJson(schema: string): ParsedSchemaJson {
   try {
     const schemaJson = JSON.parse(schema);
     ajv.compile(schemaJson);
 
-    const { $id, $schema, title, description, type, properties } = schemaJson;
+    const { $id, $schema, title, type, properties } = schemaJson;
 
     if (
       $id === undefined ||
@@ -36,20 +37,18 @@ export function validateSchemaJson(schema: string) {
       alert(
         'Please make sure your schema.json includes the fields "$id", "$schema", "title", "type" and "properties"'
       );
-      return false;
+      return { validSchemaJson: false };
     }
-    return true;
+    return { validSchemaJson: true, ...schemaJson };
   } catch (error) {
     if (error instanceof SyntaxError) {
       console.log('syntaxError', error);
       alert('Please provide a valid json');
-      return false;
-    } else if (error instanceof Error) {
+      return { validSchemaJson: false };
+    } else {
       console.log('Error', error);
       alert('Please provide a valid schema.json');
-      return false;
-    } else {
-      throw error;
+      return { validSchemaJson: false };
     }
   }
 }

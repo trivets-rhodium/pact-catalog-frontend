@@ -2,6 +2,7 @@ import {
   CatalogDataModelExtension,
   DataModelExtensionId,
   DMEId,
+  ParsedSchemaJson,
   VersionId,
 } from './catalog-types';
 import fs from 'fs';
@@ -122,12 +123,11 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
   return undefined;
 }
 
-async function getSchemaJson(basePath: string): Promise<JSON> {
+async function getSchemaJson(basePath: string): Promise<ParsedSchemaJson> {
   const schemaJsonPath = path.join(basePath, 'schema.json');
   const schemaContent = fs.readFileSync(schemaJsonPath, 'utf-8');
   const schemaJson = JSON.parse(schemaContent);
-  validateSchemaJson(schemaJson);
-  return JSON.parse(schemaJson);
+  return validateSchemaJson(schemaJson);
 }
 
 async function getVersions(basePath: string): Promise<VersionId[]> {
@@ -164,6 +164,6 @@ async function getExtensionFromBasePath(
     downloadLink: null,
     gitRepositoryUrl: null,
     contributors: packageJson.contributors || null,
-    schemaJson: await getSchemaJson(basePath),
+    parsedSchemaJson: await getSchemaJson(basePath),
   };
 }

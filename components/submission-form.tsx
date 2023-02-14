@@ -100,7 +100,9 @@ export default function SubmissionForm() {
 
     setSubmitting(true);
 
-    if (!validateSchemaJson(formInput.schemaJson)) {
+    const parsedSchemaJson = validateSchemaJson(formInput.schemaJson);
+
+    if (!parsedSchemaJson.validSchemaJson) {
       setSubmitting(false);
       return;
     }

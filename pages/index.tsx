@@ -49,7 +49,7 @@ export default function Home(props: PageProps) {
   const { searchValue, matchingExtensions, matchingSolutions } = search;
 
   for (const extension of allExtensions) {
-    console.log('extension.schemaJson', extension.schemaJson);
+    console.log('extension.schemaJson', extension.parsedSchemaJson);
   }
 
   const extensionSearchIndex: (CatalogDataModelExtension & {

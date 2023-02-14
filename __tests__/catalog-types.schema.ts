@@ -1,6 +1,6 @@
 import { validateSchemaJson } from '../lib/catalog-types.schema';
 
-const schema = `
+const validSchemaJson = `
 {
   "$id": "https://catalog.carbon-transparency.com/data-model-extension/@wwf/water-footprint/0.6.1/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -24,7 +24,21 @@ const schema = `
 }
 `;
 
-test('schema.json validation test', () => {
+test('Test valid schema.json', () => {
   window.alert = jest.fn();
-  expect(validateSchemaJson(schema)).toBe(true);
+  expect(validateSchemaJson(validSchemaJson).validSchemaJson).toBe(true);
+});
+
+const invalidSchemaJson = `
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WWF Water Tootprint Data Model Extension",
+  "type": "object",
+  "foo": "bar"
+}
+`;
+
+test('Test invalid schema.json', () => {
+  window.alert = jest.fn();
+  expect(validateSchemaJson(validSchemaJson).validSchemaJson).toBe(false);
 });

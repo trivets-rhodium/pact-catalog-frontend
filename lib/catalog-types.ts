@@ -42,7 +42,7 @@ export type CatalogDataModelExtension = {
   conformingSolutions: ConformingSolution[];
   versions: VersionId[];
   industries: Industry[];
-  schemaJson: JSON;
+  parsedSchemaJson: ParsedSchemaJson;
 };
 
 // a data model extension id uniquely identifies a data model extension within the catalog
@@ -51,6 +51,21 @@ export type DataModelExtensionId = {
   packageName: string;
   version: VersionId;
 };
+
+export type ParsedSchemaJson =
+  | {
+      validSchemaJson: true;
+      schemaJson: {
+        $id: string;
+        $schema: string;
+        title: string;
+        type: 'object';
+        properties: {
+          [key: string]: unknown;
+        };
+      };
+    }
+  | { validSchemaJson: false };
 
 export type CatalogUser = {
   id: UserId;
