@@ -71,8 +71,11 @@ h3 {
   cursor: wait;
 }
 
+.dark-background {
+  background-color: #0a0552;
+}
 
-.background {
+.light-background {
   background-color: #f3f3f3;
 }
 

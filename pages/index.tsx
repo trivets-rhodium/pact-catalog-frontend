@@ -18,6 +18,8 @@ import {
 } from '../components/cards';
 import SearchBar from '../components/search-bar';
 import MiniSearch, { SearchResult } from 'minisearch';
+import Image from 'next/image';
+import pactLogo from '../public/pact-logo.svg';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -134,52 +136,66 @@ export default function Home(props: PageProps) {
   }, [searchValue]);
 
   return (
-    <Layout title="Online Catalog">
-      <section>
-        <SearchBar
-          title="Search the Catalog"
-          placeholder="Search Data Model Extensions and Conforming Solutions"
-          onSearchValueChange={handleSearchValueChange}
-        />
-      </section>
+    // <Layout title="Online Catalog">
+    //   <section>
+    //     <SearchBar
+    //       title="Search the Catalog"
+    //       placeholder="Search Data Model Extensions and Conforming Solutions"
+    //       onSearchValueChange={handleSearchValueChange}
+    //     />
+    //   </section>
 
-      {!searchTrigger ? (
-        <section>
-          <Cards
-            title="Data Model Extensions"
-            href="/extensions"
-            message={generateMessage(allExtensions, 'extension')}
-            cardsContent={latestExtensions.slice(0, cols - 1)}
-            render={extensionCards}
-          />
+    //   {!searchTrigger ? (
+    //     <section>
+    //       <Cards
+    //         title="Data Model Extensions"
+    //         href="/extensions"
+    //         message={generateMessage(allExtensions, 'extension')}
+    //         cardsContent={latestExtensions.slice(0, cols - 1)}
+    //         render={extensionCards}
+    //       />
 
-          <Cards
-            title="Conforming Solutions"
-            href="/solutions"
-            message={generateMessage(allSolutions, 'solution')}
-            cardsContent={allSolutions.slice(0, cols - 1)}
-            render={solutionCards}
-          />
-        </section>
-      ) : (
-        <section>
-          <Cards
-            title={`${matchingExtensions.length} Data Model Extension(s) for '${searchValue}'`}
-            href="/extensions"
-            message={generateMessage(matchingExtensions, 'extension')}
-            cardsContent={matchingExtensions.slice(0, cols - 1)}
-            render={extensionCards}
-          />
+    //       <Cards
+    //         title="Conforming Solutions"
+    //         href="/solutions"
+    //         message={generateMessage(allSolutions, 'solution')}
+    //         cardsContent={allSolutions.slice(0, cols - 1)}
+    //         render={solutionCards}
+    //       />
+    //     </section>
+    //   ) : (
+    //     <section>
+    //       <Cards
+    //         title={`${matchingExtensions.length} Data Model Extension(s) for '${searchValue}'`}
+    //         href="/extensions"
+    //         message={generateMessage(matchingExtensions, 'extension')}
+    //         cardsContent={matchingExtensions.slice(0, cols - 1)}
+    //         render={extensionCards}
+    //       />
 
-          <Cards
-            title={`${matchingSolutions.length} Conforming Solution(s) for '${searchValue}'`}
-            href="/solutions"
-            message={generateMessage(matchingSolutions, 'solution')}
-            cardsContent={matchingSolutions.slice(0, cols - 1)}
-            render={solutionCards}
-          />
-        </section>
-      )}
-    </Layout>
+    //       <Cards
+    //         title={`${matchingSolutions.length} Conforming Solution(s) for '${searchValue}'`}
+    //         href="/solutions"
+    //         message={generateMessage(matchingSolutions, 'solution')}
+    //         cardsContent={matchingSolutions.slice(0, cols - 1)}
+    //         render={solutionCards}
+    //       />
+    //     </section>
+    //   )}
+    // </Layout>
+    <>
+      <div className="grid grid-cols-2 h-screen">
+        <div className="dark-background">
+          <img src="/pact-logo.svg" alt="PACT logo" />
+        </div>
+        <div className="light-background">Hello World</div>
+      </div>
+      <div>
+        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati
+        quisquam earum perspiciatis corporis optio, mollitia dicta vel
+        cupiditate quos quia, provident beatae adipisci rem consequuntur
+        voluptatem. Voluptates hic quisquam inventore!
+      </div>
+    </>
   );
 }
