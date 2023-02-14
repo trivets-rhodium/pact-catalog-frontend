@@ -4,16 +4,16 @@
   "title": "RMI Steel Guidance Data Model Extensions",
   "type": "object",
   "properties": {
-    "propertyOne": {
+    "specific-prop": {
       "type": "string",
-      "description": "The description of the first property."
+      "description": "A steel specific property description"
     },
-    "propertyTwo": {
+    "carbon": {
       "type": "string",
-      "description": "The description of the second property."
+      "description": "Carbon emissions data"
     },
-    "propertyThree": {
-      "description": "The description of the third property.",
+    "sustainability-standard": {
+      "description": "sustainability data",
       "type": "integer",
       "minimum": 0
     }

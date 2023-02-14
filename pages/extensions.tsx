@@ -1,12 +1,16 @@
 import { getAllExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
-import { CatalogDataModelExtension } from '../lib/catalog-types';
+import {
+  CatalogDataModelExtension,
+  ParsedSchemaJson,
+} from '../lib/catalog-types';
 import Layout from '../components/layout';
 import React, { useEffect, useState } from 'react';
 import { Cards, extensionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
 import { useRouter } from 'next/router';
+import { unknown } from 'zod';
 
 type PageProps = {
   allExtensions: CatalogDataModelExtension[];
@@ -77,6 +81,72 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
   });
 }
 
+function getSchemaJsonProperties(object: ParsedSchemaJson): string[] {
+  const propertiesKeys = Object.keys(
+    object.validSchemaJson && object.schemaJson.properties
+  );
+
+  const propertiesValues = Object.values(
+    object.validSchemaJson && object.schemaJson.properties
+  );
+
+  const specificProperties = propertiesValues
+    .map((value) => {
+      if (value instanceof Object) {
+        return Object.keys(value).filter((key) => {
+          return key !== 'type' && key !== 'description';
+        });
+      } else {
+        return '';
+      }
+    })
+    .flat()
+    .filter((e) => {
+      return e !== '';
+    });
+
+  const specificPropertiesValues = propertiesValues
+    .map((value) => {
+      return Object.values(value).map((v) => {
+        if (
+          v !== 'string' &&
+          v !== 'integer' &&
+          v !== 'boolean' &&
+          v !== 'object' &&
+          v !== 'array' &&
+          v !== 'number'
+        ) {
+          return String(v);
+        } else {
+          return '';
+        }
+      });
+    })
+    .flat()
+    .filter((e) => {
+      return e !== '';
+    });
+
+  const searchableAttributes = propertiesKeys.concat(
+    specificProperties,
+    specificPropertiesValues
+  );
+
+  return searchableAttributes;
+}
+
+function getSearchFields(extensions: CatalogDataModelExtension[]): string[] {
+  const allKeys = extensions.map((extension) => {
+    return Object.keys(extension);
+  });
+
+  const allKeysFlattened = allKeys.flat();
+
+  return allKeysFlattened.filter((key, index) => {
+    return allKeysFlattened.indexOf(key) === index;
+  });
+}
+
 export default function Extensions(props: PageProps) {
   const router = useRouter();
 
@@ -101,15 +171,22 @@ export default function Extensions(props: PageProps) {
     id: number;
     publisher: string;
   })[] = allExtensions.map((extension, index) => {
+    const { validSchemaJson } = extension.parsedSchemaJson;
+
     return {
       ...extension,
       id: index + 1,
       publisher: extension.author.name,
+      schemaJson: getSchemaJsonProperties(extension.parsedSchemaJson),
+      // Alternatively, we can simply stringify the whole schema.json
+      // schemaJson: JSON.stringify(
+      //   validSchemaJson && extension.parsedSchemaJson.schemaJson
+      // ),
     };
   });
 
   let miniSearchExtensions = new MiniSearch({
-    fields: ['name', 'version', 'description', 'publisher'],
+    fields: getSearchFields(extensionSearchIndex),
     storeFields: [
       'name',
       'version',
