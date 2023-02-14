@@ -7,6 +7,7 @@ import { Cards, extensionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import SearchBar from '../components/search-bar';
 import { useRouter } from 'next/router';
+import { unknown } from 'zod';
 
 type PageProps = {
   allExtensions: CatalogDataModelExtension[];
@@ -76,6 +77,49 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
     return allStatuses.indexOf(status) === index;
   });
 }
+// const flattened: any = {};
+// let absoluteKey: any = [];
+
+// function getKeys(object: any) {
+//   Object.keys(object).forEach((key) => {
+//     if (typeof object[key] === 'object') {
+//       absoluteKey.push(key);
+//       getKeys(object[key]);
+//     } else {
+//       const newKey = absoluteKey.join()
+//       flattened()
+//     }
+//   });
+// }
+
+// function flatten(object: any) {
+//   Object.keys(object).forEach((key) => {
+//     absoluteKey.push(key);
+
+//     if (typeof object[key] === 'object') {
+//       flatten(object[key]);
+//     } else {
+//       const newKey = absoluteKey.join('-');
+//       flattened[newKey] = object[key];
+//     }
+//   });
+
+//   return flattened;
+// }
+
+function getSearchFields(
+  extensions: CatalogDataModelExtension[]
+): string[] {
+  const allKeys = extensions.map((extension) => {
+    return Object.keys(extension);
+  });
+
+  const allKeysFlattened = allKeys.flat();
+
+  return allKeysFlattened.filter((key, index) => {
+    return allKeysFlattened.indexOf(key) === index;
+  });
+}
 
 export default function Extensions(props: PageProps) {
   const router = useRouter();
@@ -101,15 +145,18 @@ export default function Extensions(props: PageProps) {
     id: number;
     publisher: string;
   })[] = allExtensions.map((extension, index) => {
+    // const schemaJson = flatten(extension.parsedSchemaJson);
+    // console.log('schemaJson', schemaJson);
     return {
       ...extension,
       id: index + 1,
       publisher: extension.author.name,
+      schemaJson: JSON.stringify(extension.parsedSchemaJson),
     };
   });
 
   let miniSearchExtensions = new MiniSearch({
-    fields: ['name', 'version', 'description', 'publisher'],
+    fields: getSearchFields(extensionSearchIndex),
     storeFields: [
       'name',
       'version',

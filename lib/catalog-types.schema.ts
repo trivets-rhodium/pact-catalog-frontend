@@ -18,7 +18,8 @@ import { minimalSetup } from '@uiw/react-codemirror';
 import Ajv, { ValidationError } from 'ajv';
 import Error from 'ajv';
 
-const ajv = new Ajv({ validateSchema: false });
+// TO DO: do not set addUsedSchema to false but instead fix whatever leads to the uniqueness constraint error;
+const ajv = new Ajv({ validateSchema: false, addUsedSchema: false });
 // TO DO: instead of returning true or false, return either an empty string/array or an array of error messages;
 export function validateSchemaJson(schema: string): ParsedSchemaJson {
   try {
