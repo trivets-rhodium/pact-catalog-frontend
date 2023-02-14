@@ -1,6 +1,9 @@
 import { getAllExtensions } from '../lib/data-model-extensions';
 import { GetStaticProps } from 'next';
-import { CatalogDataModelExtension } from '../lib/catalog-types';
+import {
+  CatalogDataModelExtension,
+  ParsedSchemaJson,
+} from '../lib/catalog-types';
 import Layout from '../components/layout';
 import React, { useEffect, useState } from 'react';
 import { Cards, extensionCards } from '../components/cards';
@@ -77,35 +80,60 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
     return allStatuses.indexOf(status) === index;
   });
 }
-// const flattened: any = {};
-// let absoluteKey: any = [];
 
-// function getKeys(object: any) {
-//   Object.keys(object).forEach((key) => {
-//     if (typeof object[key] === 'object') {
-//       absoluteKey.push(key);
-//       getKeys(object[key]);
-//     } else {
-//       const newKey = absoluteKey.join()
-//       flattened()
-//     }
-//   });
-// }
+function getSchemaJsonProperties(object: ParsedSchemaJson): string[] {
+  const propertiesKeys = Object.keys(
+    object.validSchemaJson && object.schemaJson.properties
+  );
 
-// function flatten(object: any) {
-//   Object.keys(object).forEach((key) => {
-//     absoluteKey.push(key);
+  const propertiesValues = Object.values(
+    object.validSchemaJson && object.schemaJson.properties
+  );
 
-//     if (typeof object[key] === 'object') {
-//       flatten(object[key]);
-//     } else {
-//       const newKey = absoluteKey.join('-');
-//       flattened[newKey] = object[key];
-//     }
-//   });
+  const specificProperties = propertiesValues
+    .map((value) => {
+      if (value instanceof Object) {
+        return Object.keys(value).filter((key) => {
+          return key !== 'type' && key !== 'description';
+        });
+      } else {
+        return '';
+      }
+    })
+    .flat()
+    .filter((e) => {
+      return e !== '';
+    });
 
-//   return flattened;
-// }
+  const specificPropertiesValues = propertiesValues
+    .map((value) => {
+      return Object.values(value).map((v) => {
+        if (
+          v !== 'string' &&
+          v !== 'integer' &&
+          v !== 'boolean' &&
+          v !== 'object' &&
+          v !== 'array' &&
+          v !== 'number'
+        ) {
+          return String(v);
+        } else {
+          return '';
+        }
+      });
+    })
+    .flat()
+    .filter((e) => {
+      return e !== '';
+    });
+
+  const searchableAttributes = propertiesKeys.concat(
+    specificProperties,
+    specificPropertiesValues
+  );
+
+  return searchableAttributes;
+}
 
 function getSearchFields(extensions: CatalogDataModelExtension[]): string[] {
   const allKeys = extensions.map((extension) => {
@@ -149,9 +177,11 @@ export default function Extensions(props: PageProps) {
       ...extension,
       id: index + 1,
       publisher: extension.author.name,
-      schemaJson: JSON.stringify(
-        validSchemaJson && extension.parsedSchemaJson.schemaJson
-      ),
+      schemaJson: getSchemaJsonProperties(extension.parsedSchemaJson),
+      // Alternatively, we can simply stringify the whole schema.json
+      // schemaJson: JSON.stringify(
+      //   validSchemaJson && extension.parsedSchemaJson.schemaJson
+      // ),
     };
   });
 
