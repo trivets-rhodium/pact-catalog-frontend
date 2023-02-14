@@ -13,7 +13,7 @@
       "description": "beans"
     },
     "propertyThree": {
-      "description": "The description of the third property.",
+      "description": "A complex carbon emission full of buzzwords description",
       "type": "integer",
       "minimum": 0
     }

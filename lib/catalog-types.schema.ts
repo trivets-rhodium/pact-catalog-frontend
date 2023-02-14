@@ -18,10 +18,9 @@ import { minimalSetup } from '@uiw/react-codemirror';
 import Ajv, { ValidationError } from 'ajv';
 import Error from 'ajv';
 
-// TO DO: do not set addUsedSchema to false but instead fix whatever leads to the uniqueness constraint error;
-const ajv = new Ajv({ validateSchema: false, addUsedSchema: false });
 // TO DO: instead of returning true or false, return either an empty string/array or an array of error messages;
 export function validateSchemaJson(schema: string): ParsedSchemaJson {
+  const ajv = new Ajv({ validateSchema: false });
   try {
     const schemaJson = JSON.parse(schema);
     ajv.compile(schemaJson);
@@ -41,7 +40,7 @@ export function validateSchemaJson(schema: string): ParsedSchemaJson {
         );
       return { validSchemaJson: false };
     }
-    return { validSchemaJson: true, ...schemaJson };
+    return { validSchemaJson: true, schemaJson };
   } catch (error) {
     if (error instanceof SyntaxError) {
       console.log('syntaxError', error);

@@ -107,9 +107,7 @@ function getAllStatuses(allExtensions: CatalogDataModelExtension[]): string[] {
 //   return flattened;
 // }
 
-function getSearchFields(
-  extensions: CatalogDataModelExtension[]
-): string[] {
+function getSearchFields(extensions: CatalogDataModelExtension[]): string[] {
   const allKeys = extensions.map((extension) => {
     return Object.keys(extension);
   });
@@ -145,13 +143,15 @@ export default function Extensions(props: PageProps) {
     id: number;
     publisher: string;
   })[] = allExtensions.map((extension, index) => {
-    // const schemaJson = flatten(extension.parsedSchemaJson);
-    // console.log('schemaJson', schemaJson);
+    const { validSchemaJson } = extension.parsedSchemaJson;
+
     return {
       ...extension,
       id: index + 1,
       publisher: extension.author.name,
-      schemaJson: JSON.stringify(extension.parsedSchemaJson),
+      schemaJson: JSON.stringify(
+        validSchemaJson && extension.parsedSchemaJson.schemaJson
+      ),
     };
   });
 
