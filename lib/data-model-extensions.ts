@@ -2,12 +2,13 @@ import {
   CatalogDataModelExtension,
   DataModelExtensionId,
   DMEId,
+  ParsedSchemaJson,
   VersionId,
 } from './catalog-types';
 import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
-import { PackageJsonParser } from './catalog-types.schema';
+import { PackageJsonParser, validateSchemaJson } from './catalog-types.schema';
 import { getConformingSolutions } from './solutions';
 import { getEndorsers, getUser } from './users';
 
@@ -122,6 +123,13 @@ async function readReadmeMd(basePath: string): Promise<string | undefined> {
   return undefined;
 }
 
+async function getSchemaJson(basePath: string): Promise<ParsedSchemaJson> {
+  const schemaJsonPath = path.join(basePath, 'schema.json');
+  const schemaContent = fs.readFileSync(schemaJsonPath, 'utf-8');
+  const schemaJson = JSON.parse(schemaContent);
+  return validateSchemaJson(schemaJson);
+}
+
 async function getVersions(basePath: string): Promise<VersionId[]> {
   const packagePath = path.join(basePath, '../');
 
@@ -156,5 +164,6 @@ async function getExtensionFromBasePath(
     downloadLink: null,
     gitRepositoryUrl: null,
     contributors: packageJson.contributors || null,
+    parsedSchemaJson: await getSchemaJson(basePath),
   };
 }

@@ -1,7 +1,6 @@
 // This file contains all the types used with the catalog
 
 import { User } from 'next-auth';
-
 export type UserId = string;
 export type DMEId = string;
 export type VersionId = string;
@@ -43,6 +42,7 @@ export type CatalogDataModelExtension = {
   conformingSolutions: ConformingSolution[];
   versions: VersionId[];
   industries: Industry[];
+  parsedSchemaJson: ParsedSchemaJson;
 };
 
 // a data model extension id uniquely identifies a data model extension within the catalog
@@ -51,6 +51,21 @@ export type DataModelExtensionId = {
   packageName: string;
   version: VersionId;
 };
+
+export type ParsedSchemaJson =
+  | {
+      validSchemaJson: true;
+      schemaJson: {
+        $id: string;
+        $schema: string;
+        title: string;
+        type: 'object';
+        properties: {
+          [key: string]: unknown;
+        };
+      };
+    }
+  | { validSchemaJson: false };
 
 export type CatalogUser = {
   id: UserId;
@@ -101,19 +116,23 @@ export type ConformanceTestResult = {
 };
 
 export type Works = {
-  extensions: {
-    id: DMEId;
-    version: VersionId;
-    description: string;
-    summary: string | null;
-    author: string;
-  }[] | null;
-  solutions: {
-    id: SolutionId;
-    name: string;
-    summary: string | null;
-    providerName: string;
-  }[] | null;
+  extensions:
+    | {
+        id: DMEId;
+        version: VersionId;
+        description: string;
+        summary: string | null;
+        author: string;
+      }[]
+    | null;
+  solutions:
+    | {
+        id: SolutionId;
+        name: string;
+        summary: string | null;
+        providerName: string;
+      }[]
+    | null;
 };
 
 export type WorkingGroup = {
