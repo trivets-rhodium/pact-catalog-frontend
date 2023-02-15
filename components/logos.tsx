@@ -1,6 +1,6 @@
 export function SineLogo() {
   return (
-    <div className="mx-8">
+    <div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="161"
