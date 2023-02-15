@@ -21,6 +21,11 @@ import MiniSearch, { SearchResult } from 'minisearch';
 import Image from 'next/image';
 import pactLogo from '../public/pact-logo.svg';
 import { PactLogo, PartnersLogos, SineLogo } from '../components/logos';
+import {
+  BlueHexagon,
+  GreenHexagon,
+  WhiteHexagon,
+} from '../components/hexagons';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -207,7 +212,13 @@ export default function Home(props: PageProps) {
             <PartnersLogos />
           </div>
         </div>
-        <div className="light-background">Hello World</div>
+        <div className="light-background col-span-6 flex justify-center items-center">
+          <div className="min-h-full min-w-full relative mt-36">
+            <WhiteHexagon classes="absolute top-0 left-1/4" />
+            <BlueHexagon classes="absolute top-1/4 left-2/4" />
+            <GreenHexagon classes="absolute top-2/4 left-1/4" />
+          </div>
+        </div>
       </div>
       <div>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati
