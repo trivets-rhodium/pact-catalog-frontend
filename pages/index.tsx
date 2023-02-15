@@ -20,6 +20,7 @@ import SearchBar from '../components/search-bar';
 import MiniSearch, { SearchResult } from 'minisearch';
 import Image from 'next/image';
 import pactLogo from '../public/pact-logo.svg';
+import { PactLogo, PartnersLogos, SineLogo } from '../components/logos';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -184,9 +185,27 @@ export default function Home(props: PageProps) {
     //   )}
     // </Layout>
     <>
-      <div className="grid grid-cols-2 h-screen">
-        <div className="dark-background">
-          <img src="/pact-logo.svg" alt="PACT logo" />
+      <div className="grid grid-cols-11 min-h-screen">
+        <div className="dark-background col-span-5 flex flex-col justify-between">
+          <div className="flex justify-between items-center mx-4">
+            <PactLogo />
+            <SineLogo />
+          </div>
+          <div className="mx-14 mb-12">
+            <div className="mb-4">
+              <h1 className="text-white">
+                PACT <br />
+                Online Catalog
+              </h1>
+              <p className="text-white">Powered by SINE Foundation</p>
+            </div>
+            <p className="text-white mb-20">
+              Find and create industry specific Scope-3 data extensions — and
+              the software solutions that support these
+            </p>
+            <h3 className="text-white">Partners and Contributors:</h3>
+            <PartnersLogos />
+          </div>
         </div>
         <div className="light-background">Hello World</div>
       </div>
