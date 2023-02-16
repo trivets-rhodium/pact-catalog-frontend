@@ -71,10 +71,22 @@ h3 {
   cursor: wait;
 }
 
+.dark-background {
+  background: linear-gradient(to top, #070334, #0a0552);
 
-.background {
-  background-color: #f3f3f3;
 }
+
+.text-blue {
+  color: #0a0552
+}
+
+.light-background {
+  /* background-color: #f3f3f3; */
+  background-image: url("/content-media-shape.png");
+  background-repeat: space;
+  background-position: left;
+}
+
 
 .primary-link {
   box-shadow: inset 0 -0.8rem 0 0 rgba(8, 161, 128, 0.5);
@@ -84,3 +96,48 @@ h3 {
 .primary-link:hover {
   box-shadow: inset 0 -0.8rem 0 0 rgb(8, 161, 128);
 }
+
+.background-image {
+  background-image: url("https://images.unsplash.com/photo-1599940824399-b87987ceb72a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80");
+}
+
+.blue-hexagon {
+  background-image: url("/blue-hexagon.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  color: white;
+  clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
+
+}
+
+
+.white-hexagon {
+  background-image: url("/white-hexagon.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  color: #0a0552;
+  clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
+  box-shadow: #0a0552;
+}
+
+.green-hexagon {
+  background-image: url("/green-hexagon.svg");
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  color: white;
+  clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
+
+}
+
+
+
+/* .hexagon-left-text {
+  transform: skewY(30deg);
+  transform-origin: bottom left;
+} */
+
+
+/* linear-gradient(45deg, rgba(10, 5, 82, 0.4), rgba(0, 0, 0, 0.4)), */
