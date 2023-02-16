@@ -72,7 +72,7 @@ h3 {
 }
 
 .dark-background {
-  background-color: #0a0552;
+  background: linear-gradient(to top, #070334, #0a0552);
 
 }
 
