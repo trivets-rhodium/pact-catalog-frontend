@@ -19,7 +19,7 @@ import {
 import SearchBar from '../components/search-bar';
 import MiniSearch, { SearchResult } from 'minisearch';
 import Image from 'next/image';
-import pactLogo from '../public/pact-logo.svg';
+import pactLogo from '../public/logos/pact-logo.svg';
 // import {
 //   BlueHexagon,
 //   GreenHexagon,
@@ -28,8 +28,9 @@ import pactLogo from '../public/pact-logo.svg';
 import Link from 'next/link';
 import { Footer } from '../components/footer';
 import { Hexagon } from '../components/hexagons';
-import sineLogo from '../public/sine-logo.svg';
-import partnersLogos from '../public/partners-logos.svg';
+import sineLogo from '../public/logos/sine-logo.svg';
+import Marquee from 'react-fast-marquee';
+import { LogoMarquee } from '../components/logo-marquee';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -212,7 +213,7 @@ export default function Home(props: PageProps) {
               </a>
             </div>
           </div>
-          <div className="mx-14 mb-12">
+          <div className="mx-14 mb-6">
             <div className="mb-4">
               <h1 className="text-white">
                 PACT <br />
@@ -233,12 +234,9 @@ export default function Home(props: PageProps) {
               the software solutions that support these
             </p>
             <h3 className="text-white">Partners and Contributors:</h3>
-            <Image
-              src={partnersLogos}
-              alt={"Partners' logos"}
-              width={1000}
-              height={200}
-            />
+            <Marquee gradient={false} speed={50}>
+              <LogoMarquee />
+            </Marquee>
           </div>
         </div>
         <div className="background-image col-span-5 flex justify-center items-center">

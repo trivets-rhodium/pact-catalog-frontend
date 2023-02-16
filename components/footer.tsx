@@ -1,4 +1,4 @@
-import SineLogo from '../public/sine-logo.svg';
+import SineLogo from '../public/logos/sine-logo.svg';
 import Image from 'next/image';
 
 export function Footer() {

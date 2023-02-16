@@ -82,9 +82,9 @@ h3 {
 
 .light-background {
   /* background-color: #f3f3f3; */
-  background-image: url("/content-media-shape.png");
+  background-image: url("/background/content-media-shape.png");
   background-repeat: space;
-  background-position: left;
+  background-position: center;
 }
 
 
@@ -102,7 +102,7 @@ h3 {
 }
 
 .blue-hexagon {
-  background-image: url("/blue-hexagon.svg");
+  background-image: url("/hexagons/blue-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -113,7 +113,7 @@ h3 {
 
 
 .white-hexagon {
-  background-image: url("/white-hexagon.svg");
+  background-image: url("/hexagons/white-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
@@ -123,7 +123,7 @@ h3 {
 }
 
 .green-hexagon {
-  background-image: url("/green-hexagon.svg");
+  background-image: url("/hexagons/green-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
