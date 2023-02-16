@@ -193,7 +193,7 @@ export default function Home(props: PageProps) {
     //     </section>
     //   )}
     // </Layout>
-    <div>
+    <div className="light-background">
       <section className="grid grid-cols-10 min-h-screen">
         <div className="dark-background col-span-5 flex flex-col justify-between">
           <div className="flex justify-between items-center mx-4">
@@ -220,7 +220,10 @@ export default function Home(props: PageProps) {
               </h1>
               <p className="text-white">
                 Powered by{' '}
-                <a href="https://sine.foundation" className="underline underline-offset-4">
+                <a
+                  href="https://sine.foundation"
+                  className="underline underline-offset-4"
+                >
                   SINE Foundation
                 </a>
               </p>
@@ -306,7 +309,7 @@ export default function Home(props: PageProps) {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="flex justify-center mt-12">
+        <div className="flex justify-center mt-12 ">
           <Hexagon
             className="mx-2"
             hexagonColor="white-hexagon"
@@ -350,8 +353,8 @@ export default function Home(props: PageProps) {
           /> */}
         </div>
       </section>
-      <section className="m-24 min-h-screen">
-        <div>
+      <section className=" min-h-screen">
+        <div className="m-24">
           <div className="flex items-center mb-32">
             {/* <WhiteHexagon title="Data Model Extensions" href="/extensions" /> */}
             <Hexagon

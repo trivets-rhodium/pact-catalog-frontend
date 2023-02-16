@@ -81,7 +81,8 @@ h3 {
 }
 
 .light-background {
-  background-color: #f3f3f3;
+  /* background-color: #f3f3f3; */
+  background-image: url("/content-media-shape-gray.png");
 }
 
 .primary-link {
