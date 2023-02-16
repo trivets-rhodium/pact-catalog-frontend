@@ -19,7 +19,7 @@ import {
 import SearchBar from '../components/search-bar';
 import MiniSearch, { SearchResult } from 'minisearch';
 import Image from 'next/image';
-import pactLogo from '../public/pact-logo.svg';
+import pactLogo from '../public/logos/pact-logo.svg';
 // import {
 //   BlueHexagon,
 //   GreenHexagon,
@@ -28,8 +28,8 @@ import pactLogo from '../public/pact-logo.svg';
 import Link from 'next/link';
 import { Footer } from '../components/footer';
 import { Hexagon } from '../components/hexagons';
-import sineLogo from '../public/sine-logo.svg';
-import partnersLogos from '../public/partners-logos.svg';
+import sineLogo from '../public/logos/sine-logo.svg';
+import Marquee from 'react-fast-marquee';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -233,12 +233,92 @@ export default function Home(props: PageProps) {
               the software solutions that support these
             </p>
             <h3 className="text-white">Partners and Contributors:</h3>
-            <Image
-              src={partnersLogos}
-              alt={"Partners' logos"}
-              width={1000}
-              height={200}
-            />
+            <Marquee gradient={false} speed={50}>
+              <Image
+                src={'/logos/wbcsd-logo.svg'}
+                alt={'Siemens logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/siemens-logo.svg'}
+                alt={'WBCSD logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/catena-x-logo.svg'}
+                alt={'Catena-x logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/mckinsey-logo.svg'}
+                alt={'McKinsey logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/ecovadis-logo.svg'}
+                alt={'Ecovadis logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/unilever-logo.svg'}
+                alt={'Unilever logo'}
+                className="m-0 p-2"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/ibm-logo.svg'}
+                alt={'IBM logo'}
+                className="m-0"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/microsoft-logo.svg'}
+                alt={'Microsoft logo'}
+                className="mx-0"
+                height={150}
+                width={150}
+              />
+              <Image
+                src={'/logos/together-for-sustainability-logo.svg'}
+                alt={'Together for Sustainability logo'}
+                className="mx-4"
+                height={150}
+                width={150}
+              />
+              <Image
+                src={'/logos/rmi-logo.svg'}
+                alt={'Rocky Mountain Institute logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/sfc-logo.svg'}
+                alt={'Smart Freight Center logo'}
+                className="mx-4"
+                height={100}
+                width={100}
+              />
+              <Image
+                src={'/logos/jeita-logo.svg'}
+                alt={'JEITA logo'}
+                className="mx-4"
+                height={80}
+                width={80}
+              />
+            </Marquee>
           </div>
         </div>
         <div className="background-image col-span-5 flex justify-center items-center">
