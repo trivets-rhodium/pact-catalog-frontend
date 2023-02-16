@@ -21,13 +21,14 @@ import MiniSearch, { SearchResult } from 'minisearch';
 import Image from 'next/image';
 import pactLogo from '../public/pact-logo.svg';
 import { PactLogo, PartnersLogos, SineLogo } from '../components/logos';
-import {
-  BlueHexagon,
-  GreenHexagon,
-  WhiteHexagon,
-} from '../components/hexagons';
+// import {
+//   BlueHexagon,
+//   GreenHexagon,
+//   WhiteHexagon,
+// } from '../components/hexagons';
 import Link from 'next/link';
 import { Footer } from '../components/footer';
+import { Hexagon } from '../components/hexagons';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -218,7 +219,29 @@ export default function Home(props: PageProps) {
         </div>
         <div className="background-image col-span-5 flex justify-center items-center">
           <div className="min-h-full min-w-full relative mt-36">
-            <WhiteHexagon
+            <Hexagon
+              className="absolute top-0 left-1/4"
+              hexagonColor="white-hexagon"
+              mainText="Data Model Extensions"
+              secondaryText="Industry-specific extensions to the PACT methodology"
+              href="/extensions"
+            />
+            <Hexagon
+              className="absolute top-1/4 left-2/4"
+              hexagonColor="blue-hexagon"
+              mainText="Conforming Solutions"
+              secondaryText="Software solutions that conform with the Pathfinder technical specifications"
+              href="/solutions"
+            />
+            <Hexagon
+              className="absolute top-2/4 left-1/4"
+              hexagonColor="green-hexagon"
+              mainText="Members"
+              secondaryText="The Online Catalog and its Members"
+              // TO DO: Replace with members index href
+              href="/working-groups"
+            />
+            {/* <WhiteHexagon
               classes="absolute top-0 left-1/4"
               title="Data Model Extensions"
               description="Industry-specific data extensions to add to your PACT methodology"
@@ -236,7 +259,7 @@ export default function Home(props: PageProps) {
               description="Learn more about the Online Catalog and its Members"
               // TO DO: Replace with members index href
               href="/working-groups"
-            />
+            /> */}
           </div>
         </div>
       </section>
@@ -262,8 +285,30 @@ export default function Home(props: PageProps) {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="flex justify-center relative mt-12">
-          <WhiteHexagon
+        <div className="flex justify-center mt-12">
+          <Hexagon
+            className="mx-2"
+            hexagonColor="white-hexagon"
+            mainText="Data Model Extensions"
+            small
+            href="/extensions"
+          />
+          <Hexagon
+            className="mx-2"
+            hexagonColor="blue-hexagon"
+            mainText="Conforming Solutions"
+            small
+            href="/solutions"
+          />
+          <Hexagon
+            className="mx-2"
+            hexagonColor="green-hexagon"
+            mainText="Members"
+            small
+            // TO DO: Replace with members index href
+            href="/working-groups"
+          />
+          {/* <WhiteHexagon
             classes="mx-2"
             title="Data Model Extensions"
             href="/extensions"
@@ -281,13 +326,19 @@ export default function Home(props: PageProps) {
             // TO DO: Replace with members index href
             href="/working-groups"
             small={true}
-          />
+          /> */}
         </div>
       </section>
       <section className="m-24 min-h-screen">
         <div>
           <div className="flex items-center mb-32">
-            <WhiteHexagon title="Data Model Extensions" href="/extensions" />
+            {/* <WhiteHexagon title="Data Model Extensions" href="/extensions" /> */}
+            <Hexagon
+              className="shrink-0"
+              hexagonColor="white-hexagon"
+              mainText="Data Model Extensions"
+              href="/extensions"
+            />
             <div className="text-blue mx-10">
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -320,11 +371,24 @@ export default function Home(props: PageProps) {
                 <Link href="/extensions">Learn more</Link>
               </div>
             </div>
-            <BlueHexagon title="Conforming Solutions" href="/solutions" />
+            {/* <BlueHexagon title="Conforming Solutions" href="/solutions" /> */}
+            <Hexagon
+              className="shrink-0"
+              hexagonColor="blue-hexagon"
+              mainText="Conforming Solutions"
+              href="/solutions"
+            />
           </div>
           <div className="flex items-center mb-32">
-            <GreenHexagon
+            {/* <GreenHexagon
               title="Members"
+              // TO DO: Replace with members index href
+              href="/working-groups"
+            /> */}
+            <Hexagon
+              className="shrink-0"
+              hexagonColor="green-hexagon"
+              mainText="Members"
               // TO DO: Replace with members index href
               href="/working-groups"
             />
