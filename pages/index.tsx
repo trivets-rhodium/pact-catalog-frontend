@@ -212,7 +212,7 @@ export default function Home(props: PageProps) {
               </a>
             </div>
           </div>
-          <div className="mx-14 mb-12">
+          <div className="mx-14 mb-6">
             <div className="mb-4">
               <h1 className="text-white">
                 PACT <br />
