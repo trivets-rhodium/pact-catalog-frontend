@@ -73,6 +73,7 @@ h3 {
 
 .dark-background {
   background-color: #0a0552;
+
 }
 
 .text-blue {
@@ -114,7 +115,7 @@ h3 {
   background-position: center;
   color: #0a0552;
   clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
-
+  box-shadow: #0a0552;
 }
 
 .green-hexagon {

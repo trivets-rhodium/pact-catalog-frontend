@@ -1,4 +1,5 @@
-import { SineLogo } from './logos';
+import SineLogo from '../public/sine-logo.svg';
+import Image from 'next/image';
 
 export function Footer() {
   return (
@@ -6,7 +7,9 @@ export function Footer() {
       <p className="text-white">
         PACT Online Catalog — Powered by SINE Foundation
       </p>
-      <SineLogo />
+      <a href="https://sine.foundation">
+        <Image src={SineLogo} alt="SINE logo" />
+      </a>
     </div>
   );
 }

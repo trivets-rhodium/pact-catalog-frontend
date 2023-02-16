@@ -20,7 +20,6 @@ import SearchBar from '../components/search-bar';
 import MiniSearch, { SearchResult } from 'minisearch';
 import Image from 'next/image';
 import pactLogo from '../public/pact-logo.svg';
-import { PactLogo, PartnersLogos, SineLogo } from '../components/logos';
 // import {
 //   BlueHexagon,
 //   GreenHexagon,
@@ -29,6 +28,8 @@ import { PactLogo, PartnersLogos, SineLogo } from '../components/logos';
 import Link from 'next/link';
 import { Footer } from '../components/footer';
 import { Hexagon } from '../components/hexagons';
+import sineLogo from '../public/sine-logo.svg';
+import partnersLogos from '../public/partners-logos.svg';
 
 type PageProps = {
   latestExtensions: CatalogDataModelExtension[];
@@ -196,9 +197,19 @@ export default function Home(props: PageProps) {
       <section className="grid grid-cols-10 min-h-screen">
         <div className="dark-background col-span-5 flex flex-col justify-between">
           <div className="flex justify-between items-center mx-4">
-            <PactLogo />
+            <a href={'https://carbon-transparency.com'} target="_blank">
+              <Image src={pactLogo} alt={'PACT logo'} />
+            </a>
             <div className="mr-10">
-              <SineLogo />
+              <a href="https://sine.foundation" target="_blank">
+                <Image
+                  src={sineLogo}
+                  alt={'SINE logo'}
+                  priority
+                  height={180}
+                  width={180}
+                />
+              </a>
             </div>
           </div>
           <div className="mx-14 mb-12">
@@ -207,14 +218,24 @@ export default function Home(props: PageProps) {
                 PACT <br />
                 Online Catalog
               </h1>
-              <p className="text-white">Powered by SINE Foundation</p>
+              <p className="text-white">
+                Powered by{' '}
+                <a href="https://sine.foundation" className="underline underline-offset-4">
+                  SINE Foundation
+                </a>
+              </p>
             </div>
             <p className="text-white mb-20">
               Find and create industry specific Scope-3 data extensions — and
               the software solutions that support these
             </p>
             <h3 className="text-white">Partners and Contributors:</h3>
-            <PartnersLogos />
+            <Image
+              src={partnersLogos}
+              alt={"Partners' logos"}
+              width={1000}
+              height={200}
+            />
           </div>
         </div>
         <div className="background-image col-span-5 flex justify-center items-center">
