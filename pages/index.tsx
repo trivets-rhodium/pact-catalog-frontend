@@ -11,8 +11,8 @@ import { LogoMarquee } from '../components/logo-marquee';
 export default function Home() {
   return (
     <div className="light-background">
-      <section className="grid grid-cols-10 min-h-screen">
-        <div className="dark-background col-span-5 flex flex-col justify-between">
+      <section className="grid grid-cols-10 min-h-screen shadow-xl">
+        <div className="dark-background background-shadow col-span-5 flex flex-col justify-between">
           <div className="flex justify-between items-center mx-4">
             <a href={'https://carbon-transparency.com'} target="_blank">
               <Image src={pactLogo} alt={'PACT logo'} />
