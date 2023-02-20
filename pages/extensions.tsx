@@ -221,6 +221,7 @@ export default function Extensions(props: PageProps) {
     setSearchState({
       ...searchState,
       industry: event.target.value,
+      publisher: '',
     });
 
     if (event.target.value === '') {

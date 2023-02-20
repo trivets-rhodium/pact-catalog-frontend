@@ -14,11 +14,19 @@ export default function Home() {
       <section className="grid grid-cols-10 min-h-screen shadow-xl">
         <div className="dark-background background-shadow col-span-5 flex flex-col justify-between">
           <div className="flex justify-between items-center mx-4">
-            <a href={'https://carbon-transparency.com'} target="_blank">
+            <a
+              href={'https://carbon-transparency.com'}
+              target="_blank"
+              rel="noreferrer"
+            >
               <Image src={pactLogo} alt={'PACT logo'} />
             </a>
             <div className="mr-10">
-              <a href="https://sine.foundation" target="_blank">
+              <a
+                href="https://sine.foundation"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <Image src={sineLogo} alt={'SINE logo'} priority width={180} />
               </a>
             </div>
