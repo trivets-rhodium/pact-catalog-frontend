@@ -85,9 +85,13 @@ const logos: Logos = [
 ];
 
 export function LogoMarquee() {
+  function shuffle(array: Logos) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
   return (
     <>
-      {logos.map(({ fileName, alt, margin, padding, size }) => {
+      {shuffle(logos).map(({ fileName, alt, margin, padding, size }) => {
         return (
           <Image
             src={`/logos/${fileName}`}
