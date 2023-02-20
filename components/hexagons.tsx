@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 type HexagonLayoutProps = {
   small?: boolean;
@@ -12,6 +13,7 @@ type HexagonLayoutProps = {
 
 type HexagonProps = {
   hexagonColor: 'white-hexagon' | 'blue-hexagon' | 'green-hexagon';
+  svgPath: string;
   mainText: string;
   className?: string;
   secondaryText?: string;
@@ -20,26 +22,75 @@ type HexagonProps = {
 };
 
 export function Hexagon(props: HexagonProps) {
-  const { hexagonColor, mainText, className, secondaryText, small, href } =
-    props;
+  const {
+    hexagonColor,
+    mainText,
+    className,
+    secondaryText,
+    small,
+    href,
+    svgPath,
+  } = props;
+
+  // return (
+  //   <Link href={href}>
+  //     <div
+  //       className={`${hexagonColor} ${
+  //         small ? 'w-28 h-28' : 'w-56 h-56'
+  //       } ${className} flex justify-center items-center`}
+  //     >
+  //       <div className="w-2/3 flex justify-center">
+  //         <div>
+  //           <p className={`${small ? 'text-sm' : 'text-2xl'} w-fit`}>
+  //             {mainText}
+  //           </p>
+  //           {secondaryText && <p className="text-xs">{secondaryText}</p>}
+  //         </div>
+  //       </div>
+  //     </div>
+  //   </Link>
+  // );
 
   return (
-    <Link href={href}>
-      <div
-        className={`${hexagonColor} ${
-          small ? 'w-28 h-28' : 'w-56 h-56'
-        } ${className} flex justify-center items-center`}
+    // <Link href={href} className="relative">
+    //   <img
+    //     src={svgPath}
+    //     alt={hexagonColor}
+    //     className={`${hexagonColor} ${
+    //       small ? 'w-28 h-28' : 'w-56 h-56'
+    //     } ${className} flex justify-center items-center`}
+    //   />
+    //   <div className="w-2/3 flex justify-center absolute top-8">
+    //     <div className="">
+    //       <p className={`${small ? 'text-sm' : 'text-2xl'} w-fit`}>
+    //         {mainText}
+    //       </p>
+    //       {secondaryText && <p className="text-xs">{secondaryText}</p>}
+    //     </div>
+    //   </div>
+    // </Link>
+    <div
+      className={`${className} ${hexagonColor} flex justify-center items-center`}
+    >
+      <Link
+        href={href}
+        className={`${
+          small ? 'small-hexagon-clip' : 'hexagon-clip'
+        } relative flex items-center justify-center `}
       >
-        <div className="w-2/3 flex justify-center">
-          <div>
-            <p className={`${small ? 'text-sm' : 'text-2xl'} text-center`}>
-              {mainText}
-            </p>
-            {secondaryText && <p className="text-xs text-center">{secondaryText}</p>}
+        <img src={svgPath} alt={hexagonColor} />
+        <div className="absolute p-6 w-full">
+          <div className="flex justify-center">
+            <div>
+              <p className={`${small ? 'text-sm px-12' : 'text-2xl'}`}>
+                {mainText}
+              </p>
+              {secondaryText && <p className="text-xs">{secondaryText}</p>}
+            </div>
           </div>
         </div>
-      </div>
-    </Link>
+      </Link>
+    </div>
   );
 }
 

@@ -110,35 +110,47 @@ h3 {
 }
 
 .blue-hexagon {
-  background-image: url("/hexagons/blue-hexagon.svg");
+  /* background-image: url("/hexagons/blue-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: center;
+  background-position: center; */
   color: white;
-  clip-path: url("/hexagons/blue-hexagon.svg");
+  /* clip-path: url("/hexagons/blue-hexagon.svg"); */
 }
 
 
 .white-hexagon {
-  background-image: url("/hexagons/white-hexagon.svg");
+  /* background-image: url("/hexagons/white-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: center;
+  background-position: center; */
   color: #0a0552;
-  clip-path: url("/hexagons/white-hexagon.svg");
-  box-shadow: #0a0552;
+  /* box-shadow: #0a0552; */
+  /* clip-path: path("M106.325 3.16926C112.344 -0.293082 119.751 -0.293087 125.77 3.16926L221.817 58.4153C227.866 61.8945 231.595 68.3406 231.595 75.3186V185.681C231.595 192.659 227.866 199.105 221.817 202.585L125.77 257.831C119.751 261.293 112.344 261.293 106.325 257.831L10.2773 202.585C4.22858 199.105 0.499962 192.659 0.499962 185.681V75.3186C0.499962 68.3406 4.22857 61.8945 10.2773 58.4153L106.325 3.16926Z"); */
 }
 
 .green-hexagon {
-  background-image: url("/hexagons/green-hexagon.svg");
+  /* background-image: url("/hexagons/green-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
-  background-position: center;
+  background-position: center; */
   color: white;
-  clip-path: url("/hexagons/green-hexagon.svg");
+  /* clip-path: url("/hexagons/green-hexagon.svg"); */
 }
 
+.hexagon-shadow {
+  filter: drop-shadow(0 0 20px black)
+}
 
+.hexagon-clip {
+  clip-path: path("M106.325 3.16926C112.344 -0.293082 119.751 -0.293087 125.77 3.16926L221.817 58.4153C227.866 61.8945 231.595 68.3406 231.595 75.3186V185.681C231.595 192.659 227.866 199.105 221.817 202.585L125.77 257.831C119.751 261.293 112.344 261.293 106.325 257.831L10.2773 202.585C4.22858 199.105 0.499962 192.659 0.499962 185.681V75.3186C0.499962 68.3406 4.22857 61.8945 10.2773 58.4153L106.325 3.16926Z");
+}
+
+.small-hexagon-clip {
+  width: 50%;
+  clip-path: path("M53.163 1.585C56.172-.147 59.876-.147 62.885 1.585L110.909 29.208C113.933 30.947 115.798 34.17 115.798 37.659V92.841C115.798 96.33 113.933 99.553 110.909 101.293L62.885 128.916C59.876 130.647 56.172 130.647 53.163 128.916L5.139 101.293C2.114 99.553.25 96.33.25 92.841V37.659C.25 34.17 2.114 30.947 5.139 29.208L53.163 1.585Z");
+
+}
 
 /* .hexagon-left-text {
   transform: skewY(30deg);

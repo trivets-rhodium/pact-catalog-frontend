@@ -243,6 +243,7 @@ export default function Home(props: PageProps) {
           div
           <div className="min-h-full min-w-full relative mt-36">
             <Hexagon
+              svgPath="/hexagons/white-hexagon.svg"
               className="absolute top-0 left-1/4 hexagon-shadow"
               hexagonColor="white-hexagon"
               mainText="Data Model Extensions"
@@ -250,6 +251,7 @@ export default function Home(props: PageProps) {
               href="/extensions"
             />
             <Hexagon
+              svgPath="/hexagons/blue-hexagon.svg"
               className="absolute top-1/4 left-2/4 hexagon-shadow"
               hexagonColor="blue-hexagon"
               mainText="PACT Compliant Solutions"
@@ -257,6 +259,7 @@ export default function Home(props: PageProps) {
               href="/solutions"
             />
             <Hexagon
+              svgPath="/hexagons/green-hexagon.svg"
               className="absolute top-2/4 left-1/4 hexagon-shadow"
               hexagonColor="green-hexagon"
               mainText="Members"
@@ -310,21 +313,24 @@ export default function Home(props: PageProps) {
         </div>
         <div className="flex justify-center mt-12 ">
           <Hexagon
-            className="mx-2"
+            svgPath="/hexagons/white-hexagon.svg"
+            className=""
             hexagonColor="white-hexagon"
             mainText="Data Model Extensions"
             small
             href="/extensions"
           />
           <Hexagon
-            className="mx-2"
+            svgPath="/hexagons/blue-hexagon.svg"
+            className=""
             hexagonColor="blue-hexagon"
             mainText="PACT Compliant Solutions"
             small
             href="/solutions"
           />
           <Hexagon
-            className="mx-2"
+            svgPath="/hexagons/green-hexagon.svg"
+            className=""
             hexagonColor="green-hexagon"
             mainText="Members"
             small
@@ -357,6 +363,7 @@ export default function Home(props: PageProps) {
           <div className="flex items-center mb-32">
             {/* <WhiteHexagon title="Data Model Extensions" href="/extensions" /> */}
             <Hexagon
+              svgPath="/hexagons/white-hexagon.svg"
               className="shrink-0"
               hexagonColor="white-hexagon"
               mainText="Data Model Extensions"
@@ -396,6 +403,7 @@ export default function Home(props: PageProps) {
             </div>
             {/* <BlueHexagon title="Conforming Solutions" href="/solutions" /> */}
             <Hexagon
+              svgPath="/hexagons/blue-hexagon.svg"
               className="shrink-0"
               hexagonColor="blue-hexagon"
               mainText="PACT Compliant Solutions"
@@ -409,6 +417,7 @@ export default function Home(props: PageProps) {
               href="/working-groups"
             /> */}
             <Hexagon
+              svgPath="/hexagons/green-hexagon.svg"
               className="shrink-0"
               hexagonColor="green-hexagon"
               mainText="Members"
