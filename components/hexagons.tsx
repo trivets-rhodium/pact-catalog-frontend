@@ -32,10 +32,10 @@ export function Hexagon(props: HexagonProps) {
       >
         <div className="w-2/3 flex justify-center">
           <div>
-            <p className={`${small ? 'text-sm' : 'text-2xl'} w-fit`}>
+            <p className={`${small ? 'text-sm' : 'text-2xl'} text-center`}>
               {mainText}
             </p>
-            {secondaryText && <p className="text-xs">{secondaryText}</p>}
+            {secondaryText && <p className="text-xs text-center">{secondaryText}</p>}
           </div>
         </div>
       </div>
