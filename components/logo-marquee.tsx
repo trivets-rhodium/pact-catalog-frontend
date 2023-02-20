@@ -20,7 +20,7 @@ const logos: Logos = [
   {
     fileName: 'siemens-logo.svg',
     alt: 'Siemens logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://www.siemens.com/',
   },
@@ -105,14 +105,17 @@ export function LogoMarquee() {
   return (
     <>
       {shuffle(logos).map(({ fileName, alt, margin, padding, size, link }) => {
+        console.log(fileName);
         return (
-          <a href={link} target="_blank">
+          <a key={fileName} href={link} target="_blank">
             <Image
               src={`/logos/${fileName}`}
               alt={alt}
               className={`${margin} ${padding}`}
-              height={size}
-              width={size}
+              priority
+              width={0}
+              height={0}
+              style={{ width: 'auto', height: 'auto' }}
             />
           </a>
         );
