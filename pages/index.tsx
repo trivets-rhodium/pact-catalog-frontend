@@ -234,12 +234,13 @@ export default function Home(props: PageProps) {
               the software solutions that support these
             </p>
             <h3 className="text-white">Partners and Contributors:</h3>
-            <Marquee gradient={false} speed={50}>
+            <Marquee gradient={false} speed={50} pauseOnHover>
               <LogoMarquee />
             </Marquee>
           </div>
         </div>
         <div className="background-image col-span-5 flex justify-center items-center">
+          div
           <div className="min-h-full min-w-full relative mt-36">
             <Hexagon
               className="absolute top-0 left-1/4"

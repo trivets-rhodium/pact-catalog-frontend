@@ -101,13 +101,17 @@ h3 {
   background-image: url("https://images.unsplash.com/photo-1599940824399-b87987ceb72a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80");
 }
 
+.blur>* {
+  filter: blur(10px);
+}
+
 .blue-hexagon {
   background-image: url("/hexagons/blue-hexagon.svg");
   background-repeat: no-repeat;
   background-size: contain;
   background-position: center;
   color: white;
-  clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
+  clip-path: url("/hexagons/blue-hexagon.svg");
 
 }
 
@@ -118,7 +122,7 @@ h3 {
   background-size: contain;
   background-position: center;
   color: #0a0552;
-  clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
+  clip-path: url("/hexagons/white-hexagon.svg");
   box-shadow: #0a0552;
 }
 
@@ -128,8 +132,7 @@ h3 {
   background-size: contain;
   background-position: center;
   color: white;
-  clip-path: polygon(50% -5%, 95% 25%, 95% 75%, 50% 105%, 5% 75%, 5% 25%);
-
+  clip-path: url("/hexagons/green-hexagon.svg");
 }
 
 
