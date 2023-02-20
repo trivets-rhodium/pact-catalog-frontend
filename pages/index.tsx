@@ -19,13 +19,7 @@ export default function Home() {
             </a>
             <div className="mr-10">
               <a href="https://sine.foundation" target="_blank">
-                <Image
-                  src={sineLogo}
-                  alt={'SINE logo'}
-                  priority
-                  height={180}
-                  width={180}
-                />
+                <Image src={sineLogo} alt={'SINE logo'} priority width={180} />
               </a>
             </div>
           </div>
