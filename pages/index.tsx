@@ -311,7 +311,7 @@ export default function Home(props: PageProps) {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="flex justify-center mt-12 ">
+        <div className="flex justify-center  mt-12 ">
           <Hexagon
             svgPath="/hexagons/white-hexagon.svg"
             className=""
