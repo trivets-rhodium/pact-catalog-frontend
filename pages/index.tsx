@@ -313,7 +313,7 @@ export default function Home(props: PageProps) {
         </div>
         <div className="flex justify-center  mt-12 ">
           <Hexagon
-            svgPath="/hexagons/white-hexagon.svg"
+            svgPath="/hexagons/small-white-hexagon.svg"
             className=""
             hexagonColor="white-hexagon"
             mainText="Data Model Extensions"
@@ -321,7 +321,7 @@ export default function Home(props: PageProps) {
             href="/extensions"
           />
           <Hexagon
-            svgPath="/hexagons/blue-hexagon.svg"
+            svgPath="/hexagons/small-blue-hexagon.svg"
             className=""
             hexagonColor="blue-hexagon"
             mainText="PACT Compliant Solutions"
@@ -329,7 +329,7 @@ export default function Home(props: PageProps) {
             href="/solutions"
           />
           <Hexagon
-            svgPath="/hexagons/green-hexagon.svg"
+            svgPath="/hexagons/small-green-hexagon.svg"
             className=""
             hexagonColor="green-hexagon"
             mainText="Members"

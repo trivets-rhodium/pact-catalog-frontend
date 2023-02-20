@@ -70,20 +70,28 @@ export function Hexagon(props: HexagonProps) {
     //   </div>
     // </Link>
     <div
-      className={`${className} ${hexagonColor} flex justify-center items-center`}
+      className={`${className} ${hexagonColor} flex justify-center items-center ${
+        small ? 'small-hexagon-clip mx-4' : 'hexagon-clip'
+      } w-fit`}
     >
       <Link
         href={href}
         className={`relative flex items-center justify-center `}
       >
-        <img src={svgPath} alt={hexagonColor} className={small ? 'w-24 mx-4' : 'w-54'} />
+        <img src={svgPath} alt={hexagonColor} />
         <div className="absolute p-6 w-full">
           <div className="flex justify-center">
             <div>
-              <p className={`${small ? 'text-sm px-12' : 'text-2xl'}`}>
+              <p
+                className={`${
+                  small ? 'text-sm px-12' : 'text-2xl'
+                } text-center`}
+              >
                 {mainText}
               </p>
-              {secondaryText && <p className="text-xs">{secondaryText}</p>}
+              {secondaryText && (
+                <p className="text-xs text-center">{secondaryText}</p>
+              )}
             </div>
           </div>
         </div>
