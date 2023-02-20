@@ -244,7 +244,7 @@ export default function Home(props: PageProps) {
           <div className="min-h-full min-w-full relative mt-36">
             <Hexagon
               svgPath="/hexagons/white-hexagon.svg"
-              className="absolute top-0 left-1/4 hexagon-shadow"
+              className="absolute top-0 left-1/4 hexagon-shadow "
               hexagonColor="white-hexagon"
               mainText="Data Model Extensions"
               secondaryText="Industry-specific extensions to the PACT methodology"
@@ -252,7 +252,7 @@ export default function Home(props: PageProps) {
             />
             <Hexagon
               svgPath="/hexagons/blue-hexagon.svg"
-              className="absolute top-1/4 left-2/4 hexagon-shadow"
+              className="absolute top-1/4 left-2/4 hexagon-shadow "
               hexagonColor="blue-hexagon"
               mainText="PACT Compliant Solutions"
               secondaryText="Software solutions that conform with the Pathfinder technical specifications"
@@ -260,7 +260,7 @@ export default function Home(props: PageProps) {
             />
             <Hexagon
               svgPath="/hexagons/green-hexagon.svg"
-              className="absolute top-2/4 left-1/4 hexagon-shadow"
+              className="absolute top-2/4 left-1/4 hexagon-shadow "
               hexagonColor="green-hexagon"
               mainText="Members"
               secondaryText="The Online Catalog and its Members"
