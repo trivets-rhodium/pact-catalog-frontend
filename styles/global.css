@@ -81,7 +81,6 @@ h3 {
 }
 
 .light-background {
-  /* background-color: #f3f3f3; */
   background-image: url("/background/content-media-shape.png");
   background-repeat: space;
   background-position: center;
@@ -109,35 +108,6 @@ h3 {
   clip-path: path("M106.325 3.16926C112.344 -0.293082 119.751 -0.293087 125.77 3.16926L221.817 58.4153C227.866 61.8945 231.595 68.3406 231.595 75.3186V185.681C231.595 192.659 227.866 199.105 221.817 202.585L125.77 257.831C119.751 261.293 112.344 261.293 106.325 257.831L10.2773 202.585C4.22858 199.105 0.499962 192.659 0.499962 185.681V75.3186C0.499962 68.3406 4.22857 61.8945 10.2773 58.4153L106.325 3.16926Z");
 }
 
-.blue-hexagon {
-  /* background-image: url("/hexagons/blue-hexagon.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center; */
-  color: white;
-  /* clip-path: url("/hexagons/blue-hexagon.svg"); */
-}
-
-
-.white-hexagon {
-  /* background-image: url("/hexagons/white-hexagon.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center; */
-  color: #0a0552;
-  /* box-shadow: #0a0552; */
-  /* clip-path: path("M106.325 3.16926C112.344 -0.293082 119.751 -0.293087 125.77 3.16926L221.817 58.4153C227.866 61.8945 231.595 68.3406 231.595 75.3186V185.681C231.595 192.659 227.866 199.105 221.817 202.585L125.77 257.831C119.751 261.293 112.344 261.293 106.325 257.831L10.2773 202.585C4.22858 199.105 0.499962 192.659 0.499962 185.681V75.3186C0.499962 68.3406 4.22857 61.8945 10.2773 58.4153L106.325 3.16926Z"); */
-}
-
-.green-hexagon {
-  /* background-image: url("/hexagons/green-hexagon.svg");
-  background-repeat: no-repeat;
-  background-size: contain;
-  background-position: center; */
-  color: white;
-  /* clip-path: url("/hexagons/green-hexagon.svg"); */
-}
-
 .hexagon-shadow {
   filter: drop-shadow(0px 0px 20px black)
 }
@@ -149,11 +119,3 @@ h3 {
 .small-hexagon-clip {
   clip-path: path("M63.1586 2.77271L108.659 28.4901C112.268 30.5303 114.5 34.3554 114.5 38.5016V89.4984C114.5 93.6446 112.268 97.4697 108.659 99.5099L63.1586 125.227C59.6472 127.212 55.3527 127.212 51.8413 125.227L6.34133 99.5099C2.73184 97.4697 0.499981 93.6446 0.499981 89.4984V38.5016C0.499981 34.3554 2.73183 30.5303 6.34132 28.4901L51.8413 2.77271C55.3527 0.78801 59.6472 0.78801 63.1586 2.77271Z");
 }
-
-/* .hexagon-left-text {
-  transform: skewY(30deg);
-  transform-origin: bottom left;
-} */
-
-
-/* linear-gradient(45deg, rgba(10, 5, 82, 0.4), rgba(0, 0, 0, 0.4)), */
