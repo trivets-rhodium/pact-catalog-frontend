@@ -67,3 +67,13 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+.user-card-top {
+  border: 2px solid #08A17F;
+}
+
+.user-card-bottom {
+  border: 2px solid #08A17F;
+  border-top: 0;
+  background-color: rgba(8, 161, 128, 0.5);
+}
