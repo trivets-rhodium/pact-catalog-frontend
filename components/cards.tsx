@@ -300,8 +300,25 @@ export function UserCard(props: UserCard) {
           </ul>
         </div>
         <div className="mb-4">
-          <h3>Working Groups</h3>
-          <p>Sustainable Steel Production</p>
+          {workingGroups && workingGroups.length >= 1 && (
+            <h3>Working Groups</h3>
+          )}
+          <ul>
+            {workingGroups &&
+              workingGroups.map((group) => {
+                return (
+                  <li key={group.name}>
+                    <Link
+                      href={`working-groups/${
+                        group.id
+                      }${router.asPath.replace('members', '')}`}
+                    >
+                      {group.name}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
         </div>
         <div className="text-right mt-8">
           <Link href={'#'} className="primary-button">
