@@ -10,8 +10,8 @@ import { LogoMarquee } from '../components/logo-marquee';
 
 export default function Home() {
   return (
-    <section className="grid grid-cols-10 min-h-screen shadow-xl">
-      <div className="dark-background background-shadow col-span-5 flex flex-col justify-between">
+    <section className="grid grid-cols-10 h-screen">
+      <div className="dark-background background-shadow col-span-4 flex flex-col justify-between">
         <div className="flex justify-between items-center mx-4">
           <a
             href={'https://carbon-transparency.com'}
@@ -52,25 +52,25 @@ export default function Home() {
           </Marquee>
         </div>
       </div>
-      <div className="background-image col-span-5 flex justify-center items-center">
-        <div className="min-h-full min-w-full relative mt-36">
+      <div className="background-image col-span-6 flex justify-center items-center">
+        <div className="h-full min-w-full relative ">
           <Hexagon
             svgPath="/hexagons/white-hexagon.svg"
-            className="absolute top-0 left-1/4 hexagon-shadow white-hexagon"
+            className="mt-20 absolute top-0 left-1/4 hexagon-shadow white-hexagon"
             mainText="Data Model Extensions"
             secondaryText="Industry-specific extensions to the PACT methodology"
             href="/extensions"
           />
           <Hexagon
             svgPath="/hexagons/blue-hexagon.svg"
-            className="absolute top-1/4 left-2/4 hexagon-shadow blue-hexagon"
+            className="mt-20 absolute top-1/4 left-2/4 hexagon-shadow blue-hexagon"
             mainText="PACT Compliant Solutions"
             secondaryText="Software solutions that conform with the Pathfinder technical specifications"
             href="/solutions"
           />
           <Hexagon
             svgPath="/hexagons/green-hexagon.svg"
-            className="absolute top-2/4 left-1/4 hexagon-shadow green-hexagon"
+            className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow green-hexagon"
             mainText="Members"
             secondaryText="The Online Catalog and its Members"
             // TO DO: Replace with members index href
@@ -79,7 +79,7 @@ export default function Home() {
 
           <Link
             href={'/about'}
-            className="about-button absolute bottom-24 right-8"
+            className="about-button absolute bottom-6 right-8"
           >
             <h3>?</h3>
           </Link>
