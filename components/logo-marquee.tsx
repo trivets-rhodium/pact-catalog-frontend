@@ -13,7 +13,7 @@ const logos: Logos = [
   {
     fileName: 'wbcsd-logo.svg',
     alt: 'WBCSD logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://www.wbcsd.org/',
   },
@@ -27,21 +27,21 @@ const logos: Logos = [
   {
     fileName: 'catena-x-logo.svg',
     alt: 'Catena-x logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://catena-x.net/',
   },
   {
     fileName: 'mckinsey-logo.svg',
     alt: 'McKinsey Sustainability logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://www.mckinsey.com/capabilities/sustainability/how-we-help-clients',
   },
   {
     fileName: 'ecovadis-logo.svg',
     alt: 'Ecovadis logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://ecovadis.com/',
   },
@@ -77,34 +77,37 @@ const logos: Logos = [
   {
     fileName: 'rmi-logo.svg',
     alt: 'Rocky Mountain Institute logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://rmi.org/',
   },
   {
     fileName: 'sfc-logo.svg',
     alt: 'Smart Freight Center logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 100,
     link: 'https://www.smartfreightcentre.org/',
   },
   {
     fileName: 'jeita-logo.svg',
     alt: 'JEITA logo',
-    margin: 'mx-4',
+    margin: 'mx-2',
     size: 80,
     link: 'https://www.jeita.or.jp/',
   },
 ];
 
-export function LogoMarquee() {
-  function shuffle(array: Logos) {
-    return array.sort(() => Math.random() - 0.5);
-  }
+function shuffle(array: Logos) {
+  return array.sort(() => Math.random() - 0.5);
+}
 
+export function LogoMarquee() {
+  const marqueeLogos = shuffle(logos);
+
+  console.log('marqueeLogos', marqueeLogos);
   return (
     <>
-      {shuffle(logos).map(({ fileName, alt, margin, padding, size, link }) => {
+      {marqueeLogos.map(({ fileName, alt, margin, padding, size, link }) => {
         console.log(fileName);
         return (
           <a key={fileName} href={link} target="_blank">

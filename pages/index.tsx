@@ -47,7 +47,7 @@ export default function Home() {
             software solutions that support these
           </p>
           <h3 className="text-white">Partners and Contributors:</h3>
-          <Marquee gradient={false} speed={50} pauseOnHover>
+          <Marquee gradient={false} speed={20} pauseOnHover>
             <LogoMarquee />
           </Marquee>
         </div>
