@@ -61,21 +61,21 @@ export default function Home() {
           <div className="min-h-full min-w-full relative mt-36">
             <Hexagon
               svgPath="/hexagons/white-hexagon.svg"
-              className="absolute top-0 left-1/4 hexagon-shadow text-blue"
+              className="absolute top-0 left-1/4 hexagon-shadow white-hexagon"
               mainText="Data Model Extensions"
               secondaryText="Industry-specific extensions to the PACT methodology"
               href="/extensions"
             />
             <Hexagon
               svgPath="/hexagons/blue-hexagon.svg"
-              className="absolute top-1/4 left-2/4 hexagon-shadow text-white"
+              className="absolute top-1/4 left-2/4 hexagon-shadow blue-hexagon"
               mainText="PACT Compliant Solutions"
               secondaryText="Software solutions that conform with the Pathfinder technical specifications"
               href="/solutions"
             />
             <Hexagon
               svgPath="/hexagons/green-hexagon.svg"
-              className="absolute top-2/4 left-1/4 hexagon-shadow text-white"
+              className="absolute top-2/4 left-1/4 hexagon-shadow green-hexagon"
               mainText="Members"
               secondaryText="The Online Catalog and its Members"
               // TO DO: Replace with members index href

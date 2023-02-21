@@ -118,3 +118,49 @@ h3 {
 .small-hexagon-clip {
   clip-path: path("M63.1586 2.77271L108.659 28.4901C112.268 30.5303 114.5 34.3554 114.5 38.5016V89.4984C114.5 93.6446 112.268 97.4697 108.659 99.5099L63.1586 125.227C59.6472 127.212 55.3527 127.212 51.8413 125.227L6.34133 99.5099C2.73184 97.4697 0.499981 93.6446 0.499981 89.4984V38.5016C0.499981 34.3554 2.73183 30.5303 6.34132 28.4901L51.8413 2.77271C55.3527 0.78801 59.6472 0.78801 63.1586 2.77271Z");
 }
+
+.white-hexagon {
+  color: #0a0552
+}
+
+.white-hexagon:hover p {
+  display: none;
+}
+
+.white-hexagon:hover:after {
+  padding: 2rem;
+  position: inherit;
+  text-align: center;
+  content: "Click here to explore Data Model Extensions"
+}
+
+.blue-hexagon {
+  color: white
+}
+
+.blue-hexagon:hover p {
+  display: none;
+}
+
+.blue-hexagon:hover:after {
+  padding: 2rem;
+
+  position: inherit;
+  text-align: center;
+  content: "Click here to explore PACT Compliant Solution"
+}
+
+.green-hexagon {
+  color: white
+}
+
+.green-hexagon:hover p {
+  display: none;
+}
+
+.green-hexagon:hover:after {
+  padding: 2rem;
+  position: inherit;
+  text-align: center;
+  content: "Click here to explore the PACT Online Catalog Members"
+}
