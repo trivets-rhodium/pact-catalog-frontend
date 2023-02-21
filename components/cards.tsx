@@ -1,12 +1,15 @@
 import { SearchResult } from 'minisearch';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
   CatalogDataModelExtension,
   CatalogUser,
   ConformingSolution,
   DMEId,
+  UserId,
   VersionId,
+  WorkingGroup,
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
 
@@ -228,5 +231,108 @@ function LongCard(props: LongCardProps) {
         </Link>{' '}
       </div>
     </li>
+  );
+}
+
+type UserCard = {
+  name: string;
+  logo?: string;
+  extensions?: CatalogDataModelExtension[];
+  solutions?: ConformingSolution[];
+  workingGroups?: WorkingGroup[];
+};
+
+export function UserCard(props: UserCard) {
+  const { name, logo, extensions, solutions, workingGroups } = props;
+  const router = useRouter();
+  return (
+    <div className="my-4">
+      <div
+        className={`bg-white ${style['user-card-top']} rounded-t-2xl pt-8 px-10 pb-4`}
+      >
+        {logo ? (
+          <div>
+            <img
+              src={logo || ''}
+              alt={'RMI logo'}
+              width={0}
+              height={0}
+              style={{ width: 'auto', height: 'auto' }}
+            />
+            <p className="text-center text-blue mt-4">{name}</p>
+          </div>
+        ) : (
+          <h2>{name}</h2>
+        )}
+      </div>
+      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
+        <div className="mb-4">
+          {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
+          <ul>
+            {extensions &&
+              extensions.map((extension) => {
+                return (
+                  <li key={`${extension.name}-${extension.version}`}>
+                    <Link
+                      href={`extensions/${extension.name}/${
+                        extension.version
+                      }${router.asPath.replace('members', '')}`}
+                    >
+                      {`${extension.name} v${extension.version}`}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+        <div className="mb-4">
+          {solutions && solutions.length >= 1 && <h3>Solutions</h3>}
+          <ul>
+            {solutions &&
+              solutions.map((solution) => {
+                return (
+                  <li key={solution.id}>
+                    <Link
+                      href={`solutions/${solution.id}${router.asPath.replace(
+                        'members',
+                        ''
+                      )}`}
+                    >
+                      {solution.name}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+        <div className="mb-4">
+          {workingGroups && workingGroups.length >= 1 && (
+            <h3>Working Groups</h3>
+          )}
+          <ul>
+            {workingGroups &&
+              workingGroups.map((group) => {
+                return (
+                  <li key={group.name}>
+                    <Link
+                      href={`working-groups/${group.id}${router.asPath.replace(
+                        'members',
+                        ''
+                      )}`}
+                    >
+                      {group.name}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
+        </div>
+        <div className="text-right mt-8">
+          <Link href={'#'} className="primary-button">
+            Learn More
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
