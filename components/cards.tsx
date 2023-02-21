@@ -235,7 +235,6 @@ function LongCard(props: LongCardProps) {
 }
 
 type UserCard = {
-  id: UserId;
   name: string;
   logo?: string;
   extensions?: CatalogDataModelExtension[];
@@ -244,9 +243,11 @@ type UserCard = {
 };
 
 export function UserCard(props: UserCard) {
+  const { name, logo, extensions, solutions, workingGroups } = props;
+  const router = useRouter();
   return (
-    <div className="mr-4 my-4">
-      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-6`}>
+    <div className="my-4">
+      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-8`}>
         <Image
           src={
             'https://rmi.org/wp-content/uploads/2021/08/rmi_logo_horitzontal_no_tagline.svg'
@@ -258,20 +259,35 @@ export function UserCard(props: UserCard) {
         />
       </div>
       <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
-        <h3>Rocky Mountain Institute</h3>
+        <h2>{name}</h2>
         <div className="mb-4">
-          <h3>Published Extensions</h3>
-          <p>@rmi-steel-guindance</p>
+          {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
+          <ul>
+            {extensions &&
+              extensions.map((extension) => {
+                return (
+                  <li key={`${extension.name}-${extension.version}`}>
+                    <Link
+                      href={`extensions/${extension.name}/${
+                        extension.version
+                      }${router.asPath.replace('members', '')}`}
+                    >
+                      {`${extension.name} v${extension.version}`}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
         </div>
         <div className="mb-4">
-          <h3>Solutions Provided</h3>
+          <h3>Solutions</h3>
           <p>Solution</p>
         </div>
         <div className="mb-4">
           <h3>Working Groups</h3>
           <p>Sustainable Steel Production</p>
         </div>
-        <div className="text-right">
+        <div className="text-right mt-8">
           <Link href={'#'} className="primary-button">
             Learn More
           </Link>

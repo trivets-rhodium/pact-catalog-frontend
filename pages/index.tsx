@@ -73,8 +73,7 @@ export default function Home() {
             className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow green-hexagon"
             mainText="Members"
             secondaryText="The Online Catalog and its Members"
-            // TO DO: Replace with members index href
-            href="/working-groups"
+            href="/members"
           />
 
           <Link

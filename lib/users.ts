@@ -9,6 +9,7 @@ import {
   UserId,
 } from './catalog-types';
 import { UserParser } from './catalog-types.schema';
+import { getAllExtensions } from './data-model-extensions';
 
 const usersDirectory = path.posix.join(process.cwd(), '../catalog/users');
 
@@ -62,6 +63,18 @@ export async function getSolutionUsers(id: SolutionId): Promise<SolutionUsers> {
   }
 
   return solutionUsers;
+}
+
+export async function getUserExtensions(
+  id: UserId
+): Promise<CatalogDataModelExtension[]> {
+  const allExtensions = await getAllExtensions();
+
+  const usersExtensions = allExtensions.filter((extension) => {
+    extension.catalog_info.authors.includes(id);
+  });
+
+  return Promise.all(usersExtensions);
 }
 
 async function getUserFromBasePath(basePath: string): Promise<CatalogUser> {
