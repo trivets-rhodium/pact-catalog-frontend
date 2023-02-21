@@ -252,7 +252,7 @@ export function UserCard(props: UserCard) {
       >
         {logo ? (
           <div>
-            <Image
+            <img
               src={logo || ''}
               alt={'RMI logo'}
               width={0}
