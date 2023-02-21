@@ -164,3 +164,23 @@ h3 {
   text-align: center;
   content: "Click here to explore the PACT Online Catalog Members"
 }
+
+.about-button {
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+.about-button:hover h3 {
+  display: none;
+}
+
+.about-button:hover:before {
+  content: "About the PACT Online Catalog";
+}
+
+.about-button:hover {
+  border-radius: 50px;
+  color: #0a0552;
+  background-color: white;
+}
