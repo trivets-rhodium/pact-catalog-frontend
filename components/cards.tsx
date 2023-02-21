@@ -1,12 +1,15 @@
 import { SearchResult } from 'minisearch';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
   CatalogDataModelExtension,
   CatalogUser,
   ConformingSolution,
   DMEId,
+  UserId,
   VersionId,
+  WorkingGroup,
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
 
@@ -228,5 +231,52 @@ function LongCard(props: LongCardProps) {
         </Link>{' '}
       </div>
     </li>
+  );
+}
+
+type UserCard = {
+  id: UserId;
+  name: string;
+  logo?: string;
+  extensions?: CatalogDataModelExtension[];
+  solutions?: ConformingSolution[];
+  workingGroups?: WorkingGroup[];
+};
+
+export function UserCard(props: UserCard) {
+  return (
+    <div className="mr-4 my-4">
+      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-6`}>
+        <Image
+          src={
+            'https://rmi.org/wp-content/uploads/2021/08/rmi_logo_horitzontal_no_tagline.svg'
+          }
+          alt={'RMI logo'}
+          width={0}
+          height={0}
+          style={{ width: 'auto', height: 'auto' }}
+        />
+      </div>
+      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
+        <h3>Rocky Mountain Institute</h3>
+        <div className="mb-4">
+          <h3>Published Extensions</h3>
+          <p>@rmi-steel-guindance</p>
+        </div>
+        <div className="mb-4">
+          <h3>Solutions Provided</h3>
+          <p>Solution</p>
+        </div>
+        <div className="mb-4">
+          <h3>Working Groups</h3>
+          <p>Sustainable Steel Production</p>
+        </div>
+        <div className="text-right">
+          <Link href={'#'} className="primary-button">
+            Learn More
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
