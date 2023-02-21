@@ -71,6 +71,7 @@ export default function Members(props: PageProps) {
                 extensions={user.userExtensions}
                 solutions={user.userSolutions}
                 workingGroups={user.workingGroups}
+                logo={user.user.logo || undefined}
               />
             </li>
           );

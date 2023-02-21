@@ -247,19 +247,25 @@ export function UserCard(props: UserCard) {
   const router = useRouter();
   return (
     <div className="my-4">
-      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-8`}>
-        <Image
-          src={
-            'https://rmi.org/wp-content/uploads/2021/08/rmi_logo_horitzontal_no_tagline.svg'
-          }
-          alt={'RMI logo'}
-          width={0}
-          height={0}
-          style={{ width: 'auto', height: 'auto' }}
-        />
+      <div
+        className={`bg-white ${style['user-card-top']} rounded-t-2xl pt-8 px-10 pb-4`}
+      >
+        {logo ? (
+          <div>
+            <Image
+              src={logo || ''}
+              alt={'RMI logo'}
+              width={0}
+              height={0}
+              style={{ width: 'auto', height: 'auto' }}
+            />
+            <p className="text-center text-blue mt-4">{name}</p>
+          </div>
+        ) : (
+          <h2>{name}</h2>
+        )}
       </div>
       <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
-        <h2>{name}</h2>
         <div className="mb-4">
           {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
           <ul>
@@ -309,9 +315,10 @@ export function UserCard(props: UserCard) {
                 return (
                   <li key={group.name}>
                     <Link
-                      href={`working-groups/${
-                        group.id
-                      }${router.asPath.replace('members', '')}`}
+                      href={`working-groups/${group.id}${router.asPath.replace(
+                        'members',
+                        ''
+                      )}`}
                     >
                       {group.name}
                     </Link>
