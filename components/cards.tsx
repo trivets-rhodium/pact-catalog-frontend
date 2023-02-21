@@ -280,8 +280,24 @@ export function UserCard(props: UserCard) {
           </ul>
         </div>
         <div className="mb-4">
-          <h3>Solutions</h3>
-          <p>Solution</p>
+          {solutions && solutions.length >= 1 && <h3>Solutions</h3>}
+          <ul>
+            {solutions &&
+              solutions.map((solution) => {
+                return (
+                  <li key={solution.id}>
+                    <Link
+                      href={`solutions/${solution.id}${router.asPath.replace(
+                        'members',
+                        ''
+                      )}`}
+                    >
+                      {solution.name}
+                    </Link>
+                  </li>
+                );
+              })}
+          </ul>
         </div>
         <div className="mb-4">
           <h3>Working Groups</h3>

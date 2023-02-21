@@ -9,6 +9,7 @@ import {
   WorkingGroup,
 } from '../lib/catalog-types';
 import { getAllExtensions } from '../lib/data-model-extensions';
+import { getAllSolutions } from '../lib/solutions';
 import { getAllUsers, getUserExtensions } from '../lib/users';
 
 type EnrichedUser = {
@@ -24,13 +25,18 @@ type PageProps = {
 export const getStaticProps: GetStaticProps<PageProps> = async () => {
   let allUsers = await getAllUsers();
   let allExtensions = await getAllExtensions();
+  let allSolutions = await getAllSolutions();
 
   const enrichedUsers = allUsers.map((user) => {
     const userExtensions = allExtensions.filter((extension) => {
       return extension.catalog_info.authors.includes(user.id);
     });
 
-    return { user, userExtensions };
+    const userSolutions = allSolutions.filter((solution) => {
+      return solution.provider === user.id;
+    });
+
+    return { user, userExtensions, userSolutions };
   });
 
   return {
@@ -53,6 +59,7 @@ export default function Members(props: PageProps) {
               <UserCard
                 name={user.user.name}
                 extensions={user.userExtensions}
+                solutions={user.userSolutions}
               />
             </li>
           );
