@@ -24,9 +24,8 @@ export function Hexagon(props: HexagonProps) {
   const { mainText, className, secondaryText, small, href, svgPath } = props;
 
   return (
-    <div className={`${className} flex justify-center items-center w-fit`}>
-      <Link
-        href={href}
+    <Link href={href} className={`${className} flex justify-center items-center w-fit`}>
+      <div
         className={`relative flex items-center justify-center ${
           small ? 'small-hexagon-clip mx-4' : 'hexagon-clip'
         } `}
@@ -48,7 +47,7 @@ export function Hexagon(props: HexagonProps) {
             </div>
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
