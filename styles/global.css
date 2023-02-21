@@ -83,6 +83,7 @@ h3 {
   background-image: url("/background/content-media-shape.png");
   background-repeat: space;
   background-position: center;
+  background-attachment: fixed;
 }
 
 

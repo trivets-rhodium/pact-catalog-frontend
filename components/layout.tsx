@@ -24,7 +24,7 @@ export default function Layout(props: LayoutProps) {
         <title>{headTitle}</title>
       </Head>
       <Navbar />
-      <main className="py-20 px-32">{children}</main>
+      <main className="py-20 px-32 min-h-screen">{children}</main>
       <Footer />
     </div>
   );
