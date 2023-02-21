@@ -6,6 +6,7 @@ import {
   ConformingSolution,
 } from '../lib/catalog-types';
 import Navbar from './navbar';
+import { Footer } from './footer';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -18,12 +19,13 @@ export default function Layout(props: LayoutProps) {
   const headTitle = title ? `PACT | ${title}` : 'PACT Online Catalog';
 
   return (
-    <>
+    <div className="light-background">
       <Head>
         <title>{headTitle}</title>
       </Head>
       <Navbar />
       <main className="py-20 px-32">{children}</main>
-    </>
+      <Footer />
+    </div>
   );
 }
