@@ -49,7 +49,7 @@ export default function Home() {
               </a>
             </p>
 
-            <p className="text-white mb-20">
+            <p className="text-white mb-20 leading-8">
               Explore{' '}
               <Link
                 className="link-background-1 hover:opacity-70"
