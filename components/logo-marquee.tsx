@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { useState } from 'react';
 
 type Logos = {
   fileName: string;
@@ -97,14 +98,24 @@ const logos: Logos = [
   },
 ];
 
-function shuffle(array: Logos) {
-  return array.sort(() => Math.random() - 0.5);
+function pickElements(seed: number, reverse?: boolean): Logos {
+  let rearrangedLogos = [];
+
+  for (let index = 0; index < logos.length; index++) {
+    const element = logos[(seed + index) % logos.length];
+
+    rearrangedLogos.push(element);
+  }
+
+  if (reverse) {
+    return rearrangedLogos.reverse();
+  }
+  return rearrangedLogos;
 }
 
-export function LogoMarquee() {
-  const marqueeLogos = shuffle(logos);
+export function LogoMarquee(props: { seed: number; reverse?: boolean }) {
+  const marqueeLogos = pickElements(props.seed, props.reverse);
 
-  console.log('marqueeLogos', marqueeLogos);
   return (
     <>
       {marqueeLogos.map(({ fileName, alt, margin, padding, size, link }) => {

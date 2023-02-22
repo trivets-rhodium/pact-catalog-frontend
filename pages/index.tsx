@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import pactLogo from '../public/logos/pact-logo.svg';
 import Link from 'next/link';
@@ -9,6 +9,10 @@ import Marquee from 'react-fast-marquee';
 import { LogoMarquee } from '../components/logo-marquee';
 
 export default function Home() {
+  const [marqueeSeed, _setMarqueeSeed] = useState(
+    Math.floor(Math.random() * 100)
+  );
+
   return (
     <section className="grid grid-cols-10 h-screen">
       <div className="dark-background background-shadow col-span-5 flex flex-col justify-between">
@@ -76,10 +80,10 @@ export default function Home() {
           </div>
           <p className="text-white text-sm">Partners & Contributors</p>
           <Marquee gradient={false} speed={15} pauseOnHover>
-            <LogoMarquee />
+            <LogoMarquee seed={marqueeSeed} />
           </Marquee>
           <Marquee gradient={false} speed={20} pauseOnHover>
-            <LogoMarquee />
+            <LogoMarquee seed={marqueeSeed} reverse />
           </Marquee>
         </div>
       </div>
