@@ -28,7 +28,7 @@ export default function Home() {
         </div>
         <div className="mx-14 mb-6">
           <div className="my-28">
-            <h1 className="text-white">PACT Online Catalog</h1>
+            <h1 className="text-white leading-tight">PACT Online Catalog</h1>
             <p className="text-white text-sm mb-8">
               by{' '}
               <a
