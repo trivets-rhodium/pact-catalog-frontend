@@ -18,11 +18,21 @@ export default function Home() {
             target="_blank"
             rel="noreferrer"
           >
-            <Image src={pactLogo} alt={'PACT logo'} />
+            <Image
+              src={pactLogo}
+              alt={'PACT logo'}
+              className="hover:opacity-70"
+            />
           </a>
           <div className="mr-10">
             <a href="https://sine.foundation" target="_blank" rel="noreferrer">
-              <Image src={sineLogo} alt={'SINE logo'} priority width={180} />
+              <Image
+                src={sineLogo}
+                alt={'SINE logo'}
+                priority
+                width={180}
+                className="hover:opacity-70"
+              />
             </a>
           </div>
         </div>
@@ -33,7 +43,7 @@ export default function Home() {
               by{' '}
               <a
                 href="https://sine.foundation"
-                className="underline underline-offset-4"
+                className="underline underline-offset-4 hover:opacity-70"
               >
                 SINE Foundation
               </a>
@@ -41,15 +51,27 @@ export default function Home() {
 
             <p className="text-white mb-20">
               Explore{' '}
-              <span className="green-background">
+              <Link
+                className="link-background-1 hover:opacity-70"
+                href={'/solutions'}
+              >
                 PACT conforming solutions
-              </span>{' '}
+              </Link>{' '}
               for exchanging Scope-3 carbon footprint data. Find and contribute{' '}
-              <span className="green-background">
+              <Link
+                className="link-background-2 hover:opacity-70"
+                href={'/extensions'}
+              >
                 industry specific extensions
-              </span>{' '}
+              </Link>{' '}
               to the PACT Data Model. Discover{' '}
-              <span className="green-background">participating members</span>.
+              <Link
+                className="link-background-3 hover:opacity-70"
+                href={'/members'}
+              >
+                participating members
+              </Link>
+              .
             </p>
           </div>
           <p className="text-white text-sm">Partners & Contributors</p>
@@ -64,39 +86,36 @@ export default function Home() {
       <div className="background-image col-span-5 flex justify-center items-center">
         <div className="h-full min-w-full relative ">
           <img
-            src={'/hexagons/green-hexagon.svg'}
-            alt={'PACT Compliant Solutions'}
+            src={'/hexagons/hex-1.svg'}
             className="mt-20 absolute top-0 left-1/4 hexagon-shadow"
           />
           <Hexagon
-            svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-0 left-1/4 green-hexagon hexagon-clip "
+            svgPath="/hexagons/hex-1.svg"
+            className="mt-20 absolute top-0 left-1/4 text-white hexagon-text-shadow white-h3 hexagon-clip "
             mainText="PACT Compliant Solutions"
             secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />
           <img
-            src={'/hexagons/green-hexagon.svg'}
-            alt={'PACT Compliant Solutions'}
-            className="mt-20 absolute top-1/4 left-2/4 green-hexagon hexagon-shadow"
+            src={'/hexagons/hex-2.svg'}
+            className="mt-20 absolute top-1/4 left-2/4 hexagon-shadow"
           />
           <Hexagon
-            svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-1/4 left-2/4 green-hexagon hexagon-clip"
+            svgPath="/hexagons/hex-2.svg"
+            className="mt-20 absolute top-1/4 left-2/4 text-white hexagon-text-shadow white-h3 hexagon-clip"
             mainText="Industry Specific Extensions"
             secondaryText="to the PACT product carbon footprint Data Model"
             href="/extensions"
           />
           <img
-            src={'/hexagons/green-hexagon.svg'}
-            alt={'PACT Compliant Solutions'}
-            className="mt-20 absolute top-2/4 left-1/4 green-hexagon hexagon-shadow"
+            src={'/hexagons/hex-3.svg'}
+            className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow"
           />
           <Hexagon
-            svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-2/4 left-1/4 green-hexagon hexagon-clip"
+            svgPath="/hexagons/hex-3.svg"
+            className="mt-20 absolute top-2/4 left-1/4 text-white hexagon-text-shadow white-h3 hexagon-clip"
             mainText="Members"
-            secondaryText="who contribute to the PACT Online Catalog"
+            secondaryText="who participate in the PACT initiative"
             href="/members"
           />
 

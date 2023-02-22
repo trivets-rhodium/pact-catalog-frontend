@@ -31,6 +31,10 @@ h3 {
   color: #0a0552;
 }
 
+.white-h3 h3 {
+  color: white;
+}
+
 .secondary-button {
   border: 2px solid #04a17f;
   padding: 10px 10px 8px;
@@ -56,7 +60,7 @@ h3 {
 }
 
 .primary-button:hover {
-  background-color: transparent;
+  background-color: white;
   color: #0a0552;
   cursor: pointer;
 }
@@ -73,6 +77,10 @@ h3 {
 
 .dark-background {
   background: linear-gradient(to top, #070334, #0a0552);
+}
+
+.background-shadow {
+  filter: drop-shadow(10px 0 50px black);
 }
 
 .text-blue {
@@ -100,18 +108,14 @@ h3 {
   background-image: url("https://images.unsplash.com/photo-1599940824399-b87987ceb72a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80");
 }
 
-.background-shadow {
-  filter: drop-shadow(10px -50px 50px black);
-}
-
-.green-background {
-  /* background-color: rgb(4, 161, 127); */
+/* .green-background {
+  background-color: rgb(4, 161, 127);
   background-color: #04a17f;
   padding: 0 4px;
   color: white;
   font-weight: normal;
   text-shadow: 0 0 3px #0a0552;
-}
+} */
 
 .hexagon-shadow {
   filter: drop-shadow(0 0 50px black);
@@ -125,56 +129,27 @@ h3 {
   clip-path: path("M63.1586 2.77271L108.659 28.4901C112.268 30.5303 114.5 34.3554 114.5 38.5016V89.4984C114.5 93.6446 112.268 97.4697 108.659 99.5099L63.1586 125.227C59.6472 127.212 55.3527 127.212 51.8413 125.227L6.34133 99.5099C2.73184 97.4697 0.499981 93.6446 0.499981 89.4984V38.5016C0.499981 34.3554 2.73183 30.5303 6.34132 28.4901L51.8413 2.77271C55.3527 0.78801 59.6472 0.78801 63.1586 2.77271Z");
 }
 
-.white-hexagon h3 {
-  color: #04a17f;
-
+.hexagon-text-shadow h3 {
+  text-shadow: 0 0px 4px #0a0552;
 }
 
-.white-hexagon p {
-  color: #04a17f;
-
+.link-background-1 {
+  background-color: #04a17f;
+  padding: 0 4px;
+  text-shadow: 0 0px 4px #0a0552;
 }
 
-.white-hexagon:hover p {
-  display: none;
+.link-background-2 {
+  background-color: #00748E;
+  padding: 0 4px;
+  text-shadow: 0 0px 4px #0a0552;
 }
 
-.white-hexagon:hover:after {
-  padding: 2rem;
-  position: inherit;
-  text-align: center;
-  content: "Click here to explore PACT Compliant Solutions"
+.link-background-3 {
+  background-color: #004386;
+  padding: 0 4px;
+  text-shadow: 0 0px 4px #0a0552;
 }
-
-.blue-hexagon {
-  color: white
-}
-
-.blue-hexagon h3 {
-  color: white
-}
-
-.blue-hexagon:hover p {
-  display: none;
-}
-
-.blue-hexagon:hover:after {
-  padding: 2rem;
-
-  position: inherit;
-  text-align: center;
-  content: "Click here to explore Industry Specific Extensions to the PACT Data Model"
-}
-
-.green-hexagon {
-  color: rgba(0, 0, 0, 0.8);
-}
-
-.green-hexagon h3 {
-  color: white;
-  text-shadow: 0 0px 7px #0a0552;
-}
-
 
 .about-button {
   padding: 10px 20px;
