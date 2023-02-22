@@ -27,13 +27,10 @@ export default function Home() {
           </div>
         </div>
         <div className="mx-14 mb-6">
-          <div className="mb-4">
-            <h1 className="text-white">
-              PACT <br />
-              Online Catalog
-            </h1>
-            <p className="text-white">
-              Powered by{' '}
+          <div className="my-28">
+            <h1 className="text-white">PACT Online Catalog</h1>
+            <p className="text-white text-sm mb-8">
+              by{' '}
               <a
                 href="https://sine.foundation"
                 className="underline underline-offset-4"
@@ -41,12 +38,24 @@ export default function Home() {
                 SINE Foundation
               </a>
             </p>
+
+            <p className="text-white mb-20">
+              Explore{' '}
+              <span className="green-background">
+                PACT conforming solutions
+              </span>{' '}
+              for exchanging Scope-3 carbon footprint data. Find and contribute{' '}
+              <span className="green-background">
+                industry specific extensions
+              </span>{' '}
+              to the PACT Data Model. Discover{' '}
+              <span className="green-background">participating members</span>.
+            </p>
           </div>
-          <p className="text-white mb-20">
-            Find and create industry specific Scope-3 data extensions — and the
-            software solutions that support these
-          </p>
-          <h3 className="text-white">Partners and Contributors:</h3>
+          <p className="text-white text-sm">Partners & Contributors</p>
+          <Marquee gradient={false} speed={15} pauseOnHover>
+            <LogoMarquee />
+          </Marquee>
           <Marquee gradient={false} speed={20} pauseOnHover>
             <LogoMarquee />
           </Marquee>
@@ -55,24 +64,24 @@ export default function Home() {
       <div className="background-image col-span-5 flex justify-center items-center">
         <div className="h-full min-w-full relative ">
           <Hexagon
-            svgPath="/hexagons/white-hexagon.svg"
-            className="mt-20 absolute top-0 left-1/4 hexagon-shadow white-hexagon hexagon-clip"
+            svgPath="/hexagons/green-hexagon.svg"
+            className="mt-20 absolute top-0 left-1/4 green-hexagon hexagon-shadow "
             mainText="PACT Compliant Solutions"
-            secondaryText="Software solutions that conform with the Pathfinder technical specifications"
+            secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />
           <Hexagon
-            svgPath="/hexagons/blue-hexagon.svg"
-            className="mt-20 absolute top-1/4 left-2/4 hexagon-shadow blue-hexagon hexagon-clip"
+            svgPath="/hexagons/green-hexagon.svg"
+            className="mt-20 absolute top-1/4 left-2/4 green-hexagon hexagon-shadow "
             mainText="Industry Specific Extensions"
-            secondaryText="to the PACT methodology"
+            secondaryText="to the PACT product carbon footprint Data Model"
             href="/extensions"
           />
           <Hexagon
             svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow green-hexagon hexagon-clip"
+            className="mt-20 absolute top-2/4 left-1/4 green-hexagon hexagon-shadow "
             mainText="Members"
-            secondaryText="The Online Catalog and its Members"
+            secondaryText="who contribute to the PACT Online Catalog"
             href="/members"
           />
 

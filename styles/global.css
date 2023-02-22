@@ -32,7 +32,7 @@ h3 {
 }
 
 .secondary-button {
-  border: 2px solid #08a17f;
+  border: 2px solid #04a17f;
   padding: 10px 10px 8px;
   color: #0a0552;
   border-radius: 5px;
@@ -41,13 +41,13 @@ h3 {
 }
 
 .secondary-button:hover {
-  background-color: #08a17f;
+  background-color: #04a17f;
   color: white;
 }
 
 .primary-button {
-  border: 2px solid #08a17f;
-  background-color: #08a17f;
+  border: 2px solid #04a17f;
+  background-color: #04a17f;
   padding: 10px 10px 8px;
   color: white;
   border-radius: 5px;
@@ -62,7 +62,7 @@ h3 {
 }
 
 .primary-button-loading {
-  border: 2px solid #08a17f;
+  border: 2px solid #04a17f;
   padding: 10px 10px 8px;
   background-color: transparent;
   color: #0a0552;
@@ -88,12 +88,12 @@ h3 {
 
 
 .primary-link {
-  box-shadow: inset 0 -0.8rem 0 0 rgba(8, 161, 128, 0.5);
+  box-shadow: inset 0 -0.8rem 0 0 rgba(4, 161, 127, 1);
   transition: box-shadow 0.3s;
 }
 
 .primary-link:hover {
-  box-shadow: inset 0 -0.8rem 0 0 rgb(8, 161, 128);
+  box-shadow: inset 0 -0.8rem 0 0 rgb(4, 161, 127);
 }
 
 .background-image {
@@ -102,6 +102,15 @@ h3 {
 
 .background-shadow {
   filter: drop-shadow(10px -50px 50px black);
+}
+
+.green-background {
+  /* background-color: rgb(4, 161, 127); */
+  background-color: #04a17f;
+  padding: 0 4px;
+  color: #0a0552;
+  font-weight: normal;
+  text-shadow: 0 0 3px white;
 }
 
 .hexagon-shadow {
@@ -116,8 +125,14 @@ h3 {
   clip-path: path("M63.1586 2.77271L108.659 28.4901C112.268 30.5303 114.5 34.3554 114.5 38.5016V89.4984C114.5 93.6446 112.268 97.4697 108.659 99.5099L63.1586 125.227C59.6472 127.212 55.3527 127.212 51.8413 125.227L6.34133 99.5099C2.73184 97.4697 0.499981 93.6446 0.499981 89.4984V38.5016C0.499981 34.3554 2.73183 30.5303 6.34132 28.4901L51.8413 2.77271C55.3527 0.78801 59.6472 0.78801 63.1586 2.77271Z");
 }
 
-.white-hexagon {
-  color: #0a0552
+.white-hexagon h3 {
+  color: #04a17f;
+
+}
+
+.white-hexagon p {
+  color: #04a17f;
+
 }
 
 .white-hexagon:hover p {
@@ -135,6 +150,10 @@ h3 {
   color: white
 }
 
+.blue-hexagon h3 {
+  color: white
+}
+
 .blue-hexagon:hover p {
   display: none;
 }
@@ -148,19 +167,13 @@ h3 {
 }
 
 .green-hexagon {
-  color: white
+  color: rgba(0, 0, 0, 0.8);
 }
 
-.green-hexagon:hover p {
-  display: none;
+.green-hexagon h3 {
+  text-shadow: 0 0px 7px white;
 }
 
-.green-hexagon:hover:after {
-  padding: 2rem;
-  position: inherit;
-  text-align: center;
-  content: "Click here to explore the PACT Online Catalog Members"
-}
 
 .about-button {
   padding: 10px 20px;
