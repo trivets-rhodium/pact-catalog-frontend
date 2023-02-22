@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import pactLogo from '../public/logos/pact-logo.svg';
 import Link from 'next/link';
@@ -9,70 +9,117 @@ import Marquee from 'react-fast-marquee';
 import { LogoMarquee } from '../components/logo-marquee';
 
 export default function Home() {
+  const [marqueeSeed, _setMarqueeSeed] = useState(
+    Math.floor(Math.random() * 100)
+  );
+
   return (
     <section className="grid grid-cols-10 h-screen">
-      <div className="dark-background background-shadow col-span-4 flex flex-col justify-between">
+      <div className="dark-background background-shadow col-span-5 flex flex-col justify-between">
         <div className="flex justify-between items-center mx-4">
           <a
             href={'https://carbon-transparency.com'}
             target="_blank"
             rel="noreferrer"
           >
-            <Image src={pactLogo} alt={'PACT logo'} />
+            <Image
+              src={pactLogo}
+              alt={'PACT logo'}
+              className="hover:opacity-70"
+            />
           </a>
           <div className="mr-10">
             <a href="https://sine.foundation" target="_blank" rel="noreferrer">
-              <Image src={sineLogo} alt={'SINE logo'} priority width={180} />
+              <Image
+                src={sineLogo}
+                alt={'SINE logo'}
+                priority
+                width={180}
+                className="hover:opacity-70"
+              />
             </a>
           </div>
         </div>
         <div className="mx-14 mb-6">
-          <div className="mb-4">
-            <h1 className="text-white">
-              PACT <br />
-              Online Catalog
-            </h1>
-            <p className="text-white">
-              Powered by{' '}
+          <div className="my-28">
+            <h1 className="text-white leading-tight">PACT Online Catalog</h1>
+            <p className="text-white text-sm mb-8">
+              by{' '}
               <a
                 href="https://sine.foundation"
-                className="underline underline-offset-4"
+                className="underline underline-offset-4 hover:opacity-70"
               >
                 SINE Foundation
               </a>
             </p>
+
+            <p className="text-white mb-20 leading-8">
+              Explore{' '}
+              <Link
+                className="link-background-1 hover:opacity-70"
+                href={'/solutions'}
+              >
+                PACT conforming solutions
+              </Link>{' '}
+              for exchanging Scope-3 carbon footprint data. Find and contribute{' '}
+              <Link
+                className="link-background-2 hover:opacity-70"
+                href={'/extensions'}
+              >
+                industry specific extensions
+              </Link>{' '}
+              to the PACT Data Model. Discover{' '}
+              <Link
+                className="link-background-3 hover:opacity-70"
+                href={'/members'}
+              >
+                participating members
+              </Link>
+              .
+            </p>
           </div>
-          <p className="text-white mb-20">
-            Find and create industry specific Scope-3 data extensions — and the
-            software solutions that support these
-          </p>
-          <h3 className="text-white">Partners and Contributors:</h3>
+          <p className="text-white text-sm">Partners & Contributors</p>
+          <Marquee gradient={false} speed={15} pauseOnHover>
+            <LogoMarquee seed={marqueeSeed} />
+          </Marquee>
           <Marquee gradient={false} speed={20} pauseOnHover>
-            <LogoMarquee />
+            <LogoMarquee seed={marqueeSeed} reverse />
           </Marquee>
         </div>
       </div>
-      <div className="background-image col-span-6 flex justify-center items-center">
+      <div className="background-image col-span-5 flex justify-center items-center">
         <div className="h-full min-w-full relative ">
-          <Hexagon
-            svgPath="/hexagons/white-hexagon.svg"
-            className="mt-20 absolute top-0 left-1/4 hexagon-shadow white-hexagon"
-            mainText="Data Model Extensions"
-            secondaryText="Industry-specific extensions to the PACT methodology"
-            href="/extensions"
+          <img
+            src={'/hexagons/hex-1.svg'}
+            className="mt-20 absolute top-0 left-1/4 hexagon-shadow"
           />
           <Hexagon
-            svgPath="/hexagons/blue-hexagon.svg"
-            className="mt-20 absolute top-1/4 left-2/4 hexagon-shadow blue-hexagon"
+            svgPath="/hexagons/hex-1.svg"
+            className="mt-20 absolute top-0 left-1/4 text-white hexagon-text-shadow white-h3 hexagon-clip "
             mainText="PACT Compliant Solutions"
-            secondaryText="Software solutions that conform with the Pathfinder technical specifications"
+            secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />
+          <img
+            src={'/hexagons/hex-2.svg'}
+            className="mt-20 absolute top-1/4 left-2/4 hexagon-shadow"
+          />
           <Hexagon
-            svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow green-hexagon"
+            svgPath="/hexagons/hex-2.svg"
+            className="mt-20 absolute top-1/4 left-2/4 text-white hexagon-text-shadow white-h3 hexagon-clip"
+            mainText="Industry Specific Extensions"
+            secondaryText="to the PACT product carbon footprint Data Model"
+            href="/extensions"
+          />
+          <img
+            src={'/hexagons/hex-3.svg'}
+            className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow"
+          />
+          <Hexagon
+            svgPath="/hexagons/hex-3.svg"
+            className="mt-20 absolute top-2/4 left-1/4 text-white hexagon-text-shadow white-h3 hexagon-clip"
             mainText="Members"
-            secondaryText="The Online Catalog and its Members"
+            secondaryText="who participate in the PACT initiative"
             href="/members"
           />
 

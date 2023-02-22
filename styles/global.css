@@ -14,7 +14,7 @@ body {
 
 h1 {
   font-weight: bold;
-  font-size: xx-large;
+  font-size: 2.5rem;
   color: #0a0552;
 }
 
@@ -31,8 +31,12 @@ h3 {
   color: #0a0552;
 }
 
+.white-h3 h3 {
+  color: white;
+}
+
 .secondary-button {
-  border: 2px solid #08a17f;
+  border: 2px solid #04a17f;
   padding: 10px 10px 8px;
   color: #0a0552;
   border-radius: 5px;
@@ -41,13 +45,13 @@ h3 {
 }
 
 .secondary-button:hover {
-  background-color: #08a17f;
+  background-color: #04a17f;
   color: white;
 }
 
 .primary-button {
-  border: 2px solid #08a17f;
-  background-color: #08a17f;
+  border: 2px solid #04a17f;
+  background-color: #04a17f;
   padding: 10px 10px 8px;
   color: white;
   border-radius: 5px;
@@ -56,13 +60,13 @@ h3 {
 }
 
 .primary-button:hover {
-  background-color: transparent;
+  background-color: white;
   color: #0a0552;
   cursor: pointer;
 }
 
 .primary-button-loading {
-  border: 2px solid #08a17f;
+  border: 2px solid #04a17f;
   padding: 10px 10px 8px;
   background-color: transparent;
   color: #0a0552;
@@ -73,6 +77,10 @@ h3 {
 
 .dark-background {
   background: linear-gradient(to top, #070334, #0a0552);
+}
+
+.background-shadow {
+  filter: drop-shadow(10px 0 50px black);
 }
 
 .text-blue {
@@ -88,28 +96,29 @@ h3 {
 
 
 .primary-link {
-  box-shadow: inset 0 -0.8rem 0 0 rgba(8, 161, 128, 0.5);
+  box-shadow: inset 0 -0.8rem 0 0 rgba(4, 161, 127, 1);
   transition: box-shadow 0.3s;
 }
 
 .primary-link:hover {
-  box-shadow: inset 0 -0.8rem 0 0 rgb(8, 161, 128);
+  box-shadow: inset 0 -0.8rem 0 0 rgb(4, 161, 127);
 }
 
 .background-image {
   background-image: url("https://images.unsplash.com/photo-1599940824399-b87987ceb72a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=927&q=80");
 }
 
-.background-shadow {
-  filter: drop-shadow(10px -50px 50px black);
-}
+/* .green-background {
+  background-color: rgb(4, 161, 127);
+  background-color: #04a17f;
+  padding: 0 4px;
+  color: white;
+  font-weight: normal;
+  text-shadow: 0 0 3px #0a0552;
+} */
 
 .hexagon-shadow {
   filter: drop-shadow(0 0 50px black);
-}
-
-.hexagon-clip {
-  clip-path: path("M106.325 3.16926C112.344 -0.293082 119.751 -0.293087 125.77 3.16926L221.817 58.4153C227.866 61.8945 231.595 68.3406 231.595 75.3186V185.681C231.595 192.659 227.866 199.105 221.817 202.585L125.77 257.831C119.751 261.293 112.344 261.293 106.325 257.831L10.2773 202.585C4.22858 199.105 0.499962 192.659 0.499962 185.681V75.3186C0.499962 68.3406 4.22857 61.8945 10.2773 58.4153L106.325 3.16926Z");
 }
 
 .hexagon-clip {
@@ -120,50 +129,26 @@ h3 {
   clip-path: path("M63.1586 2.77271L108.659 28.4901C112.268 30.5303 114.5 34.3554 114.5 38.5016V89.4984C114.5 93.6446 112.268 97.4697 108.659 99.5099L63.1586 125.227C59.6472 127.212 55.3527 127.212 51.8413 125.227L6.34133 99.5099C2.73184 97.4697 0.499981 93.6446 0.499981 89.4984V38.5016C0.499981 34.3554 2.73183 30.5303 6.34132 28.4901L51.8413 2.77271C55.3527 0.78801 59.6472 0.78801 63.1586 2.77271Z");
 }
 
-.white-hexagon {
-  color: #0a0552
+.hexagon-text-shadow h3 {
+  text-shadow: 0 0px 4px #0a0552;
 }
 
-.white-hexagon:hover p {
-  display: none;
+.link-background-1 {
+  background-color: #04a17f;
+  padding: 0 4px;
+  text-shadow: 0 0px 4px #0a0552;
 }
 
-.white-hexagon:hover:after {
-  padding: 2rem;
-  position: inherit;
-  text-align: center;
-  content: "Click here to explore Data Model Extensions"
+.link-background-2 {
+  background-color: #00748E;
+  padding: 0 4px;
+  text-shadow: 0 0px 4px #0a0552;
 }
 
-.blue-hexagon {
-  color: white
-}
-
-.blue-hexagon:hover p {
-  display: none;
-}
-
-.blue-hexagon:hover:after {
-  padding: 2rem;
-
-  position: inherit;
-  text-align: center;
-  content: "Click here to explore PACT Compliant Solution"
-}
-
-.green-hexagon {
-  color: white
-}
-
-.green-hexagon:hover p {
-  display: none;
-}
-
-.green-hexagon:hover:after {
-  padding: 2rem;
-  position: inherit;
-  text-align: center;
-  content: "Click here to explore the PACT Online Catalog Members"
+.link-background-3 {
+  background-color: #004386;
+  padding: 0 4px;
+  text-shadow: 0 0px 4px #0a0552;
 }
 
 .about-button {

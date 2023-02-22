@@ -24,23 +24,22 @@ export function Hexagon(props: HexagonProps) {
   const { mainText, className, secondaryText, small, href, svgPath } = props;
 
   return (
-    <Link href={href} className={`${className} flex justify-center items-center w-fit`}>
-      <div
-        className={`relative flex items-center justify-center ${
-          small ? 'small-hexagon-clip mx-4' : 'hexagon-clip'
-        } `}
-      >
-        <img src={svgPath} alt={`${mainText} hexagon`} />
-        <div className="absolute p-6 w-full pb-8">
+    <Link
+      href={href}
+      className={`${className} flex justify-center items-center w-fit`}
+    >
+      <div className={`relative flex items-center justify-center hover:opacity-60`}>
+        <img src={svgPath} alt={`${mainText} hover:opacity-60`} />
+        <div className="absolute p-6 w-full pb-8 ">
           <div className="flex justify-center">
             <div>
-              <p
+              <h3
                 className={`${
-                  small ? 'text-sm px-12' : 'text-2xl'
+                  small ? 'text-sm px-12' : 'text-2xl leading-6 mb-2 '
                 } text-center`}
               >
                 {mainText}
-              </p>
+              </h3>
               {secondaryText && (
                 <p className="text-xs text-center">{secondaryText}</p>
               )}
