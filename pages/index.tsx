@@ -63,23 +63,38 @@ export default function Home() {
       </div>
       <div className="background-image col-span-5 flex justify-center items-center">
         <div className="h-full min-w-full relative ">
+          <img
+            src={'/hexagons/green-hexagon.svg'}
+            alt={'PACT Compliant Solutions'}
+            className="mt-20 absolute top-0 left-1/4 hexagon-shadow"
+          />
           <Hexagon
             svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-0 left-1/4 green-hexagon hexagon-shadow "
+            className="mt-20 absolute top-0 left-1/4 green-hexagon hexagon-clip "
             mainText="PACT Compliant Solutions"
             secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />
+          <img
+            src={'/hexagons/green-hexagon.svg'}
+            alt={'PACT Compliant Solutions'}
+            className="mt-20 absolute top-1/4 left-2/4 green-hexagon hexagon-shadow"
+          />
           <Hexagon
             svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-1/4 left-2/4 green-hexagon hexagon-shadow "
+            className="mt-20 absolute top-1/4 left-2/4 green-hexagon hexagon-clip"
             mainText="Industry Specific Extensions"
             secondaryText="to the PACT product carbon footprint Data Model"
             href="/extensions"
           />
+          <img
+            src={'/hexagons/green-hexagon.svg'}
+            alt={'PACT Compliant Solutions'}
+            className="mt-20 absolute top-2/4 left-1/4 green-hexagon hexagon-shadow"
+          />
           <Hexagon
             svgPath="/hexagons/green-hexagon.svg"
-            className="mt-20 absolute top-2/4 left-1/4 green-hexagon hexagon-shadow "
+            className="mt-20 absolute top-2/4 left-1/4 green-hexagon hexagon-clip"
             mainText="Members"
             secondaryText="who contribute to the PACT Online Catalog"
             href="/members"
