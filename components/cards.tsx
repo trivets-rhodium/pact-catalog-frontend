@@ -269,8 +269,10 @@ export function UserCard(props: UserCard) {
       <div
         className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow max-h-48 overflow-scroll`}
       >
-        <div className="mb-4">
-          {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
+        <div>
+          {((extensions && extensions.length >= 1) || kind === 'ngo') && (
+            <h3>Extensions</h3>
+          )}
           <ul>
             {extensions &&
               extensions.map((extension) => {
@@ -289,7 +291,7 @@ export function UserCard(props: UserCard) {
           </ul>
         </div>
         {/* TO DO: replace prototype logic specific to solution providers */}
-        <div className="mb-4">
+        <div>
           {kind === 'solutionprovider' && <h3>Solutions</h3>}
           {/* {solutions && solutions.length >= 1 && <h3>Solutions</h3>} */}
           <ul>
@@ -315,9 +317,15 @@ export function UserCard(props: UserCard) {
                 )}
           </ul>
         </div>
-        <div>
-          {((workingGroups && workingGroups.length >= 1) ||
-            kind === 'solutionprovider') && <h3>Working Groups</h3>}
+        <div
+          // className={
+          //   extensions?.length === 0 || solutions?.length === 0
+          //     ? 'mt-10'
+          //     : 'mt-4'
+          // }
+          className="mt-4"
+        >
+          <h3>Working Groups</h3>
           <ul>
             {workingGroups && workingGroups.length !== 0
               ? workingGroups.map((group) => {
