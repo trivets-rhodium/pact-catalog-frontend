@@ -60,10 +60,12 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
 export default function Members(props: PageProps) {
   const { enrichedUsers } = props;
 
+  // Filter mock users;
   const filteredUsers = enrichedUsers.filter(
     (user) =>
       user.user.id !== 'some-steel-manufacturer' &&
-      user.user.id !== 'some-solutionprovider'
+      user.user.id !== 'some-solutionprovider' &&
+      user.user.id !== 'sustainable-steel-software'
   );
 
   return (
@@ -74,12 +76,10 @@ export default function Members(props: PageProps) {
           return (
             <li key={user.user.id}>
               <UserCard
-                name={user.user.name}
+                user={user.user}
                 extensions={user.userExtensions}
                 solutions={user.userSolutions}
                 workingGroups={user.workingGroups}
-                logo={user.user.logo || undefined}
-                href={user.user.website || undefined}
               />
             </li>
           );
