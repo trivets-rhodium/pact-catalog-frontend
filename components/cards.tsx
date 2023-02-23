@@ -247,25 +247,29 @@ export function UserCard(props: UserCard) {
   const { name, logo, extensions, solutions, workingGroups, href } = props;
   const router = useRouter();
   return (
-    <div className="my-4 break-inside-avoid h-72 flex flex-col">
-      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4`}>
+    <div className="my-4 break-inside-avoid h-72 min-h-fit min-w-fit flex flex-col">
+      <div
+        className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4 h-24 shrink-0 overflow-scroll`}
+      >
         <a href={href} target="_blank">
           {logo ? (
-            <div className="flex justify-center">
+            <div className="flex justify-center h-full">
               <img
                 src={logo || ''}
                 alt={`${name} logo`}
                 height="200"
                 width="200"
-                className="scale-75"
+                className="object-scale-down"
               />
             </div>
           ) : (
-            <h3 className="text-center">{name}</h3>
+            <h3 className="mt-2 text-center">{name}</h3>
           )}
         </a>
       </div>
-      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow`}>
+      <div
+        className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow max-h-48 overflow-scroll`}
+      >
         <div className="mb-4">
           {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
           <ul>
