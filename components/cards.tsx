@@ -240,29 +240,32 @@ type UserCard = {
   extensions?: CatalogDataModelExtension[];
   solutions?: ConformingSolution[];
   workingGroups?: WorkingGroup[];
+  href?: string;
 };
 
 export function UserCard(props: UserCard) {
-  const { name, logo, extensions, solutions, workingGroups } = props;
+  const { name, logo, extensions, solutions, workingGroups, href } = props;
   const router = useRouter();
   return (
-    <div className="my-4 break-inside-avoid">
+    <div className="my-4 break-inside-avoid h-72 flex flex-col">
       <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4`}>
-        {logo ? (
-          <div className="flex justify-center">
-            <img
-              src={logo || ''}
-              alt={`${name} logo`}
-              height="200"
-              width="200"
-              className="scale-75"
-            />
-          </div>
-        ) : (
-          <h3 className="text-center">{name}</h3>
-        )}
+        <a href={href} target="_blank">
+          {logo ? (
+            <div className="flex justify-center">
+              <img
+                src={logo || ''}
+                alt={`${name} logo`}
+                height="200"
+                width="200"
+                className="scale-75"
+              />
+            </div>
+          ) : (
+            <h3 className="text-center">{name}</h3>
+          )}
+        </a>
       </div>
-      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
+      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6 grow`}>
         <div className="mb-4">
           {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
           <ul>
@@ -302,7 +305,7 @@ export function UserCard(props: UserCard) {
               })}
           </ul>
         </div>
-        <div className="mb-4">
+        <div>
           {workingGroups && workingGroups.length >= 1 && (
             <h3>Working Groups</h3>
           )}

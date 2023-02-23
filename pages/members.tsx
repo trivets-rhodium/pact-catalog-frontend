@@ -62,7 +62,7 @@ export default function Members(props: PageProps) {
   return (
     <Layout>
       <h1>Members</h1>
-      <ul className=" columns-3 gap-10 sm:columns-3">
+      <ul className=" grid grid-cols-3 gap-10">
         {enrichedUsers.map((user) => {
           return (
             <li key={user.user.id}>
@@ -72,6 +72,7 @@ export default function Members(props: PageProps) {
                 solutions={user.userSolutions}
                 workingGroups={user.workingGroups}
                 logo={user.user.logo || undefined}
+                href={user.user.website || undefined}
               />
             </li>
           );
