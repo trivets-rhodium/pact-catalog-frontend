@@ -28,24 +28,24 @@ export default function About() {
             allowFullScreen
           ></iframe>
         </div>
-        <div className="flex justify-center  mt-24 ">
+        <div className="flex justify-center mt-24 ">
           <Hexagon
-            svgPath="/hexagons/small-white-hexagon.svg"
-            className="text-blue"
+            svgPath="/hexagons/hex-1-small.svg"
+            className="mx-2"
             mainText="Data Model Extensions"
             small
             href="/extensions"
           />
           <Hexagon
-            svgPath="/hexagons/small-blue-hexagon.svg"
-            className="text-white"
+            svgPath="/hexagons/hex-2-small.svg"
+            className="mx-2"
             mainText="PACT Compliant Solutions"
             small
             href="/solutions"
           />
           <Hexagon
-            svgPath="/hexagons/small-green-hexagon.svg"
-            className="text-white"
+            svgPath="/hexagons/hex-3-small.svg"
+            className="mx-2"
             mainText="Members"
             small
             // TO DO: Replace with members index href
@@ -57,7 +57,7 @@ export default function About() {
         <div className="m-24">
           <div className="flex items-center mb-32">
             <Hexagon
-              svgPath="/hexagons/white-hexagon.svg"
+              svgPath="/hexagons/hex-1.svg"
               className="shrink-0 text-blue"
               mainText="Data Model Extensions"
               href="/extensions"
@@ -95,16 +95,16 @@ export default function About() {
               </div>
             </div>
             <Hexagon
-              svgPath="/hexagons/blue-hexagon.svg"
-              className="shrink-0 text-white"
+              svgPath="/hexagons/hex-2.svg"
+              className="shrink-0"
               mainText="PACT Compliant Solutions"
               href="/solutions"
             />
           </div>
           <div className="flex items-center mb-32">
             <Hexagon
-              svgPath="/hexagons/green-hexagon.svg"
-              className="shrink-0 text-white"
+              svgPath="/hexagons/hex-3.svg"
+              className="shrink-0"
               mainText="Members"
               // TO DO: Replace with members index href
               href="/working-groups"
