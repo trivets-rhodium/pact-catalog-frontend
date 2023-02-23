@@ -267,7 +267,7 @@ export function UserCard(props: UserCard) {
         </a>
       </div>
       <div
-        className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow max-h-48 overflow-scroll`}
+        className={`${style['user-card-bottom']} rounded-b-2xl p-6 backdrop-blur-sm px-10 grow max-h-48 overflow-scroll`}
       >
         <div>
           {((extensions && extensions.length >= 1) || kind === 'ngo') && (

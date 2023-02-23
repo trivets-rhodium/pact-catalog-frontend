@@ -95,7 +95,7 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
   return (
     <>
       <TabHead {...props} />
-      <div className={`h-100 px-24 py-20 rounded-b-md rounded-tr-md z-0 bg-white bg-opacity-70 ${style["green-border"]}`}>
+      <div className={`h-100 px-24 py-20 rounded-b-md rounded-tr-md z-0 bg-white bg-opacity-70 ${style["green-border"]} backdrop-blur-sm`}>
         <TabContent {...props} />
 
         <div className="flex justify-end">
