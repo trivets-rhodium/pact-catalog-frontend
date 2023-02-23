@@ -3,18 +3,19 @@ import { Tab, TabRenderer } from '../tabs';
 import style from '../../styles/Tabs.module.css';
 import {
   CatalogDataModelExtension,
-  ConformingSolution,
+  CompliantSolution,
   Endorsers,
 } from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
-  const {summary, providerName, users, website} = solution;
+const readmeTab: TabRenderer<CompliantSolution> = (solution) => {
+  const {name, summary, providerName, users, website} = solution;
 
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
         <section className="mb-12">
+          <h2>{name}</h2>
           <p>{summary}</p>
         </section>
         <section className="mb-12">
@@ -42,7 +43,7 @@ const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
   );
 };
 
-const readme: Tab<ConformingSolution> = {
+const readme: Tab<CompliantSolution> = {
   tabId: 'readme',
   title: 'Readme',
   render: readmeTab,

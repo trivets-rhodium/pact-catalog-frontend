@@ -39,7 +39,7 @@ export type CatalogDataModelExtension = {
   gitRepositoryUrl: string | null;
   dependencies: DataModelExtensionId[];
   endorsers: Endorsers;
-  conformingSolutions: ConformingSolution[];
+  conformingSolutions: CompliantSolution[];
   versions: VersionId[];
   industries: Industry[];
   parsedSchemaJson: ParsedSchemaJson;
@@ -81,7 +81,7 @@ export type CatalogUser = {
   solutions_used: SolutionId[] | null;
 };
 
-export type ConformingSolution = {
+export type CompliantSolution = {
   id: SolutionId;
   name: string;
   website: string;
@@ -100,7 +100,7 @@ export type ConformingSolution = {
 
 export type SolutionTestResults = {
   test: ConformanceTestResult;
-  tester: ConformingSolution;
+  tester: CompliantSolution;
 }[];
 
 export type ConformanceTestResult = {

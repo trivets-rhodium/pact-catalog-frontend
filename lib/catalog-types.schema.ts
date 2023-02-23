@@ -79,7 +79,7 @@ export type PackageJsonSchema = {
   industries: Industry[];
 };
 
-export type ConformingSolutionJsonSchema = {
+export type CompliantSolutionJsonSchema = {
   id: string;
   name: string;
   website: string;
@@ -182,7 +182,7 @@ export const PackageJsonParser: z.ZodType<PackageJsonSchema> = z.lazy(() =>
   })
 );
 
-export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
+export const SolutionParser: z.ZodType<CompliantSolutionJsonSchema> = z.lazy(
   () =>
     z.object({
       id: z.string(),

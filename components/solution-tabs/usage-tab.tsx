@@ -1,14 +1,14 @@
 import Link from 'next/link';
-import { ConformingSolution } from '../../lib/catalog-types';
+import { CompliantSolution } from '../../lib/catalog-types';
 import { Tab, TabRenderer } from '../tabs';
 
-const usageTab: TabRenderer<ConformingSolution> = (solution) => {
+const usageTab: TabRenderer<CompliantSolution> = (solution) => {
   const { extensions } = solution;
 
   return (
     <div>
       <section className="mb-12">
-        <h2>Extensions Conformance</h2>
+        <h2>Extensions Used</h2>
         <ul>
           {extensions.map(({ id, version, author }) => {
             return (
@@ -28,7 +28,7 @@ const usageTab: TabRenderer<ConformingSolution> = (solution) => {
   );
 };
 
-const usage: Tab<ConformingSolution> = {
+const usage: Tab<CompliantSolution> = {
   tabId: 'usage',
   title: 'Usage',
   render: usageTab,

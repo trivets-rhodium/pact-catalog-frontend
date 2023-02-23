@@ -3,7 +3,7 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import {
   CatalogDataModelExtension,
-  ConformingSolution,
+  CompliantSolution,
 } from '../lib/catalog-types';
 import Navbar from './navbar';
 import { Footer } from './footer';

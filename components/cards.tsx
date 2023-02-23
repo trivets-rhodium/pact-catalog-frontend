@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import {
   CatalogDataModelExtension,
   CatalogUser,
-  ConformingSolution,
+  CompliantSolution,
   DMEId,
   UserId,
   VersionId,
@@ -143,7 +143,7 @@ function renderExtensionCard(
 }
 
 export function solutionCards(
-  solutions: ConformingSolution[] | SearchResult[]
+  solutions: CompliantSolution[] | SearchResult[]
 ): JSX.Element[] {
   const router = useRouter();
   return solutions.map((solution) => {
@@ -162,7 +162,7 @@ export function solutionCards(
 }
 
 function renderSolutionCard(
-  solution: ConformingSolution | SearchResult
+  solution: CompliantSolution | SearchResult
 ): JSX.Element {
   return (
     <ul>
@@ -237,7 +237,7 @@ function LongCard(props: LongCardProps) {
 type UserCard = {
   user: CatalogUser;
   extensions?: CatalogDataModelExtension[];
-  solutions?: ConformingSolution[];
+  solutions?: CompliantSolution[];
   workingGroups?: WorkingGroup[];
 };
 

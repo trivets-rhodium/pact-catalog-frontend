@@ -1,7 +1,7 @@
 import { GetStaticProps } from 'next';
 import {
   ConformanceTestResult,
-  ConformingSolution,
+  CompliantSolution,
 } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 type PageProps = {
-  allSolutions: ConformingSolution[];
+  allSolutions: CompliantSolution[];
   allResults: ConformanceTestResult[];
 };
 
@@ -30,7 +30,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
-function getAllIndustries(allSolutions: ConformingSolution[]): string[] {
+function getAllIndustries(allSolutions: CompliantSolution[]): string[] {
   const allIndustries = allSolutions.map((solution) => {
     return solution.industries;
   });
@@ -42,7 +42,7 @@ function getAllIndustries(allSolutions: ConformingSolution[]): string[] {
   });
 }
 
-function getAllProviders(allSolutions: ConformingSolution[]): string[] {
+function getAllProviders(allSolutions: CompliantSolution[]): string[] {
   const allProvidersNames = allSolutions.map((solution) => {
     return solution.providerName;
   });
@@ -54,7 +54,7 @@ function getAllProviders(allSolutions: ConformingSolution[]): string[] {
 
 function getProviderByIndustry(
   industry: string,
-  allSolutions: ConformingSolution[]
+  allSolutions: CompliantSolution[]
 ): string[] {
   const filteredSolutions = allSolutions.filter((solution) => {
     return solution.industries.includes(industry);

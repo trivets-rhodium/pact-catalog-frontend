@@ -2,7 +2,7 @@ import path from 'path';
 import fs from 'fs';
 import {
   CatalogDataModelExtension,
-  ConformingSolution,
+  CompliantSolution,
   SolutionId,
 } from './catalog-types';
 import { SolutionParser } from './catalog-types.schema';
@@ -28,12 +28,12 @@ export async function getAllSolutionsIds() {
   });
 }
 
-export async function getSolution(id: SolutionId): Promise<ConformingSolution> {
+export async function getSolution(id: SolutionId): Promise<CompliantSolution> {
   const basePath = path.join(solutionsDirectory, `${id}.json`);
   return getSolutionFromBasePath(basePath);
 }
 
-export async function getAllSolutions(): Promise<ConformingSolution[]> {
+export async function getAllSolutions(): Promise<CompliantSolution[]> {
   const paths = fs.readdirSync(solutionsDirectory);
 
   const allSolutionsData = paths.map((solutionFilePath) => {
@@ -46,10 +46,10 @@ export async function getAllSolutions(): Promise<ConformingSolution[]> {
 
 export async function getConformingSolutions(
   extension: CatalogDataModelExtension
-): Promise<ConformingSolution[]> {
+): Promise<CompliantSolution[]> {
   const solutions = await getAllSolutions();
 
-  let conformingSolutions: ConformingSolution[] = [];
+  let conformingSolutions: CompliantSolution[] = [];
 
   for (const solution of solutions) {
     for (const e of solution.extensions) {
@@ -63,7 +63,7 @@ export async function getConformingSolutions(
 
 async function getSolutionFromBasePath(
   basePath: string
-): Promise<ConformingSolution> {
+): Promise<CompliantSolution> {
   const solutionContent = fs.readFileSync(basePath, 'utf-8');
   const solutionObject = JSON.parse(solutionContent);
   const parsedSolution = SolutionParser.parse(solutionObject);

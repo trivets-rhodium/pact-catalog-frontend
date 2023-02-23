@@ -4,7 +4,7 @@ import Layout from '../components/layout';
 import {
   CatalogDataModelExtension,
   CatalogUser,
-  ConformingSolution,
+  CompliantSolution,
   UserId,
   WorkingGroup,
 } from '../lib/catalog-types';
@@ -16,7 +16,7 @@ import { getAllWorkingGroups } from '../lib/working-groups';
 type EnrichedUser = {
   user: CatalogUser;
   userExtensions?: CatalogDataModelExtension[];
-  userSolutions?: ConformingSolution[];
+  userSolutions?: CompliantSolution[];
   workingGroups?: WorkingGroup[];
 };
 

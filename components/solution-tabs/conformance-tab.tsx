@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { Tab, TabRenderer } from '../tabs';
 import style from '../../styles/Tabs.module.css';
-import { ConformingSolution } from '../../lib/catalog-types';
+import { CompliantSolution } from '../../lib/catalog-types';
 
-const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
+const conformanceTab: TabRenderer<CompliantSolution> = (solution) => {
   const { conformance_tests } = solution;
   return (
     <div>
@@ -52,7 +52,7 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
   );
 };
 
-const explore: Tab<ConformingSolution> = {
+const explore: Tab<CompliantSolution> = {
   tabId: 'conformance',
   title: 'Conformance',
   render: conformanceTab,

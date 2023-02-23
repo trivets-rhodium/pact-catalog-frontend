@@ -40,14 +40,16 @@
 .card-invert:hover,
 .card-invert:focus,
 .card-invert:active {
-  background-color: #04A17F;
+  background-color: rgba(4, 159, 126, 0.6);
+  backdrop-filter: blur(4px);
   color: white;
 }
 
 .card:hover,
 .card:focus,
 .card:active {
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
   color: #04A17F;
 }
 
@@ -75,7 +77,7 @@
 .user-card-bottom {
   border: 2px solid #004386;
   border-top: 0;
-  background-color: rgba(0, 67, 134, 0.7);
+  background-color: rgba(0, 67, 134, 0.6);
   color: rgba(255, 255, 255, 0.6);
 }
 
