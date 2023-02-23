@@ -43,7 +43,7 @@ export function Hexagon(props: HexagonProps) {
                 {mainText}
               </h3>
               {secondaryText && (
-                <p className="text-xs text-center">{secondaryText}</p>
+                <p className="text-xs text-center text-white">{secondaryText}</p>
               )}
             </div>
           </div>
