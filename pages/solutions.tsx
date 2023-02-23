@@ -284,7 +284,7 @@ export default function Solutions(props: PageProps) {
               result !== '' ? result : ''
             } ${
               industry !== '' ? `${industry} related` : ''
-            } Conforming Solutions for '${searchValue}' ${
+            } PACT Compliant Solutions for '${searchValue}' ${
               provider !== '' ? `from ${provider}` : ''
             }`}
             cardsContent={matchingSolutions}
@@ -297,7 +297,7 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${industry} related Conforming Solutions`}
+            title={`All ${industry} related PACT Compliant Solutions`}
             cardsContent={filterByIndustry}
             render={solutionCards}
           />
@@ -308,7 +308,7 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${result} Conforming Solutions, from ${provider}`}
+            title={`All ${result} PACT Compliant Solutions, from ${provider}`}
             cardsContent={filterByProviderAndResult}
             render={solutionCards}
           />
@@ -319,7 +319,7 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All Conforming Solutions from ${provider}`}
+            title={`All PACT Compliant Solutions from ${provider}`}
             cardsContent={filterByProvider}
             render={solutionCards}
           />
@@ -330,7 +330,7 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${industry} related ${result} Conforming Solutions`}
+            title={`All ${industry} related ${result} PACT Compliant Solutions`}
             cardsContent={filterByIndustryAndResult}
             render={solutionCards}
           />
@@ -341,7 +341,7 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${result} Conforming Solutions`}
+            title={`All ${result} PACT Compliant Solutions`}
             cardsContent={filterByResult}
             render={solutionCards}
           />
@@ -351,7 +351,7 @@ export default function Solutions(props: PageProps) {
     } else {
       return (
         <Cards
-          title="All Conforming Solutions"
+          title="All PACT Compliant Solutions"
           cardsContent={allSolutions}
           render={solutionCards}
         />
@@ -360,7 +360,7 @@ export default function Solutions(props: PageProps) {
   }
 
   return (
-    <Layout title="Conforming Solutions">
+    <Layout title="PACT Compliant Solutions">
       <section>
         <SearchBar
           searchValue={searchState.searchValue}
@@ -381,7 +381,7 @@ export default function Solutions(props: PageProps) {
           thirdFilterContent={getAllResults(allResults)}
           thirdFilterValue={searchState.result}
           onThirdFilterChange={handleResultsChange}
-          title={'Search Conforming Solutions'}
+          title={'Search PACT Compliant Solutions'}
           placeholder={'e.g. Some Solution Provider'}
         />
       </section>

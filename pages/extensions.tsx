@@ -340,7 +340,7 @@ export default function Extensions(props: PageProps) {
               industry !== '' ? `${industry} related` : ''
             } ${
               status !== '' ? status : ''
-            } Data Model Extension(s) for '${searchValue}'${
+            } Industry Specific Extension(s) for '${searchValue}'${
               publisher !== '' ? `, from ${publisher}` : ''
             }`}
             cardsContent={matchingExtensions}
@@ -353,7 +353,7 @@ export default function Extensions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${industry} related Data Model Extensions`}
+            title={`All ${industry} related Industry Specific Extensions`}
             cardsContent={filterByIndustry}
             render={extensionCards}
           />
@@ -366,7 +366,7 @@ export default function Extensions(props: PageProps) {
           <Cards
             title={`All ${
               industry !== '' ? `${industry} related` : ''
-            } ${status} Data Model Extensions, from ${publisher}`}
+            } ${status} Industry Specific Extensions, from ${publisher}`}
             cardsContent={filterByPublisherAndStatus}
             render={extensionCards}
           />
@@ -379,7 +379,7 @@ export default function Extensions(props: PageProps) {
           <Cards
             title={`All ${
               industry !== '' ? `${industry} related` : ''
-            } Data Model Extensions from ${publisher}`}
+            } Industry Specific Extensions from ${publisher}`}
             cardsContent={filterByPublisher}
             render={extensionCards}
           />
@@ -390,7 +390,7 @@ export default function Extensions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${industry} related ${status} Data Model Extensions`}
+            title={`All ${industry} related ${status} Industry Specific Extensions`}
             cardsContent={filterByIndustryAndStatus}
             render={extensionCards}
           />
@@ -401,7 +401,7 @@ export default function Extensions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${status} Data Model Extensions`}
+            title={`All ${status} Industry Specific Extensions`}
             cardsContent={filterByStatus}
             render={extensionCards}
           />
@@ -411,7 +411,7 @@ export default function Extensions(props: PageProps) {
     } else {
       return (
         <Cards
-          title="All Data Model Extensions"
+          title="All Industry Specific Extensions"
           cardsContent={allExtensions}
           render={extensionCards}
         />
@@ -420,7 +420,7 @@ export default function Extensions(props: PageProps) {
   }
 
   return (
-    <Layout title="Data Model Extensions">
+    <Layout title="Industry Specific Extensions">
       <section>
         <SearchBar
           searchValue={searchState.searchValue}
@@ -441,7 +441,7 @@ export default function Extensions(props: PageProps) {
           thirdFilterContent={getAllStatuses(allExtensions)}
           thirdFilterValue={searchState.status}
           onThirdFilterChange={handleStatusChange}
-          title={'Search Data Model Extensions'}
+          title={'Search Industry Specific Extensions'}
           placeholder={
             'e.g. World Business Council for Sustainable Development'
           }
