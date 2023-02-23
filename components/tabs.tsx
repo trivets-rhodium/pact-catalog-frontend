@@ -35,7 +35,7 @@ function TabHead<T>(props: TabsProps<T>) {
   };
 
   return (
-    <div className="flex">
+    <div className="flex ">
       {tabs.map(({ tabId, title }) => (
         <Link
           key={tabId}
@@ -59,7 +59,7 @@ function TabHead<T>(props: TabsProps<T>) {
               activeTab === tabId || defaultTab()
                 ? style['active-tab']
                 : style.tab
-            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
+            } pt-2 pb-1 px-6 mr-1 rounded-t-md z-1`}
           >
             {title}
           </div>
@@ -95,7 +95,7 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
   return (
     <>
       <TabHead {...props} />
-      <div className="h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
+      <div className={`h-100 px-24 py-20 rounded-b-md rounded-tr-md z-0 bg-white bg-opacity-70 ${style["green-border"]}`}>
         <TabContent {...props} />
 
         <div className="flex justify-end">
