@@ -19,6 +19,7 @@ type EnrichedUser = {
   userSolutions?: ConformingSolution[];
   workingGroups?: WorkingGroup[];
 };
+
 type PageProps = {
   enrichedUsers: EnrichedUser[];
 };
@@ -59,11 +60,17 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
 export default function Members(props: PageProps) {
   const { enrichedUsers } = props;
 
+  const filteredUsers = enrichedUsers.filter(
+    (user) =>
+      user.user.id !== 'some-steel-manufacturer' &&
+      user.user.id !== 'some-solutionprovider'
+  );
+
   return (
     <Layout>
       <h1>Members</h1>
       <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
-        {enrichedUsers.map((user) => {
+        {filteredUsers.map((user) => {
           return (
             <li key={user.user.id}>
               <UserCard
