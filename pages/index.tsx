@@ -95,7 +95,7 @@ export default function Home() {
           />
           <Hexagon
             svgPath="/hexagons/hex-1.svg"
-            className=" absolute top-0 left-0 text-white hexagon-text-shadow white-h3 hexagon-clip"
+            className=" absolute top-0 left-0 hexagon-clip"
             mainText="PACT Compliant Solutions"
             secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
@@ -106,7 +106,7 @@ export default function Home() {
           />
           <Hexagon
             svgPath="/hexagons/hex-2.svg"
-            className="absolute right-0 top-1/2 -translate-y-1/2 text-white hexagon-text-shadow white-h3 hexagon-clip"
+            className="absolute right-0 top-1/2 -translate-y-1/2 hexagon-clip"
             mainText="Industry Specific Extensions"
             secondaryText="to the PACT product carbon footprint Data Model"
             href="/extensions"
@@ -117,7 +117,7 @@ export default function Home() {
           />
           <Hexagon
             svgPath="/hexagons/hex-3.svg"
-            className=" absolute bottom-0 left-0 text-white hexagon-text-shadow white-h3 hexagon-clip"
+            className=" absolute bottom-0 left-0 hexagon-clip"
             mainText="Members"
             secondaryText="who participate in the PACT initiative"
             href="/members"

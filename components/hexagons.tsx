@@ -28,13 +28,15 @@ export function Hexagon(props: HexagonProps) {
       href={href}
       className={`${className} flex justify-center items-center w-fit`}
     >
-      <div className={`relative flex items-center justify-center hover:opacity-60`}>
+      <div
+        className={`relative flex items-center justify-center hover:opacity-60`}
+      >
         <img src={svgPath} alt={`${mainText} hover:opacity-60`} />
-        <div className="absolute p-6 w-full pb-8 ">
-          <div className="flex justify-center">
+        <div className="absolute p-6 w-full ">
+          <div className="flex justify-center hexagon-text-shadow">
             <div>
               <h3
-                className={`${
+                className={`text-white ${
                   small ? 'text-sm px-12' : 'text-2xl leading-6 mb-2 '
                 } text-center`}
               >
