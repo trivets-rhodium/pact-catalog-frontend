@@ -88,48 +88,47 @@ export default function Home() {
         </div>
       </div>
       <div className="background-image col-span-5 flex justify-center items-center">
-        <div className="h-full min-w-full relative ">
+        <div className="w-7/12 h-5/6 flex justify-center relative">
           <img
             src={'/hexagons/hex-1.svg'}
-            className="mt-20 absolute top-0 left-1/4 hexagon-shadow"
+            className="absolute top-0 left-0 hexagon-shadow"
           />
           <Hexagon
             svgPath="/hexagons/hex-1.svg"
-            className="mt-20 absolute top-0 left-1/4 text-white hexagon-text-shadow white-h3 hexagon-clip "
+            className=" absolute top-0 left-0 text-white hexagon-text-shadow white-h3 hexagon-clip"
             mainText="PACT Compliant Solutions"
             secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />
           <img
             src={'/hexagons/hex-2.svg'}
-            className="mt-20 absolute top-1/4 left-2/4 hexagon-shadow"
+            className="absolute right-0 top-1/2 -translate-y-1/2 hexagon-shadow"
           />
           <Hexagon
             svgPath="/hexagons/hex-2.svg"
-            className="mt-20 absolute top-1/4 left-2/4 text-white hexagon-text-shadow white-h3 hexagon-clip"
+            className="absolute right-0 top-1/2 -translate-y-1/2 text-white hexagon-text-shadow white-h3 hexagon-clip"
             mainText="Industry Specific Extensions"
             secondaryText="to the PACT product carbon footprint Data Model"
             href="/extensions"
           />
           <img
             src={'/hexagons/hex-3.svg'}
-            className="mt-20 absolute top-2/4 left-1/4 hexagon-shadow"
+            className=" absolute bottom-0 left-0 hexagon-shadow"
           />
           <Hexagon
             svgPath="/hexagons/hex-3.svg"
-            className="mt-20 absolute top-2/4 left-1/4 text-white hexagon-text-shadow white-h3 hexagon-clip"
+            className=" absolute bottom-0 left-0 text-white hexagon-text-shadow white-h3 hexagon-clip"
             mainText="Members"
             secondaryText="who participate in the PACT initiative"
             href="/members"
           />
-
-          <Link
-            href={'/about'}
-            className="about-button absolute bottom-6 right-8"
-          >
-            <h3>?</h3>
-          </Link>
         </div>
+        <Link
+          href={'/about'}
+          className="about-button absolute bottom-6 right-8"
+        >
+          <h3>?</h3>
+        </Link>
       </div>
     </section>
   );
