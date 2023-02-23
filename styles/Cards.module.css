@@ -69,11 +69,11 @@
 }
 
 .user-card-top {
-  border: 2px solid #04A17F;
+  border: 2px solid #004386;
 }
 
 .user-card-bottom {
-  border: 2px solid #04A17F;
+  border: 2px solid #004386;
   border-top: 0;
-  background-color: rgba(4, 161, 127, 0.5);
+  background-color: rgba(0, 67, 134, 0.6)
 }

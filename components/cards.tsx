@@ -246,23 +246,20 @@ export function UserCard(props: UserCard) {
   const { name, logo, extensions, solutions, workingGroups } = props;
   const router = useRouter();
   return (
-    <div className="my-4">
-      <div
-        className={`bg-white ${style['user-card-top']} rounded-t-2xl pt-8 px-10 pb-4`}
-      >
+    <div className="my-4 break-inside-avoid">
+      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4`}>
         {logo ? (
-          <div>
+          <div className="flex justify-center">
             <img
               src={logo || ''}
-              alt={'RMI logo'}
-              width={0}
-              height={0}
-              style={{ width: 'auto', height: 'auto' }}
+              alt={`${name} logo`}
+              height="200"
+              width="200"
+              className="scale-75"
             />
-            <p className="text-center text-blue mt-4">{name}</p>
           </div>
         ) : (
-          <h2>{name}</h2>
+          <h3 className="text-center">{name}</h3>
         )}
       </div>
       <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
@@ -327,11 +324,11 @@ export function UserCard(props: UserCard) {
               })}
           </ul>
         </div>
-        <div className="text-right mt-8">
+        {/* <div className="text-right mt-8">
           <Link href={'#'} className="primary-button">
             Learn More
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );
