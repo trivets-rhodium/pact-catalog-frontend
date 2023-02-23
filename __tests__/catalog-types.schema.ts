@@ -4,7 +4,7 @@ const validSchemaJson = `
 {
   "$id": "https://catalog.carbon-transparency.com/data-model-extension/@wwf/water-footprint/0.6.1/schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "WWF Water Tootprint Data Model Extension",
+  "title": "WWF Water Footprint Extension",
   "type": "object",
   "properties": {
     "propertyOne": {
@@ -32,7 +32,7 @@ test('Test valid schema.json', () => {
 const invalidSchemaJson = `
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "WWF Water Tootprint Data Model Extension",
+  "title": "WWF Water Footprint Extension",
   "type": "object",
   "foo": "bar"
 }

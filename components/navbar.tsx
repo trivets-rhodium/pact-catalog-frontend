@@ -9,30 +9,36 @@ export default function Navbar() {
     <div
       className={`${style.navbar} flex justify-between sticky top-0 items-center z-10`}
     >
-      <Link href={'/'} className={`text-xl font-bold p-0 ${style['nav-links']}`}>
+      <Link
+        href={'/'}
+        className={`text-xl font-bold p-0 ${style['nav-links']}`}
+      >
         WBCSD | PACT Online Catalog
       </Link>
       <div>
         <ul className="flex">
           <li className="px-2">
-            <Link href={'/faq'} className={`text-white ${style['nav-links']}`}>
-              FAQ
+            <Link
+              href={'/solutions'}
+              className={`text-white ${style['nav-links']}`}
+            >
+              Solutions
             </Link>
           </li>
           <li className="px-2">
             <Link
-              href={'/resources'}
+              href={'/extensions'}
               className={`text-white ${style['nav-links']}`}
             >
-              Resources
+              Extensions
             </Link>
           </li>
           <li className="px-2">
             <Link
-              href={'/contacts'}
+              href={'/members'}
               className={`text-white ${style['nav-links']}`}
             >
-              Contacts
+              Members
             </Link>
           </li>
           <li className="px-2">
@@ -51,7 +57,23 @@ export default function Navbar() {
               Submit Extension
             </Link>
           </li>
-          {session ? (
+          <li className="px-2">
+            <Link
+              href={'/contacts'}
+              className={`text-white ${style['nav-links']}`}
+            >
+              Contacts
+            </Link>
+          </li>
+          <li className="px-2">
+            <Link
+              href={'/about'}
+              className={`text-white ${style['nav-links']}`}
+            >
+              About
+            </Link>
+          </li>
+          {/* {session ? (
             <li className="px-2">
               <button
                 onClick={() => signOut()}
@@ -69,7 +91,7 @@ export default function Navbar() {
                 Log in
               </button>
             </li>
-          )}
+          )} */}
         </ul>
       </div>
     </div>
