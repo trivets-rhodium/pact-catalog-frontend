@@ -265,7 +265,7 @@ export function UserCard(props: UserCard) {
           )}
         </a>
       </div>
-      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6 grow`}>
+      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow`}>
         <div className="mb-4">
           {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
           <ul>
