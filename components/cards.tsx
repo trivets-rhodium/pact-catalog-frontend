@@ -235,36 +235,44 @@ function LongCard(props: LongCardProps) {
 }
 
 type UserCard = {
-  name: string;
-  logo?: string;
+  user: CatalogUser;
   extensions?: CatalogDataModelExtension[];
   solutions?: ConformingSolution[];
   workingGroups?: WorkingGroup[];
 };
 
 export function UserCard(props: UserCard) {
-  const { name, logo, extensions, solutions, workingGroups } = props;
+  const { user, extensions, solutions, workingGroups } = props;
+  const { name, logo, website, kind } = user;
   const router = useRouter();
   return (
-    <div className="my-4 break-inside-avoid">
-      <div className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4`}>
-        {logo ? (
-          <div className="flex justify-center">
-            <img
-              src={logo || ''}
-              alt={`${name} logo`}
-              height="200"
-              width="200"
-              className="scale-75"
-            />
-          </div>
-        ) : (
-          <h3 className="text-center">{name}</h3>
-        )}
+    <div className="my-4 break-inside-avoid h-72 min-h-fit min-w-fit flex flex-col">
+      <div
+        className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4 h-24 shrink-0 overflow-scroll`}
+      >
+        <a href={website || '#'} target="_blank">
+          {logo ? (
+            <div className="flex justify-center h-full">
+              <img
+                src={logo || ''}
+                alt={`${name} logo`}
+                height="200"
+                width="200"
+                className="object-scale-down"
+              />
+            </div>
+          ) : (
+            <h3 className="mt-2 text-center">{name}</h3>
+          )}
+        </a>
       </div>
-      <div className={`${style['user-card-bottom']} rounded-b-2xl p-6`}>
-        <div className="mb-4">
-          {extensions && extensions.length >= 1 && <h3>Extensions</h3>}
+      <div
+        className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow max-h-48 overflow-scroll`}
+      >
+        <div>
+          {((extensions && extensions.length >= 1) || kind === 'ngo') && (
+            <h3>Extensions</h3>
+          )}
           <ul>
             {extensions &&
               extensions.map((extension) => {
@@ -282,46 +290,62 @@ export function UserCard(props: UserCard) {
               })}
           </ul>
         </div>
-        <div className="mb-4">
-          {solutions && solutions.length >= 1 && <h3>Solutions</h3>}
+        {/* TO DO: replace prototype logic specific to solution providers */}
+        <div>
+          {kind === 'solutionprovider' && <h3>Solutions</h3>}
+          {/* {solutions && solutions.length >= 1 && <h3>Solutions</h3>} */}
           <ul>
-            {solutions &&
-              solutions.map((solution) => {
-                return (
-                  <li key={solution.id}>
-                    <Link
-                      href={`solutions/${solution.id}${router.asPath.replace(
-                        'members',
-                        ''
-                      )}`}
-                    >
-                      {solution.name}
-                    </Link>
-                  </li>
-                );
-              })}
+            {solutions && solutions?.length !== 0
+              ? solutions.map((solution) => {
+                  return (
+                    <li key={solution.id}>
+                      <Link
+                        href={`solutions/${solution.id}${router.asPath.replace(
+                          'members',
+                          ''
+                        )}`}
+                      >
+                        {solution.name}
+                      </Link>
+                    </li>
+                  );
+                })
+              : kind === 'solutionprovider' && (
+                  <Link href={'/solutions/steel-industry-solution'}>
+                    <li>PACT Compliant Solution</li>
+                  </Link>
+                )}
           </ul>
         </div>
-        <div className="mb-4">
-          {workingGroups && workingGroups.length >= 1 && (
-            <h3>Working Groups</h3>
-          )}
+        <div
+          // className={
+          //   extensions?.length === 0 || solutions?.length === 0
+          //     ? 'mt-10'
+          //     : 'mt-4'
+          // }
+          className="mt-4"
+        >
+          <h3>Working Groups</h3>
           <ul>
-            {workingGroups &&
-              workingGroups.map((group) => {
-                return (
-                  <li key={group.name}>
-                    <Link
-                      href={`working-groups/${group.id}${router.asPath.replace(
-                        'members',
-                        ''
-                      )}`}
-                    >
-                      {group.name}
-                    </Link>
-                  </li>
-                );
-              })}
+            {workingGroups && workingGroups.length !== 0
+              ? workingGroups.map((group) => {
+                  return (
+                    <li key={group.name}>
+                      <Link
+                        href={`working-groups/${
+                          group.id
+                        }${router.asPath.replace('members', '')}`}
+                      >
+                        {group.name}
+                      </Link>
+                    </li>
+                  );
+                })
+              : kind === 'solutionprovider' && (
+                  <Link href={'/working-groups/sustainable-steel-production'}>
+                    <li>Working Group</li>
+                  </Link>
+                )}
           </ul>
         </div>
         {/* <div className="text-right mt-8">

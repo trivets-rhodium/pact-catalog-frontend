@@ -59,7 +59,7 @@ export default function Home() {
                 className="link-background-1 hover:opacity-70"
                 href={'/solutions'}
               >
-                PACT conforming solutions
+                PACT compliant solutions
               </Link>{' '}
               for exchanging Scope-3 carbon footprint data. Find and contribute{' '}
               <Link

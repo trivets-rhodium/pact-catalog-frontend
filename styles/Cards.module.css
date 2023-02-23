@@ -75,5 +75,10 @@
 .user-card-bottom {
   border: 2px solid #004386;
   border-top: 0;
-  background-color: rgba(0, 67, 134, 0.6)
+  background-color: rgba(0, 67, 134, 0.7);
+  color: rgba(255, 255, 255, 0.6);
 }
+
+/* .user-card-bottom h3 {
+  color: white;
+} */
