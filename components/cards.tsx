@@ -22,12 +22,14 @@ type CardsProps<T> = {
   message?: string;
   cardsContent: T[];
   render: CardsRenderer<T[]>;
+  cardStyle: string;
 };
 
 export const cols = 4;
 
 export function Cards<T>(props: CardsProps<T>) {
-  const { title, cardsContent, render, subtitle, href, message } = props;
+  const { title, cardsContent, render, subtitle, href, message, cardStyle } =
+    props;
   return (
     <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">
@@ -55,6 +57,7 @@ export function Cards<T>(props: CardsProps<T>) {
             render={(undefined) => {
               return <></>;
             }}
+            cardStyle={cardStyle}
           />
         )}
       </ul>
@@ -113,6 +116,7 @@ export function extensionCards(
         subtitle={version}
         cardContent={extension}
         render={renderExtensionCard}
+        cardStyle={'light-blue-card'}
       />
     );
   });
@@ -156,6 +160,7 @@ export function solutionCards(
         subtitle={providerName}
         cardContent={solution}
         render={renderSolutionCard}
+        cardStyle={'green-card'}
       />
     );
   });
@@ -188,19 +193,19 @@ type CardProps<T> = {
   subtitle?: string;
   cardContent: T;
   render: CardRenderer<T>;
+  cardStyle: string;
 };
 
-export type CardRenderer<T> = (cardDetails: T) => JSX.Element;
+type CardRenderer<T> = (cardDetails: T) => JSX.Element;
 
 function Card<T>(props: CardProps<T>) {
-  const { href, title, invert, subtitle, cardContent, render } = props;
+  const { href, title, invert, subtitle, cardContent, render, cardStyle } =
+    props;
 
   return (
     <Link href={href}>
       <li
-        className={`${
-          invert ? style['card-invert'] : style.card
-        } flex flex-col justify-between backdrop-blur-sm`}
+        className={`flex flex-col justify-between backdrop-blur-sm ${style[cardStyle]}`}
       >
         <div className="pb-10">
           <p className="font-bold">{title}</p>
