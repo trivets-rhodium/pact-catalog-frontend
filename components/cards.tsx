@@ -29,7 +29,7 @@ export const cols = 4;
 export function Cards<T>(props: CardsProps<T>) {
   const { title, cardsContent, render, subtitle, href, message } = props;
   return (
-    <section className="background pb-10 rounded-sm">
+    <section className="background pb-10 rounded-sm backdrop-blur-sm">
       <h2 className="title px-4">
         {href ? (
           <Link
