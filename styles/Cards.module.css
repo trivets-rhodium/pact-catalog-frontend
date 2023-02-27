@@ -1,4 +1,4 @@
-.card {
+.green-card {
   background-color: rgba(4, 161, 127, 0.6);
   border: 2px solid #04A17F;
   padding: 15px;
@@ -9,6 +9,17 @@
   margin: 1rem;
 }
 
+.light-blue-card {
+  background-color: rgba(0, 116, 142, 0.6);
+  border: 2px solid #00748E;
+  padding: 15px;
+  color: white;
+  border-radius: 10px;
+  transition: background-color .3s, border .3s, color .3s;
+  height: 250px;
+  margin: 1rem;
+  overflow: scroll;
+}
 
 .card-invert {
   background-color: transparent;
@@ -46,12 +57,20 @@
   color: white;
 }
 
-.card:hover,
-.card:focus,
-.card:active {
+.green-card:hover,
+.green-card:focus,
+.green-card:active {
   background-color: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(4px);
   color: #04A17F;
+}
+
+.light-blue-card:hover,
+.light-blue-card:focus,
+.light-blue-card:active {
+  background-color: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(4px);
+  color: #00748E;
 }
 
 .card p {

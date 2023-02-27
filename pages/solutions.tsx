@@ -1,8 +1,5 @@
 import { GetStaticProps } from 'next';
-import {
-  ConformanceTestResult,
-  CompliantSolution,
-} from '../lib/catalog-types';
+import { ConformanceTestResult, CompliantSolution } from '../lib/catalog-types';
 import Layout from '../components/layout';
 import { getAllSolutions } from '../lib/solutions';
 import React, { useEffect, useState } from 'react';
@@ -140,7 +137,8 @@ export default function Solutions(props: PageProps) {
     router.push({
       pathname: router.pathname,
       query: router.query,
-    });  }
+    });
+  }
 
   function handleIndustryChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchState({
@@ -157,7 +155,8 @@ export default function Solutions(props: PageProps) {
     router.push({
       pathname: router.pathname,
       query: router.query,
-    });  }
+    });
+  }
 
   function handleProviderChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchState({
@@ -174,7 +173,8 @@ export default function Solutions(props: PageProps) {
     router.push({
       pathname: router.pathname,
       query: router.query,
-    });  }
+    });
+  }
 
   function handleResultsChange(event: React.ChangeEvent<HTMLSelectElement>) {
     setSearchState({
@@ -191,7 +191,8 @@ export default function Solutions(props: PageProps) {
     router.push({
       pathname: router.pathname,
       query: router.query,
-    });  }
+    });
+  }
 
   useEffect(() => {
     const { industry, provider, result, searchValue } = searchState;
@@ -242,7 +243,9 @@ export default function Solutions(props: PageProps) {
       searchState;
 
     const filterByIndustry = allSolutions.filter((solution) => {
-      return solution.industries.includes(industry);
+      if (solution.industries) {
+        return solution.industries.includes(industry);
+      }
     });
 
     const filterByProvider = allSolutions.filter((solution) => {
@@ -284,11 +287,12 @@ export default function Solutions(props: PageProps) {
               result !== '' ? result : ''
             } ${
               industry !== '' ? `${industry} related` : ''
-            } Conforming Solutions for '${searchValue}' ${
+            } PACT Compliant Solutions for '${searchValue}' ${
               provider !== '' ? `from ${provider}` : ''
             }`}
             cardsContent={matchingSolutions}
             render={solutionCards}
+            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -297,9 +301,10 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${industry} related Conforming Solutions`}
+            title={`All ${industry} related PACT Compliant Solutions`}
             cardsContent={filterByIndustry}
             render={solutionCards}
+            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -308,9 +313,10 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${result} Conforming Solutions, from ${provider}`}
+            title={`All ${result} PACT Compliant Solutions, from ${provider}`}
             cardsContent={filterByProviderAndResult}
             render={solutionCards}
+            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -319,9 +325,10 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All Conforming Solutions from ${provider}`}
+            title={`All PACT Compliant Solutions from ${provider}`}
             cardsContent={filterByProvider}
             render={solutionCards}
+            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -330,9 +337,10 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${industry} related ${result} Conforming Solutions`}
+            title={`All ${industry} related ${result} PACT Compliant Solutions`}
             cardsContent={filterByIndustryAndResult}
             render={solutionCards}
+            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -341,9 +349,10 @@ export default function Solutions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${result} Conforming Solutions`}
+            title={`All ${result} PACT Compliant Solutions`}
             cardsContent={filterByResult}
             render={solutionCards}
+            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -351,16 +360,17 @@ export default function Solutions(props: PageProps) {
     } else {
       return (
         <Cards
-          title="All Conforming Solutions"
+          title="All PACT Compliant Solutions"
           cardsContent={allSolutions}
           render={solutionCards}
+          cardStyle="green"
         />
       );
     }
   }
 
   return (
-    <Layout title="Conforming Solutions">
+    <Layout title="PACT Compliant Solutions">
       <section>
         <SearchBar
           searchValue={searchState.searchValue}
@@ -381,8 +391,9 @@ export default function Solutions(props: PageProps) {
           thirdFilterContent={getAllResults(allResults)}
           thirdFilterValue={searchState.result}
           onThirdFilterChange={handleResultsChange}
-          title={'Search Conforming Solutions'}
+          title={'Search PACT Compliant Solutions'}
           placeholder={'e.g. Some Solution Provider'}
+          color="green"
         />
       </section>
 

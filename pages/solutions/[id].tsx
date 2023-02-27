@@ -48,11 +48,11 @@ export default function Solution(props: PageProps) {
 
   return (
     <Layout title={solution.name}>
-
       <TabsLayout
         tabs={tabs}
         content={solution}
         title={solution.name}
+        color="green"
       ></TabsLayout>
     </Layout>
   );

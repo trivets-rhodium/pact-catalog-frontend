@@ -63,6 +63,7 @@ export default function Extension(props: PageProps) {
         tabs={tabs}
         content={extension}
         title={extension.description}
+        color="light-blue"
       ></TabsLayout>
     </Layout>
   );

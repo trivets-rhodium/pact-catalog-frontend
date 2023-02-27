@@ -307,7 +307,11 @@ export default function SubmissionForm() {
       <input
         type="submit"
         value={submitting ? 'Loading...' : 'Submit'}
-        className={submitting ? 'primary-button-loading' : 'primary-button'}
+        className={
+          submitting
+            ? 'light-blue-primary-button-loading'
+            : 'light-blue-primary-button'
+        }
       />
     </form>
   );

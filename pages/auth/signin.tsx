@@ -34,7 +34,7 @@ export default function SignIn({
                 callbackUrl: router.query.callbackUrl as string,
               });
             }}
-            className="primary-button"
+            className="light-blue-primary-button"
           >
             Log in with {github.name}{' '}
           </button>
