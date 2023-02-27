@@ -6,7 +6,6 @@
 
 .green-tab {
   color: #0a0552;
-  background-color: rgba(255, 255, 255, 0.6);
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
   border: 2px solid #04a17f;
   border-bottom: none;
@@ -31,7 +30,6 @@
 
 .light-blue-tab {
   color: #0a0552;
-  background-color: rgba(255, 255, 255, 0.6);
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
   border: 2px solid #00748E;
   border-bottom: none;

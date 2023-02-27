@@ -60,7 +60,7 @@ function TabHead<T>(props: TabsProps<T>) {
               activeTab === tabId || defaultTab()
                 ? style[`${color}-active-tab`]
                 : style[`${color}-tab`]
-            } pt-2 pb-1 px-6 mr-1 rounded-t-md z-1`}
+            } pt-2 pb-1 px-6 mr-1 rounded-t-md z-1 bg-white bg-opacity-70 backdrop-blur-sm`}
           >
             {title}
           </div>
