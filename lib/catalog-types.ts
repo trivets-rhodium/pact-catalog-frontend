@@ -95,7 +95,7 @@ export type CompliantSolution = {
     | null;
   providerName: string;
   summary: string | null;
-  industries: Industry[];
+  industries: Industry[] | null;
   users: SolutionUsers | null;
   conformance_tests: SolutionTestResults | null;
 };

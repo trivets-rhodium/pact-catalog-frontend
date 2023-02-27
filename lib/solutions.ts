@@ -81,6 +81,7 @@ async function getSolutionFromBasePath(
     summary: parsedSolution.summary || null,
     users: (await getSolutionUsers(solutionId)) || null,
     conformance_tests: (await getSolutionTestResults(solutionId)) || null,
+    industries: parsedSolution.industries || null,
   };
 }
 

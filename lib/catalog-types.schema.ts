@@ -89,7 +89,7 @@ export type CompliantSolutionJsonSchema = {
     version: VersionId;
   }[];
   summary?: string;
-  industries: Industry[];
+  industries?: Industry[];
 };
 
 export type CatalogUserJsonSchema = {
@@ -198,7 +198,7 @@ export const SolutionParser: z.ZodType<CompliantSolutionJsonSchema> = z.lazy(
         )
         .optional(),
       summary: z.string().optional(),
-      industries: z.array(z.string().min(1)),
+      industries: z.array(z.string().min(1)).optional(),
     })
 );
 
