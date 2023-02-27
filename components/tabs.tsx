@@ -35,7 +35,7 @@ function TabHead<T>(props: TabsProps<T>) {
   };
 
   return (
-    <div className="flex ">
+    <div className="flex">
       {tabs.map(({ tabId, title }) => (
         <Link
           key={tabId}

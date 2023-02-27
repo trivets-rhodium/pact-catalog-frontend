@@ -44,7 +44,7 @@ export async function getAllSolutions(): Promise<CompliantSolution[]> {
   return Promise.all(allSolutionsData);
 }
 
-export async function getConformingSolutions(
+export async function getCompliantSolutions(
   extension: CatalogDataModelExtension
 ): Promise<CompliantSolution[]> {
   const solutions = await getAllSolutions();
@@ -52,9 +52,11 @@ export async function getConformingSolutions(
   let conformingSolutions: CompliantSolution[] = [];
 
   for (const solution of solutions) {
-    for (const e of solution.extensions) {
-      if (e.id === extension.name && e.version === extension.version) {
-        conformingSolutions.push(solution);
+    if (solution.extensions) {
+      for (const e of solution.extensions) {
+        if (e.id === extension.name && e.version === extension.version) {
+          conformingSolutions.push(solution);
+        }
       }
     }
   }
@@ -72,7 +74,9 @@ async function getSolutionFromBasePath(
 
   return {
     ...parsedSolution,
-    extensions: await enrichExtensions(parsedSolution.extensions),
+    extensions: parsedSolution.extensions
+      ? await enrichExtensions(parsedSolution.extensions)
+      : null,
     providerName: (await getUser(parsedSolution.provider)).name,
     summary: parsedSolution.summary || null,
     users: (await getSolutionUsers(solutionId)) || null,

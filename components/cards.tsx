@@ -164,7 +164,7 @@ export function solutionCards(
 function renderSolutionCard(
   solution: CompliantSolution | SearchResult
 ): JSX.Element {
-  return (
+  return solution.extensions ? (
     <ul>
       {solution.extensions.map(
         (extension: { id: DMEId; version: VersionId; author: string }) => {
@@ -176,6 +176,8 @@ function renderSolutionCard(
         }
       )}
     </ul>
+  ) : (
+    <></>
   );
 }
 
