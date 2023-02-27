@@ -32,7 +32,7 @@ export default function About() {
           <Hexagon
             svgPath="/hexagons/hex-1-small.svg"
             className="mx-2"
-            mainText="Data Model Extensions"
+            mainText="Industry Specific Extensions"
             small
             href="/extensions"
           />
@@ -59,7 +59,7 @@ export default function About() {
             <Hexagon
               svgPath="/hexagons/hex-1.svg"
               className="shrink-0 text-blue"
-              mainText="Data Model Extensions"
+              mainText="Industry Specific Extensions"
               href="/extensions"
             />
             <div className="text-blue mx-10">

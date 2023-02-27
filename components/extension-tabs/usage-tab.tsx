@@ -29,7 +29,7 @@ const usageTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
         </ul>
       </section>
       <section className="mb-12">
-        <h2>Conforming Solutions</h2>
+        <h2>PACT Compliant Solutions</h2>
         <ul>
           {conformingSolutions &&
             conformingSolutions.map(({ id, name, providerName }) => {
