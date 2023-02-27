@@ -35,7 +35,7 @@ const readmeTab: TabRenderer<CompliantSolution> = (solution) => {
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
           <a href={website} target="_blank" rel="noopener noreferrer">
-            <div className="mb-8 primary-button">Find out more</div>
+            <div className="mb-8 green-primary-button">Find out more</div>
           </a>
         </div>
       </div>

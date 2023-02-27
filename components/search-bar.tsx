@@ -18,7 +18,7 @@ type SearchBarProps<T> = {
   thirdFilterContent?: string[];
   thirdFilterValue?: string;
   onThirdFilterChange?: ChangeEventHandler<HTMLSelectElement>;
-  color: string;
+  color: 'green' | 'light-blue';
 };
 
 export default function SearchBar<T>(props: SearchBarProps<T>) {

@@ -1,10 +1,10 @@
-.active-tab {
+.green-active-tab {
   background-color: #04a17f;
   color: white;
   border: 2px solid #04a17f;
 }
 
-.tab {
+.green-tab {
   color: #0a0552;
   background-color: rgba(255, 255, 255, 0.6);
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
@@ -12,7 +12,7 @@
   border-bottom: none;
 }
 
-.tab:hover {
+.green-tab:hover {
   background-color: #04a17f;
   color: white;
   border-bottom: 2px solid #04a17f;
@@ -20,5 +20,30 @@
 
 .green-border {
   border: 2px solid #04a17f;
+
+}
+
+.light-blue-active-tab {
+  background-color: #00748E;
+  color: white;
+  border: 2px solid #00748E;
+}
+
+.light-blue-tab {
+  color: #0a0552;
+  background-color: rgba(255, 255, 255, 0.6);
+  transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
+  border: 2px solid #00748E;
+  border-bottom: none;
+}
+
+.light-blue-tab:hover {
+  background-color: #00748E;
+  color: white;
+  border-bottom: 2px solid #00748E;
+}
+
+.light-blue-border {
+  border: 2px solid #00748E;
 
 }

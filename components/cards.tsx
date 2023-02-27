@@ -233,7 +233,7 @@ function LongCard(props: LongCardProps) {
         <p className="pr-32 ">{subtitle}</p>
       </div>
       <div className="flex justify-end">
-        <Link href={href} className="primary-button">
+        <Link href={href} className="green-primary-button">
           Learn more
         </Link>{' '}
       </div>
@@ -356,7 +356,7 @@ export function UserCard(props: UserCard) {
           </ul>
         </div>
         {/* <div className="text-right mt-8">
-          <Link href={'#'} className="primary-button">
+          <Link href={'#'} className="green-primary-button">
             Learn More
           </Link>
         </div> */}

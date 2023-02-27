@@ -99,7 +99,7 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
             //TO DO: download file instead of opening on a tab? (Replacing button text with 'Download Package')
             target="_blank"
           >
-            <div className="mb-8 primary-button">
+            <div className="mb-8 light-blue-primary-button">
               Open Schema <span className="text-xs">↗</span>
             </div>
           </Link>
