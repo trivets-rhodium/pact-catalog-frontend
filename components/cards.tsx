@@ -29,7 +29,7 @@ export const cols = 4;
 export function Cards<T>(props: CardsProps<T>) {
   const { title, cardsContent, render, subtitle, href, message } = props;
   return (
-    <section className="background pb-10 rounded-sm backdrop-blur-sm">
+    <section className="background pb-10 rounded-sm">
       <h2 className="title px-4">
         {href ? (
           <Link
@@ -200,7 +200,7 @@ function Card<T>(props: CardProps<T>) {
       <li
         className={`${
           invert ? style['card-invert'] : style.card
-        } flex flex-col justify-between`}
+        } flex flex-col justify-between backdrop-blur-sm`}
       >
         <div className="pb-10">
           <p className="font-bold">{title}</p>
