@@ -345,6 +345,7 @@ export default function Extensions(props: PageProps) {
             }`}
             cardsContent={matchingExtensions}
             render={extensionCards}
+            cardStyle={'light-blue-green'}
           />
           {resetSearch()}
         </>
@@ -356,6 +357,7 @@ export default function Extensions(props: PageProps) {
             title={`All ${industry} related Data Model Extensions`}
             cardsContent={filterByIndustry}
             render={extensionCards}
+            cardStyle={'light-blue-green'}
           />
           {resetSearch()}
         </>
@@ -369,6 +371,7 @@ export default function Extensions(props: PageProps) {
             } ${status} Data Model Extensions, from ${publisher}`}
             cardsContent={filterByPublisherAndStatus}
             render={extensionCards}
+            cardStyle={'light-blue-green'}
           />
           {resetSearch()}
         </>
@@ -382,6 +385,7 @@ export default function Extensions(props: PageProps) {
             } Data Model Extensions from ${publisher}`}
             cardsContent={filterByPublisher}
             render={extensionCards}
+            cardStyle={'light-blue-green'}
           />
           {resetSearch()}
         </>
@@ -393,6 +397,7 @@ export default function Extensions(props: PageProps) {
             title={`All ${industry} related ${status} Data Model Extensions`}
             cardsContent={filterByIndustryAndStatus}
             render={extensionCards}
+            cardStyle={'light-blue-green'}
           />
           {resetSearch()}
         </>
@@ -404,6 +409,7 @@ export default function Extensions(props: PageProps) {
             title={`All ${status} Data Model Extensions`}
             cardsContent={filterByStatus}
             render={extensionCards}
+            cardStyle={'light-blue-green'}
           />
           {resetSearch()}
         </>
@@ -414,6 +420,7 @@ export default function Extensions(props: PageProps) {
           title="All Data Model Extensions"
           cardsContent={allExtensions}
           render={extensionCards}
+          cardStyle={'light-blue-green'}
         />
       );
     }
@@ -445,6 +452,7 @@ export default function Extensions(props: PageProps) {
           placeholder={
             'e.g. World Business Council for Sustainable Development'
           }
+          color={'light-blue'}
         />
       </section>
       <section>{displayExtensions()}</section>
