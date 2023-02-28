@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import { CompliantSolution } from '../../lib/catalog-types';
+import { ConformingSolution } from '../../lib/catalog-types';
 import { Tab, TabRenderer } from '../tabs';
 
-const usageTab: TabRenderer<CompliantSolution> = (solution) => {
+const usageTab: TabRenderer<ConformingSolution> = (solution) => {
   const { extensions } = solution;
 
   return (
@@ -28,7 +28,7 @@ const usageTab: TabRenderer<CompliantSolution> = (solution) => {
   );
 };
 
-const usage: Tab<CompliantSolution> = {
+const usage: Tab<ConformingSolution> = {
   tabId: 'usage',
   title: 'Usage',
   render: usageTab,

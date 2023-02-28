@@ -39,7 +39,7 @@ export default function About() {
           <Hexagon
             svgPath="/hexagons/hex-2-small.svg"
             className="mx-2"
-            mainText="PACT Compliant Solutions"
+            mainText="PACT Conforming Solutions"
             small
             href="/solutions"
           />
@@ -97,7 +97,7 @@ export default function About() {
             <Hexagon
               svgPath="/hexagons/hex-2.svg"
               className="shrink-0"
-              mainText="PACT Compliant Solutions"
+              mainText="PACT Conforming Solutions"
               href="/solutions"
             />
           </div>

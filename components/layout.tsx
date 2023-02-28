@@ -3,7 +3,7 @@ import utilStyles from '../styles/utils.module.css';
 import Link from 'next/link';
 import {
   CatalogDataModelExtension,
-  CompliantSolution,
+  ConformingSolution,
 } from '../lib/catalog-types';
 import Navbar from './navbar';
 import { Footer } from './footer';
@@ -19,12 +19,12 @@ export default function Layout(props: LayoutProps) {
   const headTitle = title ? `PACT | ${title}` : 'PACT Online Catalog';
 
   return (
-    <div className="">
+    <div className="min-h-screen">
       <Head>
         <title>{headTitle}</title>
       </Head>
       <Navbar />
-      <main className="py-20 pb-0 px-32">{children}</main>
+      <main className="pt-16 pb-16 px-32">{children}</main>
       <Footer />
     </div>
   );

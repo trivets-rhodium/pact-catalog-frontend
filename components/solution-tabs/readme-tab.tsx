@@ -3,12 +3,12 @@ import { Tab, TabRenderer } from '../tabs';
 import style from '../../styles/Tabs.module.css';
 import {
   CatalogDataModelExtension,
-  CompliantSolution,
+  ConformingSolution,
   Endorsers,
 } from '../../lib/catalog-types';
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
-const readmeTab: TabRenderer<CompliantSolution> = (solution) => {
+const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
   const {name, summary, providerName, users, website} = solution;
 
   return (
@@ -43,7 +43,7 @@ const readmeTab: TabRenderer<CompliantSolution> = (solution) => {
   );
 };
 
-const readme: Tab<CompliantSolution> = {
+const readme: Tab<ConformingSolution> = {
   tabId: 'readme',
   title: 'Readme',
   render: readmeTab,

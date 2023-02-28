@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import {
   CatalogDataModelExtension,
   CatalogUser,
-  CompliantSolution,
+  ConformingSolution,
   DMEId,
   UserId,
   VersionId,
@@ -162,7 +162,7 @@ function renderExtensionCard(
 }
 
 export function solutionCards(
-  solutions: CompliantSolution[] | SearchResult[]
+  solutions: ConformingSolution[] | SearchResult[]
 ): JSX.Element[] {
   const router = useRouter();
   return solutions.map((solution) => {
@@ -182,7 +182,7 @@ export function solutionCards(
 }
 
 function renderSolutionCard(
-  solution: CompliantSolution | SearchResult
+  solution: ConformingSolution | SearchResult
 ): JSX.Element {
   return solution.extensions ? (
     <div>
@@ -262,7 +262,7 @@ function LongCard(props: LongCardProps) {
 type UserCard = {
   user: CatalogUser;
   extensions?: CatalogDataModelExtension[];
-  solutions?: CompliantSolution[];
+  solutions?: ConformingSolution[];
   workingGroups?: WorkingGroup[];
 };
 
@@ -337,7 +337,7 @@ export function UserCard(props: UserCard) {
                 })
               : kind === 'solutionprovider' && (
                   <Link href={'/solutions/steel-industry-solution'}>
-                    <li>PACT Compliant Solution</li>
+                    <li>PACT Conforming Solution</li>
                   </Link>
                 )}
           </ul>

@@ -4,7 +4,6 @@ import Image from 'next/image';
 export function Footer() {
   return (
     <div className="w-screen flex justify-center items-center py-2 px-4 opacity-50">
-      {/* <p className='text-sm'>PACT Online Catalog — by SINE Foundation</p> */}
       <p className="mr-2 text-sm align-middle">powered by </p>
       <a href="https://sine.foundation">
         <Image src={SineLogo} width={200} height={150} alt="SINE logo" />

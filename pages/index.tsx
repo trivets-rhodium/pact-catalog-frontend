@@ -59,7 +59,7 @@ export default function Home() {
                 className="link-background-1 hover:opacity-70"
                 href={'/solutions'}
               >
-                PACT compliant solutions
+                PACT conforming solutions
               </Link>{' '}
               for exchanging Scope-3 carbon footprint data. Find and contribute{' '}
               <Link
@@ -96,7 +96,7 @@ export default function Home() {
           <Hexagon
             svgPath="/hexagons/hex-1.svg"
             className=" absolute top-0 left-0 hexagon-clip"
-            mainText="PACT Compliant Solutions"
+            mainText="PACT Conforming Solutions"
             secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />

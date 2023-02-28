@@ -9,7 +9,7 @@ import fs from 'fs';
 import path from 'path';
 import { globby } from 'globby';
 import { PackageJsonParser, validateSchemaJson } from './catalog-types.schema';
-import { getCompliantSolutions } from './solutions';
+import { getConformingSolutions } from './solutions';
 import { getEndorsers, getUser } from './users';
 
 const extensionsDirectory = path.posix.join(
@@ -158,7 +158,7 @@ async function getExtensionFromBasePath(
       },
     ],
     endorsers: await getEndorsers(extension),
-    conformingSolutions: await getCompliantSolutions(extension),
+    conformingSolutions: await getConformingSolutions(extension),
     versions: await getVersions(basePath),
     downloadLink: null,
     gitRepositoryUrl: null,
