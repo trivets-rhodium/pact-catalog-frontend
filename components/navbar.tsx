@@ -49,10 +49,10 @@ export default function Navbar() {
           </li>
           <li className="px-2">
             <Link
-              href={'/members'}
+              href={'/collaborators'}
               className={`text-white ${style['nav-links']}`}
             >
-              Members
+              Collaborators
             </Link>
           </li>
           <li className="px-2">

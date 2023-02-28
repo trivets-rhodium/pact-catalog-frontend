@@ -31,7 +31,7 @@
   filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.3));
 }
 
-.member-card {
+.collaborator-card {
   border: 2px solid #004386;
   background-color: #004386;
   color: white;
@@ -131,9 +131,9 @@
   transform: scale(105%);
 }
 
-.member-card:hover,
-.member-card:focus,
-.member-card:active {
+.collaborator-card:hover,
+.collaborator-card:focus,
+.collaborator-card:active {
   background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(4px);
   color: #004386;

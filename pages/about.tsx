@@ -46,10 +46,9 @@ export default function About() {
           <Hexagon
             svgPath="/hexagons/hex-3-small.svg"
             className="mx-2"
-            mainText="Members"
+            mainText="Collaborators"
             small
-            // TO DO: Replace with members index href
-            href="/working-groups"
+            href="/collaborators"
           />
         </div>
       </section>
@@ -105,9 +104,8 @@ export default function About() {
             <Hexagon
               svgPath="/hexagons/hex-3.svg"
               className="shrink-0"
-              mainText="Members"
-              // TO DO: Replace with members index href
-              href="/working-groups"
+              mainText="Collaborators"
+              href="/collaborators"
             />
             <div className="text-blue mx-10">
               <p>

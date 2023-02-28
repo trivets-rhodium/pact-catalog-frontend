@@ -64,7 +64,7 @@ export default function Home() {
               to the PACT Data Model. Discover{' '}
               <Link
                 className="link-background-3 hover:opacity-70"
-                href={'/members'}
+                href={'/collaborators'}
               >
                 participating members
               </Link>
@@ -111,9 +111,9 @@ export default function Home() {
           <Hexagon
             svgPath="/hexagons/hex-3.svg"
             className=" absolute bottom-0 left-0 hexagon-clip"
-            mainText="Members"
+            mainText="Collaborators"
             secondaryText="who participate in the PACT initiative"
-            href="/members"
+            href="/collaborators"
           />
         </div>
         <Link

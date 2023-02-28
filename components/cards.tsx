@@ -13,7 +13,7 @@ import {
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
 import { link } from 'fs';
-import { EnrichedUser } from '../pages/members';
+import { EnrichedUser } from '../pages/collaborators';
 
 export type CardsRenderer<T> = (cardsContent: T) => JSX.Element[];
 
@@ -205,10 +205,12 @@ function renderSolutionCard(
   );
 }
 
-export function memberCards(members: EnrichedUser[]): JSX.Element[] {
+export function collaboratorCards(
+  collaborators: EnrichedUser[]
+): JSX.Element[] {
   const router = useRouter();
-  return members.map((member) => {
-    const { user } = member;
+  return collaborators.map((collaborator) => {
+    const { user } = collaborator;
     const { id, website } = user;
     return (
       <Card
@@ -216,16 +218,16 @@ export function memberCards(members: EnrichedUser[]): JSX.Element[] {
         href={website || '#'}
         title={''}
         subtitle={''}
-        cardContent={member}
-        render={renderMemberCard}
-        cardStyle={'member-card'}
+        cardContent={collaborator}
+        render={renderCollaboratorCard}
+        cardStyle={'collaborator-card'}
       />
     );
   });
 }
 
-function renderMemberCard(member: EnrichedUser): JSX.Element {
-  const { user, userExtensions, userSolutions, workingGroups } = member;
+function renderCollaboratorCard(collaborator: EnrichedUser): JSX.Element {
+  const { user, userExtensions, userSolutions, workingGroups } = collaborator;
   const { logo, name } = user;
 
   return (
@@ -296,11 +298,14 @@ function Card<T>(props: CardProps<T>) {
     props;
 
   return (
-    <Link href={href}>
+    <Link
+      href={href}
+      target={cardStyle === 'collaborator-card' ? '_blank' : ''}
+    >
       <li
         className={`flex flex-col justify-between ${style[cardStyle]} leading-tight`}
       >
-        {cardStyle !== 'member-card' ? (
+        {cardStyle !== 'collaborator-card' ? (
           <>
             <div>
               <h3 className="">{title}</h3>
@@ -387,7 +392,7 @@ export function UserCard(props: UserCard) {
                     <Link
                       href={`extensions/${extension.name}/${
                         extension.version
-                      }${router.asPath.replace('members', '')}`}
+                      }${router.asPath.replace('collaborators', '')}`}
                     >
                       {`${extension.name} v${extension.version}`}
                     </Link>
@@ -407,7 +412,7 @@ export function UserCard(props: UserCard) {
                     <li key={solution.id}>
                       <Link
                         href={`solutions/${solution.id}${router.asPath.replace(
-                          'members',
+                          'collaborators',
                           ''
                         )}`}
                       >
@@ -440,7 +445,7 @@ export function UserCard(props: UserCard) {
                       <Link
                         href={`working-groups/${
                           group.id
-                        }${router.asPath.replace('members', '')}`}
+                        }${router.asPath.replace('collaborators', '')}`}
                       >
                         {group.name}
                       </Link>

@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { Cards, memberCards, UserCard } from '../components/cards';
+import { Cards, collaboratorCards, UserCard } from '../components/cards';
 import Layout from '../components/layout';
 import {
   CatalogDataModelExtension,
@@ -40,11 +40,11 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
     });
 
     const workingGroups = allWorkingGroups.filter((group) => {
-      const membersUserIds: UserId[] = group.members.map((member) => {
+      const collaboratorsUserIds: UserId[] = group.members.map((member) => {
         return member.user_id;
       });
 
-      return membersUserIds.includes(user.id);
+      return collaboratorsUserIds.includes(user.id);
     });
 
     return { user, userExtensions, userSolutions, workingGroups };
@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
-export default function Members(props: PageProps) {
+export default function Collaborators(props: PageProps) {
   const { enrichedUsers } = props;
 
   // Filter mock users;
@@ -71,10 +71,10 @@ export default function Members(props: PageProps) {
   return (
     <Layout>
       <Cards
-        title={'Members (being updated)'}
-        cardsContent={enrichedUsers}
-        render={memberCards}
-        cardStyle={'member-card'}
+        title={'Collaborators (being updated)'}
+        cardsContent={filteredUsers}
+        render={collaboratorCards}
+        cardStyle={'collaborator-card'}
       />
 
       {/* <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
