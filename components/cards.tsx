@@ -208,7 +208,7 @@ function Card<T>(props: CardProps<T>) {
         className={`flex flex-col justify-between backdrop-blur-sm ${style[cardStyle]}`}
       >
         <div className="pb-10">
-          <p className="font-bold">{title}</p>
+          <h3 className=''>{title}</h3>
           <p>{subtitle}</p>
         </div>
         {render(cardContent)}

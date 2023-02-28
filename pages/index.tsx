@@ -4,7 +4,7 @@ import pactLogo from '../public/logos/pact-logo.svg';
 import Link from 'next/link';
 import { Footer } from '../components/footer';
 import { Hexagon } from '../components/hexagons';
-import sineLogo from '../public/logos/sine-logo.svg';
+import sineLogo from '../public/logos/sine-logo-white.svg';
 import Marquee from 'react-fast-marquee';
 import { LogoMarquee } from '../components/logo-marquee';
 

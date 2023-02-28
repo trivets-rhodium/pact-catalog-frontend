@@ -1,6 +1,8 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import style from '../styles/Navbar.module.css';
 import { useSession, signIn, signOut } from 'next-auth/react';
+import pactLogo from '../public/logos/pact-logo-navbar.svg';
 
 export default function Navbar() {
   const { data: session } = useSession();
@@ -11,9 +13,21 @@ export default function Navbar() {
     >
       <Link
         href={'/'}
-        className={`text-xl font-bold p-0 ${style['nav-links']}`}
+        className={`text-xl p-0 ${style['nav-links']} flex items-center justify-start`}
       >
-        WBCSD | PACT Online Catalog
+        {/* <Image
+          src={pactLogo}
+          alt={'PACT logo'}
+          className={style['pact-logo']}
+        /> */}
+        <Image
+          src={pactLogo}
+          alt={'PACT logo'}
+        ></Image>
+        <p className="shrink-0" style={{ height: '30px' }}>
+          {' '}
+          Online Catalog
+        </p>
       </Link>
       <div>
         <ul className="flex">

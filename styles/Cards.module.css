@@ -1,24 +1,49 @@
 .green-card {
-  background-color: rgba(4, 161, 127, 0.6);
+  background-color: rgba(4, 161, 127, 1);
   border: 2px solid #04A17F;
   padding: 15px;
   color: white;
   border-radius: 10px;
-  transition: background-color .3s, border .3s, color .3s;
+  transition: background-color .3s, border .3s, color .3s, transform .3s;
   height: 250px;
   margin: 1rem;
+  filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.3));
+}
+
+.green-card h3 {
+  color: white;
+  text-shadow: 0 0px 4px #0a0552;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.green-card:hover h3 {
+  color: #04A17F;
+  text-shadow: 0 0px 4px white;
 }
 
 .light-blue-card {
-  background-color: rgba(0, 116, 142, 0.6);
+  background-color: rgba(0, 116, 142, 1);
   border: 2px solid #00748E;
   padding: 15px;
   color: white;
   border-radius: 10px;
-  transition: background-color .3s, border .3s, color .3s;
+  transition: background-color .3s, border .3s, color .3s, transform .3s;
   height: 250px;
   margin: 1rem;
   overflow: scroll;
+  filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.3));
+
+}
+
+.light-blue-card h3 {
+  color: white;
+  text-shadow: 0 0px 4px #0a0552;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.light-blue-card:hover h3 {
+  color: #00748E;
+  text-shadow: 0 0px 4px white;
 }
 
 .card-invert {
@@ -52,7 +77,7 @@
 .card-invert:hover,
 .card-invert:focus,
 .card-invert:active {
-  background-color: rgba(4, 159, 126, 0.6);
+  background-color: rgba(4, 159, 126, 1);
   backdrop-filter: blur(4px);
   color: white;
 }
@@ -60,17 +85,19 @@
 .green-card:hover,
 .green-card:focus,
 .green-card:active {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(4px);
   color: #04A17F;
+  transform: scale(105%);
 }
 
 .light-blue-card:hover,
 .light-blue-card:focus,
 .light-blue-card:active {
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(4px);
   color: #00748E;
+  transform: scale(105%);
 }
 
 .card p {
@@ -97,8 +124,8 @@
 .user-card-bottom {
   border: 2px solid #004386;
   border-top: 0;
-  background-color: rgba(0, 67, 134, 0.6);
-  color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(0, 67, 134, 1);
+  color: rgba(255, 255, 255, 1);
 }
 
 /* .user-card-bottom h3 {

@@ -25,7 +25,6 @@ export default function Layout(props: LayoutProps) {
       </Head>
       <Navbar />
 
-      <div className="light-background"></div>
       <main className="py-20 px-32 min-h-screen ">{children}</main>
       <Footer />
     </div>

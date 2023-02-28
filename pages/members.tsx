@@ -70,7 +70,9 @@ export default function Members(props: PageProps) {
 
   return (
     <Layout>
-      <h1>Members</h1>
+      <h1>
+        Members <span className="text-sm">(being updated)</span>
+      </h1>
       <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {filteredUsers.map((user) => {
           return (
