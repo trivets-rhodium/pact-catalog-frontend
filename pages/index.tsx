@@ -42,16 +42,9 @@ export default function Home() {
         </div>
         <div className="mx-14 mb-6">
           <div className="my-28">
-            <h1 className="text-white leading-tight">PACT Online Catalog</h1>
-            <p className="text-white text-sm mb-8">
-              by{' '}
-              <a
-                href="https://sine.foundation"
-                className="underline underline-offset-4 hover:opacity-70"
-              >
-                SINE Foundation
-              </a>
-            </p>
+            <h1 className="text-white leading-tight mb-8">
+              PACT Online Catalog
+            </h1>
 
             <p className="text-white mb-20 leading-8">
               Explore{' '}

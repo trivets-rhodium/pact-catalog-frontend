@@ -31,6 +31,28 @@
   filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.3));
 }
 
+.member-card {
+  border: 2px solid #004386;
+  background-color: #004386;
+  color: white;
+  border-radius: 10px;
+  height: 250px;
+  transition: background-color .3s, border .3s, color .3s, transform .3s;
+  filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.3));
+}
+
+/* .member-card h3 {
+  color: white;
+  text-shadow: 0 0px 4px #0a0552;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+
+.member-card:hover h3 {
+  color: #004386;
+  text-shadow: 0 0px 4px white;
+} */
+
+
 .card-details>* {
   overflow: hidden;
   text-overflow: ellipsis;
@@ -106,6 +128,15 @@
   background-color: rgba(255, 255, 255, 1);
   backdrop-filter: blur(4px);
   color: #00748E;
+  transform: scale(105%);
+}
+
+.member-card:hover,
+.member-card:focus,
+.member-card:active {
+  background-color: rgba(255, 255, 255, 1);
+  backdrop-filter: blur(4px);
+  color: #004386;
   transform: scale(105%);
 }
 

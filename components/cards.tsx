@@ -13,6 +13,7 @@ import {
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
 import { link } from 'fs';
+import { EnrichedUser } from '../pages/members';
 
 export type CardsRenderer<T> = (cardsContent: T) => JSX.Element[];
 
@@ -186,7 +187,7 @@ function renderSolutionCard(
 ): JSX.Element {
   return solution.extensions ? (
     <div>
-      <p className={style['aux-text']}>extensions used</p>
+      <p className={style['aux-text']}>supported extensions</p>
       <ul className={style['card-details']}>
         {solution.extensions.map(
           (extension: { id: DMEId; version: VersionId; author: string }) => {
@@ -201,6 +202,80 @@ function renderSolutionCard(
     </div>
   ) : (
     <></>
+  );
+}
+
+export function memberCards(members: EnrichedUser[]): JSX.Element[] {
+  const router = useRouter();
+  return members.map((member) => {
+    const { user } = member;
+    const { id, website } = user;
+    return (
+      <Card
+        key={id}
+        href={website || '#'}
+        title={''}
+        subtitle={''}
+        cardContent={member}
+        render={renderMemberCard}
+        cardStyle={'member-card'}
+      />
+    );
+  });
+}
+
+function renderMemberCard(member: EnrichedUser): JSX.Element {
+  const { user, userExtensions, userSolutions, workingGroups } = member;
+  const { logo, name } = user;
+
+  return (
+    <div className="">
+      <div className="flex justify-center h-20 bg-white rounded-lg p-4">
+        {logo ? (
+          <img
+            src={logo || ''}
+            alt={`${name} logo`}
+            height="200"
+            width="200"
+            className="object-scale-down"
+          />
+        ) : (
+          <h3>{name}</h3>
+        )}
+      </div>
+      <div className={`p-2 ${style['card-details']}`}>
+        <ul className="pb-4">
+          {user.kind === 'ngo' ? (
+            <>
+              <li className={style['aux-text']}>extensions</li>
+              {userExtensions &&
+                userExtensions.map((extension) => {
+                  return (
+                    <li key={`${extension.name}/${extension.version}`}>
+                      {extension.name} {extension.version}
+                    </li>
+                  );
+                })}
+            </>
+          ) : (
+            <>
+              <li className={style['aux-text']}>solutions</li>
+              {userSolutions &&
+                userSolutions.slice(0, 2).map((solution) => {
+                  return <li key={solution.id}>{solution.name}</li>;
+                })}
+            </>
+          )}
+        </ul>
+        <ul>
+          <li className={style['aux-text']}>working groups</li>
+          {workingGroups &&
+            workingGroups.map((workingGroup) => {
+              return <li>{workingGroup.name}</li>;
+            })}
+        </ul>
+      </div>
+    </div>
   );
 }
 
@@ -225,11 +300,17 @@ function Card<T>(props: CardProps<T>) {
       <li
         className={`flex flex-col justify-between ${style[cardStyle]} leading-tight`}
       >
-        <div className="">
-          <h3 className="">{title}</h3>
-          <p>{subtitle}</p>
-        </div>
-        {render(cardContent)}
+        {cardStyle !== 'member-card' ? (
+          <>
+            <div>
+              <h3 className="">{title}</h3>
+              <p>{subtitle}</p>
+            </div>
+            {render(cardContent)}
+          </>
+        ) : (
+          <>{render(cardContent)}</>
+        )}
       </li>
     </Link>
   );

@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { UserCard } from '../components/cards';
+import { Cards, memberCards, UserCard } from '../components/cards';
 import Layout from '../components/layout';
 import {
   CatalogDataModelExtension,
@@ -13,7 +13,7 @@ import { getAllSolutions } from '../lib/solutions';
 import { getAllUsers, getUserExtensions } from '../lib/users';
 import { getAllWorkingGroups } from '../lib/working-groups';
 
-type EnrichedUser = {
+export type EnrichedUser = {
   user: CatalogUser;
   userExtensions?: CatalogDataModelExtension[];
   userSolutions?: ConformingSolution[];
@@ -70,10 +70,14 @@ export default function Members(props: PageProps) {
 
   return (
     <Layout>
-      <h1>
-        Members <span className="text-sm">(being updated)</span>
-      </h1>
-      <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <Cards
+        title={'Members (being updated)'}
+        cardsContent={enrichedUsers}
+        render={memberCards}
+        cardStyle={'member-card'}
+      />
+
+      {/* <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {filteredUsers.map((user) => {
           return (
             <li key={user.user.id}>
@@ -86,7 +90,7 @@ export default function Members(props: PageProps) {
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </Layout>
   );
 }
