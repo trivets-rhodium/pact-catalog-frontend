@@ -122,7 +122,7 @@ export function extensionCards(
         }
         cardContent={extension}
         render={renderExtensionCard}
-        cardStyle={'light-blue-card'}
+        cardStyle={'extension-card'}
       />
     );
   });
@@ -176,7 +176,7 @@ export function solutionCards(
         subtitle={providerName}
         cardContent={solution}
         render={renderSolutionCard}
-        cardStyle={'green-card'}
+        cardStyle={'solution-card'}
       />
     );
   });
