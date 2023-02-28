@@ -32,7 +32,7 @@ export function Cards<T>(props: CardsProps<T>) {
   const { title, cardsContent, render, subtitle, href, message, cardStyle } =
     props;
   return (
-    <section className="background pb-10 rounded-sm">
+    <section className="pb-10 rounded-sm">
       <h2 className="title px-4">
         {href ? (
           <Link
@@ -80,7 +80,7 @@ export function LongCards(props: LongCardsProps) {
   const { title, longCards } = props;
 
   return (
-    <section className="background pb-10 rounded-sm">
+    <section className="pb-10 rounded-sm">
       <h1>{title}</h1>
       <ul>
         {longCards.map((longCard) => {
@@ -134,12 +134,12 @@ function renderExtensionCard(
 
   return (
     <div>
-      <div className={style['extension-details']}>
+      <div className={style['card-details']}>
         <p>
           <span className={style['aux-text']}>by</span> {author.name}
         </p>
       </div>
-      <ul className={`${style['extension-details']} leading-tight`}>
+      <ul className={`${style['card-details']} leading-tight`}>
         <p className={style['aux-text']}>
           {endorsers && endorsers.length ? `endorsed by` : ''}
         </p>
@@ -149,7 +149,9 @@ function renderExtensionCard(
               ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
                 return <li>• {endorser.name}</li>;
               }),
-              <li className={style['aux-text']}>...and {endorsers.length - 3} more</li>,
+              <li className={style['aux-text']}>
+                ...and {endorsers.length - 3} more
+              </li>,
             ]
           : endorsers.map((endorser: CatalogUser) => {
               <li>• {endorser.name}</li>;
@@ -183,17 +185,20 @@ function renderSolutionCard(
   solution: CompliantSolution | SearchResult
 ): JSX.Element {
   return solution.extensions ? (
-    <ul>
-      {solution.extensions.map(
-        (extension: { id: DMEId; version: VersionId; author: string }) => {
-          return (
-            <li key={extension.id}>
-              {extension.id} {extension.version}
-            </li>
-          );
-        }
-      )}
-    </ul>
+    <div>
+      <p className={style['aux-text']}>extensions used</p>
+      <ul className={style['card-details']}>
+        {solution.extensions.map(
+          (extension: { id: DMEId; version: VersionId; author: string }) => {
+            return (
+              <li key={extension.id}>
+                {extension.id} {extension.version}
+              </li>
+            );
+          }
+        )}
+      </ul>
+    </div>
   ) : (
     <></>
   );
