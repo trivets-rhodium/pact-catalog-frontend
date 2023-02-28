@@ -12,6 +12,7 @@ import {
   WorkingGroup,
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
+import { link } from 'fs';
 
 export type CardsRenderer<T> = (cardsContent: T) => JSX.Element[];
 
@@ -46,7 +47,7 @@ export function Cards<T>(props: CardsProps<T>) {
       </h2>
 
       <h3 className="px-4">{subtitle}</h3>
-      <ul className="grid grid-cols-4 m-1">
+      <ul className="grid grid-cols-4 gap-4 mx-4">
         {render(cardsContent)}
         {href && message && (
           <Card
@@ -113,7 +114,11 @@ export function extensionCards(
           ''
         )}`}
         title={description}
-        subtitle={version}
+        subtitle={
+          catalog_info.status === 'published'
+            ? version
+            : `${version} (${catalog_info.status})`
+        }
         cardContent={extension}
         render={renderExtensionCard}
         cardStyle={'light-blue-card'}
@@ -128,21 +133,29 @@ function renderExtensionCard(
   const { author, catalog_info, endorsers } = extension;
 
   return (
-    <ul>
-      <li>Publisher: {author.name}</li>
-      <li>Status: {catalog_info.status}</li>
-      <li>
-        {endorsers && endorsers.length
-          ? `Endorsers (${endorsers.length}):`
-          : ''}
-        <ul>
-          {endorsers &&
-            endorsers.map((endorser: CatalogUser) => {
-              return <li key={endorser.id}>{endorser.name}</li>;
+    <div>
+      <div className={style['extension-details']}>
+        <p>
+          <span className={style['aux-text']}>by</span> {author.name}
+        </p>
+      </div>
+      <ul className={`${style['extension-details']} leading-tight`}>
+        <p className={style['aux-text']}>
+          {endorsers && endorsers.length ? `endorsed by` : ''}
+        </p>
+
+        {endorsers && endorsers.length >= 4
+          ? [
+              ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
+                return <li>• {endorser.name}</li>;
+              }),
+              <li className={style['aux-text']}>...and {endorsers.length - 3} more</li>,
+            ]
+          : endorsers.map((endorser: CatalogUser) => {
+              <li>• {endorser.name}</li>;
             })}
-        </ul>
-      </li>
-    </ul>
+      </ul>
+    </div>
   );
 }
 
@@ -205,10 +218,10 @@ function Card<T>(props: CardProps<T>) {
   return (
     <Link href={href}>
       <li
-        className={`flex flex-col justify-between backdrop-blur-sm ${style[cardStyle]}`}
+        className={`flex flex-col justify-between ${style[cardStyle]} leading-tight`}
       >
-        <div className="pb-10">
-          <h3 className=''>{title}</h3>
+        <div className="">
+          <h3 className="">{title}</h3>
           <p>{subtitle}</p>
         </div>
         {render(cardContent)}
