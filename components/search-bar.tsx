@@ -18,7 +18,7 @@ type SearchBarProps<T> = {
   thirdFilterContent?: string[];
   thirdFilterValue?: string;
   onThirdFilterChange?: ChangeEventHandler<HTMLSelectElement>;
-  color: 'green' | 'light-blue';
+  color: "green" | "light-blue";
 };
 
 export default function SearchBar<T>(props: SearchBarProps<T>) {
@@ -60,7 +60,7 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
             <div className={style[`select-wrapper-${color}`]}>
               <select
                 name={firstFilterName}
-                className="flex-grow m-1 py-4 pl-4 pr-6 rounded-sm filter"
+                className={`flex-grow m-1 py-4 pl-4 pr-6 ${style["search-bar-style"]}`}
                 onChange={onFirstFilterChange}
                 value={firstFilterValue}
               >

@@ -1,5 +1,12 @@
 .search select {
   appearance: none;
+  filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.1));
+  border-radius: 5px;
+}
+
+.search input {
+  filter: drop-shadow(0 0 10px rgba(10, 5, 82, 0.1));
+  border-radius: 5px;
 }
 
 .select-wrapper-green {
