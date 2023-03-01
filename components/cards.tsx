@@ -337,7 +337,7 @@ function LongCard(props: LongCardProps) {
         <p className="pr-32 ">{subtitle}</p>
       </div>
       <div className="flex justify-end">
-        <Link href={href} className="green-primary-button">
+        <Link href={href} className="dark-blue-primary-button">
           Learn more
         </Link>{' '}
       </div>

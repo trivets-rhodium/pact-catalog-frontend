@@ -162,7 +162,7 @@ export default function Container(props: ContainerProps) {
       <div className="text-right pt-12">
         <Link
           href="/working-groups"
-          className="green-secondary-button text-right"
+          className="dark-blue-secondary-button text-right"
         >
           {'<'} Other groups
         </Link>
