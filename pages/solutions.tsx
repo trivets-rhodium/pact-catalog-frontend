@@ -238,7 +238,7 @@ export default function Solutions(props: PageProps) {
   function resetSearch() {
     return (
       <div className="text-right">
-        <button className="secondary-button" onClick={() => router.reload()}>
+        <button className="green-secondary-button" onClick={() => router.reload()}>
           {'<'} Reset
         </button>
       </div>
