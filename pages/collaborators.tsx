@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { Cards, collaboratorCards, UserCard } from '../components/cards';
+import { Cards, collaboratorCards } from '../components/cards';
 import Layout from '../components/layout';
 import {
   CatalogDataModelExtension,

@@ -1,47 +1,47 @@
 .green-active-tab {
-  background-color: #04a17f;
+  background-color: var(--green);
   color: white;
-  border: 2px solid #04a17f;
+  border: 2px solid var(--green);
 }
 
 .green-tab {
-  color: #0a0552;
+  color: var(--dark-blue);
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
-  border: 2px solid #04a17f;
+  border: 2px solid var(--green);
   border-bottom: none;
 }
 
 .green-tab:hover {
-  background-color: #04a17f;
+  background-color: var(--green);
   color: white;
-  border-bottom: 2px solid #04a17f;
+  border-bottom: 2px solid var(--green);
 }
 
 .green-border {
-  border: 2px solid #04a17f;
+  border: 2px solid var(--green);
 
 }
 
 .light-blue-active-tab {
-  background-color: #00748E;
+  background-color: var(--light-blue);
   color: white;
-  border: 2px solid #00748E;
+  border: 2px solid var(--light-blue);
 }
 
 .light-blue-tab {
-  color: #0a0552;
+  color: var(--dark-blue);
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
-  border: 2px solid #00748E;
+  border: 2px solid var(--light-blue);
   border-bottom: none;
 }
 
 .light-blue-tab:hover {
-  background-color: #00748E;
+  background-color: var(--light-blue);
   color: white;
-  border-bottom: 2px solid #00748E;
+  border-bottom: 2px solid var(--light-blue);
 }
 
 .light-blue-border {
-  border: 2px solid #00748E;
+  border: 2px solid var(--light-blue);
 
 }

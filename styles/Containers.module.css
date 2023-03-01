@@ -1,10 +1,10 @@
 .members {
-  background-color: #004386;
+  background-color: var(--blue);
 }
 
 .members h2 {
   color: white;
-  text-shadow: 0 0px 4px #0a0552;
+  text-shadow: 0 0px 4px var(--dark-blue);
 
 }
 

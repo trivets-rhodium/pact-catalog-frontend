@@ -67,38 +67,6 @@ export function Cards<T>(props: CardsProps<T>) {
   );
 }
 
-type LongCardsProps = {
-  title: string;
-  longCards: {
-    href: string;
-    title: string;
-    subtitle: string;
-    id: string;
-  }[];
-};
-
-export function LongCards(props: LongCardsProps) {
-  const { title, longCards } = props;
-
-  return (
-    <section className="pb-10 rounded-sm">
-      <h1>{title}</h1>
-      <ul>
-        {longCards.map((longCard) => {
-          return (
-            <LongCard
-              href={longCard.href}
-              title={longCard.title}
-              subtitle={longCard.subtitle}
-              key={longCard.id}
-            />
-          );
-        })}
-      </ul>
-    </section>
-  );
-}
-
 export function extensionCards(
   extensions: CatalogDataModelExtension[] | SearchResult[]
 ): JSX.Element[] {
@@ -321,6 +289,39 @@ function Card<T>(props: CardProps<T>) {
   );
 }
 
+type LongCardsProps = {
+  title: string;
+  longCards: {
+    href: string;
+    title: string;
+    subtitle: string;
+    id: string;
+  }[];
+};
+
+
+export function LongCards(props: LongCardsProps) {
+  const { title, longCards } = props;
+
+  return (
+    <section className="pb-10 rounded-sm">
+      <h1>{title}</h1>
+      <ul>
+        {longCards.map((longCard) => {
+          return (
+            <LongCard
+              href={longCard.href}
+              title={longCard.title}
+              subtitle={longCard.subtitle}
+              key={longCard.id}
+            />
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
 type LongCardProps = {
   href: string;
   title: string;
@@ -337,134 +338,10 @@ function LongCard(props: LongCardProps) {
         <p className="pr-32 ">{subtitle}</p>
       </div>
       <div className="flex justify-end">
-        <Link href={href} className="dark-blue-primary-button">
+        <Link href={href} className="blue-primary-button">
           Learn more
         </Link>{' '}
       </div>
     </li>
-  );
-}
-
-type UserCard = {
-  user: CatalogUser;
-  extensions?: CatalogDataModelExtension[];
-  solutions?: ConformingSolution[];
-  workingGroups?: WorkingGroup[];
-};
-
-export function UserCard(props: UserCard) {
-  const { user, extensions, solutions, workingGroups } = props;
-  const { name, logo, website, kind } = user;
-  const router = useRouter();
-  return (
-    <div className="my-4 break-inside-avoid h-72 min-h-fit min-w-fit flex flex-col">
-      <div
-        className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4 h-24 shrink-0 overflow-scroll`}
-      >
-        <a href={website || '#'} target="_blank">
-          {logo ? (
-            <div className="flex justify-center h-full">
-              <img
-                src={logo || ''}
-                alt={`${name} logo`}
-                height="200"
-                width="200"
-                className="object-scale-down"
-              />
-            </div>
-          ) : (
-            <h3 className="mt-2 text-center">{name}</h3>
-          )}
-        </a>
-      </div>
-      <div
-        className={`${style['user-card-bottom']} rounded-b-2xl p-6 backdrop-blur-sm px-10 grow max-h-48 overflow-scroll`}
-      >
-        <div>
-          {((extensions && extensions.length >= 1) || kind === 'ngo') && (
-            <h3>Extensions</h3>
-          )}
-          <ul>
-            {extensions &&
-              extensions.map((extension) => {
-                return (
-                  <li key={`${extension.name}-${extension.version}`}>
-                    <Link
-                      href={`extensions/${extension.name}/${
-                        extension.version
-                      }${router.asPath.replace('collaborators', '')}`}
-                    >
-                      {`${extension.name} v${extension.version}`}
-                    </Link>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-        {/* TO DO: replace prototype logic specific to solution providers */}
-        <div>
-          {kind === 'solutionprovider' && <h3>Solutions</h3>}
-          {/* {solutions && solutions.length >= 1 && <h3>Solutions</h3>} */}
-          <ul>
-            {solutions && solutions?.length !== 0
-              ? solutions.map((solution) => {
-                  return (
-                    <li key={solution.id}>
-                      <Link
-                        href={`solutions/${solution.id}${router.asPath.replace(
-                          'collaborators',
-                          ''
-                        )}`}
-                      >
-                        {solution.name}
-                      </Link>
-                    </li>
-                  );
-                })
-              : kind === 'solutionprovider' && (
-                  <Link href={'/solutions/steel-industry-solution'}>
-                    <li>PACT Conforming Solution</li>
-                  </Link>
-                )}
-          </ul>
-        </div>
-        <div
-          // className={
-          //   extensions?.length === 0 || solutions?.length === 0
-          //     ? 'mt-10'
-          //     : 'mt-4'
-          // }
-          className="mt-4"
-        >
-          <h3>Working Groups</h3>
-          <ul>
-            {workingGroups && workingGroups.length !== 0
-              ? workingGroups.map((group) => {
-                  return (
-                    <li key={group.name}>
-                      <Link
-                        href={`working-groups/${
-                          group.id
-                        }${router.asPath.replace('collaborators', '')}`}
-                      >
-                        {group.name}
-                      </Link>
-                    </li>
-                  );
-                })
-              : kind === 'solutionprovider' && (
-                  <Link href={'/working-groups/sustainable-steel-production'}>
-                    <li>Working Group</li>
-                  </Link>
-                )}
-          </ul>
-        </div>
-        {/* <div className="text-right mt-8">
-          <Link href={'#'} className="green-primary-button">
-            Learn More
-          </Link>
-        </div> */}
-      </div>
-    </div>
   );
 }

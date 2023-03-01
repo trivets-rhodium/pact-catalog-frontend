@@ -17,7 +17,7 @@
   content: "^";
   transform: rotate(180deg);
   font-weight: bold;
-  color: #04A17F;
+  color: var(--green);
   font-size: 0.8rem;
   top: 1.3rem;
   right: 1rem;
@@ -32,7 +32,7 @@
   content: "^";
   transform: rotate(180deg);
   font-weight: bold;
-  color: #00748E;
+  color: var(--light-blue);
   font-size: 0.8rem;
   top: 1.3rem;
   right: 1rem;
