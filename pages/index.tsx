@@ -66,7 +66,7 @@ export default function Home() {
                 className="link-background-3 hover:opacity-70"
                 href={'/collaborators'}
               >
-                participating members
+                collaborators
               </Link>
               .
             </p>

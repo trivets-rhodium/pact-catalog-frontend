@@ -278,14 +278,14 @@ export default function SubmissionForm() {
       <textarea
         name="summary"
         rows={5}
-        className="mt-2 mb-6 rounded-sm p-2 drop-shadow"
+        className="mt-2 mb-6 rounded-sm p-2 box-shadow"
         onChange={handleChange}
         value={formInput.summary}
       />
 
       <label htmlFor="schemaJson">schema.json Content</label>
       <CodeMirror
-        className="mt-2 mb-6"
+        className="mt-2 mb-6 box-shadow"
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
@@ -296,7 +296,7 @@ export default function SubmissionForm() {
       <div>
         <label htmlFor="readme">README.md Content</label>
         <CodeMirror
-          className="mt-2 mb-6"
+          className="mt-2 mb-6 box-shadow"
           minHeight="200px"
           extensions={[markdown()]}
           onChange={handleCodeMirrorChangeReadme}

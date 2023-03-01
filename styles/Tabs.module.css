@@ -2,7 +2,7 @@
   background-color: var(--green);
   color: white;
   border: 2px solid var(--green);
-  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .3));
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
 
 }
 
@@ -11,7 +11,7 @@
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
   border: 2px solid var(--green);
   border-bottom: none;
-  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .3));
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
 }
 
 .green-tab:hover {
@@ -22,7 +22,7 @@
 
 .green-border {
   border: 2px solid var(--green);
-  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .3));
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
 
 }
 
@@ -30,7 +30,7 @@
   background-color: var(--light-blue);
   color: white;
   border: 2px solid var(--light-blue);
-  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .3));
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
 
 }
 
@@ -39,7 +39,7 @@
   transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
   border: 2px solid var(--light-blue);
   border-bottom: none;
-  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .3));
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
 
 }
 
@@ -51,7 +51,7 @@
 
 .light-blue-border {
   border: 2px solid var(--light-blue);
-  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .3));
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
 
 
 }
