@@ -254,3 +254,7 @@ h3 {
   color: var(--dark-blue);
   background-color: white;
 }
+
+.drop-shadow {
+  filter: drop-shadow(0 0 10px rgba(10, 5, 82, .1));
+}

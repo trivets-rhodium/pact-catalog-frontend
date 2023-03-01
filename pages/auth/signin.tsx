@@ -26,7 +26,7 @@ export default function SignIn({
   return (
     <>
       <Layout>
-        <section className="mx-40 my-28 px-28 py-8 bg-white rounded-md flex flex-col justify-between text-center h-40">
+        <section className="mx-40 my-28 px-28 py-8 bg-white rounded-md flex flex-col justify-between text-center h-40 drop-shadow">
           <h3>PACT Online Catalog</h3>
           <button
             onClick={() => {
