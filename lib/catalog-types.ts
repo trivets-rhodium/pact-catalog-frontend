@@ -86,14 +86,16 @@ export type ConformingSolution = {
   name: string;
   website: string;
   provider: UserId;
-  extensions: {
-    id: DMEId;
-    version: VersionId;
-    author: string;
-  }[];
+  extensions:
+    | {
+        id: DMEId;
+        version: VersionId;
+        author: string;
+      }[]
+    | null;
   providerName: string;
   summary: string | null;
-  industries: Industry[];
+  industries: Industry[] | null;
   users: SolutionUsers | null;
   conformance_tests: SolutionTestResults | null;
 };

@@ -52,9 +52,11 @@ export async function getConformingSolutions(
   let conformingSolutions: ConformingSolution[] = [];
 
   for (const solution of solutions) {
-    for (const e of solution.extensions) {
-      if (e.id === extension.name && e.version === extension.version) {
-        conformingSolutions.push(solution);
+    if (solution.extensions) {
+      for (const e of solution.extensions) {
+        if (e.id === extension.name && e.version === extension.version) {
+          conformingSolutions.push(solution);
+        }
       }
     }
   }
@@ -72,11 +74,14 @@ async function getSolutionFromBasePath(
 
   return {
     ...parsedSolution,
-    extensions: await enrichExtensions(parsedSolution.extensions),
+    extensions: parsedSolution.extensions
+      ? await enrichExtensions(parsedSolution.extensions)
+      : null,
     providerName: (await getUser(parsedSolution.provider)).name,
     summary: parsedSolution.summary || null,
     users: (await getSolutionUsers(solutionId)) || null,
     conformance_tests: (await getSolutionTestResults(solutionId)) || null,
+    industries: parsedSolution.industries || null,
   };
 }
 

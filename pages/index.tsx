@@ -4,7 +4,7 @@ import pactLogo from '../public/logos/pact-logo.svg';
 import Link from 'next/link';
 import { Footer } from '../components/footer';
 import { Hexagon } from '../components/hexagons';
-import sineLogo from '../public/logos/sine-logo.svg';
+import sineLogo from '../public/logos/sine-logo-white.svg';
 import Marquee from 'react-fast-marquee';
 import { LogoMarquee } from '../components/logo-marquee';
 
@@ -42,16 +42,9 @@ export default function Home() {
         </div>
         <div className="mx-14 mb-6">
           <div className="my-28">
-            <h1 className="text-white leading-tight">PACT Online Catalog</h1>
-            <p className="text-white text-sm mb-8">
-              by{' '}
-              <a
-                href="https://sine.foundation"
-                className="underline underline-offset-4 hover:opacity-70"
-              >
-                SINE Foundation
-              </a>
-            </p>
+            <h1 className="text-white leading-tight mb-8">
+              PACT Online Catalog
+            </h1>
 
             <p className="text-white mb-20 leading-8">
               Explore{' '}
@@ -59,7 +52,7 @@ export default function Home() {
                 className="link-background-1 hover:opacity-70"
                 href={'/solutions'}
               >
-                PACT compliant solutions
+                PACT conforming solutions
               </Link>{' '}
               for exchanging Scope-3 carbon footprint data. Find and contribute{' '}
               <Link
@@ -71,9 +64,9 @@ export default function Home() {
               to the PACT Data Model. Discover{' '}
               <Link
                 className="link-background-3 hover:opacity-70"
-                href={'/members'}
+                href={'/collaborators'}
               >
-                participating members
+                our collaborators
               </Link>
               .
             </p>
@@ -96,7 +89,7 @@ export default function Home() {
           <Hexagon
             svgPath="/hexagons/hex-1.svg"
             className=" absolute top-0 left-0 hexagon-clip"
-            mainText="PACT Compliant Solutions"
+            mainText="PACT Conforming Solutions"
             secondaryText="that conform to the PACT Technical Specifications"
             href="/solutions"
           />
@@ -118,9 +111,9 @@ export default function Home() {
           <Hexagon
             svgPath="/hexagons/hex-3.svg"
             className=" absolute bottom-0 left-0 hexagon-clip"
-            mainText="Members"
+            mainText="Collaborators"
             secondaryText="who participate in the PACT initiative"
-            href="/members"
+            href="/collaborators"
           />
         </div>
         <Link

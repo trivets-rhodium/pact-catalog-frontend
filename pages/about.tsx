@@ -39,17 +39,16 @@ export default function About() {
           <Hexagon
             svgPath="/hexagons/hex-2-small.svg"
             className="mx-2"
-            mainText="PACT Compliant Solutions"
+            mainText="PACT Conforming Solutions"
             small
             href="/solutions"
           />
           <Hexagon
             svgPath="/hexagons/hex-3-small.svg"
             className="mx-2"
-            mainText="Members"
+            mainText="Collaborators"
             small
-            // TO DO: Replace with members index href
-            href="/working-groups"
+            href="/collaborators"
           />
         </div>
       </section>
@@ -97,7 +96,7 @@ export default function About() {
             <Hexagon
               svgPath="/hexagons/hex-2.svg"
               className="shrink-0"
-              mainText="PACT Compliant Solutions"
+              mainText="PACT Conforming Solutions"
               href="/solutions"
             />
           </div>
@@ -105,9 +104,8 @@ export default function About() {
             <Hexagon
               svgPath="/hexagons/hex-3.svg"
               className="shrink-0"
-              mainText="Members"
-              // TO DO: Replace with members index href
-              href="/working-groups"
+              mainText="Collaborators"
+              href="/collaborators"
             />
             <div className="text-blue mx-10">
               <p>

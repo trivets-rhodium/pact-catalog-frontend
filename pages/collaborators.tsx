@@ -1,5 +1,5 @@
 import { GetStaticProps } from 'next';
-import { UserCard } from '../components/cards';
+import { Cards, collaboratorCards } from '../components/cards';
 import Layout from '../components/layout';
 import {
   CatalogDataModelExtension,
@@ -13,7 +13,7 @@ import { getAllSolutions } from '../lib/solutions';
 import { getAllUsers, getUserExtensions } from '../lib/users';
 import { getAllWorkingGroups } from '../lib/working-groups';
 
-type EnrichedUser = {
+export type EnrichedUser = {
   user: CatalogUser;
   userExtensions?: CatalogDataModelExtension[];
   userSolutions?: ConformingSolution[];
@@ -40,11 +40,11 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
     });
 
     const workingGroups = allWorkingGroups.filter((group) => {
-      const membersUserIds: UserId[] = group.members.map((member) => {
+      const collaboratorsUserIds: UserId[] = group.members.map((member) => {
         return member.user_id;
       });
 
-      return membersUserIds.includes(user.id);
+      return collaboratorsUserIds.includes(user.id);
     });
 
     return { user, userExtensions, userSolutions, workingGroups };
@@ -57,7 +57,7 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
-export default function Members(props: PageProps) {
+export default function Collaborators(props: PageProps) {
   const { enrichedUsers } = props;
 
   // Filter mock users;
@@ -70,8 +70,14 @@ export default function Members(props: PageProps) {
 
   return (
     <Layout>
-      <h1>Members</h1>
-      <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <Cards
+        title={'Collaborators (being updated)'}
+        cardsContent={filteredUsers}
+        render={collaboratorCards}
+        cardStyle={'collaborator-card'}
+      />
+
+      {/* <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
         {filteredUsers.map((user) => {
           return (
             <li key={user.user.id}>
@@ -84,7 +90,7 @@ export default function Members(props: PageProps) {
             </li>
           );
         })}
-      </ul>
+      </ul> */}
     </Layout>
   );
 }

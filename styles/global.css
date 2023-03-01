@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --green: #04a17f;
+  --light-blue: #00748E;
+  --blue: #004386;
+  --dark-blue: #0a0552;
+  --light-shadow: rgba(10, 5, 82, 0.3);
+  --lighter-shadow: rgba(10, 5, 82, 0.1);
+}
+
 html,
 body {
   padding: 0;
@@ -9,70 +18,146 @@ body {
   font-family: Avenir;
   line-height: 1.6;
   font-size: 18px;
-  background-color: #f3f3f3;
+  background-color: white;
 }
 
 h1 {
   font-weight: bold;
   font-size: 2.5rem;
-  color: #0a0552;
+  color: var(--dark-blue);
 }
 
 h2 {
   font-weight: bold;
   font-size: x-large;
   padding-bottom: 0.5rem;
-  color: #0a0552;
+  color: var(--dark-blue);
 }
 
 h3 {
   font-weight: bold;
   font-size: large;
-  color: #0a0552;
+  color: var(--dark-blue);
 }
 
-.secondary-button {
-  border: 2px solid #04a17f;
+.green-secondary-button {
+  border: 2px solid var(--green);
   padding: 10px 10px 8px;
-  color: #0a0552;
+  color: var(--dark-blue);
   border-radius: 5px;
   transition: background-color 0.3s, border 0.3s, color 0.3s;
   text-align: center;
-}
-
-.secondary-button:hover {
-  background-color: #04a17f;
-  color: white;
-}
-
-.primary-button {
-  border: 2px solid #04a17f;
-  background-color: #04a17f;
-  padding: 10px 10px 8px;
-  color: white;
-  border-radius: 5px;
-  transition: background-color 0.3s, border 0.3s, color 0.3s;
-  text-align: center;
-}
-
-.primary-button:hover {
   background-color: white;
-  color: #0a0552;
+}
+
+.green-secondary-button:hover {
+  background-color: var(--green);
+  color: white;
+}
+
+.green-primary-button {
+  border: 2px solid var(--green);
+  background-color: var(--green);
+  padding: 10px 10px 8px;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.green-primary-button:hover {
+  background-color: white;
+  backdrop-filter: blur(4px);
+  color: var(--dark-blue);
   cursor: pointer;
 }
 
-.primary-button-loading {
-  border: 2px solid #04a17f;
+/* .green-primary-button-loading {
+  border: 2px solid var(--green);
   padding: 10px 10px 8px;
   background-color: transparent;
-  color: #0a0552;
+  color: var(--dark-blue);
+  border-radius: 5px;
+  text-align: center;
+  cursor: wait;
+} */
+
+.light-blue-secondary-button {
+  border: 2px solid var(--light-blue);
+  padding: 10px 10px 8px;
+  color: var(--dark-blue);
+  border-radius: 5px;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  text-align: center;
+  background-color: white;
+}
+
+.light-blue-secondary-button:hover {
+  background-color: var(--light-blue);
+  color: white;
+}
+
+.light-blue-primary-button {
+  border: 2px solid var(--light-blue);
+  background-color: var(--light-blue);
+  padding: 10px 10px 8px;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.light-blue-primary-button:hover {
+  background-color: white;
+  backdrop-filter: blur(4px);
+  color: var(--dark-blue);
+  cursor: pointer;
+}
+
+.light-blue-primary-button-loading {
+  border: 2px solid var(--light-blue);
+  padding: 10px 10px 8px;
+  background-color: transparent;
+  color: var(--dark-blue);
   border-radius: 5px;
   text-align: center;
   cursor: wait;
 }
 
+.blue-secondary-button {
+  border: 2px solid var(--blue);
+  padding: 10px 10px 8px;
+  color: var(--blue);
+  border-radius: 5px;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  text-align: center;
+  background-color: white;
+}
+
+.blue-secondary-button:hover {
+  background-color: var(--blue);
+  color: white;
+}
+
+.blue-primary-button {
+  border: 2px solid var(--blue);
+  background-color: var(--blue);
+  padding: 10px 10px 8px;
+  color: white;
+  border-radius: 5px;
+  transition: background-color 0.3s, border 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.blue-primary-button:hover {
+  background-color: white;
+  backdrop-filter: blur(4px);
+  color: var(--blue);
+  cursor: pointer;
+}
+
 .dark-background {
-  background: linear-gradient(to top, #070334, #0a0552);
+  background: linear-gradient(to top, #070334, var(--dark-blue));
 }
 
 .background-shadow {
@@ -80,23 +165,29 @@ h3 {
 }
 
 .text-blue {
-  color: #0a0552
+  color: var(--dark-blue)
 }
 
+
 .light-background {
+  width: 100%;
+  height: 135vh;
+  position: absolute;
   background-image: url("/background/content-media-shape.png");
   background-repeat: space;
   background-position: center;
   background-attachment: fixed;
+  opacity: 50%;
+
 }
 
 .primary-link {
-  box-shadow: inset 0 -0.8rem 0 0 rgba(4, 161, 127, 1);
+  box-shadow: inset 0 -0.8rem 0 0 var(--green);
   transition: box-shadow 0.3s;
 }
 
 .primary-link:hover {
-  box-shadow: inset 0 -0.8rem 0 0 rgb(4, 161, 127);
+  box-shadow: inset 0 -0.8rem 0 0 var(--green);
 }
 
 .background-image {
@@ -105,11 +196,11 @@ h3 {
 
 /* .green-background {
   background-color: rgb(4, 161, 127);
-  background-color: #04a17f;
+  background-color: var(--green);
   padding: 0 4px;
   color: white;
   font-weight: normal;
-  text-shadow: 0 0 3px #0a0552;
+  text-shadow: 0 0 3px var(--dark-blue);
 } */
 
 .hexagon-shadow {
@@ -125,25 +216,25 @@ h3 {
 }
 
 .hexagon-text-shadow h3 {
-  text-shadow: 0 0px 4px #0a0552;
+  text-shadow: 0 0px 4px var(--dark-blue);
 }
 
 .link-background-1 {
-  background-color: #04a17f;
+  background-color: var(--green);
   padding: 0 4px;
-  text-shadow: 0 0px 4px #0a0552;
+  text-shadow: 0 0px 4px var(--dark-blue);
 }
 
 .link-background-2 {
-  background-color: #00748E;
+  background-color: var(--light-blue);
   padding: 0 4px;
-  text-shadow: 0 0px 4px #0a0552;
+  text-shadow: 0 0px 4px var(--dark-blue);
 }
 
 .link-background-3 {
-  background-color: #004386;
+  background-color: var(--blue);
   padding: 0 4px;
-  text-shadow: 0 0px 4px #0a0552;
+  text-shadow: 0 0px 4px var(--dark-blue);
 }
 
 .about-button {
@@ -162,6 +253,14 @@ h3 {
 
 .about-button:hover {
   border-radius: 50px;
-  color: #0a0552;
+  color: var(--dark-blue);
   background-color: white;
+}
+
+.drop-shadow {
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+}
+
+.box-shadow {
+  box-shadow: var(--lighter-shadow);
 }

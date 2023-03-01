@@ -12,6 +12,8 @@ import {
   WorkingGroup,
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
+import { link } from 'fs';
+import { EnrichedUser } from '../pages/collaborators';
 
 export type CardsRenderer<T> = (cardsContent: T) => JSX.Element[];
 
@@ -22,14 +24,16 @@ type CardsProps<T> = {
   message?: string;
   cardsContent: T[];
   render: CardsRenderer<T[]>;
+  cardStyle: string;
 };
 
 export const cols = 4;
 
 export function Cards<T>(props: CardsProps<T>) {
-  const { title, cardsContent, render, subtitle, href, message } = props;
+  const { title, cardsContent, render, subtitle, href, message, cardStyle } =
+    props;
   return (
-    <section className="background pb-10 rounded-sm">
+    <section className="pb-10 rounded-sm">
       <h2 className="title px-4">
         {href ? (
           <Link
@@ -44,7 +48,7 @@ export function Cards<T>(props: CardsProps<T>) {
       </h2>
 
       <h3 className="px-4">{subtitle}</h3>
-      <ul className="grid grid-cols-4 m-1">
+      <ul className="grid grid-cols-4 gap-4 mx-4">
         {render(cardsContent)}
         {href && message && (
           <Card
@@ -55,40 +59,9 @@ export function Cards<T>(props: CardsProps<T>) {
             render={(undefined) => {
               return <></>;
             }}
+            cardStyle={cardStyle}
           />
         )}
-      </ul>
-    </section>
-  );
-}
-
-type LongCardsProps = {
-  title: string;
-  longCards: {
-    href: string;
-    title: string;
-    subtitle: string;
-    id: string;
-  }[];
-};
-
-export function LongCards(props: LongCardsProps) {
-  const { title, longCards } = props;
-
-  return (
-    <section className="background pb-10 rounded-sm">
-      <h1>{title}</h1>
-      <ul>
-        {longCards.map((longCard) => {
-          return (
-            <LongCard
-              href={longCard.href}
-              title={longCard.title}
-              subtitle={longCard.subtitle}
-              key={longCard.id}
-            />
-          );
-        })}
       </ul>
     </section>
   );
@@ -110,9 +83,14 @@ export function extensionCards(
           ''
         )}`}
         title={description}
-        subtitle={version}
+        subtitle={
+          catalog_info.status === 'published'
+            ? version
+            : `${version} (${catalog_info.status})`
+        }
         cardContent={extension}
         render={renderExtensionCard}
+        cardStyle={'extension-card'}
       />
     );
   });
@@ -124,21 +102,31 @@ function renderExtensionCard(
   const { author, catalog_info, endorsers } = extension;
 
   return (
-    <ul>
-      <li>Publisher: {author.name}</li>
-      <li>Status: {catalog_info.status}</li>
-      <li>
-        {endorsers && endorsers.length
-          ? `Endorsers (${endorsers.length}):`
-          : ''}
-        <ul>
-          {endorsers &&
-            endorsers.map((endorser: CatalogUser) => {
-              return <li key={endorser.id}>{endorser.name}</li>;
+    <div>
+      <div className={style['card-details']}>
+        <p>
+          <span className={style['aux-text']}>by</span> {author.name}
+        </p>
+      </div>
+      <ul className={`${style['card-details']} leading-tight`}>
+        <p className={style['aux-text']}>
+          {endorsers && endorsers.length ? `endorsed by` : ''}
+        </p>
+
+        {endorsers && endorsers.length >= 4
+          ? [
+              ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
+                return <li>• {endorser.name}</li>;
+              }),
+              <li className={style['aux-text']}>
+                ...and {endorsers.length - 3} more
+              </li>,
+            ]
+          : endorsers.map((endorser: CatalogUser) => {
+              <li>• {endorser.name}</li>;
             })}
-        </ul>
-      </li>
-    </ul>
+      </ul>
+    </div>
   );
 }
 
@@ -156,6 +144,7 @@ export function solutionCards(
         subtitle={providerName}
         cardContent={solution}
         render={renderSolutionCard}
+        cardStyle={'solution-card'}
       />
     );
   });
@@ -164,18 +153,99 @@ export function solutionCards(
 function renderSolutionCard(
   solution: ConformingSolution | SearchResult
 ): JSX.Element {
+  return solution.extensions ? (
+    <div>
+      <p className={style['aux-text']}>supported extensions</p>
+      <ul className={style['card-details']}>
+        {solution.extensions.map(
+          (extension: { id: DMEId; version: VersionId; author: string }) => {
+            return (
+              <li key={extension.id}>
+                {extension.id} {extension.version}
+              </li>
+            );
+          }
+        )}
+      </ul>
+    </div>
+  ) : (
+    <></>
+  );
+}
+
+export function collaboratorCards(
+  collaborators: EnrichedUser[]
+): JSX.Element[] {
+  const router = useRouter();
+  return collaborators.map((collaborator) => {
+    const { user } = collaborator;
+    const { id, website } = user;
+    return (
+      <Card
+        key={id}
+        href={website || '#'}
+        title={''}
+        subtitle={''}
+        cardContent={collaborator}
+        render={renderCollaboratorCard}
+        cardStyle={'collaborator-card'}
+      />
+    );
+  });
+}
+
+function renderCollaboratorCard(collaborator: EnrichedUser): JSX.Element {
+  const { user, userExtensions, userSolutions, workingGroups } = collaborator;
+  const { logo, name } = user;
+
   return (
-    <ul>
-      {solution.extensions.map(
-        (extension: { id: DMEId; version: VersionId; author: string }) => {
-          return (
-            <li key={extension.id}>
-              {extension.id} {extension.version}
-            </li>
-          );
-        }
-      )}
-    </ul>
+    <div className="">
+      <div className="flex justify-center h-20 bg-white rounded-lg p-4">
+        {logo ? (
+          <img
+            src={logo || ''}
+            alt={`${name} logo`}
+            height="200"
+            width="200"
+            className="object-scale-down"
+          />
+        ) : (
+          <h3>{name}</h3>
+        )}
+      </div>
+      <div className={`p-2 ${style['card-details']}`}>
+        <ul className="pb-4">
+          {user.kind === 'ngo' ? (
+            <>
+              <li className={style['aux-text']}>extensions</li>
+              {userExtensions &&
+                userExtensions.map((extension) => {
+                  return (
+                    <li key={`${extension.name}/${extension.version}`}>
+                      {extension.name} {extension.version}
+                    </li>
+                  );
+                })}
+            </>
+          ) : (
+            <>
+              <li className={style['aux-text']}>solutions</li>
+              {userSolutions &&
+                userSolutions.slice(0, 2).map((solution) => {
+                  return <li key={solution.id}>{solution.name}</li>;
+                })}
+            </>
+          )}
+        </ul>
+        <ul>
+          <li className={style['aux-text']}>working groups</li>
+          {workingGroups &&
+            workingGroups.map((workingGroup) => {
+              return <li>{workingGroup.name}</li>;
+            })}
+        </ul>
+      </div>
+    </div>
   );
 }
 
@@ -186,27 +256,69 @@ type CardProps<T> = {
   subtitle?: string;
   cardContent: T;
   render: CardRenderer<T>;
+  cardStyle: string;
 };
 
-export type CardRenderer<T> = (cardDetails: T) => JSX.Element;
+type CardRenderer<T> = (cardDetails: T) => JSX.Element;
 
 function Card<T>(props: CardProps<T>) {
-  const { href, title, invert, subtitle, cardContent, render } = props;
+  const { href, title, invert, subtitle, cardContent, render, cardStyle } =
+    props;
 
   return (
-    <Link href={href}>
+    <Link
+      href={href}
+      target={cardStyle === 'collaborator-card' ? '_blank' : ''}
+    >
       <li
-        className={`${
-          invert ? style['card-invert'] : style.card
-        } flex flex-col justify-between`}
+        className={`flex flex-col justify-between ${style[cardStyle]} leading-tight`}
       >
-        <div className="pb-10">
-          <p className="font-bold">{title}</p>
-          <p>{subtitle}</p>
-        </div>
-        {render(cardContent)}
+        {cardStyle !== 'collaborator-card' ? (
+          <>
+            <div>
+              <h3 className="">{title}</h3>
+              <p>{subtitle}</p>
+            </div>
+            {render(cardContent)}
+          </>
+        ) : (
+          <>{render(cardContent)}</>
+        )}
       </li>
     </Link>
+  );
+}
+
+type LongCardsProps = {
+  title: string;
+  longCards: {
+    href: string;
+    title: string;
+    subtitle: string;
+    id: string;
+  }[];
+};
+
+
+export function LongCards(props: LongCardsProps) {
+  const { title, longCards } = props;
+
+  return (
+    <section className="pb-10 rounded-sm">
+      <h1>{title}</h1>
+      <ul>
+        {longCards.map((longCard) => {
+          return (
+            <LongCard
+              href={longCard.href}
+              title={longCard.title}
+              subtitle={longCard.subtitle}
+              key={longCard.id}
+            />
+          );
+        })}
+      </ul>
+    </section>
   );
 }
 
@@ -226,134 +338,10 @@ function LongCard(props: LongCardProps) {
         <p className="pr-32 ">{subtitle}</p>
       </div>
       <div className="flex justify-end">
-        <Link href={href} className="primary-button">
+        <Link href={href} className="blue-primary-button">
           Learn more
         </Link>{' '}
       </div>
     </li>
-  );
-}
-
-type UserCard = {
-  user: CatalogUser;
-  extensions?: CatalogDataModelExtension[];
-  solutions?: ConformingSolution[];
-  workingGroups?: WorkingGroup[];
-};
-
-export function UserCard(props: UserCard) {
-  const { user, extensions, solutions, workingGroups } = props;
-  const { name, logo, website, kind } = user;
-  const router = useRouter();
-  return (
-    <div className="my-4 break-inside-avoid h-72 min-h-fit min-w-fit flex flex-col">
-      <div
-        className={`bg-white ${style['user-card-top']} rounded-t-2xl p-4 h-24 shrink-0 overflow-scroll`}
-      >
-        <a href={website || '#'} target="_blank">
-          {logo ? (
-            <div className="flex justify-center h-full">
-              <img
-                src={logo || ''}
-                alt={`${name} logo`}
-                height="200"
-                width="200"
-                className="object-scale-down"
-              />
-            </div>
-          ) : (
-            <h3 className="mt-2 text-center">{name}</h3>
-          )}
-        </a>
-      </div>
-      <div
-        className={`${style['user-card-bottom']} rounded-b-2xl p-6 px-10 grow max-h-48 overflow-scroll`}
-      >
-        <div>
-          {((extensions && extensions.length >= 1) || kind === 'ngo') && (
-            <h3>Extensions</h3>
-          )}
-          <ul>
-            {extensions &&
-              extensions.map((extension) => {
-                return (
-                  <li key={`${extension.name}-${extension.version}`}>
-                    <Link
-                      href={`extensions/${extension.name}/${
-                        extension.version
-                      }${router.asPath.replace('members', '')}`}
-                    >
-                      {`${extension.name} v${extension.version}`}
-                    </Link>
-                  </li>
-                );
-              })}
-          </ul>
-        </div>
-        {/* TO DO: replace prototype logic specific to solution providers */}
-        <div>
-          {kind === 'solutionprovider' && <h3>Solutions</h3>}
-          {/* {solutions && solutions.length >= 1 && <h3>Solutions</h3>} */}
-          <ul>
-            {solutions && solutions?.length !== 0
-              ? solutions.map((solution) => {
-                  return (
-                    <li key={solution.id}>
-                      <Link
-                        href={`solutions/${solution.id}${router.asPath.replace(
-                          'members',
-                          ''
-                        )}`}
-                      >
-                        {solution.name}
-                      </Link>
-                    </li>
-                  );
-                })
-              : kind === 'solutionprovider' && (
-                  <Link href={'/solutions/steel-industry-solution'}>
-                    <li>PACT Compliant Solution</li>
-                  </Link>
-                )}
-          </ul>
-        </div>
-        <div
-          // className={
-          //   extensions?.length === 0 || solutions?.length === 0
-          //     ? 'mt-10'
-          //     : 'mt-4'
-          // }
-          className="mt-4"
-        >
-          <h3>Working Groups</h3>
-          <ul>
-            {workingGroups && workingGroups.length !== 0
-              ? workingGroups.map((group) => {
-                  return (
-                    <li key={group.name}>
-                      <Link
-                        href={`working-groups/${
-                          group.id
-                        }${router.asPath.replace('members', '')}`}
-                      >
-                        {group.name}
-                      </Link>
-                    </li>
-                  );
-                })
-              : kind === 'solutionprovider' && (
-                  <Link href={'/working-groups/sustainable-steel-production'}>
-                    <li>Working Group</li>
-                  </Link>
-                )}
-          </ul>
-        </div>
-        {/* <div className="text-right mt-8">
-          <Link href={'#'} className="primary-button">
-            Learn More
-          </Link>
-        </div> */}
-      </div>
-    </div>
   );
 }

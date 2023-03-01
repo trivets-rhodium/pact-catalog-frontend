@@ -16,10 +16,11 @@ export type Tab<T> = {
 type TabsProps<T> = {
   tabs: Tab<T>[];
   content: T;
+  color: 'green' | 'light-blue';
 };
 
 function TabHead<T>(props: TabsProps<T>) {
-  const { tabs } = props;
+  const { tabs, color } = props;
   const router = useRouter();
 
   const {
@@ -57,9 +58,9 @@ function TabHead<T>(props: TabsProps<T>) {
           <div
             className={`${
               activeTab === tabId || defaultTab()
-                ? style['active-tab']
-                : style.tab
-            } pt-2 pb-1 px-6 mr-1 rounded-t-md border-x-2 border-t-2 z-1`}
+                ? style[`${color}-active-tab`]
+                : style[`${color}-tab`]
+            } pt-2 pb-1 px-6 mr-1 rounded-t-md z-1 bg-white`}
           >
             {title}
           </div>
@@ -95,11 +96,15 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
   return (
     <>
       <TabHead {...props} />
-      <div className="h-100 px-24 py-20 rounded-b-md rounded-tr-md border-2 z-0">
+      <div
+        className={`h-100 px-24 py-20 rounded-b-md rounded-tr-md z-0 bg-white ${
+          style[`${props.color}-border`]
+        } backdrop-blur-sm`}
+      >
         <TabContent {...props} />
 
         <div className="flex justify-end">
-          <Link href="/" className="secondary-button">
+          <Link href="/" className={`${props.color}-secondary-button`}>
             Back to home
           </Link>
           {/* TO DO: avoid casting as string */}
@@ -114,7 +119,7 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
                   status,
                 },
               }}
-              className="secondary-button ml-4"
+              className={`${props.color}-secondary-button ml-4`}
             >
               Back to search
             </Link>
@@ -129,7 +134,7 @@ export function TabsLayout<T>(props: TabsProps<T> & { title: string }) {
                   result,
                 },
               }}
-              className="secondary-button ml-4"
+              className={`${props.color}-secondary-button ml-4`}
             >
               Back to search
             </Link>

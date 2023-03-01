@@ -1,5 +1,11 @@
 .members {
-  background-color: #04A17F;
+  background-color: var(--blue);
+}
+
+.members h2 {
+  color: white;
+  text-shadow: 0 0px 4px var(--dark-blue);
+
 }
 
 .members > * {
@@ -7,10 +13,10 @@
 }
 
 .pill {
-  background-color: rgba(4, 161, 127, 0.3);
+  background-color: rgba(10, 5, 82, 0.3);
   margin-left: 2rem;
   padding: 0.1rem 1rem;
   border-radius: 15px;
-  color: rgba(4, 161, 127, 0.6);
+  color: rgba(10, 5, 82, 0.6);
   font-size:medium;
 }

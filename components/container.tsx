@@ -160,7 +160,10 @@ export default function Container(props: ContainerProps) {
         <RightBox workingGroup={workingGroup} />
       </div>
       <div className="text-right pt-12">
-        <Link href="/working-groups" className="secondary-button text-right">
+        <Link
+          href="/working-groups"
+          className="blue-secondary-button text-right"
+        >
           {'<'} Other groups
         </Link>
       </div>

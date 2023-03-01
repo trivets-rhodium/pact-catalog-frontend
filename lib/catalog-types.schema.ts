@@ -84,12 +84,12 @@ export type ConformingSolutionJsonSchema = {
   name: string;
   website: string;
   provider: UserId;
-  extensions: {
+  extensions?: {
     id: DMEId;
     version: VersionId;
   }[];
   summary?: string;
-  industries: Industry[];
+  industries?: Industry[];
 };
 
 export type CatalogUserJsonSchema = {
@@ -189,14 +189,16 @@ export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
       name: z.string(),
       website: z.string(),
       provider: z.string(),
-      extensions: z.array(
-        z.object({
-          id: z.string().min(1),
-          version: z.string().min(1),
-        })
-      ),
+      extensions: z
+        .array(
+          z.object({
+            id: z.string().min(1),
+            version: z.string().min(1),
+          })
+        )
+        .optional(),
       summary: z.string().optional(),
-      industries: z.array(z.string().min(1)),
+      industries: z.array(z.string().min(1)).optional(),
     })
 );
 

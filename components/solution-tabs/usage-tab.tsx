@@ -8,20 +8,21 @@ const usageTab: TabRenderer<ConformingSolution> = (solution) => {
   return (
     <div>
       <section className="mb-12">
-        <h2>Extensions Conformance</h2>
+        <h2>Supported Extensions</h2>
         <ul>
-          {extensions.map(({ id, version, author }) => {
-            return (
-              <li className="my-4" key={id}>
-                <Link href={`/extensions/${id}/${version}`}>
-                  <h3>
-                    {id} {version}
-                  </h3>
-                </Link>
-                <p>{author}</p>
-              </li>
-            );
-          })}
+          {extensions &&
+            extensions.map(({ id, version, author }) => {
+              return (
+                <li className="my-4" key={id}>
+                  <Link href={`/extensions/${id}/${version}`}>
+                    <h3>
+                      {id} {version}
+                    </h3>
+                  </Link>
+                  <p>{author}</p>
+                </li>
+              );
+            })}
         </ul>
       </section>
     </div>

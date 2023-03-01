@@ -52,6 +52,7 @@ export default function Solution(props: PageProps) {
         tabs={tabs}
         content={solution}
         title={solution.name}
+        color="green"
       ></TabsLayout>
     </Layout>
   );

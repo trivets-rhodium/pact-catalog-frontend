@@ -9,12 +9,13 @@ import {
 import Extension from '../../pages/extensions/[namespace]/[packageName]/[version]';
 
 const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
-  const {summary, providerName, users, website} = solution;
+  const {name, summary, providerName, users, website} = solution;
 
   return (
     <div className="grid grid-cols-3 gap-20">
       <div className="col-span-2">
         <section className="mb-12">
+          <h2>{name}</h2>
           <p>{summary}</p>
         </section>
         <section className="mb-12">
@@ -34,7 +35,7 @@ const readmeTab: TabRenderer<ConformingSolution> = (solution) => {
       <div>
         <div className="sticky top-32 mt-4 mb-10 z-0">
           <a href={website} target="_blank" rel="noopener noreferrer">
-            <div className="mb-8 primary-button">Find out more</div>
+            <div className="mb-8 green-primary-button">Find out more</div>
           </a>
         </div>
       </div>

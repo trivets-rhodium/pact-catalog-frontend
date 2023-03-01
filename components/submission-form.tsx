@@ -144,7 +144,7 @@ export default function SubmissionForm() {
         type="text"
         id="publisherName"
         name="publisherName"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
           event.target.setCustomValidity('Please chose a publisher name')
@@ -161,7 +161,7 @@ export default function SubmissionForm() {
         type="text"
         id="publisherUserId"
         name="publisherUserId"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onChange={handleChangeToLowerCase}
         pattern="\S+"
@@ -178,7 +178,7 @@ export default function SubmissionForm() {
       <input
         type="email"
         name="publisherEmail"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onChange={handleChange}
         value={formInput.publisherEmail}
@@ -188,7 +188,7 @@ export default function SubmissionForm() {
       <input
         type="url"
         name="publisherUrl"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onChange={handleChange}
         value={formInput.publisherUrl}
@@ -200,7 +200,7 @@ export default function SubmissionForm() {
       <input
         type="text"
         name="packageName"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onChange={handleChangeToLowerCase}
         pattern="\S+"
@@ -217,7 +217,7 @@ export default function SubmissionForm() {
       <input
         type="text"
         name="description"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onChange={handleChange}
         value={formInput.description}
@@ -227,7 +227,7 @@ export default function SubmissionForm() {
       <input
         type="text"
         name="industries"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         onChange={handleIndustriesChange}
         pattern="\w+(,\s*\w+)*"
         required
@@ -247,7 +247,7 @@ export default function SubmissionForm() {
           list="status"
           name="status"
           required
-          className="mt-2 mb-6 rounded-sm p-2"
+          className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         />
         <datalist id="status" defaultValue={'Draft'}>
           <option value="Draft" />
@@ -260,7 +260,7 @@ export default function SubmissionForm() {
         type="text"
         name="version"
         pattern="^(\d+\.){2}\d+$"
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
         onChange={handleChange}
         onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -278,14 +278,14 @@ export default function SubmissionForm() {
       <textarea
         name="summary"
         rows={5}
-        className="mt-2 mb-6 rounded-sm p-2"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         onChange={handleChange}
         value={formInput.summary}
       />
 
       <label htmlFor="schemaJson">schema.json Content</label>
       <CodeMirror
-        className="mt-2 mb-6"
+        className="mt-2 mb-6 bg-white drop-shadow"
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
@@ -296,7 +296,7 @@ export default function SubmissionForm() {
       <div>
         <label htmlFor="readme">README.md Content</label>
         <CodeMirror
-          className="mt-2 mb-6"
+          className="mt-2 mb-6 bg-white drop-shadow"
           minHeight="200px"
           extensions={[markdown()]}
           onChange={handleCodeMirrorChangeReadme}
@@ -307,7 +307,11 @@ export default function SubmissionForm() {
       <input
         type="submit"
         value={submitting ? 'Loading...' : 'Submit'}
-        className={submitting ? 'primary-button-loading' : 'primary-button'}
+        className={
+          submitting
+            ? 'light-blue-primary-button-loading'
+            : 'light-blue-primary-button'
+        }
       />
     </form>
   );
