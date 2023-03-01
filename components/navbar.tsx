@@ -15,11 +15,6 @@ export default function Navbar() {
         href={'/'}
         className={`text-xl p-0 ${style['nav-links']} flex items-center justify-start`}
       >
-        {/* <Image
-          src={pactLogo}
-          alt={'PACT logo'}
-          className={style['pact-logo']}
-        /> */}
         <Image
           src={pactLogo}
           alt={'PACT logo'}

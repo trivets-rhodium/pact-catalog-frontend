@@ -340,7 +340,7 @@ export default function Extensions(props: PageProps) {
               industry !== '' ? `${industry} related` : ''
             } ${
               status !== '' ? status : ''
-            } Data Model Extension(s) for '${searchValue}'${
+            } Industry Specific Extension(s) for '${searchValue}'${
               publisher !== '' ? `, from ${publisher}` : ''
             }`}
             cardsContent={matchingExtensions}
