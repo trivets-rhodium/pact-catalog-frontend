@@ -53,14 +53,14 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
             onChange={onSearchValueChange}
             placeholder={placeholder}
             value={searchValue}
-            className="flex-grow m-1 p-4 rounded-sm"
+            className="flex-grow m-1 p-4 rounded-sm bg-white"
           />
 
           {firstFilterName && firstFilterContent && onFirstFilterChange && (
             <div className={style[`select-wrapper-${color}`]}>
               <select
                 name={firstFilterName}
-                className={`flex-grow m-1 py-4 pl-4 pr-6 ${style["search-bar-style"]}`}
+                className={`flex-grow m-1 py-4 pl-4 pr-6`}
                 onChange={onFirstFilterChange}
                 value={firstFilterValue}
               >
