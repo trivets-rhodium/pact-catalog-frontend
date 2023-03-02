@@ -1,5 +1,7 @@
 .members {
   background-color: var(--blue);
+  border: 2px solid var(--blue);
+  border-radius: 15px 0 0 15px;
 }
 
 .members h2 {
@@ -8,8 +10,14 @@
 
 }
 
-.members > * {
+.members>* {
   position: sticky;
+}
+
+.working-group-details {
+  border-radius: 0 15px 15px 0;
+  border: 2px solid var(--blue);
+
 }
 
 .pill {
@@ -18,5 +26,5 @@
   padding: 0.1rem 1rem;
   border-radius: 15px;
   color: rgba(10, 5, 82, 0.6);
-  font-size:medium;
+  font-size: medium;
 }

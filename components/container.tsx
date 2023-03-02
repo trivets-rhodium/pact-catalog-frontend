@@ -46,7 +46,7 @@ function RightBox(props: ContainerProps) {
     },
   } = props;
   return (
-    <section className="bg-white h-100 p-14 rounded-r-md border-2 z-0 flex-grow">
+    <section className={`bg-white h-100 p-14 z-0 flex-grow ${style["working-group-details"]} drop-shadow`}>
       <p>{description}</p>
       <h3 className="mt-8 mb-2">Work in Progress</h3>
       <ul>
@@ -154,7 +154,7 @@ export default function Container(props: ContainerProps) {
   const { workingGroup } = props;
   return (
     <>
-      <h1 className="mx-1">{workingGroup.name}</h1>
+      <h2 className="mx-1">{workingGroup.name}</h2>
       <div className="flex justify-center mt-6 ">
         <LeftBanner workingGroup={workingGroup} />
         <RightBox workingGroup={workingGroup} />

@@ -9,7 +9,7 @@ import React, { useEffect, useState } from 'react';
 import { Cards, solutionCards } from '../components/cards';
 import MiniSearch, { SearchResult } from 'minisearch';
 import { getAllTestResults } from '../lib/conformance-tests';
-import SearchBar from '../components/search-bar';
+import SearchBar, { FilterOption } from '../components/search-bar';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
@@ -30,7 +30,10 @@ export const getStaticProps: GetStaticProps<PageProps> = async () => {
   };
 };
 
-function getAllIndustries(allSolutions: ConformingSolution[]): string[] {
+function getAllIndustries(
+  allSolutions: ConformingSolution[],
+  targetSolutions: ConformingSolution[]
+): FilterOption[] {
   const allIndustries = allSolutions.map((solution) => {
     if (solution.industries !== null) {
       return solution.industries;
@@ -41,50 +44,105 @@ function getAllIndustries(allSolutions: ConformingSolution[]): string[] {
 
   const industries = allIndustries.flat();
 
-  return industries.filter((industry, index) => {
+  const uniqueIndustries = industries.filter((industry, index) => {
     return industries.indexOf(industry) === index;
   });
+
+  const industryOptions = uniqueIndustries.map((industry) => {
+    return {
+      option: industry,
+      count: 0,
+    };
+  });
+
+  for (const option of industryOptions) {
+    for (const solution of targetSolutions) {
+      if (solution.industries?.includes(option.option)) {
+        option.count += 1;
+      }
+    }
+  }
+
+  return industryOptions;
 }
 
-function getAllProviders(allSolutions: ConformingSolution[]): string[] {
+function getAllProviders(
+  allSolutions: ConformingSolution[],
+  targetSolutions: ConformingSolution[]
+): FilterOption[] {
   const allProvidersNames = allSolutions.map((solution) => {
     return solution.providerName;
   });
 
-  return allProvidersNames.filter((name, index) => {
+  const uniqueProviders = allProvidersNames.filter((name, index) => {
     return allProvidersNames.indexOf(name) === index;
   });
+
+  const providerOptions = uniqueProviders.map((provider) => {
+    return {
+      option: provider,
+      count: 0,
+    };
+  });
+
+  for (const option of providerOptions) {
+    for (const solution of targetSolutions) {
+      if (solution.providerName === option.option) {
+        option.count += 1;
+      }
+    }
+  }
+
+  return providerOptions;
 }
 
-function getProviderByIndustry(
-  industry: string,
-  allSolutions: ConformingSolution[]
-): string[] {
-  const filteredSolutions = allSolutions.filter((solution) => {
-    return solution.industries && solution.industries.includes(industry);
-  });
-
-  const filteredProvidersNames = filteredSolutions.map((solution) => {
-    return solution.providerName;
-  });
-
-  return filteredProvidersNames.filter((name, index) => {
-    return filteredProvidersNames.indexOf(name) === index;
-  });
-}
-
-function getAllResults(allResults: ConformanceTestResult[]): string[] {
-  const allTestResults = allResults.map((result) => {
+function getAllResults(
+  allResults: ConformanceTestResult[],
+  targetSolutions: ConformingSolution[]
+): FilterOption[] {
+  const allTestResults: string[] = allResults.map((result) => {
     return result.test_result;
   });
 
-  // TO DO: include only represented results?
   allTestResults.push('failed');
   allTestResults.push('ongoing');
 
-  return allTestResults.filter((result, index) => {
+  const uniqueResults = allTestResults.filter((result, index) => {
     return allTestResults.indexOf(result) === index;
   });
+
+  const resultOptions = uniqueResults.map((result) => {
+    return {
+      option: result,
+      count: 0,
+    };
+  });
+
+  for (const option of resultOptions) {
+    for (const solution of targetSolutions) {
+      if (solution.conformance_tests) {
+        for (const test of solution.conformance_tests) {
+          if (test.test.test_result === option.option) {
+            option.count += 1;
+          }
+        }
+      }
+    }
+  }
+
+  const passed = resultOptions.find((option) => option.option === 'passed');
+
+  let tbdCount = 0;
+
+  if (passed) {
+    tbdCount = targetSolutions.length - passed.count;
+  }
+
+  const tbd = resultOptions.find((option) => option.option === 'tbd');
+
+  tbd && (tbd.count = tbdCount);
+
+  return resultOptions;
 }
 
 export default function Solutions(props: PageProps) {
@@ -240,7 +298,19 @@ export default function Solutions(props: PageProps) {
       <div className="text-right">
         <button
           className="green-secondary-button"
-          onClick={() => router.reload()}
+          onClick={() => {
+            setSearchState({
+              matchingSolutions: new Array(),
+              searchValue: '',
+              industry: '',
+              provider: '',
+              result: '',
+              options: {
+                filter: undefined,
+              },
+            });
+            router.push('/solutions');
+          }}
         >
           {'<'} Reset
         </button>
@@ -248,54 +318,65 @@ export default function Solutions(props: PageProps) {
     );
   }
 
+  const filterByIndustry = allSolutions.filter((solution) => {
+    if (solution.industries) {
+      return solution.industries.includes(searchState.industry);
+    }
+  });
+
+  const filterByProvider = allSolutions.filter((solution) => {
+    return solution.providerName === provider;
+  });
+
+  const filterByResult = allSolutions.filter((solution) => {
+    return (
+      solution.conformance_tests &&
+      solution.conformance_tests.some((test) => {
+        return test.test.test_result === result;
+      })
+    );
+  });
+
+  const filterByIndustryandProvider = allSolutions.filter((solution) => {
+    return (
+      solution.industries &&
+      solution.industries.includes(searchState.industry) &&
+      solution.providerName === provider
+    );
+  });
+
+  const filterByIndustryAndResult = filterByIndustry.filter((solution) => {
+    return (
+      solution.conformance_tests &&
+      solution.conformance_tests.some((test) => {
+        return test.test.test_result === result;
+      })
+    );
+  });
+
+  const filterByProviderAndResult = filterByProvider.filter((solution) => {
+    return (
+      solution.conformance_tests &&
+      solution.conformance_tests.some((test) => {
+        return test.test.test_result === result;
+      })
+    );
+  });
+
+  const filterByIndustryAndProviderAndResult = filterByIndustry.filter(
+    (solution) => {
+      return (
+        solution.providerName === provider &&
+        solution.conformance_tests?.some((test) => {
+          return test.test.test_result === result;
+        })
+      );
+    }
+  );
+
   function displaySolutions() {
     const { searchValue, industry, provider, result, matchingSolutions } =
       searchState;
-
-    const filterByIndustry = allSolutions.filter((solution) => {
-      if (solution.industries) {
-        return solution.industries.includes(industry);
-      }
-    });
-
-    const filterByProvider = allSolutions.filter((solution) => {
-      return solution.providerName === provider;
-    });
-
-    const filterByResult = allSolutions.filter((solution) => {
-      return (
-        solution.conformance_tests &&
-        solution.conformance_tests.some((test) => {
-          return test.test.test_result === result;
-        })
-      );
-    });
-
-    const filterByIndustryandProvider = allSolutions.filter((solution) => {
-      return (
-        solution.industries &&
-        solution.industries.includes(industry) &&
-        solution.providerName === provider
-      );
-    });
-
-    const filterByIndustryAndResult = filterByIndustry.filter((solution) => {
-      return (
-        solution.conformance_tests &&
-        solution.conformance_tests.some((test) => {
-          return test.test.test_result === result;
-        })
-      );
-    });
-
-    const filterByProviderAndResult = filterByProvider.filter((solution) => {
-      return (
-        solution.conformance_tests &&
-        solution.conformance_tests.some((test) => {
-          return test.test.test_result === result;
-        })
-      );
-    });
 
     if (searchValue !== '') {
       return (
@@ -310,7 +391,6 @@ export default function Solutions(props: PageProps) {
             }`}
             cardsContent={matchingSolutions}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -322,43 +402,50 @@ export default function Solutions(props: PageProps) {
             title={`All ${industry} related PACT Conforming Solutions`}
             cardsContent={filterByIndustry}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
       );
-    } else if (industry !== '' && provider !== '') {
+    } else if (industry !== '' && provider !== '' && result !== '') {
+      return (
+        <>
+          <Cards
+            title={`All ${industry} related ${result} PACT Conforming Solutions, from ${provider}`}
+            cardsContent={filterByIndustryAndProviderAndResult}
+            render={solutionCards}
+          />
+          {resetSearch()}
+        </>
+      );
+    } else if (industry !== '' && provider !== '' && result === '') {
       return (
         <>
           <Cards
             title={`All ${industry} related PACT Conforming Solutions, from ${provider}`}
             cardsContent={filterByIndustryandProvider}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
       );
-    } else if (provider !== '' && result !== '') {
+    } else if (industry === '' && provider !== '' && result !== '') {
       return (
         <>
           <Cards
             title={`All ${result} PACT Conforming Solutions, from ${provider}`}
             cardsContent={filterByProviderAndResult}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
       );
-    } else if (provider !== '' && result === '') {
+    } else if (industry === '' && provider !== '' && result === '') {
       return (
         <>
           <Cards
             title={`All PACT Conforming Solutions from ${provider}`}
             cardsContent={filterByProvider}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -370,19 +457,17 @@ export default function Solutions(props: PageProps) {
             title={`All ${industry} related ${result} PACT Conforming Solutions`}
             cardsContent={filterByIndustryAndResult}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
       );
-    } else if (provider === '' && result !== '') {
+    } else if (industry === '' && provider === '' && result !== '') {
       return (
         <>
           <Cards
             title={`All ${result} PACT Conforming Solutions`}
             cardsContent={filterByResult}
             render={solutionCards}
-            cardStyle="green"
           />
           {resetSearch()}
         </>
@@ -393,9 +478,44 @@ export default function Solutions(props: PageProps) {
           title="All PACT Conforming Solutions"
           cardsContent={allSolutions}
           render={solutionCards}
-          cardStyle="green"
         />
       );
+    }
+  }
+
+  function setIndustryOptions(): FilterOption[] {
+    if (provider === undefined && result === undefined) {
+      return getAllIndustries(allSolutions, allSolutions);
+    } else if (provider !== undefined && result === undefined) {
+      return getAllIndustries(allSolutions, filterByProvider);
+    } else if (provider === undefined && result !== undefined) {
+      return getAllIndustries(allSolutions, filterByResult);
+    } else {
+      return getAllIndustries(allSolutions, filterByProviderAndResult);
+    }
+  }
+
+  function setProviderOptions(): FilterOption[] {
+    if (industry === undefined && result === undefined) {
+      return getAllProviders(allSolutions, allSolutions);
+    } else if (industry !== undefined && result === undefined) {
+      return getAllProviders(allSolutions, filterByIndustry);
+    } else if (industry === undefined && result !== undefined) {
+      return getAllProviders(allSolutions, filterByResult);
+    } else {
+      return getAllProviders(allSolutions, filterByIndustryAndResult);
+    }
+  }
+
+  function setResultOptions(): FilterOption[] {
+    if (industry === undefined && provider === undefined) {
+      return getAllResults(allResults, allSolutions);
+    } else if (industry !== undefined && provider === undefined) {
+      return getAllResults(allResults, filterByIndustry);
+    } else if (industry === undefined && provider !== undefined) {
+      return getAllResults(allResults, filterByProvider);
+    } else {
+      return getAllResults(allResults, filterByIndustryandProvider);
     }
   }
 
@@ -406,19 +526,15 @@ export default function Solutions(props: PageProps) {
           searchValue={searchState.searchValue}
           onSearchValueChange={handleSearchValueChange}
           firstFilterName="industries"
-          firstFilterContent={getAllIndustries(allSolutions)}
+          firstFilterContent={setIndustryOptions()}
           firstFilterValue={searchState.industry}
           onFirstFilterChange={handleIndustryChange}
           secondFilterName="providers"
-          secondFilterContent={
-            searchState.industry === ''
-              ? getAllProviders(allSolutions)
-              : getProviderByIndustry(searchState.industry, allSolutions)
-          }
+          secondFilterContent={setProviderOptions()}
           secondFilterValue={searchState.provider}
           onSecondFilterChange={handleProviderChange}
           thirdFilterName="results"
-          thirdFilterContent={getAllResults(allResults)}
+          thirdFilterContent={setResultOptions()}
           thirdFilterValue={searchState.result}
           onThirdFilterChange={handleResultsChange}
           title={'Search PACT Conforming Solutions'}

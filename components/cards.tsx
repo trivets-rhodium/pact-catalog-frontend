@@ -20,49 +20,22 @@ export type CardsRenderer<T> = (cardsContent: T) => JSX.Element[];
 type CardsProps<T> = {
   title: string;
   subtitle?: string;
-  href?: string;
   message?: string;
   cardsContent: T[];
   render: CardsRenderer<T[]>;
-  cardStyle: string;
 };
 
 export const cols = 4;
 
 export function Cards<T>(props: CardsProps<T>) {
-  const { title, cardsContent, render, subtitle, href, message, cardStyle } =
-    props;
+  const { title, cardsContent, render, subtitle } = props;
   return (
     <section className="pb-6 rounded-sm">
       <h2 className="title px-4">
-        {href ? (
-          <Link
-            href={href ? href : useRouter().pathname}
-            className="primary-link"
-          >
-            {title}
-          </Link>
-        ) : (
-          <>{title}</>
-        )}
+        <>{title}</>
       </h2>
-
       <h3 className="px-4">{subtitle}</h3>
-      <ul className="grid grid-cols-4 gap-4 mx-4">
-        {render(cardsContent)}
-        {href && message && (
-          <Card
-            href={href}
-            title={message}
-            invert
-            cardContent={undefined}
-            render={(undefined) => {
-              return <></>;
-            }}
-            cardStyle={cardStyle}
-          />
-        )}
-      </ul>
+      <ul className="grid grid-cols-4 gap-4 mx-4">{render(cardsContent)}</ul>
     </section>
   );
 }
@@ -116,14 +89,14 @@ function renderExtensionCard(
         {endorsers && endorsers.length >= 4
           ? [
               ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
-                return <li>• {endorser.name}</li>;
+                return <li key={endorser.name}>• {endorser.name}</li>;
               }),
               <li className={style['aux-text']}>
                 ...and {endorsers.length - 3} more
               </li>,
             ]
           : endorsers.map((endorser: CatalogUser) => {
-              <li>• {endorser.name}</li>;
+              <li key={endorser.name}>• {endorser.name}</li>;
             })}
       </ul>
     </div>
@@ -241,7 +214,7 @@ function renderCollaboratorCard(collaborator: EnrichedUser): JSX.Element {
           <li className={style['aux-text']}>working groups</li>
           {workingGroups &&
             workingGroups.map((workingGroup) => {
-              return <li>{workingGroup.name}</li>;
+              return <li key={workingGroup.name}>{workingGroup.name}</li>;
             })}
         </ul>
       </div>
@@ -271,6 +244,7 @@ function Card<T>(props: CardProps<T>) {
       target={cardStyle === 'collaborator-card' ? '_blank' : ''}
     >
       <li
+        key={href}
         className={`flex flex-col justify-between ${style[cardStyle]} leading-tight`}
       >
         {cardStyle !== 'collaborator-card' ? (
@@ -299,13 +273,12 @@ type LongCardsProps = {
   }[];
 };
 
-
 export function LongCards(props: LongCardsProps) {
   const { title, longCards } = props;
 
   return (
     <section className="pb-10 rounded-sm">
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <ul>
         {longCards.map((longCard) => {
           return (
@@ -332,7 +305,10 @@ function LongCard(props: LongCardProps) {
   const { href, title, subtitle } = props;
 
   return (
-    <li className={`${style['long-card']} flex flex-col justify-between drop-shadow`}>
+    <li
+      className={`${style['long-card']} flex flex-col justify-between drop-shadow`}
+      key={title}
+    >
       <div>
         <h3>{title}</h3>
         <p className="pr-32 ">{subtitle}</p>

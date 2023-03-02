@@ -1,24 +1,29 @@
 import { ChangeEventHandler, useEffect, useState } from 'react';
 import style from 'styles/SearchBar.module.css';
 
+export type FilterOption = {
+  option: string;
+  count: number;
+};
+
 type SearchBarProps<T> = {
   title: string;
   placeholder?: string;
   searchValue?: string;
   onSearchValueChange: ChangeEventHandler<HTMLInputElement>;
   firstFilterName?: string;
-  firstFilterContent?: string[];
+  firstFilterContent?: FilterOption[];
   firstFilterValue?: string;
   onFirstFilterChange?: ChangeEventHandler<HTMLSelectElement>;
   secondFilterName?: string;
-  secondFilterContent?: string[];
+  secondFilterContent?: FilterOption[];
   secondFilterValue?: string;
   onSecondFilterChange?: ChangeEventHandler<HTMLSelectElement>;
   thirdFilterName?: string;
-  thirdFilterContent?: string[];
+  thirdFilterContent?: FilterOption[];
   thirdFilterValue?: string;
   onThirdFilterChange?: ChangeEventHandler<HTMLSelectElement>;
-  color: "green" | "light-blue";
+  color: 'green' | 'light-blue';
 };
 
 export default function SearchBar<T>(props: SearchBarProps<T>) {
@@ -67,8 +72,8 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
                 <option value="">all {firstFilterName}</option>
                 {firstFilterContent.map((e) => {
                   return (
-                    <option key={e} value={e}>
-                      {e}
+                    <option key={e.option} value={e.option}>
+                      {e.option} ({e.count})
                     </option>
                   );
                 })}
@@ -87,8 +92,8 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
                 <option value="">all {secondFilterName}</option>
                 {secondFilterContent.map((e) => {
                   return (
-                    <option key={e} value={e}>
-                      {e}
+                    <option key={e.option} value={e.option}>
+                      {e.option} ({e.count})
                     </option>
                   );
                 })}
@@ -107,8 +112,8 @@ export default function SearchBar<T>(props: SearchBarProps<T>) {
                 <option value="">all {thirdFilterName}</option>
                 {thirdFilterContent.map((e) => {
                   return (
-                    <option key={e} value={e}>
-                      {e}
+                    <option key={e.option} value={e.option}>
+                      {e.option} ({e.count})
                     </option>
                   );
                 })}
