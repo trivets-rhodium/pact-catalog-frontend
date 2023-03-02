@@ -33,7 +33,7 @@ export function Cards<T>(props: CardsProps<T>) {
   const { title, cardsContent, render, subtitle, href, message, cardStyle } =
     props;
   return (
-    <section className="pb-10 rounded-sm">
+    <section className="pb-6 rounded-sm">
       <h2 className="title px-4">
         {href ? (
           <Link
@@ -332,7 +332,7 @@ function LongCard(props: LongCardProps) {
   const { href, title, subtitle } = props;
 
   return (
-    <li className={`${style['long-card']} flex flex-col justify-between`}>
+    <li className={`${style['long-card']} flex flex-col justify-between drop-shadow`}>
       <div>
         <h3>{title}</h3>
         <p className="pr-32 ">{subtitle}</p>
