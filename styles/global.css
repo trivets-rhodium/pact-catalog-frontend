@@ -71,7 +71,7 @@ h3 {
 .green-primary-button:hover {
   background-color: white;
   backdrop-filter: blur(4px);
-  color: var(--dark-blue);
+  color: var(--green);
   cursor: pointer;
 }
 

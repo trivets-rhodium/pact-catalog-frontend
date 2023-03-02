@@ -15,10 +15,7 @@ export default function Navbar() {
         href={'/'}
         className={`text-xl p-0 ${style['nav-links']} flex items-center justify-start`}
       >
-        <Image
-          src={pactLogo}
-          alt={'PACT logo'}
-        ></Image>
+        <Image src={pactLogo} alt={'PACT logo'}></Image>
         <p className="shrink-0" style={{ height: '30px' }}>
           {' '}
           Online Catalog
@@ -60,10 +57,10 @@ export default function Navbar() {
           </li>
           <li className="px-2">
             <Link
-              href={'/submit-extension'}
+              href={'/contribute'}
               className={`text-white ${style['nav-links']}`}
             >
-              Submit Extension
+              Contribute
             </Link>
           </li>
           <li className="px-2">
