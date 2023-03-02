@@ -33,7 +33,7 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
                       {test.tests.map(({ extension, version }) => {
                         return (
                           <Link
-                            href={`/extensions${extension}/${version}`}
+                            href={`/extensions/${extension}/${version}`}
                             key={`${extension}/${version}`}
                           >
                             <p>{extension}</p>

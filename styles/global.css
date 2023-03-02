@@ -9,6 +9,7 @@
   --dark-blue: #0a0552;
   --light-shadow: rgba(10, 5, 82, 0.3);
   --lighter-shadow: rgba(10, 5, 82, 0.1);
+  --light-gray: #F3F3F3
 }
 
 html,
@@ -18,7 +19,7 @@ body {
   font-family: Avenir;
   line-height: 1.6;
   font-size: 18px;
-  background-color: white;
+  background-color: var(--light-gray);
 }
 
 h1 {

@@ -19,12 +19,12 @@ export default function Layout(props: LayoutProps) {
   const headTitle = title ? `PACT | ${title}` : 'PACT Online Catalog';
 
   return (
-    <div className="min-h-screen">
+    <div className="">
       <Head>
         <title>{headTitle}</title>
       </Head>
       <Navbar />
-      <main className="pt-16 pb-16 px-32">{children}</main>
+      <main className="pt-16 pb-16 px-32 min-h-[85vh]">{children}</main>
       <Footer />
     </div>
   );

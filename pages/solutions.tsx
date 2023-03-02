@@ -238,7 +238,10 @@ export default function Solutions(props: PageProps) {
   function resetSearch() {
     return (
       <div className="text-right">
-        <button className="green-secondary-button" onClick={() => router.reload()}>
+        <button
+          className="green-secondary-button"
+          onClick={() => router.reload()}
+        >
           {'<'} Reset
         </button>
       </div>
@@ -265,6 +268,14 @@ export default function Solutions(props: PageProps) {
         solution.conformance_tests.some((test) => {
           return test.test.test_result === result;
         })
+      );
+    });
+
+    const filterByIndustryandProvider = allSolutions.filter((solution) => {
+      return (
+        solution.industries &&
+        solution.industries.includes(industry) &&
+        solution.providerName === provider
       );
     });
 
@@ -310,6 +321,18 @@ export default function Solutions(props: PageProps) {
           <Cards
             title={`All ${industry} related PACT Conforming Solutions`}
             cardsContent={filterByIndustry}
+            render={solutionCards}
+            cardStyle="green"
+          />
+          {resetSearch()}
+        </>
+      );
+    } else if (industry !== '' && provider !== '') {
+      return (
+        <>
+          <Cards
+            title={`All ${industry} related PACT Conforming Solutions, from ${provider}`}
+            cardsContent={filterByIndustryandProvider}
             render={solutionCards}
             cardStyle="green"
           />
