@@ -156,7 +156,7 @@ export function collaboratorCards(
     return (
       <Card
         key={id}
-        href={website || '#'}
+        href={`/collaborators/${user.id}`}
         title={''}
         subtitle={''}
         cardContent={collaborator}
@@ -239,10 +239,7 @@ function Card<T>(props: CardProps<T>) {
     props;
 
   return (
-    <Link
-      href={href}
-      target={cardStyle === 'collaborator-card' ? '_blank' : ''}
-    >
+    <Link href={href}>
       <li
         key={href}
         className={`flex flex-col justify-between ${style[cardStyle]} leading-tight`}
