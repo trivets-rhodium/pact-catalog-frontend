@@ -305,7 +305,7 @@ export function LongCards(props: LongCardsProps) {
 
   return (
     <section className="pb-10 rounded-sm">
-      <h1>{title}</h1>
+      <h2>{title}</h2>
       <ul>
         {longCards.map((longCard) => {
           return (

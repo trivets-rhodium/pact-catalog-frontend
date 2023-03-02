@@ -266,7 +266,7 @@ h3 {
 }
 
 .drop-shadow {
-  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+  filter: drop-shadow(0 0 15px var(--lighter-shadow));
 }
 
 .box-shadow {
