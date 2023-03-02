@@ -419,9 +419,7 @@ export default function Extensions(props: PageProps) {
       return (
         <>
           <Cards
-            title={`All ${
-              industry !== '' ? `${industry} related` : ''
-            } ${status} Industry Specific Extensions, from ${publisher}`}
+            title={`All ${industry} related ${status} Industry Specific Extensions, from ${publisher}`}
             cardsContent={filterByIndustryAndPublisherAndStatus}
             render={extensionCards}
           />
