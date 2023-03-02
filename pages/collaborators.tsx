@@ -74,7 +74,6 @@ export default function Collaborators(props: PageProps) {
         title={'Collaborators (being updated)'}
         cardsContent={filteredUsers}
         render={collaboratorCards}
-        cardStyle={'collaborator-card'}
       />
 
       {/* <ul className=" grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
