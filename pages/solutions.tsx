@@ -330,50 +330,45 @@ export default function Solutions(props: PageProps) {
   });
 
   const filterByProvider = allSolutions.filter((solution) => {
-    return solution.providerName === provider;
+    return solution.providerName === searchState.provider;
   });
 
   const filterByResult = allSolutions.filter((solution) => {
-    return (
-      solution.conformance_tests &&
-      solution.conformance_tests.some((test) => {
-        return test.test.test_result === result;
-      })
-    );
+    if (searchState.result === 'untested') {
+      return solution.conformance_tests.length === 0;
+    } else {
+      return solution.conformance_tests.some((test) => {
+        return test.test.test_result === searchState.result;
+      });
+    }
   });
 
   const filterByIndustryandProvider = allSolutions.filter((solution) => {
     return (
       solution.industries &&
       solution.industries.includes(searchState.industry) &&
-      solution.providerName === provider
+      solution.providerName === searchState.provider
     );
   });
 
   const filterByIndustryAndResult = filterByIndustry.filter((solution) => {
-    return (
-      solution.conformance_tests &&
-      solution.conformance_tests.some((test) => {
-        return test.test.test_result === result;
-      })
-    );
+    return solution.conformance_tests.some((test) => {
+      return test.test.test_result === searchState.result;
+    });
   });
 
   const filterByProviderAndResult = filterByProvider.filter((solution) => {
-    return (
-      solution.conformance_tests &&
-      solution.conformance_tests.some((test) => {
-        return test.test.test_result === result;
-      })
-    );
+    return solution.conformance_tests.some((test) => {
+      return test.test.test_result === searchState.result;
+    });
   });
 
   const filterByIndustryAndProviderAndResult = filterByIndustry.filter(
     (solution) => {
       return (
-        solution.providerName === provider &&
+        solution.providerName === searchState.provider &&
         solution.conformance_tests?.some((test) => {
-          return test.test.test_result === result;
+          return test.test.test_result === searchState.result;
         })
       );
     }
