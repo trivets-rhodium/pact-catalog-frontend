@@ -4,6 +4,33 @@
   border-radius: 15px 0 0 15px;
 }
 
+.user {
+  background-color: var(--blue);
+  border: 2px solid var(--blue);
+  border-right: 0;
+  border-radius: 15px 0 0 15px;
+  padding-bottom: 40px;
+
+}
+
+
+.user-info {
+  color: white;
+  padding: 50px;
+}
+
+.user-info h3 {
+  color: white;
+}
+
+.user-logo {
+  background-color: white;
+  border-radius: 13px 0 0 0;
+  display: flex;
+  justify-content: center;
+  height: 150px;
+}
+
 .members h2 {
   color: white;
   text-shadow: 0 0px 4px var(--dark-blue);

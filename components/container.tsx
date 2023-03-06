@@ -12,7 +12,9 @@ function LeftBanner(props: ContainerProps) {
 
   return (
     <section
-      className={`${style['members']}  h-100 w-2/5 p-14 rounded-l-md border-2 z-0 align-top`}
+      className={`${
+        workingGroup ? `${style['members']} p-14` : `${style['user']} p-0`
+      }  h-100 w-2/5 z-0 align-top`}
     >
       <div className="sticky top-32">
         {workingGroup && (
@@ -36,15 +38,28 @@ function LeftBanner(props: ContainerProps) {
         {user && (
           <>
             {user.logo && (
-              <div className="bg-white w-full h-full text-center p-12 rounded-lg">
-                <img
-                  src={user.logo}
-                  alt={`${user.name} logo`}
-                  height="200"
-                  width="200"
-                  className="object-scale-down"
-                />
-              </div>
+              <>
+                <div className={style['user-logo']}>
+                  <img
+                    src={user.logo}
+                    alt={`${user.name} logo`}
+                    height="200"
+                    width="200"
+                    className="object-scale-down"
+                  />
+                </div>
+                <div className={style['user-info']}>
+                  <h3>{user.name}</h3>
+
+                  <h3 className='pt-8'>Website</h3>
+                  <a href={user.website || '#'} target="_blank">
+                    {user.website}
+                  </a>
+
+                  <h3 className="pt-8">Contacts</h3>
+                  <a href={`mailto: ${user.email || '#'}`}>{user.email}</a>
+                </div>
+              </>
             )}
           </>
         )}
@@ -191,11 +206,7 @@ function RightBox(props: ContainerProps) {
       )}
       {user && (
         <>
-          <div>
-            <a href={user.website || '#'} target="_blank">
-              {user.website}
-            </a>
-          </div>
+          <div></div>
         </>
       )}
     </section>
@@ -217,7 +228,6 @@ export default function Container(props: ContainerProps) {
       )}
       {user && (
         <>
-          <h2 className="mx-1">{user.name}</h2>
           <div className="flex justify-center mt-6 ">
             <LeftBanner user={user} />
             <RightBox user={user} />

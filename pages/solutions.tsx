@@ -104,9 +104,7 @@ function getAllResults(
     return result.test_result;
   });
 
-  allTestResults.push('failed');
-  allTestResults.push('ongoing');
-  allTestResults.push('untested');
+  allTestResults.push('conformance pending');
 
   const uniqueResults = allTestResults.filter((result, index) => {
     return allTestResults.indexOf(result) === index;
@@ -128,7 +126,7 @@ function getAllResults(
           }
         }
       } else {
-        if (option.option === 'untested') {
+        if (option.option === 'conformance pending') {
           option.count += 1;
         }
       }
@@ -334,7 +332,7 @@ export default function Solutions(props: PageProps) {
   });
 
   const filterByResult = allSolutions.filter((solution) => {
-    if (searchState.result === 'untested') {
+    if (searchState.result === 'conformance pending') {
       return solution.conformance_tests.length === 0;
     } else {
       return solution.conformance_tests.some((test) => {
