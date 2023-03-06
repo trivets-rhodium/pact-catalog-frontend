@@ -230,7 +230,7 @@ export default function Container(props: ContainerProps) {
             href="/working-groups"
             className="blue-secondary-button text-right"
           >
-            {'<'} Other groups
+            Back to groups
           </Link>
         )}
         {user && (
@@ -238,7 +238,7 @@ export default function Container(props: ContainerProps) {
             href="/collaborators"
             className="blue-secondary-button text-right"
           >
-            {'<'} Other collaborators
+            Back to collaborators
           </Link>
         )}
       </div>

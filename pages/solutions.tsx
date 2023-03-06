@@ -317,7 +317,7 @@ export default function Solutions(props: PageProps) {
             router.push('/solutions');
           }}
         >
-          {'<'} Reset
+          Reset filters
         </button>
       </div>
     );

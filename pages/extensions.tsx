@@ -356,7 +356,7 @@ export default function Extensions(props: PageProps) {
             router.push('/extensions');
           }}
         >
-          {'<'} Reset
+          Reset filters
         </button>
       </div>
     );
