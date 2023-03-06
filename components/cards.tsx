@@ -86,18 +86,19 @@ function renderExtensionCard(
           {endorsers && endorsers.length ? `endorsed by` : ''}
         </p>
 
-        {endorsers && endorsers.length >= 4
-          ? [
-              ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
-                return <li key={endorser.name}>• {endorser.name}</li>;
-              }),
-              <li className={style['aux-text']}>
-                ...and {endorsers.length - 3} more
-              </li>,
-            ]
-          : endorsers.map((endorser: CatalogUser) => {
-              <li key={endorser.name}>• {endorser.name}</li>;
-            })}
+        {endorsers &&
+          (endorsers.length >= 4
+            ? [
+                ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
+                  return <li key={endorser.name}>• {endorser.name}</li>;
+                }),
+                <li className={style['aux-text']}>
+                  ...and {endorsers.length - 3} more
+                </li>,
+              ]
+            : endorsers.map((endorser: CatalogUser) => {
+                <li key={endorser.name}>• {endorser.name}</li>;
+              }))}
       </ul>
     </div>
   );
