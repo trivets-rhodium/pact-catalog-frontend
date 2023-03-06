@@ -28,3 +28,18 @@
   color: rgba(10, 5, 82, 0.6);
   font-size: medium;
 }
+
+.solution {
+  border: 2px solid var(--green);
+  background-color: white;
+  filter: drop-shadow(0 0 10px var(--light-shadow));
+  border-radius: 15px;
+}
+
+.extension {
+  border: 2px solid var(--blue);
+  background-color: white;
+  filter: drop-shadow(0 0 10px var(--light-shadow));
+  border-radius: 15px;
+
+}
