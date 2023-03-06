@@ -106,6 +106,7 @@ function getAllResults(
 
   allTestResults.push('failed');
   allTestResults.push('ongoing');
+  allTestResults.push('untested');
 
   const uniqueResults = allTestResults.filter((result, index) => {
     return allTestResults.indexOf(result) === index;
@@ -120,11 +121,15 @@ function getAllResults(
 
   for (const option of resultOptions) {
     for (const solution of targetSolutions) {
-      if (solution.conformance_tests) {
+      if (solution.conformance_tests.length !== 0) {
         for (const test of solution.conformance_tests) {
           if (test.test.test_result === option.option) {
             option.count += 1;
           }
+        }
+      } else {
+        if (option.option === 'untested') {
+          option.count += 1;
         }
       }
     }

@@ -97,7 +97,7 @@ export type ConformingSolution = {
   summary: string | null;
   industries: Industry[] | null;
   users: SolutionUsers | null;
-  conformance_tests: SolutionTestResults | null;
+  conformance_tests: SolutionTestResults;
 };
 
 export type SolutionTestResults = {
