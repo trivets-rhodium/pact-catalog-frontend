@@ -7,6 +7,7 @@ import { DefaultSession, ISODateString } from 'next-auth';
 import { PackageJsonParser } from '../lib/catalog-types.schema';
 import { useRouter } from 'next/router';
 import { validateSchemaJson } from '../lib/catalog-types.schema';
+import Link from 'next/link';
 
 export default function SubmissionForm() {
   const router = useRouter();
@@ -283,7 +284,17 @@ export default function SubmissionForm() {
         value={formInput.summary}
       />
 
-      <label htmlFor="schemaJson">schema.json Content</label>
+      <label htmlFor="schemaJson">
+        schema.json Content (based on{' '}
+        <Link
+          href={'/schemas/@wbcsd-product-footprint-2.0.0.schema.json'}
+          className="underline"
+          target="_blank"
+        >
+          the WBCSD product footprint 2.0.0
+        </Link>
+        )
+      </label>
       <CodeMirror
         className="mt-2 mb-6 bg-white drop-shadow"
         minHeight="200px"
