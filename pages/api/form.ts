@@ -76,31 +76,6 @@ export default async function handler(
       parseInt(process.env.GITHUB_APP_INSTALLATION_ID as string)
     );
 
-    // WORKING BUT SUBOPTIMAL:
-    // const octokit = new Octokit({
-    //   auth: process.env.ACCESS_TOKEN,
-    // });
-
-    //WORKING:
-    // const app = new OAuthApp({
-    //   clientType: 'oauth-app',
-    //   clientId: process.env.CLIENT_ID as string,
-    //   clientSecret: process.env.CLIENT_SECRET as string,
-    //   defaultScopes: ['repo'],
-    // });
-
-    // const octokit = await app.getUserOctokit({ code });
-
-    // const octokit = app.octokit;
-
-    // const token = await app.createToken({
-    //   code,
-    // });
-
-    // const octokit = new Octokit({
-    //   auth: token?.accessToken,
-    // });
-
     const ref = await octokit.request(
       'GET /repos/{owner}/{repo}/git/matching-refs/{ref}',
       {
@@ -112,20 +87,13 @@ export default async function handler(
 
     const sha = ref.data[0].object.sha;
 
+    // Creates new branch
     await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      ref: `refs/heads/@${session.user.login}`,
+      ref: `refs/heads/@${session.user.login}/${packageName}/${version}`,
       sha,
     });
-
-    // Creates new branch (from main, using main's sha) with the publisher's user id;
-    // await octokit.rest.git.createRef({
-    //   owner: 'sine-fdn',
-    //   repo: 'pact-catalog',
-    //   ref: `refs/heads/@${publisherUserId}`,
-    //   sha,
-    // });
 
     // Creates empty index.js file to satisfy the NPM system requirements;
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
