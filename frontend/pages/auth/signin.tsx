@@ -24,7 +24,6 @@ export default function SignIn({
   const router = useRouter();
   const github = Object.values(providers)[0];
 
-  console.log('session', useSession());
   return (
     <>
       <Layout>
@@ -35,6 +34,7 @@ export default function SignIn({
               signIn(github.id, {
                 callbackUrl: router.query.callbackUrl as string,
               });
+              console.log(useSession());
             }}
             className="light-blue-primary-button"
           >
