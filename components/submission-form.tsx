@@ -291,7 +291,7 @@ export default function SubmissionForm() {
           className="underline"
           target="_blank"
         >
-          the WBCSD product footprint 2.0.0
+          the Pathfinder Technical Specification V2
         </Link>
         )
       </label>
