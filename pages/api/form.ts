@@ -38,9 +38,10 @@ export default async function handler(
   const session = await getServerSession(req, res, authOptions);
 
   console.log('session', session);
+  console.error('session', session);
 
   const zodReadyJson = {
-    name: `@${session.user_id}/${packageName}`,
+    name: `@${session.user.login}/${packageName}`,
     version,
     description,
     files: ['schema.json'],
@@ -184,9 +185,9 @@ export default async function handler(
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${session.user_id}/${packageName}/${version}/schema.json`,
+      path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/schema.json`,
       message: 'Create schema.json',
-      branch: `@${session.user_id}`,
+      branch: `@${session.user.login}`,
       content: Buffer.from(schemaJson).toString('base64'),
     });
 
@@ -194,9 +195,9 @@ export default async function handler(
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${session.user_id}/${packageName}/${version}/documentation/README.md`,
+      path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/documentation/README.md`,
       message: 'Create README.md',
-      branch: `@${session.user_id}`,
+      branch: `@${session.user.login}`,
       content: Buffer.from(readme).toString('base64'),
     });
 
@@ -206,9 +207,9 @@ export default async function handler(
       {
         owner: 'sine-fdn',
         repo: 'pact-catalog',
-        title: `@${session.user_id}/${packageName}`,
-        body: `Creates Data Model Extension @${session.user_id}/${packageName}, version ${version}`,
-        head: `@${session.user_id}`,
+        title: `@${session.user.login}/${packageName}`,
+        body: `Creates Data Model Extension @${session.user.login}/${packageName}, version ${version}`,
+        head: `@${session.user.login}`,
         base: 'main',
       }
     );
