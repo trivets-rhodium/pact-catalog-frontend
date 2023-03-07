@@ -1,1 +1,0 @@
-# PACT Online Catalog Frontend
