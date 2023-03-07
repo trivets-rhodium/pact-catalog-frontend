@@ -104,7 +104,7 @@ function getAllResults(
     return result.test_result;
   });
 
-  allTestResults.push('conformance pending');
+  allTestResults.push('pending conformance');
 
   const uniqueResults = allTestResults.filter((result, index) => {
     return allTestResults.indexOf(result) === index;
@@ -126,7 +126,7 @@ function getAllResults(
           }
         }
       } else {
-        if (option.option === 'conformance pending') {
+        if (option.option === 'pending conformance') {
           option.count += 1;
         }
       }
@@ -332,7 +332,7 @@ export default function Solutions(props: PageProps) {
   });
 
   const filterByResult = allSolutions.filter((solution) => {
-    if (searchState.result === 'conformance pending') {
+    if (searchState.result === 'pending conformance') {
       return solution.conformance_tests.length === 0;
     } else {
       return solution.conformance_tests.some((test) => {

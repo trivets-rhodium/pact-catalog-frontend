@@ -108,7 +108,7 @@ export type SolutionTestResults = {
 export type ConformanceTestResult = {
   system_under_test: SolutionId;
   system_tester: SolutionId;
-  test_result: 'PACT conforming' | 'ongoing' | 'failed';
+  test_result: 'PACT conformant' | 'ongoing' | 'failed';
   // TO DO: Turn test date into Date ?
   test_date: string;
   tests: {
