@@ -13,7 +13,7 @@ import {
   PackageJsonParser,
   validateSchemaJson,
 } from '../../lib/catalog-types.schema';
-import getServerSession from 'next-auth/next';
+import { getServerSession } from 'next-auth/next';
 
 export default async function handler(
   req: NextApiRequest,
@@ -37,6 +37,8 @@ export default async function handler(
   // const token = await getToken({ req });
   const session = await getServerSession(req, res, authOptions);
 
+  console.log('session', session);
+
   const zodReadyJson = {
     name: `@${session.user_id}/${packageName}`,
     version,
@@ -51,7 +53,7 @@ export default async function handler(
     catalog_info: {
       summary,
       status: 'draft',
-      authors: [session.user_id],
+      authors: [session.user.login],
     },
     industries,
   };
@@ -113,7 +115,7 @@ export default async function handler(
     await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      ref: `refs/heads/@${session.user_id}`,
+      ref: `refs/heads/@${session.user.login}`,
       sha,
     });
 
@@ -129,9 +131,9 @@ export default async function handler(
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${session.user_id}/${packageName}/${version}/index.js`,
+      path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/index.js`,
       message: 'Create empty index.js file',
-      branch: `@${session.user_id}`,
+      branch: `@${session.user.login}`,
       content: '',
     });
 
@@ -141,15 +143,15 @@ export default async function handler(
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${session.user_id}/${packageName}/${version}/LICENSE`,
+      path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/LICENSE`,
       message: 'Create LICENSE file',
-      branch: `@${session.user_id}`,
+      branch: `@${session.user.login}`,
       content: Buffer.from(licenseText).toString('base64'),
     });
 
     // Creates object to pass as the content of the package.json file;
     const packageJsonContent: {} = {
-      name: `@${session.user_id}/${packageName}`,
+      name: `@${session.user.login}/${packageName}`,
       version: `${version}`,
       description: `${description}`,
       files: ['schema.json'],
@@ -162,7 +164,7 @@ export default async function handler(
       catalog_info: {
         summary: `${summary}`,
         status: 'draft',
-        authors: [`${session.user_id}`],
+        authors: [`${session.user.login}`],
       },
       industries,
     };
@@ -170,9 +172,9 @@ export default async function handler(
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
       owner: 'sine-fdn',
       repo: 'pact-catalog',
-      path: `catalog/data-model-extensions/@${session.user_id}/${packageName}/${version}/package.json`,
+      path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/package.json`,
       message: 'Create package.json',
-      branch: `@${session.user_id}`,
+      branch: `@${session.user.login}`,
       content: Buffer.from(
         JSON.stringify(packageJsonContent, null, 2)
       ).toString('base64'),
