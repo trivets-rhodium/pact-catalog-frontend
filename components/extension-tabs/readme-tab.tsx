@@ -116,7 +116,7 @@ const readmeTab: TabRenderer<CatalogDataModelExtension> = (extension) => {
           <p>TO DO</p>
           <h3 className="mt-4">Contacts</h3>
           <a
-            href={`mailto: ${author.email}`}
+            href={`mailto:${author.email}`}
             className="underline"
             rel="noopener noreferrer"
           >

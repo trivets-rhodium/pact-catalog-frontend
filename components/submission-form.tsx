@@ -122,7 +122,7 @@ export default function SubmissionForm() {
     await fetch(endpoint, options).then((response) => {
       if (response.status === 200) {
         alert(`Thank you, your extension was successfully submitted`);
-        router.push('/');
+        router.push('/extensions');
       } else {
         alert('Please try again');
       }
@@ -139,6 +139,17 @@ export default function SubmissionForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col px-40">
+      <label htmlFor="publisherUserId">Publisher User Id</label>
+      <input
+        type="text"
+        id="publisherUserId"
+        name="publisherUserId"
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
+        required
+        value={formInput.publisherUserId}
+        disabled
+      />
+
       <label htmlFor="publisherName">Publisher Name</label>
       <input
         type="text"
@@ -154,24 +165,6 @@ export default function SubmissionForm() {
         }
         onChange={handleChange}
         value={formInput.publisherName}
-      />
-
-      <label htmlFor="publisherUserId">Publisher User Id</label>
-      <input
-        type="text"
-        id="publisherUserId"
-        name="publisherUserId"
-        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
-        required
-        onChange={handleChangeToLowerCase}
-        pattern="\S+"
-        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
-          event.target.setCustomValidity('Please do not use whitespaces')
-        }
-        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
-          event.target.setCustomValidity('')
-        }
-        value={formInput.publisherUserId}
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>
