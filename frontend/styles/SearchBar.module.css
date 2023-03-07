@@ -1,0 +1,40 @@
+.search select {
+  appearance: none;
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+  border-radius: 5px;
+}
+
+.search input {
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+  border-radius: 5px;
+}
+
+.select-wrapper-green {
+  position: relative;
+}
+
+.select-wrapper-green::after {
+  content: "^";
+  transform: rotate(180deg);
+  font-weight: bold;
+  color: var(--green);
+  font-size: 0.8rem;
+  top: 1.3rem;
+  right: 1rem;
+  position: absolute;
+}
+
+.select-wrapper-light-blue {
+  position: relative;
+}
+
+.select-wrapper-light-blue::after {
+  content: "^";
+  transform: rotate(180deg);
+  font-weight: bold;
+  color: var(--light-blue);
+  font-size: 0.8rem;
+  top: 1.3rem;
+  right: 1rem;
+  position: absolute;
+}

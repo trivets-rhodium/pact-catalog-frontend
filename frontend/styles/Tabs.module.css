@@ -1,0 +1,57 @@
+.green-active-tab {
+  background-color: var(--green);
+  color: white;
+  border: 2px solid var(--green);
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+
+}
+
+.green-tab {
+  color: var(--dark-blue);
+  transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
+  border: 2px solid var(--green);
+  border-bottom: none;
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+}
+
+.green-tab:hover {
+  background-color: var(--green);
+  color: white;
+  border-bottom: 2px solid var(--green);
+}
+
+.green-border {
+  border: 2px solid var(--green);
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+
+}
+
+.light-blue-active-tab {
+  background-color: var(--light-blue);
+  color: white;
+  border: 2px solid var(--light-blue);
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+
+}
+
+.light-blue-tab {
+  color: var(--dark-blue);
+  transition: background-color 0.3s, color 0.3s, border-bottom 0.1s;
+  border: 2px solid var(--light-blue);
+  border-bottom: none;
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+
+}
+
+.light-blue-tab:hover {
+  background-color: var(--light-blue);
+  color: white;
+  border-bottom: 2px solid var(--light-blue);
+}
+
+.light-blue-border {
+  border: 2px solid var(--light-blue);
+  filter: drop-shadow(0 0 10px var(--lighter-shadow));
+
+
+}
