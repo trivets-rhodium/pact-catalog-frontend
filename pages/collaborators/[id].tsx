@@ -6,10 +6,12 @@ import Layout from '../../components/layout';
 import { TabsLayout } from '../../components/tabs';
 import {
   CatalogUser,
+  Collaborator,
   GroupId,
   UserId,
   WorkingGroup,
 } from '../../lib/catalog-types';
+import { getCollaborator } from '../../lib/collaborators';
 import { getAllUsersIds, getUser } from '../../lib/users';
 import {
   getAllWorkingGroupsIds,
@@ -20,6 +22,7 @@ import style from '../../styles/Containers.module.css';
 type Id = {
   id: UserId;
 };
+
 export const getStaticPaths: GetStaticPaths<Id> = async () => {
   const paths = await getAllUsersIds();
 
@@ -30,7 +33,7 @@ export const getStaticPaths: GetStaticPaths<Id> = async () => {
 };
 
 type PageProps = {
-  user: CatalogUser;
+  collaborator: Collaborator;
 };
 
 export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
@@ -40,10 +43,11 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
     throw Promise.reject(new Error('No params'));
   }
 
-  const user = await getUser(params.id);
+  const collaborator = await getCollaborator(params.id);
+
   return {
     props: {
-      user,
+      collaborator,
     },
   };
 };
@@ -51,7 +55,7 @@ export const getStaticProps: GetStaticProps<PageProps, Id> = async ({
 export default function WorkingGroupDetails(props: PageProps) {
   return (
     <Layout>
-      <Container user={props.user}></Container>
+      <Container collaborator={props.collaborator}></Container>
     </Layout>
   );
 }

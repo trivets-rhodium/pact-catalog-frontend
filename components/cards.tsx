@@ -5,6 +5,7 @@ import { useRouter } from 'next/router';
 import {
   CatalogDataModelExtension,
   CatalogUser,
+  Collaborator,
   ConformingSolution,
   DMEId,
   UserId,
@@ -13,7 +14,6 @@ import {
 } from '../lib/catalog-types';
 import style from '../styles/Cards.module.css';
 import { link } from 'fs';
-import { EnrichedUser } from '../pages/collaborators';
 
 export type CardsRenderer<T> = (cardsContent: T) => JSX.Element[];
 
@@ -147,7 +147,7 @@ function renderSolutionCard(
 }
 
 export function collaboratorCards(
-  collaborators: EnrichedUser[]
+  collaborators: Collaborator[]
 ): JSX.Element[] {
   const router = useRouter();
   return collaborators.map((collaborator) => {
@@ -167,8 +167,8 @@ export function collaboratorCards(
   });
 }
 
-function renderCollaboratorCard(collaborator: EnrichedUser): JSX.Element {
-  const { user, userExtensions, userSolutions, workingGroups } = collaborator;
+function renderCollaboratorCard(collaborator: Collaborator): JSX.Element {
+  const { user, extensions, solutions, workingGroups } = collaborator;
   const { logo, name } = user;
 
   return (
@@ -191,8 +191,8 @@ function renderCollaboratorCard(collaborator: EnrichedUser): JSX.Element {
           {user.kind === 'ngo' ? (
             <>
               <li className={style['aux-text']}>extensions</li>
-              {userExtensions &&
-                userExtensions.map((extension) => {
+              {extensions &&
+                extensions.map((extension) => {
                   return (
                     <li key={`${extension.name}/${extension.version}`}>
                       {extension.name} {extension.version}
@@ -203,8 +203,8 @@ function renderCollaboratorCard(collaborator: EnrichedUser): JSX.Element {
           ) : (
             <>
               <li className={style['aux-text']}>solutions</li>
-              {userSolutions &&
-                userSolutions.slice(0, 2).map((solution) => {
+              {solutions &&
+                solutions.slice(0, 2).map((solution) => {
                   return <li key={solution.id}>{solution.name}</li>;
                 })}
             </>

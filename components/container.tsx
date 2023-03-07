@@ -1,14 +1,19 @@
-import { CatalogUser, UserId, WorkingGroup } from '../lib/catalog-types';
+import {
+  CatalogUser,
+  Collaborator,
+  UserId,
+  WorkingGroup,
+} from '../lib/catalog-types';
 import style from '../styles/Containers.module.css';
 import Link from 'next/link';
 
 type ContainerProps = {
   workingGroup?: WorkingGroup;
-  user?: CatalogUser;
+  collaborator?: Collaborator;
 };
 
 function LeftBanner(props: ContainerProps) {
-  const { workingGroup, user } = props;
+  const { workingGroup, collaborator } = props;
 
   return (
     <section
@@ -35,29 +40,31 @@ function LeftBanner(props: ContainerProps) {
             </ul>
           </>
         )}
-        {user && (
+        {collaborator?.user && (
           <>
-            {user.logo && (
+            {collaborator.user.logo && (
               <>
                 <div className={style['user-logo']}>
                   <img
-                    src={user.logo}
-                    alt={`${user.name} logo`}
+                    src={collaborator.user.logo}
+                    alt={`${collaborator.user.name} logo`}
                     height="200"
                     width="200"
                     className="object-scale-down"
                   />
                 </div>
                 <div className={style['user-info']}>
-                  <h3>{user.name}</h3>
+                  <h3>{collaborator.user.name}</h3>
 
-                  <h3 className='pt-8'>Website</h3>
-                  <a href={user.website || '#'} target="_blank">
-                    {user.website}
+                  <h3 className="pt-8">Website</h3>
+                  <a href={collaborator.user.website || '#'} target="_blank">
+                    {collaborator.user.website}
                   </a>
 
                   <h3 className="pt-8">Contacts</h3>
-                  <a href={`mailto: ${user.email || '#'}`}>{user.email}</a>
+                  <a href={`mailto: ${collaborator.user.email || '#'}`}>
+                    {collaborator.user.email}
+                  </a>
                 </div>
               </>
             )}
@@ -69,7 +76,7 @@ function LeftBanner(props: ContainerProps) {
 }
 
 function RightBox(props: ContainerProps) {
-  const { workingGroup, user } = props;
+  const { workingGroup, collaborator } = props;
   return (
     <section
       className={`bg-white h-100 p-14 z-0 flex-grow ${style['working-group-details']} drop-shadow`}
@@ -204,9 +211,12 @@ function RightBox(props: ContainerProps) {
           </ul>
         </>
       )}
-      {user && (
+      {collaborator && (
         <>
-          <div></div>
+          <div>
+            <h3 className="pb-8">Our vision</h3>
+            {collaborator.extensions ? <h3>Extensions</h3> : <></>}
+          </div>
         </>
       )}
     </section>
@@ -214,7 +224,8 @@ function RightBox(props: ContainerProps) {
 }
 
 export default function Container(props: ContainerProps) {
-  const { workingGroup, user } = props;
+  const { workingGroup, collaborator: user } = props;
+  console.log('user', user);
   return (
     <>
       {workingGroup && (
@@ -229,8 +240,8 @@ export default function Container(props: ContainerProps) {
       {user && (
         <>
           <div className="flex justify-center mt-6 ">
-            <LeftBanner user={user} />
-            <RightBox user={user} />
+            <LeftBanner collaborator={user} />
+            <RightBox collaborator={user} />
           </div>
         </>
       )}

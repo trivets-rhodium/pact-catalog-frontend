@@ -81,6 +81,13 @@ export type CatalogUser = {
   solutions_used: SolutionId[] | null;
 };
 
+export type Collaborator = {
+  user: CatalogUser;
+  extensions: CatalogDataModelExtension[] | [];
+  solutions: ConformingSolution[] | [];
+  workingGroups: WorkingGroup[] | [];
+};
+
 export type ConformingSolution = {
   id: SolutionId;
   name: string;
