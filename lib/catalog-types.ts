@@ -81,6 +81,13 @@ export type CatalogUser = {
   solutions_used: SolutionId[] | null;
 };
 
+export type Collaborator = {
+  user: CatalogUser;
+  extensions: CatalogDataModelExtension[] | [];
+  solutions: ConformingSolution[] | [];
+  workingGroups: WorkingGroup[] | [];
+};
+
 export type ConformingSolution = {
   id: SolutionId;
   name: string;
@@ -97,7 +104,7 @@ export type ConformingSolution = {
   summary: string | null;
   industries: Industry[] | null;
   users: SolutionUsers | null;
-  conformance_tests: SolutionTestResults | null;
+  conformance_tests: SolutionTestResults;
 };
 
 export type SolutionTestResults = {
@@ -108,7 +115,7 @@ export type SolutionTestResults = {
 export type ConformanceTestResult = {
   system_under_test: SolutionId;
   system_tester: SolutionId;
-  test_result: 'passed' | 'ongoing' | 'failed';
+  test_result: 'PACT conformant' | 'ongoing' | 'failed';
   // TO DO: Turn test date into Date ?
   test_date: string;
   tests: {

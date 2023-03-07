@@ -29,6 +29,19 @@ export async function getAllUsers(): Promise<CatalogUser[]> {
   return Promise.all(allUsersData);
 }
 
+export async function getAllUsersIds() {
+  const allUsers = await getAllUsers();
+
+  return allUsers.map((user) => {
+    const { id } = user;
+    return {
+      params: {
+        id,
+      },
+    };
+  });
+}
+
 export async function getEndorsers(
   extension: CatalogDataModelExtension
 ): Promise<Endorsers> {
