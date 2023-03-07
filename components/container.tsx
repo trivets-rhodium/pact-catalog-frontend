@@ -6,6 +6,7 @@ import {
 } from '../lib/catalog-types';
 import style from '../styles/Containers.module.css';
 import Link from 'next/link';
+import { link } from 'fs';
 
 type ContainerProps = {
   workingGroup?: WorkingGroup;
@@ -21,7 +22,7 @@ function LeftBanner(props: ContainerProps) {
         workingGroup ? `${style['members']} p-14` : `${style['user']} p-0`
       }  h-100 w-2/5 z-0 align-top`}
     >
-      <div className="sticky top-32">
+      <div className={workingGroup ? 'sticky top-32' : ''}>
         {workingGroup && (
           <>
             <h2>Members</h2>
@@ -215,7 +216,71 @@ function RightBox(props: ContainerProps) {
         <>
           <div>
             <h3 className="pb-8">Our vision</h3>
-            {collaborator.extensions ? <h3>Extensions</h3> : <></>}
+            {collaborator.extensions.length !== 0 && (
+              <div className="pb-8">
+                <h3 className="pb-2">Contributions</h3>
+                <ul>
+                  {collaborator.extensions.map((extension) => {
+                    return (
+                      <li
+                        key={`${extension.name}/${extension.version}`}
+                        className="pb-2"
+                      >
+                        <Link
+                          href={`/extensions/${extension.name}/${extension.version}`}
+                          className="underline"
+                        >
+                          {extension.name} v.{extension.version}
+                        </Link>{' '}
+                        <span className={style.pill}>Extension</span>
+                        <p className="pr-24">
+                          {extension.catalog_info.summary}
+                        </p>
+                      </li>
+                    );
+                  })}
+                  {collaborator.solutions.length !== 0 && (
+                    <ul>
+                      {collaborator.solutions.map((solution) => {
+                        return (
+                          <li key={solution.id} className="pb-2">
+                            <Link
+                              href={`/solutions/${solution.id}`}
+                              className="underline"
+                            >
+                              {solution.name}
+                            </Link>{' '}
+                            <span className={style.pill}>Solution</span>
+                            <p className="pr-24">{solution.summary}</p>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </ul>
+              </div>
+            )}
+
+            {collaborator.workingGroups.length !== 0 && (
+              <div className="pb-8">
+                <h3 className="pb-2">Working Groups</h3>
+                <ul>
+                  {collaborator.workingGroups.map((workingGroup) => {
+                    return (
+                      <li key={workingGroup.id} className="pb-2">
+                        <Link
+                          href={`/working-groups/${workingGroup.id}`}
+                          className="underline"
+                        >
+                          {workingGroup.name}
+                        </Link>
+                        <p className="pr-24">{workingGroup.description}</p>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
           </div>
         </>
       )}
