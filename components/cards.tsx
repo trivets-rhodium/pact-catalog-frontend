@@ -92,12 +92,12 @@ function renderExtensionCard(
                 ...endorsers.slice(0, 3).map((endorser: CatalogUser) => {
                   return <li key={endorser.name}>• {endorser.name}</li>;
                 }),
-                <li className={style['aux-text']}>
+                <li key={`remaining`} className={style['aux-text']}>
                   ...and {endorsers.length - 3} more
                 </li>,
               ]
             : endorsers.map((endorser: CatalogUser) => {
-                <li key={endorser.name}>• {endorser.name}</li>;
+                return <li key={endorser.name}>• {endorser.name}</li>;
               }))}
       </ul>
     </div>
