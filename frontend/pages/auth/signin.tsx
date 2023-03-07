@@ -5,6 +5,7 @@ import {
   getProviders,
   LiteralUnion,
   signIn,
+  useSession,
 } from 'next-auth/react';
 import Layout from '../../components/layout';
 import { Router, useRouter } from 'next/router';
@@ -23,6 +24,7 @@ export default function SignIn({
   const router = useRouter();
   const github = Object.values(providers)[0];
 
+  console.log('session', useSession());
   return (
     <>
       <Layout>
