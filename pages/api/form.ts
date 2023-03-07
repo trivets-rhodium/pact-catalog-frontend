@@ -34,7 +34,6 @@ export default async function handler(
     code,
   } = req.body;
 
-  // const token = await getToken({ req });
   const session = await getServerSession(req, res, authOptions);
 
   console.log('session', session);
@@ -47,7 +46,7 @@ export default async function handler(
     files: ['schema.json'],
     author: {
       name: publisherName,
-      email: session.user.email,
+      email: publisherEmail,
       url: publisherUrl,
     },
     license: 'MIT',

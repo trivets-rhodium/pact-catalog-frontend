@@ -163,15 +163,8 @@ export default function SubmissionForm() {
         name="publisherUserId"
         className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
         required
-        onChange={handleChangeToLowerCase}
-        pattern="\S+"
-        onInvalid={(event: React.ChangeEvent<HTMLInputElement>) =>
-          event.target.setCustomValidity('Please do not use whitespaces')
-        }
-        onInput={(event: React.ChangeEvent<HTMLInputElement>) =>
-          event.target.setCustomValidity('')
-        }
         value={formInput.publisherUserId}
+        disabled
       />
 
       <label htmlFor="publisherEmail">Publisher Email</label>

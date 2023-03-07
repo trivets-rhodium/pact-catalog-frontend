@@ -63,7 +63,7 @@ function LeftBanner(props: ContainerProps) {
                   </a>
 
                   <h3 className="pt-8">Contacts</h3>
-                  <a href={`mailto: ${collaborator.user.email || '#'}`}>
+                  <a href={`mailto:${collaborator.user.email || '#'}`}>
                     {collaborator.user.email}
                   </a>
                 </div>
@@ -188,7 +188,7 @@ function RightBox(props: ContainerProps) {
                 key={workingGroup.email}
               >
                 <p>Group email:</p>
-                <a href={`mailto: ${workingGroup.email}`}>
+                <a href={`mailto:${workingGroup.email}`}>
                   {workingGroup.email}
                 </a>
               </li>
@@ -201,7 +201,7 @@ function RightBox(props: ContainerProps) {
                 >
                   <p className="pr-10">{member.user.name}: </p>
                   <a
-                    href={`mailto: ${member.user.email}`}
+                    href={`mailto:${member.user.email}`}
                     className="flex items-end"
                   >
                     {member.user.email}
