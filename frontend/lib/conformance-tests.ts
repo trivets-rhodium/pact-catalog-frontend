@@ -57,5 +57,6 @@ async function getTestResultFromBasePath(
 
   return {
     ...parsedTestResult,
+    extensions_tested: parsedTestResult.extensions_tested || [],
   };
 }
