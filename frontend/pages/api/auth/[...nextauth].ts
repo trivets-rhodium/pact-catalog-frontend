@@ -38,9 +38,9 @@ export const authOptions = {
       return session;
     },
   },
-  pages: {
-    signIn: nextConfig.basePath + '/auth/signin',
-  },
+  // pages: {
+  //   signIn: nextConfig.basePath + '/auth/signin',
+  // },
 };
 
 export default NextAuth(authOptions);
