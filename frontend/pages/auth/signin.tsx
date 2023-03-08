@@ -31,7 +31,7 @@ export default function SignIn({
           <button
             onClick={() => {
               signIn(github.id, {
-                callbackUrl: router.query.callbackUrl as string,
+                callbackUrl: '/submit-extension',
               });
             }}
             className="light-blue-primary-button"
