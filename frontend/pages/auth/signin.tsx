@@ -5,7 +5,6 @@ import {
   getProviders,
   LiteralUnion,
   signIn,
-  useSession,
 } from 'next-auth/react';
 import Layout from '../../components/layout';
 import { Router, useRouter } from 'next/router';
@@ -32,9 +31,8 @@ export default function SignIn({
           <button
             onClick={() => {
               signIn(github.id, {
-                callbackUrl: router.query.callbackUrl as string,
+                callbackUrl: '/submit-extension',
               });
-              console.log(useSession());
             }}
             className="light-blue-primary-button"
           >
