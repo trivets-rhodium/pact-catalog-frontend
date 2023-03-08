@@ -134,6 +134,19 @@ export type WorkingGroupSchema = {
   }[];
 };
 
+type ConformanceTestResultSchema = {
+  system_under_test: SolutionId;
+  system_tester: SolutionId;
+  test_result: 'PACT conformant' | 'ongoing' | 'failed';
+  // TO DO: Turn test date into Date ?
+  test_date: string;
+  extensions_tested?:
+    | {
+        extension: DMEId;
+        version: VersionId;
+      }[];
+};
+
 export const UserParser: z.ZodType<CatalogUserJsonSchema> = z.lazy(() =>
   z.object({
     id: z.string(),
@@ -202,19 +215,22 @@ export const SolutionParser: z.ZodType<ConformingSolutionJsonSchema> = z.lazy(
     })
 );
 
-export const TestResultParser: z.ZodType<ConformanceTestResult> = z.lazy(() =>
-  z.object({
-    system_under_test: z.string().min(1),
-    system_tester: z.string().min(1),
-    test_result: z.enum(['PACT conformant', 'ongoing', 'failed']),
-    test_date: z.string().datetime(),
-    tests: z.array(
-      z.object({
-        extension: z.string().min(1),
-        version: z.string().min(1),
-      })
-    ),
-  })
+export const TestResultParser: z.ZodType<ConformanceTestResultSchema> = z.lazy(
+  () =>
+    z.object({
+      system_under_test: z.string().min(1),
+      system_tester: z.string().min(1),
+      test_result: z.enum(['PACT conformant', 'ongoing', 'failed']),
+      test_date: z.string().datetime(),
+      extensions_tested: z
+        .array(
+          z.object({
+            extension: z.string().min(1),
+            version: z.string().min(1),
+          })
+        )
+        .optional(),
+    })
 );
 
 export const WorkingGroupParser: z.ZodType<WorkingGroupSchema> = z.lazy(() =>

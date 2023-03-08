@@ -118,10 +118,12 @@ export type ConformanceTestResult = {
   test_result: 'PACT conformant' | 'ongoing' | 'failed';
   // TO DO: Turn test date into Date ?
   test_date: string;
-  tests: {
-    extension: DMEId;
-    version: VersionId;
-  }[];
+  extensions_tested:
+    | {
+        extension: DMEId;
+        version: VersionId;
+      }[]
+    | [];
 };
 
 export type Works = {
