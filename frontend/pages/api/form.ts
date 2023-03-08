@@ -76,11 +76,15 @@ export default async function handler(
       parseInt(process.env.GITHUB_APP_INSTALLATION_ID as string)
     );
 
+    const [owner, repo] = process.env.CATALOG_REPO
+      ? process.env.CATALOG_REPO.split('/')
+      : ['sine-fdn', 'pact-catalog-frontend'];
+
     const ref = await octokit.request(
       'GET /repos/{owner}/{repo}/git/matching-refs/{ref}',
       {
-        owner: 'sine-fdn',
-        repo: 'pact-catalog',
+        owner,
+        repo,
         ref: 'heads/main',
       }
     );
@@ -89,16 +93,16 @@ export default async function handler(
 
     // Creates new branch
     await octokit.request('POST /repos/{owner}/{repo}/git/refs', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
+      owner,
+      repo,
       ref: `refs/heads/@${session.user.login}/${packageName}/${version}`,
       sha,
     });
 
     // Creates empty index.js file to satisfy the NPM system requirements;
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
+      owner,
+      repo,
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/index.js`,
       message: 'Create empty index.js file',
       branch: `@${session.user.login}/${packageName}/${version}`,
@@ -109,8 +113,8 @@ export default async function handler(
     const licenseTextPath = path.join(process.cwd(), '/utils/MIT.txt');
     const licenseText = fs.readFileSync(licenseTextPath, 'utf-8').toString();
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
+      owner,
+      repo,
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/LICENSE`,
       message: 'Create LICENSE file',
       branch: `@${session.user.login}/${packageName}/${version}`,
@@ -138,8 +142,8 @@ export default async function handler(
     };
 
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
+      owner,
+      repo,
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/package.json`,
       message: 'Create package.json',
       branch: `@${session.user.login}/${packageName}/${version}`,
@@ -150,8 +154,8 @@ export default async function handler(
 
     // Creates schema.json file with the submitted data;
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
+      owner,
+      repo,
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/schema.json`,
       message: 'Create schema.json',
       branch: `@${session.user.login}/${packageName}/${version}`,
@@ -160,8 +164,8 @@ export default async function handler(
 
     // Creates README.md file with the submitted data;
     await octokit.request('PUT /repos/{owner}/{repo}/contents/{path}', {
-      owner: 'sine-fdn',
-      repo: 'pact-catalog',
+      owner,
+      repo,
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/documentation/README.md`,
       message: 'Create README.md',
       branch: `@${session.user.login}/${packageName}/${version}`,
@@ -172,8 +176,8 @@ export default async function handler(
     const pullRequest = await octokit.request(
       'POST /repos/{owner}/{repo}/pulls',
       {
-        owner: 'sine-fdn',
-        repo: 'pact-catalog',
+        owner,
+        repo,
         title: `@${session.user.login}/${packageName}`,
         body: `Creates Data Model Extension @${session.user.login}/${packageName}, version ${version}`,
         head: `@${session.user.login}/${packageName}/${version}`,
@@ -187,8 +191,8 @@ export default async function handler(
     await octokit.request(
       'POST /repos/{owner}/{repo}/issues/{issue_number}/labels',
       {
-        owner: 'sine-fdn',
-        repo: 'pact-catalog',
+        owner,
+        repo,
         issue_number: pullRequestNumber,
         labels: ['automerge'],
       }
