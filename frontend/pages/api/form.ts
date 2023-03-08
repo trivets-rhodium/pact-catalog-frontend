@@ -101,7 +101,7 @@ export default async function handler(
       repo: 'pact-catalog',
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/index.js`,
       message: 'Create empty index.js file',
-      branch: `@${session.user.login}`,
+      branch: `@${session.user.login}/${packageName}/${version}`,
       content: '',
     });
 
@@ -113,7 +113,7 @@ export default async function handler(
       repo: 'pact-catalog',
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/LICENSE`,
       message: 'Create LICENSE file',
-      branch: `@${session.user.login}`,
+      branch: `@${session.user.login}/${packageName}/${version}`,
       content: Buffer.from(licenseText).toString('base64'),
     });
 
@@ -142,7 +142,7 @@ export default async function handler(
       repo: 'pact-catalog',
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/package.json`,
       message: 'Create package.json',
-      branch: `@${session.user.login}`,
+      branch: `@${session.user.login}/${packageName}/${version}`,
       content: Buffer.from(
         JSON.stringify(packageJsonContent, null, 2)
       ).toString('base64'),
@@ -154,7 +154,7 @@ export default async function handler(
       repo: 'pact-catalog',
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/schema.json`,
       message: 'Create schema.json',
-      branch: `@${session.user.login}`,
+      branch: `@${session.user.login}/${packageName}/${version}`,
       content: Buffer.from(schemaJson).toString('base64'),
     });
 
@@ -164,7 +164,7 @@ export default async function handler(
       repo: 'pact-catalog',
       path: `catalog/data-model-extensions/@${session.user.login}/${packageName}/${version}/documentation/README.md`,
       message: 'Create README.md',
-      branch: `@${session.user.login}`,
+      branch: `@${session.user.login}/${packageName}/${version}`,
       content: Buffer.from(readme).toString('base64'),
     });
 
