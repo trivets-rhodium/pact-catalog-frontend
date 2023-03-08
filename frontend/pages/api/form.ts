@@ -176,7 +176,7 @@ export default async function handler(
         repo: 'pact-catalog',
         title: `@${session.user.login}/${packageName}`,
         body: `Creates Data Model Extension @${session.user.login}/${packageName}, version ${version}`,
-        head: `@${session.user.login}`,
+        head: `@${session.user.login}/${packageName}/${version}`,
         base: 'main',
       }
     );
