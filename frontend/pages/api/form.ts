@@ -61,8 +61,21 @@ export default async function handler(
   const packageValidation = PackageJsonParser.parse(zodReadyJson);
   const schemaJsonValidation = validateSchemaJson(schemaJson);
 
-  if (!session || !packageValidation || !schemaJsonValidation) {
-    return res.status(401);
+  if (!session) {
+    return res.status(401).json({
+      error: 'no_session',
+      message: 'You are not logged in to GitHub. Please log in and try again.',
+    });
+  } else if (!packageValidation) {
+    console.log(res);
+    return res
+      .status(400)
+      .json({ error: 'invalid_package_json', message: 'Invalid package.json' });
+  } else if (!schemaJsonValidation) {
+    console.log(res);
+    return res
+      .status(400)
+      .json({ error: 'invalid_schem_json', message: 'Invalid Schema Json' });
   } else {
     const app = new App({
       appId: parseInt(process.env.GITHUB_APP_ID as string),

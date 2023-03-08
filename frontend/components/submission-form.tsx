@@ -19,12 +19,36 @@ export default function SubmissionForm() {
     publisherUserId: '',
     publisherEmail: '',
     publisherUrl: '',
-    packageName: '',
-    description: '',
-    industries: [''],
-    version: '',
+    packageName: 'improve-error-messages',
+    description: 'Improve error messages',
+    industries: ['test'],
+    version: '0.0.0',
     summary: '',
-    schemaJson: '',
+    schemaJson: JSON.stringify(
+      {
+        $id: 'https://pact-catalog/schemas/@wbcsd-product-footprint-2.0.0.schema.json',
+        $schema: 'https://json-schema.org/draft/2020-12/schema',
+        title: 'WBCSD Product Footprint Extension',
+        type: 'object',
+        properties: {
+          propertyOne: {
+            type: 'string',
+            description: 'The description of the first property.',
+          },
+          propertyTwo: {
+            type: 'string',
+            description: 'The description of the second property.',
+          },
+          propertyThree: {
+            description: 'The description of the third property.',
+            type: 'integer',
+            minimum: 0,
+          },
+        },
+      },
+      null,
+      2
+    ),
     readme: '',
   });
 
@@ -101,12 +125,12 @@ export default function SubmissionForm() {
 
     setSubmitting(true);
 
-    const parsedSchemaJson = validateSchemaJson(formInput.schemaJson);
+    // const parsedSchemaJson = validateSchemaJson(formInput.schemaJson);
 
-    if (!parsedSchemaJson.validSchemaJson) {
-      setSubmitting(false);
-      return;
-    }
+    // if (!parsedSchemaJson.validSchemaJson) {
+    //   setSubmitting(false);
+    //   return;
+    // }
 
     const JSONdata = JSON.stringify(formInput);
 
@@ -125,18 +149,20 @@ export default function SubmissionForm() {
         alert(`Thank you, your extension was successfully submitted`);
         router.push('/extensions');
       } else {
-        alert('Please try again');
+        console.log(response);
       }
+      // if the status is 400 ->; if status 401 ->
+      // get back response.body or response.json and display the message
       setSubmitting(false);
     });
   }
 
-  const onBlurValidate = useCallback(
-    (_event: React.FocusEvent<HTMLDivElement, Element>) => {
-      validateSchemaJson(formInput.schemaJson);
-    },
-    [formInput]
-  );
+  // const onBlurValidate = useCallback(
+  //   (_event: React.FocusEvent<HTMLDivElement, Element>) => {
+  //     validateSchemaJson(formInput.schemaJson);
+  //   },
+  //   [formInput]
+  // );
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col px-40">
@@ -293,7 +319,7 @@ export default function SubmissionForm() {
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
-        onBlur={onBlurValidate}
+        // onBlur={onBlurValidate}
         value={formInput.schemaJson}
       />
 
