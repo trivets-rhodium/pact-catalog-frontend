@@ -23,7 +23,6 @@ export default async function handler(
 ) {
   const {
     publisherName,
-    publisherUserId,
     publisherEmail,
     publisherUrl,
     packageName,
@@ -33,7 +32,6 @@ export default async function handler(
     description,
     schemaJson,
     readme,
-    code,
   } = req.body;
 
   const session = await getServerSession(req, res, authOptions);
