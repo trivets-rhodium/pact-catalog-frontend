@@ -36,9 +36,6 @@ export default async function handler(
 
   const session = await getServerSession(req, res, authOptions);
 
-  console.log('session', session);
-  console.error('session', session);
-
   const zodReadyJson = {
     name: `@${session.user.login}/${packageName}`,
     version,

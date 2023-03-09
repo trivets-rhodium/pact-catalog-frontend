@@ -14,37 +14,45 @@ export default function SubmissionForm() {
   const { data: session } = useSession();
   const [submitting, setSubmitting] = React.useState(false);
 
-  const packageName = process.env.CATALOG_REPO ? '' : 'improve-error-messages';
-  const description = process.env.CATALOG_REPO ? '' : 'Improve error messages';
-  const industries = process.env.CATALOG_REPO ? [''] : ['test'];
-  const version = process.env.CATALOG_REPO ? '' : '0.0.0';
-  const schemaJson = process.env.CATALOG_REPO
-    ? ''
-    : JSON.stringify(
-        {
-          $id: 'https://pact-catalog/schemas/@wbcsd-product-footprint-2.0.0.schema.json',
-          $schema: 'https://json-schema.org/draft/2020-12/schema',
-          title: 'WBCSD Product Footprint Extension',
-          type: 'object',
-          properties: {
-            propertyOne: {
-              type: 'string',
-              description: 'The description of the first property.',
-            },
-            propertyTwo: {
-              type: 'string',
-              description: 'The description of the second property.',
-            },
-            propertyThree: {
-              description: 'The description of the third property.',
-              type: 'integer',
-              minimum: 0,
-            },
+  let packageName = '';
+  let description = '';
+  let industries = [''];
+  let version = '';
+  let schemaJson = '';
+
+  console.log(process.env.NEXT_PUBLIC_DEV);
+
+  if (process.env.NEXT_PUBLIC_DEV) {
+    packageName = 'test';
+    description = 'test';
+    industries = ['test'];
+    version = '0.0.0';
+    schemaJson = JSON.stringify(
+      {
+        $id: 'https://pact-catalog/schemas/@wbcsd-product-footprint-2.0.0.schema.json',
+        $schema: 'https://json-schema.org/draft/2020-12/schema',
+        title: 'WBCSD Product Footprint Extension',
+        type: 'object',
+        properties: {
+          propertyOne: {
+            type: 'string',
+            description: 'The description of the first property.',
+          },
+          propertyTwo: {
+            type: 'string',
+            description: 'The description of the second property.',
+          },
+          propertyThree: {
+            description: 'The description of the third property.',
+            type: 'integer',
+            minimum: 0,
           },
         },
-        null,
-        2
-      );
+      },
+      null,
+      2
+    );
+  }
 
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
