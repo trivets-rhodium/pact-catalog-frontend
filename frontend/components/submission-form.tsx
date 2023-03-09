@@ -14,17 +14,49 @@ export default function SubmissionForm() {
   const { data: session } = useSession();
   const [submitting, setSubmitting] = React.useState(false);
 
+  const packageName = process.env.CATALOG_REPO ? '' : 'improve-error-messages';
+  const description = process.env.CATALOG_REPO ? '' : 'Improve error messages';
+  const industries = process.env.CATALOG_REPO ? [''] : ['test'];
+  const version = process.env.CATALOG_REPO ? '' : '0.0.0';
+  const schemaJson = process.env.CATALOG_REPO
+    ? ''
+    : JSON.stringify(
+        {
+          $id: 'https://pact-catalog/schemas/@wbcsd-product-footprint-2.0.0.schema.json',
+          $schema: 'https://json-schema.org/draft/2020-12/schema',
+          title: 'WBCSD Product Footprint Extension',
+          type: 'object',
+          properties: {
+            propertyOne: {
+              type: 'string',
+              description: 'The description of the first property.',
+            },
+            propertyTwo: {
+              type: 'string',
+              description: 'The description of the second property.',
+            },
+            propertyThree: {
+              description: 'The description of the third property.',
+              type: 'integer',
+              minimum: 0,
+            },
+          },
+        },
+        null,
+        2
+      );
+
   const [formInput, setFormInput] = React.useState({
     publisherName: '',
     publisherUserId: '',
     publisherEmail: '',
     publisherUrl: '',
-    packageName: '',
-    description: '',
-    industries: [''],
-    version: '',
+    packageName,
+    description,
+    industries,
+    version,
     summary: '',
-    schemaJson: '',
+    schemaJson,
     readme: '',
   });
 
@@ -96,7 +128,7 @@ export default function SubmissionForm() {
     });
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setSubmitting(true);
@@ -120,14 +152,22 @@ export default function SubmissionForm() {
       body: JSONdata,
     };
 
-    await fetch(endpoint, options).then((response) => {
-      if (response.status === 200) {
-        alert(`Thank you, your extension was successfully submitted`);
-        router.push('/extensions');
-      } else {
-        alert('Please try again');
-      }
-      setSubmitting(false);
+    fetch(endpoint, options).then((res) => {
+      res.json().then((data) => {
+        console.log('Response', res);
+        if (res.status === 422) {
+          alert(
+            `Communication with GitHub was unsuccessful: ${data.data.message}`
+          );
+        } else if (res.status === 200) {
+          alert(data.message);
+          router.push('/extensions');
+        } else {
+          alert(data.message);
+        }
+
+        setSubmitting(false);
+      });
     });
   }
 
@@ -145,8 +185,8 @@ export default function SubmissionForm() {
         type="text"
         id="publisherUserId"
         name="publisherUserId"
-        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow"
-        required
+        className="mt-2 mb-6 rounded-sm bg-white p-2 drop-shadow opacity-50"
+        readOnly
         value={formInput.publisherUserId}
         disabled
       />
