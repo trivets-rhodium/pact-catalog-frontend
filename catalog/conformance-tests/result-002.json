@@ -2,5 +2,6 @@
   "system_under_test": "second-test-solution",
   "system_tester": "steel-industry-solution",
   "test_result": "PACT conformant",
-  "test_date": "2023-03-08T08:12:23Z"
+  "test_date": "2023-03-08T08:12:23Z",
+  "pathfinder_version": "2.0.0"
 }
