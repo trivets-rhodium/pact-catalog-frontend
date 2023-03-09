@@ -9,11 +9,11 @@ const usageTab: TabRenderer<ConformingSolution> = (solution) => {
     <div>
       <section className="mb-12">
         <ul>
+          {extensions && <h2>Supported Extensions</h2>}
           {extensions &&
             extensions.map(({ id, version, author }) => {
               return (
                 <>
-                  <h2>Supported Extensions</h2>
                   <li className="my-4" key={id}>
                     <Link href={`/extensions/${id}/${version}`}>
                       <h3>
