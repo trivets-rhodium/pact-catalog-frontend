@@ -140,6 +140,7 @@ type ConformanceTestResultSchema = {
   test_result: 'PACT conformant' | 'ongoing' | 'failed';
   // TO DO: Turn test date into Date ?
   test_date: string;
+  pathfinder_version: string;
   extensions_tested?:
     | {
         extension: DMEId;
@@ -222,6 +223,7 @@ export const TestResultParser: z.ZodType<ConformanceTestResultSchema> = z.lazy(
       system_tester: z.string().min(1),
       test_result: z.enum(['PACT conformant', 'ongoing', 'failed']),
       test_date: z.string().datetime(),
+      pathfinder_version: z.string(),
       extensions_tested: z
         .array(
           z.object({

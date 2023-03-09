@@ -11,11 +11,12 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
         <h2>Tests</h2>
         <table className="table-auto mt-2">
           <thead>
-            <tr>
-              <th className="pr-32">Tester</th>
-              <th className="pr-32">Date</th>
-              <th className="pr-32">Extensions</th>
-              <th className="pr-32">Result</th>
+            <tr className="">
+              <th className="text-left px-4 py-2">Tester</th>
+              <th className="text-left px-4 py-2">Date</th>
+              <th className="text-left px-4 py-2">Pathfinder Version</th>
+              <th className="text-left px-4 py-2">Extensions</th>
+              <th className="text-left px-4 py-2">Result</th>
             </tr>
           </thead>
           <tbody className="align-top text-sm">
@@ -23,13 +24,16 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
               conformance_tests.map(({ test, tester }) => {
                 return (
                   <tr key={`${test}-${tester}`}>
-                    <td>
+                    <td className="text-left px-4 py-2">
                       <Link href={`/solutions/${tester.id}`}>
                         {tester.name}
                       </Link>
                     </td>
-                    <td>{test.test_date}</td>
-                    <td>
+                    <td className="text-left px-4 py-2">{test.test_date}</td>
+                    <td className="text-left px-4 py-2">
+                      {test.pathfinder_version}
+                    </td>
+                    <td className="text-left px-4 py-2">
                       {test.extensions_tested.map(({ extension, version }) => {
                         return (
                           <Link
@@ -41,7 +45,7 @@ const conformanceTab: TabRenderer<ConformingSolution> = (solution) => {
                         );
                       })}
                     </td>
-                    <td>{test.test_result}</td>
+                    <td className="text-left px-4 py-2">{test.test_result}</td>
                   </tr>
                 );
               })}
