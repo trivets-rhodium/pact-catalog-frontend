@@ -120,17 +120,17 @@ export default function SubmissionForm() {
     });
   }
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
     setSubmitting(true);
 
-    // const parsedSchemaJson = validateSchemaJson(formInput.schemaJson);
+    const parsedSchemaJson = validateSchemaJson(formInput.schemaJson);
 
-    // if (!parsedSchemaJson.validSchemaJson) {
-    //   setSubmitting(false);
-    //   return;
-    // }
+    if (!parsedSchemaJson.validSchemaJson) {
+      setSubmitting(false);
+      return;
+    }
 
     const JSONdata = JSON.stringify(formInput);
 
@@ -144,25 +144,31 @@ export default function SubmissionForm() {
       body: JSONdata,
     };
 
-    await fetch(endpoint, options).then((response) => {
-      if (response.status === 200) {
-        alert(`Thank you, your extension was successfully submitted`);
-        router.push('/extensions');
-      } else {
-        console.log(response);
-      }
-      // if the status is 400 ->; if status 401 ->
-      // get back response.body or response.json and display the message
-      setSubmitting(false);
+    fetch(endpoint, options).then((res) => {
+      res.json().then((data) => {
+        console.log('Response', res);
+        if (res.status === 422) {
+          alert(
+            `Communication with GitHub was unsuccessful: ${data.data.message}`
+          );
+        } else if (res.status === 200) {
+          alert(data.message);
+          router.push('/extensions');
+        } else {
+          alert(data.message);
+        }
+
+        setSubmitting(false);
+      });
     });
   }
 
-  // const onBlurValidate = useCallback(
-  //   (_event: React.FocusEvent<HTMLDivElement, Element>) => {
-  //     validateSchemaJson(formInput.schemaJson);
-  //   },
-  //   [formInput]
-  // );
+  const onBlurValidate = useCallback(
+    (_event: React.FocusEvent<HTMLDivElement, Element>) => {
+      validateSchemaJson(formInput.schemaJson);
+    },
+    [formInput]
+  );
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col px-40">
@@ -319,7 +325,7 @@ export default function SubmissionForm() {
         minHeight="200px"
         extensions={[json()]}
         onChange={handleCodeMirrorChangeSchemaJson}
-        // onBlur={onBlurValidate}
+        onBlur={onBlurValidate}
         value={formInput.schemaJson}
       />
 
